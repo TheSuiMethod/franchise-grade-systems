@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FDD Analyzer — Franchise-Grade Systems</title>
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        :root {
+            --forest: #1B4332; --forest-mid: #2D6A4F; --forest-light: #40916C;
+            --sage: #52B788; --mint: #95D5B2; --pale: #D8F3DC;
+            --cream: #F7FBF9; --white: #FFFFFF; --charcoal: #1A1A2E;
+            --slate: #4A4A5A; --gray: #6B7280; --light-gray: #E5E7EB;
+            --warning: #F59E0B; --danger: #EF4444; --success: #10B981;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'DM Sans', sans-serif; color: var(--charcoal); background: var(--cream); -webkit-font-smoothing: antialiased; line-height: 1.6; }
+        h1,h2,h3 { font-family: 'Instrument Serif', serif; font-weight: 400; line-height: 1.2; }
+
+        /* ACCESS GATE */
+        .gate-overlay {
+            position: fixed; inset: 0; background: var(--cream); z-index: 9999;
+            display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 16px;
+        }
+        .gate-overlay.hidden { display: none; }
+        .gate-spinner { width: 40px; height: 40px; border: 4px solid var(--light-gray); border-top-color: var(--sage); border-radius: 50%; animation: spin 0.8s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .gate-msg { font-size: 16px; color: var(--slate); }
+        .gate-error { max-width: 500px; text-align: center; }
+        .gate-error h2 { font-size: 28px; margin-bottom: 12px; color: var(--danger); }
+        .gate-error p { color: var(--slate); font-size: 15px; margin-bottom: 20px; }
+        .gate-error a { color: var(--forest-mid); font-weight: 600; }
+
+        /* NAV */
+        nav { background: var(--forest); padding: 16px 40px; display: flex; justify-content: space-between; align-items: center; }
+        .logo { color: var(--white); font-family: 'Instrument Serif', serif; font-size: 22px; text-decoration: none; }
+
+        /* HEADER */
+        .tool-header { background: var(--forest); padding: 40px 40px 60px; text-align: center; position: relative; }
+        .tool-header::after { content:''; position:absolute; bottom:-2px; left:0; right:0; height:50px; background:var(--cream); clip-path:ellipse(55% 100% at 50% 100%); }
+        .tool-header h1 { color: var(--white); font-size: 32px; margin-bottom: 8px; }
+        .tool-header p { color: var(--mint); font-size: 15px; opacity: 0.8; }
+
+        /* MAIN LAYOUT */
+        .main { max-width: 900px; margin: 0 auto; padding: 40px 20px 80px; }
+
+        /* PROGRESS BAR */
+        .progress-bar { background: var(--white); border-radius: 12px; padding: 20px 24px; margin-bottom: 32px; border: 1px solid var(--light-gray); }
+        .progress-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+        .progress-label { font-weight: 600; font-size: 14px; color: var(--forest); }
+        .progress-count { font-size: 13px; color: var(--gray); }
+        .progress-track { height: 8px; background: var(--light-gray); border-radius: 4px; overflow: hidden; }
+        .progress-fill { height: 100%; background: var(--sage); border-radius: 4px; transition: width 0.3s; width: 0%; }
+
+        /* ITEM SECTIONS */
+        .item-section { background: var(--white); border: 1px solid var(--light-gray); border-radius: 12px; margin-bottom: 16px; overflow: hidden; }
+        .item-header { padding: 18px 24px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: background 0.2s; }
+        .item-header:hover { background: var(--pale); }
+        .item-header.has-content { border-left: 4px solid var(--sage); }
+        .item-title { display: flex; align-items: center; gap: 12px; }
+        .item-num { font-weight: 700; font-size: 13px; color: var(--forest-mid); background: var(--pale); padding: 2px 10px; border-radius: 4px; white-space: nowrap; }
+        .item-name { font-weight: 600; font-size: 15px; }
+        .item-arrow { font-size: 18px; color: var(--gray); transition: transform 0.2s; }
+        .item-section.open .item-arrow { transform: rotate(180deg); }
+        .item-body { display: none; padding: 0 24px 24px; }
+        .item-section.open .item-body { display: block; }
+        .item-help { background: var(--pale); border-radius: 8px; padding: 14px 16px; margin-bottom: 16px; font-size: 13px; color: var(--forest); line-height: 1.6; }
+        .item-help strong { font-weight: 600; }
+        .item-textarea { width: 100%; min-height: 120px; border: 1px solid var(--light-gray); border-radius: 8px; padding: 14px; font-family: 'DM Sans', sans-serif; font-size: 14px; line-height: 1.6; resize: vertical; transition: border-color 0.2s; }
+        .item-textarea:focus { outline: none; border-color: var(--sage); }
+        .item-textarea::placeholder { color: #aab; }
+        .item-charcount { text-align: right; font-size: 12px; color: var(--gray); margin-top: 6px; }
+        .priority-tag { font-size: 11px; font-weight: 700; text-transform: uppercase; color: var(--danger); letter-spacing: 0.5px; }
+
+        /* ANALYZE BUTTON */
+        .analyze-section { text-align: center; margin: 40px 0; }
+        .analyze-btn {
+            background: var(--forest); color: var(--white); border: none; padding: 18px 48px;
+            border-radius: 10px; font-size: 17px; font-weight: 700; cursor: pointer;
+            font-family: 'DM Sans', sans-serif; transition: all 0.2s;
+        }
+        .analyze-btn:hover { background: var(--forest-mid); transform: translateY(-1px); }
+        .analyze-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+        .analyze-note { font-size: 13px; color: var(--gray); margin-top: 10px; }
+
+        /* LOADING */
+        .loading-overlay { display:none; position:fixed; inset:0; background:rgba(27,67,50,0.95); z-index:1000; align-items:center; justify-content:center; flex-direction:column; gap:20px; }
+        .loading-overlay.show { display:flex; }
+        .loading-overlay .gate-spinner { width: 48px; height: 48px; border-width: 5px; }
+        .loading-text { color: var(--white); font-size: 18px; font-weight: 500; }
+        .loading-sub { color: var(--mint); font-size: 14px; opacity: 0.7; }
+        .loading-progress { color: var(--sage); font-size: 14px; font-weight: 600; }
+
+        /* RESULTS */
+        .results-section { display: none; }
+        .results-section.show { display: block; }
+
+        /* SCORE */
+        .score-card { background: var(--white); border-radius: 16px; padding: 40px; text-align: center; margin-bottom: 32px; border: 2px solid var(--light-gray); }
+        .score-gauge { position: relative; width: 180px; height: 90px; margin: 0 auto 20px; overflow: hidden; }
+        .score-gauge-bg { width: 180px; height: 90px; border-radius: 90px 90px 0 0; background: var(--light-gray); }
+        .score-gauge-fill { position: absolute; bottom: 0; left: 0; width: 180px; height: 90px; border-radius: 90px 90px 0 0; transform-origin: bottom center; }
+        .score-number { font-family: 'Instrument Serif', serif; font-size: 56px; font-weight: 400; margin-bottom: 4px; }
+        .score-label { font-size: 14px; color: var(--gray); margin-bottom: 12px; }
+        .score-verdict { font-size: 17px; font-weight: 600; padding: 8px 20px; border-radius: 8px; display: inline-block; }
+        .score-verdict.danger { background: #FEE2E2; color: #991B1B; }
+        .score-verdict.warning { background: #FEF3C7; color: #92400E; }
+        .score-verdict.good { background: #D1FAE5; color: #065F46; }
+
+        .score-summary { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 24px; }
+        .summary-stat { padding: 12px; border-radius: 8px; }
+        .summary-stat.red { background: #FEE2E2; }
+        .summary-stat.yellow { background: #FEF3C7; }
+        .summary-stat.green { background: #D1FAE5; }
+        .summary-stat .num { font-size: 28px; font-weight: 700; }
+        .summary-stat.red .num { color: #991B1B; }
+        .summary-stat.yellow .num { color: #92400E; }
+        .summary-stat.green .num { color: #065F46; }
+        .summary-stat .lbl { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+
+        /* RESULT ITEMS */
+        .result-item { background: var(--white); border-radius: 12px; margin-bottom: 16px; border: 1px solid var(--light-gray); overflow: hidden; }
+        .result-header { padding: 18px 24px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
+        .result-header:hover { background: #FAFBFA; }
+        .result-title { display: flex; align-items: center; gap: 12px; }
+        .result-badge { padding: 3px 12px; border-radius: 4px; font-size: 12px; font-weight: 700; text-transform: uppercase; }
+        .result-badge.red { background: #FEE2E2; color: #991B1B; }
+        .result-badge.yellow { background: #FEF3C7; color: #92400E; }
+        .result-badge.green { background: #D1FAE5; color: #065F46; }
+        .result-badge.gray { background: var(--light-gray); color: var(--gray); }
+        .result-body { display: none; padding: 0 24px 24px; }
+        .result-item.open .result-body { display: block; }
+        .finding { padding: 16px 0; border-bottom: 1px solid var(--light-gray); }
+        .finding:last-child { border-bottom: none; }
+        .finding-flag { display: inline-block; padding: 2px 10px; border-radius: 4px; font-size: 11px; font-weight: 700; text-transform: uppercase; margin-bottom: 8px; }
+        .flag-red { background: #FEE2E2; color: #991B1B; }
+        .flag-yellow { background: #FEF3C7; color: #92400E; }
+        .flag-green { background: #D1FAE5; color: #065F46; }
+        .finding-text { color: var(--slate); font-size: 14px; line-height: 1.7; }
+        .finding-question { background: var(--pale); border-radius: 6px; padding: 10px 14px; margin-top: 10px; font-size: 13px; color: var(--forest); }
+        .finding-question strong { font-weight: 600; }
+        .not-analyzed { color: var(--gray); font-size: 14px; font-style: italic; padding: 8px 0; }
+
+        /* PDF DOWNLOAD */
+        .download-section { text-align: center; margin: 40px 0; }
+        .download-btn {
+            background: var(--sage); color: var(--forest); border: none; padding: 16px 40px;
+            border-radius: 10px; font-size: 16px; font-weight: 700; cursor: pointer;
+            font-family: 'DM Sans', sans-serif; transition: all 0.2s;
+        }
+        .download-btn:hover { background: var(--mint); }
+
+        /* UPSELL */
+        .upsell { background: var(--forest); border-radius: 12px; padding: 32px; text-align: center; margin-top: 40px; }
+        .upsell h3 { color: var(--white); font-size: 24px; margin-bottom: 10px; }
+        .upsell p { color: var(--mint); font-size: 15px; margin-bottom: 20px; }
+        .upsell a { color: var(--sage); font-weight: 600; text-decoration: none; font-size: 15px; }
+
+        footer { background: var(--forest); color: var(--mint); padding: 30px 40px; text-align: center; font-size: 13px; margin-top: 60px; }
+        footer a { color: var(--sage); text-decoration: none; }
+
+        @media (max-width: 768px) {
+            nav { padding: 14px 20px; }
+            .tool-header { padding: 30px 20px 50px; }
+            .main { padding: 30px 16px 60px; }
+            .score-summary { grid-template-columns: 1fr; }
+            .item-header { padding: 14px 16px; }
+            .item-body { padding: 0 16px 16px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- ACCESS GATE -->
+    <div class="gate-overlay" id="gate">
+        <div class="gate-spinner"></div>
+        <div class="gate-msg">Verifying your purchase...</div>
+    </div>
+
+    <nav>
+        <a href="/" class="logo">Franchise-Grade Systems</a>
+    </nav>
+    <div class="tool-header">
+        <h1>AI FDD Analyzer</h1>
+        <p>Paste your FDD text below. The more items you provide, the more thorough the analysis.</p>
+    </div>
+
+    <!-- INPUT PHASE -->
+    <div class="main" id="inputPhase">
+        <div class="progress-bar">
+            <div class="progress-top">
+                <span class="progress-label">Items with content</span>
+                <span class="progress-count" id="progressCount">0 of 23 items</span>
+            </div>
+            <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+        </div>
+
+        <div id="itemContainer"></div>
+
+        <div class="analyze-section">
+            <button class="analyze-btn" id="analyzeBtn" onclick="runAnalysis()">Analyze My FDD</button>
+            <div class="analyze-note">Paste at least Items 5, 6, 7, and 20 for a meaningful analysis.</div>
+        </div>
+    </div>
+
+    <!-- LOADING -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="gate-spinner"></div>
+        <div class="loading-text">Analyzing your FDD...</div>
+        <div class="loading-sub">Scanning for 50+ risk patterns across your document</div>
+        <div class="loading-progress" id="loadingProgress">Analyzing Item 1 of 23...</div>
+    </div>
+
+    <!-- RESULTS PHASE -->
+    <div class="main results-section" id="resultsPhase">
+        <div class="score-card" id="scoreCard"></div>
+        <h2 style="margin-bottom: 20px;">Detailed Findings by Item</h2>
+        <div id="resultsContainer"></div>
+        <div class="download-section">
+            <button class="download-btn" onclick="downloadPDF()">Download PDF Report</button>
+        </div>
+        <div class="upsell">
+            <h3>Want deeper analysis?</h3>
+            <p>The $97 Second Opinion Report includes industry benchmarking, financial stress-testing, and a detailed risk narrative.</p>
+            <a href="/fdd-analyzer">Learn more →</a>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Franchise-Grade Systems. For educational purposes only. Not legal or financial advice.</p>
+        <p style="margin-top:8px;"><a href="/">Home</a> &middot; <a href="/tools">Free Tools</a> &middot; <a href="/privacy">Privacy</a></p>
+    </footer>
+
+<script>
+// ========== FDD ITEM DEFINITIONS ==========
+const FDD_ITEMS = [
+    { num: 1, name: "The Franchisor and Its Parents, Predecessors, and Affiliates", priority: false,
+      help: "Paste the section describing who the franchisor is, how long they've been in business, any name changes, and parent/predecessor companies. <strong>Why it matters:</strong> A young franchisor (under 5 years) or one with multiple name changes may indicate instability.",
+      prompt: `Analyze this FDD Item 1 (The Franchisor) for a prospective franchise buyer. Look for:
+- How long the franchisor has been in business (flag if under 5 years as higher risk per FTC franchise failure data)
+- Name changes or predecessor companies (flag as potential rebranding to escape reputation issues)
+- Whether the franchisor actually operates units themselves (flag if they don't — means they have no skin in the game)
+- Parent company relationships that could create conflicts of interest
+- Whether the business model has been proven at scale
+Provide findings as JSON array with objects containing: severity (red/yellow/green), finding (plain text explanation), question (what to ask the franchisor). Be specific and cite relevant franchise industry data.`},
+
+    { num: 2, name: "Business Experience", priority: false,
+      help: "Paste the section listing the management team's backgrounds. <strong>Why it matters:</strong> Are the people running the franchise actually experienced in this industry, or are they just business people who bought a concept?",
+      prompt: `Analyze this FDD Item 2 (Business Experience) for a prospective franchise buyer. Look for:
+- Whether key executives have actual industry experience (not just business/finance backgrounds)
+- High turnover in management positions (flag if multiple people held same role recently)
+- Whether anyone on the team has franchising experience specifically
+- Small management team for the size of the system (flag if only 2-3 people running a large system)
+- Whether a franchise director or dedicated support person exists
+Provide findings as JSON array with objects containing: severity (red/yellow/green), finding (plain text explanation), question (what to ask the franchisor).`},
+
+    { num: 3, name: "Litigation", priority: true,
+      help: "Paste any litigation history. <strong>Why it matters:</strong> Lawsuits from franchisees can reveal systemic problems — misrepresentation, failure to provide support, or unfair terminations. Multiple suits are a major red flag.",
+      prompt: `Analyze this FDD Item 3 (Litigation) for a prospective franchise buyer. Look for:
+- Lawsuits filed BY franchisees against the franchisor (especially patterns of similar complaints)
+- Claims of fraud, misrepresentation, or failure to disclose material facts
+- Unfair termination lawsuits (indicates the franchisor may push out struggling franchisees)
+- Government enforcement actions (FTC, state attorneys general)
+- Settlement patterns (frequent settlements may indicate the franchisor knows they'd lose at trial)
+- Class action suits or multi-franchisee complaints
+Flag severity based on volume and nature. Per NASAA data, systems with multiple franchisee lawsuits have significantly higher failure rates. Provide findings as JSON array with severity/finding/question.`},
+
+    { num: 4, name: "Bankruptcy", priority: true,
+      help: "Paste any bankruptcy history for the franchisor or its principals. <strong>Why it matters:</strong> If the company or its leaders have gone bankrupt, it raises questions about financial management and stability.",
+      prompt: `Analyze this FDD Item 4 (Bankruptcy) for a prospective franchise buyer. Look for:
+- Any bankruptcy filings by the franchisor, parent companies, or key executives
+- Recent bankruptcies (within 10 years) vs. older ones
+- Whether the bankruptcy was business-related or personal
+- Whether the current franchisor entity was created after a bankruptcy (phoenix company risk)
+Provide findings as JSON array with severity/finding/question.`},
+
+    { num: 5, name: "Initial Fees", priority: true,
+      help: "Paste the section about the initial franchise fee, development fees, and whether any fees are refundable. <strong>Why it matters:</strong> Most franchise fees are completely non-refundable. The average initial franchise fee ranges from $20K-$50K across the industry.",
+      prompt: `Analyze this FDD Item 5 (Initial Fees) for a prospective franchise buyer. Look for:
+- Whether the franchise fee is refundable under ANY circumstances (per IFA data, most are 100% non-refundable — flag this clearly)
+- Franchise fee compared to industry range ($20K-$50K typical; flag if significantly above or below)
+- Development agreement fees for multi-unit deals and whether they're credited toward individual franchise fees
+- Whether veterans or other groups get discounts (indicates marketing-driven pricing, not cost-based)
+- Any fees paid to affiliates of the franchisor
+Provide findings as JSON array with severity/finding/question.`},
+
+    { num: 6, name: "Other Fees", priority: true,
+      help: "Paste the FULL fee table and all notes. This is one of the most critical items. <strong>Why it matters:</strong> This is where most hidden costs live — royalty minimums, uncapped tech fees, mandatory marketing spend, and vendor charges that add up to 15-25% of your gross revenue.",
+      prompt: `Analyze this FDD Item 6 (Other Fees) for a prospective franchise buyer. This is one of the highest-risk items. Look for:
+- Royalty rate compared to industry (4-8% typical; flag if above 8%)
+- MINIMUM ROYALTY FLOORS (e.g., "$125/week minimum regardless of revenue" — this is a critical red flag that creates cash flow pressure during slow periods)
+- Ad fund / brand fund percentage AND whether it can increase (flag any escalation language)
+- Technology fees WITH NO CAP on increases (extremely common trap — fees that start at $250/month can become $500+ with just 30 days notice)
+- Mandatory bookkeeping/accounting fees to franchisor-designated suppliers ($400-$600/month is common)
+- Transfer fees (typically $5,000-$15,000 — this is the cost to sell your franchise)
+- Audit fees, training fees, renewal fees, de-identification costs
+- Any fee described as "our then-current fee" without a cap — this means unlimited future increases
+- Total all ongoing fees as a percentage of revenue — if total fees exceed 15% of gross revenue before operating expenses, that's a significant burden
+Per franchise industry data, ongoing fees averaging 12-20% of gross revenue are a primary driver of franchisee financial distress. Provide findings as JSON array with severity/finding/question.`},
+
+    { num: 7, name: "Estimated Initial Investment", priority: true,
+      help: "Paste the full investment table with all notes. <strong>Why it matters:</strong> FDD estimates are often LOW. Real-world buildout frequently exceeds the high estimate by 10-30%. The 'Additional Funds' line rarely covers actual working capital needs.",
+      prompt: `Analyze this FDD Item 7 (Estimated Initial Investment) for a prospective franchise buyer. Look for:
+- Total investment range (low to high) — wide ranges indicate unpredictability
+- Leasehold improvement estimates vs. actual typical buildout costs (FDD estimates frequently understate by 10-30%)
+- "Additional Funds" or working capital estimate — flag if less than 6 months of operating expenses (3 months is dangerously low per SBA data on business survival)
+- Whether the total includes the franchise fee or if it's separate
+- A&E (Architecture & Engineering) costs, which are often required through franchisor-approved vendors at premium prices
+- Grand opening marketing requirements (typically $10,000-$20,000 mandatory spend)
+- Whether the estimate accounts for the full rent timeline including pre-opening build period
+- Computer, software, and POS costs that will also have ongoing monthly fees not captured here
+CRITICAL: Compare total investment to typical franchise revenue in this industry. If the investment exceeds 2x annual revenue potential, break-even timeline is likely 3+ years. Provide findings as JSON array with severity/finding/question.`},
+
+    { num: 8, name: "Restrictions on Sources of Products and Services", priority: true,
+      help: "Paste the section about required suppliers and approved vendors. <strong>Why it matters:</strong> If you're forced to buy from specific vendors, you can't negotiate better prices. The franchisor may have revenue-sharing deals with these 'approved' suppliers.",
+      prompt: `Analyze this FDD Item 8 (Restrictions on Sources) for a prospective franchise buyer. Look for:
+- Mandatory approved suppliers where you CANNOT shop for alternatives
+- Whether the franchisor or its affiliates ARE the required supplier (direct profit from your required purchases)
+- Revenue-sharing or rebate arrangements between franchisor and required suppliers (check if disclosed)
+- Required software, POS systems, or technology from specific vendors
+- Mandatory bookkeeping/accounting through franchisor-designated firms
+- Required insurance through specific carriers
+- Whether there's a process to propose alternative suppliers (and if it's realistic or just theoretical)
+- Product testing fees charged if you want to evaluate a non-approved supplier
+Per FTC guidelines, franchisors must disclose revenue from required purchases. Flag if this disclosure is missing or vague. Provide findings as JSON array with severity/finding/question.`},
+
+    { num: 9, name: "Franchisee's Obligations", priority: false,
+      help: "Paste the table of your obligations under the franchise agreement. <strong>Why it matters:</strong> This shows everything you're required to do — from training to record-keeping to maintaining standards.",
+      prompt: `Analyze this FDD Item 9 (Franchisee Obligations) for key risk areas. Flag anything unusually burdensome, vague obligations that could be interpreted broadly, or obligations that give the franchisor excessive control over day-to-day operations. Provide findings as JSON array with severity/finding/question.`},
+
+    { num: 10, name: "Financing", priority: false,
+      help: "Paste any financing arrangements offered or arranged by the franchisor. <strong>Why it matters:</strong> Most franchisors do NOT offer financing, leaving you to find your own. If they do, check the terms carefully.",
+      prompt: `Analyze this FDD Item 10 (Financing). Flag if no financing is offered (most don't — buyers need to arrange their own), and if financing IS offered, check for above-market interest rates, personal guarantees, cross-default provisions, or franchisor-affiliated lenders. Provide findings as JSON array with severity/finding/question.`},
+
+    { num: 11, name: "Franchisor's Assistance, Advertising, Computer Systems, and Training", priority: false,
+      help: "Paste what the franchisor promises to provide — training, site selection help, ongoing support, and technology. <strong>Why it matters:</strong> Compare what they promise vs. what they're actually OBLIGATED to do. 'May' vs. 'will' is a crucial distinction.",
+      prompt: `Analyze this FDD Item 11 (Franchisor's Assistance) for a franchise buyer. Look for:
+- Language using "may" vs. "will" or "shall" — "may assist with site selection" means they have NO obligation to help
+- Training duration and quality (flag if initial training is less than 2 weeks)
+- Ongoing support commitments (or lack thereof)
+- Whether field support visits are guaranteed or discretionary
+- Technology systems required and their ongoing costs
+- Advertising commitments — does the ad fund actually benefit individual franchisees or just the corporate brand?
+Provide findings as JSON array with severity/finding/question.`},
+
+    { num: 12, name: "Territory", priority: true,
+      help: "Paste the territory and competition section. <strong>Why it matters:</strong> Without a protected territory, the franchisor can open another location or allow another franchisee right next to you. Many 'territories' offer less protection than buyers think.",
+      prompt: `Analyze this FDD Item 12 (Territory) for a franchise buyer. Look for:
+- Whether an EXCLUSIVE territory is granted (many franchises offer NO territorial protection)
+- How the territory is defined (population-based, radius, zip codes) and whether it's adequate
+- Whether the franchisor can sell through alternative channels (internet, catalog, kiosks) in your territory
+- Whether the franchisor can reduce your territory after signing
+- Performance requirements that must be met to keep territorial rights
+- Whether company-owned locations can operate in your territory
+- Whether the territory is truly "exclusive" or just a "protected" area with exceptions
+Per FTC data, lack of meaningful territorial protection is one of the most common franchisee complaints. Provide findings as JSON array with severity/finding/question.`},
+
+    { num: 13, name: "Trademarks", priority: false,
+      help: "Paste the trademark section. <strong>Why it matters:</strong> Make sure the brand name is actually registered and protected. Unregistered trademarks leave you vulnerable.",
+      prompt: `Analyze this FDD Item 13 (Trademarks). Flag if trademarks are not federally registered with the USPTO, if there are pending challenges, if the franchisor licenses marks from a third party (creates dependency risk), or if key marks are only state-registered. Provide findings as JSON array with severity/finding/question.`},
+
+    { num: 14, name: "Patents, Copyrights, and Proprietary Information", priority: false,
+      help: "Paste any patents or proprietary information claims. <strong>Why it matters:</strong> If the franchise model relies on patents that are expiring, the competitive advantage may disappear.",
+      prompt: `Analyze this FDD Item 14 (Patents/Copyrights). Flag if patents are expiring soon, if the competitive advantage relies heavily on IP that could be challenged, or if confidentiality obligations are unusually restrictive. Provide findings as JSON array with severity/finding/question.`},
+
+    { num: 15, name: "Obligation to Participate in the Actual Operation", priority: false,
+      help: "Paste whether you're required to be an owner-operator. <strong>Why it matters:</strong> Some franchises require the owner to work in the business full-time. This affects whether you can run it as a semi-absentee investment.",
+      prompt: `Analyze this FDD Item 15 (Obligation to Participate). Note whether owner-operator is required or if semi-absentee/manager-run is allowed. Flag any restrictions on outside business activities or employment. Provide findings as JSON array with severity/finding/question.`},
+
+    { num: 16, name: "Restrictions on What the Franchisee May Sell", priority: false,
+      help: "Paste any restrictions on your products or services. <strong>Why it matters:</strong> Limited product offerings mean limited revenue streams. Check if you can add products based on local demand.",
+      prompt: `Analyze this FDD Item 16 (Restrictions on Sales). Flag if product/service restrictions are overly narrow, if you cannot adapt to local market demand, or if the franchisor can change required offerings without your input. Provide findings as JSON array with severity/finding/question.`},
+
+    { num: 17, name: "Renewal, Termination, Transfer, and Dispute Resolution", priority: true,
+      help: "Paste the FULL section on renewal terms, termination triggers, transfer conditions, and how disputes are handled. <strong>Why it matters:</strong> This is how you GET OUT. Unfavorable terms here can trap you in a losing investment.",
+      prompt: `Analyze this FDD Item 17 (Renewal/Termination/Transfer/Disputes) for a franchise buyer. This is critical. Look for:
+- RENEWAL: Must you sign a new (potentially different) agreement at renewal? Renewal fee amount? Must you renovate?
+- TERMINATION BY FRANCHISOR: What are non-curable defaults (immediate termination with no chance to fix)?
+- TERMINATION BY FRANCHISEE: Can YOU terminate? Under what conditions? Most franchise agreements make it very difficult for the franchisee to exit.
+- POST-TERMINATION: Non-compete duration and geographic scope (typical: 2 years, 25-mile radius). De-identification requirements and costs.
+- TRANSFER: Transfer fee amount, franchisor right of first refusal, conditions that must be met to sell your franchise
+- DISPUTE RESOLUTION: Mandatory arbitration? Where must disputes be filed? (If in the franchisor's home state, travel costs make disputes impractical for franchisees)
+- Whether the franchisee must sign a general release upon termination (waiving rights to sue)
+Flag any terms that make exiting the franchise unreasonably difficult or expensive. Provide findings as JSON array with severity/finding/question.`},
+
+    { num: 18, name: "Public Figures", priority: false,
+      help: "Paste any information about celebrity endorsements or public figures associated with the franchise.",
+      prompt: `Analyze this FDD Item 18 (Public Figures). Flag if the franchise relies heavily on a celebrity endorsement (creates dependency risk), or if public figures have financial interests that could create conflicts. Provide findings as JSON array with severity/finding/question.`},
+
+    { num: 19, name: "Financial Performance Representations", priority: true,
+      help: "Paste ANY financial performance data (or note if this section says they make NO claims). <strong>Why it matters:</strong> If the franchisor doesn't provide earnings data, you're flying blind. If they do, check the methodology — averages can be skewed by a few top performers.",
+      prompt: `Analyze this FDD Item 19 (Financial Performance Representations) for a franchise buyer. This is critical. Look for:
+- Does the franchisor provide ANY financial performance data? (If not, flag as yellow — per IFA data, about 63% of franchisors now provide Item 19 data. Refusing to share financial data is a significant concern.)
+- If data IS provided: Is it based on averages or medians? (Averages are skewed by top performers. Median is more realistic.)
+- What percentage of franchisees actually achieved the stated results?
+- Does the data include ALL units or just a subset? (Cherry-picking top performers is common)
+- Are expenses included or just gross revenue? (Revenue without expense data is misleading)
+- Is the data from company-owned units, franchised units, or both?
+- Are the units in the data mature (3+ years) or does it include newly opened locations?
+CRITICAL: If the franchisor shows revenue but not profitability, the data is essentially useless for making an investment decision. Provide findings as JSON array with severity/finding/question.`},
+
+    { num: 20, name: "Outlets and Franchisee Information", priority: true,
+      help: "Paste the tables showing system size, openings, closings, transfers, and franchisee contact information. <strong>Why it matters:</strong> This shows whether the system is growing or shrinking, and how many franchisees have left. Contact former franchisees — they have no reason to lie.",
+      prompt: `Analyze this FDD Item 20 (Outlets and Franchisee Information) for a franchise buyer. This is one of the most important items. Look for:
+- NET GROWTH: Total outlets now vs. 3 years ago. Is the system growing, flat, or shrinking?
+- CLOSURES: How many franchised outlets closed in the last 3 years? What percentage of the system? (If more than 10% of locations closed in any single year, that's a serious red flag)
+- TRANSFERS: High transfer numbers may indicate franchisees trying to exit (sold at a loss?)
+- CEASED OPERATIONS: Different from "terminated" — these franchisees may have just walked away
+- COMPANY-OWNED vs. FRANCHISED: Is the franchisor opening company-owned units (competing with their own franchisees)?
+- REACQUIRED BY FRANCHISOR: Were units bought back below market value from struggling franchisees?
+CRITICAL: The franchisor MUST provide contact information for current and former franchisees. Former franchisees are your most honest source of information. Per NASAA guidelines, prospective franchisees should contact at least 10 current and 5 former franchisees before investing. Provide findings as JSON array with severity/finding/question.`},
+
+    { num: 21, name: "Financial Statements", priority: true,
+      help: "Paste or describe the franchisor's audited financial statements. <strong>Why it matters:</strong> If the franchisor is losing money, they may not have resources to support you. Look for 'going concern' warnings from the auditor.",
+      prompt: `Analyze this FDD Item 21 (Financial Statements) for a franchise buyer. Look for:
+- Are the financial statements AUDITED by an independent CPA? (Required by FTC Rule)
+- Going concern warnings or qualifications from the auditor (major red flag — means the auditor questions whether the company can survive)
+- Is the franchisor profitable? Sustained losses indicate potential instability
+- Cash reserves — does the franchisor have enough cash to provide promised support?
+- Heavy debt levels relative to assets
+- Revenue trends — growing or declining?
+- Whether revenue comes primarily from franchise fees (unsustainable — depends on constant new sales) or from royalties (more sustainable — tied to franchisee success)
+Provide findings as JSON array with severity/finding/question.`},
+
+    { num: 22, name: "Contracts", priority: false,
+      help: "List the contracts and agreements included with the FDD. <strong>Why it matters:</strong> Make sure you've received and reviewed ALL required agreements before signing anything.",
+      prompt: `Analyze this FDD Item 22 (Contracts). Flag if any standard agreements appear to be missing, if there are unusual agreements beyond the standard franchise agreement, or if personal guarantees are required. Provide findings as JSON array with severity/finding/question.`},
+
+    { num: 23, name: "Receipts", priority: false,
+      help: "This is your acknowledgment page. <strong>Why it matters:</strong> You must receive the FDD at least 14 days before signing the franchise agreement or paying any money (per FTC Franchise Rule). If you were pressured to sign faster, that's a violation.",
+      prompt: `Analyze this FDD Item 23 (Receipts). Verify the 14-day disclosure requirement per FTC Franchise Rule (16 CFR Parts 436 and 437). Flag if the prospective buyer may not have received the full 14-day review period. Remind the buyer that some states require 14 business days, not calendar days. Provide findings as JSON array with severity/finding/question.`}
+];
+
+// ========== STATE ==========
+let sessionToken = null;
+let analysisResults = {};
+let isAnalyzed = false;
+
+// ========== INIT ==========
+document.addEventListener('DOMContentLoaded', () => {
+    verifyAccess();
+    buildItemSections();
+});
+
+async function verifyAccess() {
+    const params = new URLSearchParams(window.location.search);
+    const sessionId = params.get('session_id');
+    if (!sessionId) { showGateError(); return; }
+    try {
+        const res = await fetch(`/api/verify-session?session_id=${sessionId}`);
+        const data = await res.json();
+        if (data.valid) {
+            sessionToken = data.token;
+            document.getElementById('gate').classList.add('hidden');
+        } else {
+            showGateError(data.reason);
+        }
+    } catch (e) {
+        showGateError('connection');
+    }
+}
+
+function showGateError(reason) {
+    const gate = document.getElementById('gate');
+    let msg = 'This analysis session is no longer available.';
+    if (reason === 'used') msg = 'This analysis has already been completed. Check your email for your PDF report.';
+    if (reason === 'expired') msg = 'This session has expired. Please purchase a new analysis.';
+    if (reason === 'connection') msg = 'Unable to verify your purchase. Please check your connection and try again.';
+    gate.innerHTML = `<div class="gate-error"><h2>Access Required</h2><p>${msg}</p><p><a href="/fdd-analyzer">Purchase an FDD Analysis →</a></p></div>`;
+}
+
+// ========== BUILD ITEM SECTIONS ==========
+function buildItemSections() {
+    const container = document.getElementById('itemContainer');
+    FDD_ITEMS.forEach(item => {
+        const section = document.createElement('div');
+        section.className = 'item-section';
+        section.id = `item-${item.num}`;
+        section.innerHTML = `
+            <div class="item-header" onclick="toggleItem(${item.num})">
+                <div class="item-title">
+                    <span class="item-num">Item ${item.num}</span>
+                    <span class="item-name">${item.name}</span>
+                    ${item.priority ? '<span class="priority-tag">High Priority</span>' : ''}
+                </div>
+                <span class="item-arrow">▾</span>
+            </div>
+            <div class="item-body">
+                <div class="item-help">${item.help}</div>
+                <textarea class="item-textarea" id="text-${item.num}" placeholder="Paste your Item ${item.num} text here..." oninput="updateProgress()"></textarea>
+                <div class="item-charcount"><span id="count-${item.num}">0</span> characters</div>
+            </div>`;
+        container.appendChild(section);
+    });
+    // Auto-expand priority items
+    [5,6,7,17,19,20].forEach(n => {
+        const el = document.getElementById(`item-${n}`);
+        if (el) el.classList.add('open');
+    });
+}
+
+function toggleItem(num) {
+    document.getElementById(`item-${num}`).classList.toggle('open');
+}
+
+function updateProgress() {
+    let filled = 0;
+    FDD_ITEMS.forEach(item => {
+        const ta = document.getElementById(`text-${item.num}`);
+        const count = ta.value.trim().length;
+        document.getElementById(`count-${item.num}`).textContent = count.toLocaleString();
+        if (count > 20) {
+            filled++;
+            document.querySelector(`#item-${item.num} .item-header`).classList.add('has-content');
+        } else {
+            document.querySelector(`#item-${item.num} .item-header`).classList.remove('has-content');
+        }
+    });
+    document.getElementById('progressCount').textContent = `${filled} of 23 items`;
+    document.getElementById('progressFill').style.width = `${(filled/23)*100}%`;
+}
+
+// ========== ANALYSIS ==========
+async function runAnalysis() {
+    if (isAnalyzed) return;
+    const itemsWithContent = FDD_ITEMS.filter(item => document.getElementById(`text-${item.num}`).value.trim().length > 20);
+    if (itemsWithContent.length < 1) {
+        alert('Please paste text for at least one FDD item to analyze.');
+        return;
+    }
+
+    const btn = document.getElementById('analyzeBtn');
+    btn.disabled = true;
+    document.getElementById('loadingOverlay').classList.add('show');
+
+    try {
+        let completed = 0;
+        const totalToAnalyze = itemsWithContent.length;
+
+        for (const item of FDD_ITEMS) {
+            const text = document.getElementById(`text-${item.num}`).value.trim();
+            if (text.length <= 20) {
+                analysisResults[item.num] = { status: 'skipped' };
+                continue;
+            }
+            document.getElementById('loadingProgress').textContent = `Analyzing Item ${item.num}: ${item.name}... (${completed + 1} of ${totalToAnalyze})`;
+
+            try {
+                const res = await fetch('/api/analyze', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ token: sessionToken, itemNum: item.num, text: text, prompt: item.prompt })
+                });
+                const data = await res.json();
+                if (data.findings) {
+                    analysisResults[item.num] = { status: 'analyzed', findings: data.findings };
+                } else {
+                    analysisResults[item.num] = { status: 'error' };
+                }
+            } catch (e) {
+                analysisResults[item.num] = { status: 'error' };
+            }
+            completed++;
+        }
+
+        isAnalyzed = true;
+        
+        // Mark session as complete (one-time use enforcement)
+        try {
+            await fetch('/api/complete-session', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ token: sessionToken })
+            });
+        } catch (e) { /* non-critical — results still show */ }
+
+        document.getElementById('loadingOverlay').classList.remove('show');
+        document.getElementById('inputPhase').style.display = 'none';
+        showResults();
+
+    } catch (e) {
+        document.getElementById('loadingOverlay').classList.remove('show');
+        alert('Analysis failed. Please try again.');
+        btn.disabled = false;
+    }
+}
+
+// ========== RESULTS DISPLAY ==========
+function showResults() {
+    const resultsPhase = document.getElementById('resultsPhase');
+    resultsPhase.classList.add('show');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    let totalRed = 0, totalYellow = 0, totalGreen = 0, analyzedCount = 0;
+
+    FDD_ITEMS.forEach(item => {
+        const result = analysisResults[item.num];
+        if (result && result.status === 'analyzed' && result.findings) {
+            analyzedCount++;
+            result.findings.forEach(f => {
+                if (f.severity === 'red') totalRed++;
+                else if (f.severity === 'yellow') totalYellow++;
+                else totalGreen++;
+            });
+        }
+    });
+
+    // Calculate score (0-100, higher is better)
+    const totalFindings = totalRed + totalYellow + totalGreen;
+    let score = 100;
+    if (totalFindings > 0) {
+        score = Math.max(0, Math.min(100, Math.round(100 - (totalRed * 12) - (totalYellow * 4) + (totalGreen * 1))));
+    }
+
+    let verdictClass, verdictText;
+    if (score >= 70) { verdictClass = 'good'; verdictText = 'Lower Risk — Proceed with Standard Due Diligence'; }
+    else if (score >= 40) { verdictClass = 'warning'; verdictText = 'Moderate Risk — Investigate Flagged Items Carefully'; }
+    else { verdictClass = 'danger'; verdictText = 'High Risk — Significant Concerns Detected'; }
+
+    document.getElementById('scoreCard').innerHTML = `
+        <div class="score-number" style="color: ${verdictClass === 'danger' ? 'var(--danger)' : verdictClass === 'warning' ? 'var(--warning)' : 'var(--success)'}">${score}</div>
+        <div class="score-label">Overall Deal Score (0-100)</div>
+        <div class="score-verdict ${verdictClass}">${verdictText}</div>
+        <div class="score-summary">
+            <div class="summary-stat red"><div class="num">${totalRed}</div><div class="lbl">Red Flags</div></div>
+            <div class="summary-stat yellow"><div class="num">${totalYellow}</div><div class="lbl">Caution Items</div></div>
+            <div class="summary-stat green"><div class="num">${totalGreen}</div><div class="lbl">Standard Items</div></div>
+        </div>
+        <p style="margin-top:20px; font-size:13px; color:var(--gray);">Based on ${analyzedCount} of 23 items analyzed. Score reflects findings severity. Analyze more items for a more complete assessment.</p>`;
+
+    // Build result items
+    const container = document.getElementById('resultsContainer');
+    container.innerHTML = '';
+
+    FDD_ITEMS.forEach(item => {
+        const result = analysisResults[item.num];
+        const div = document.createElement('div');
+        div.className = 'result-item';
+
+        if (!result || result.status === 'skipped') {
+            div.innerHTML = `
+                <div class="result-header">
+                    <div class="result-title">
+                        <span class="item-num">Item ${item.num}</span>
+                        <span class="item-name">${item.name}</span>
+                    </div>
+                    <span class="result-badge gray">NOT ANALYZED</span>
+                </div>`;
+        } else if (result.status === 'error') {
+            div.innerHTML = `
+                <div class="result-header">
+                    <div class="result-title">
+                        <span class="item-num">Item ${item.num}</span>
+                        <span class="item-name">${item.name}</span>
+                    </div>
+                    <span class="result-badge yellow">ERROR</span>
+                </div>`;
+        } else {
+            const findings = result.findings || [];
+            const hasRed = findings.some(f => f.severity === 'red');
+            const hasYellow = findings.some(f => f.severity === 'yellow');
+            const badgeClass = hasRed ? 'red' : hasYellow ? 'yellow' : 'green';
+            const badgeText = hasRed ? 'HIGH RISK' : hasYellow ? 'CAUTION' : 'STANDARD';
+
+            let findingsHTML = findings.map(f => `
+                <div class="finding">
+                    <div class="finding-flag flag-${f.severity}">${f.severity === 'red' ? 'RED FLAG' : f.severity === 'yellow' ? 'CAUTION' : 'STANDARD'}</div>
+                    <div class="finding-text">${f.finding}</div>
+                    ${f.question ? `<div class="finding-question"><strong>Ask the franchisor:</strong> ${f.question}</div>` : ''}
+                </div>`).join('');
+
+            div.innerHTML = `
+                <div class="result-header" onclick="this.parentElement.classList.toggle('open')">
+                    <div class="result-title">
+                        <span class="item-num">Item ${item.num}</span>
+                        <span class="item-name">${item.name}</span>
+                    </div>
+                    <span class="result-badge ${badgeClass}">${badgeText}</span>
+                </div>
+                <div class="result-body">${findingsHTML}</div>`;
+
+            // Auto-open red flag items
+            if (hasRed) div.classList.add('open');
+        }
+        container.appendChild(div);
+    });
+}
+
+// ========== PDF GENERATION ==========
+function downloadPDF() {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF({ unit: 'mm', format: 'a4' });
+    const W = 210, M = 20, CW = W - 2 * M;
+    let y = 20;
+
+    function addPage() { doc.addPage(); y = 20; }
+    function checkPage(need) { if (y + need > 275) addPage(); }
+
+    // Title page
+    doc.setFillColor(27, 67, 50);
+    doc.rect(0, 0, W, 80, 'F');
+    doc.setTextColor(255, 255, 255);
+    doc.setFontSize(28);
+    doc.text('FDD Analysis Report', M, 35);
+    doc.setFontSize(12);
+    doc.text('Franchise-Grade Systems', M, 48);
+    doc.setFontSize(10);
+    doc.text(`Generated: ${new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}`, M, 60);
+    y = 95;
+
+    // Score summary
+    doc.setTextColor(27, 67, 50);
+    doc.setFontSize(14);
+    doc.text('Overall Assessment', M, y); y += 10;
+
+    let totalRed = 0, totalYellow = 0, totalGreen = 0;
+    FDD_ITEMS.forEach(item => {
+        const r = analysisResults[item.num];
+        if (r && r.findings) r.findings.forEach(f => {
+            if (f.severity === 'red') totalRed++;
+            else if (f.severity === 'yellow') totalYellow++;
+            else totalGreen++;
+        });
+    });
+    const totalF = totalRed + totalYellow + totalGreen;
+    const score = totalF > 0 ? Math.max(0, Math.min(100, Math.round(100 - (totalRed * 12) - (totalYellow * 4) + (totalGreen * 1)))) : 100;
+
+    doc.setFontSize(11);
+    doc.setTextColor(60, 60, 60);
+    doc.text(`Deal Score: ${score}/100`, M, y); y += 7;
+    doc.text(`Red Flags: ${totalRed}  |  Caution Items: ${totalYellow}  |  Standard: ${totalGreen}`, M, y); y += 15;
+
+    // Disclaimer
+    doc.setFontSize(8);
+    doc.setTextColor(120, 120, 120);
+    const disc = doc.splitTextToSize('This report is for educational purposes only and does not constitute legal or financial advice. Consult a qualified franchise attorney and financial advisor before making any investment decision.', CW);
+    doc.text(disc, M, y); y += disc.length * 4 + 10;
+
+    // Item findings
+    FDD_ITEMS.forEach(item => {
+        const r = analysisResults[item.num];
+        if (!r || r.status !== 'analyzed' || !r.findings || r.findings.length === 0) return;
+
+        checkPage(30);
+        doc.setFillColor(240, 245, 242);
+        doc.rect(M, y - 2, CW, 10, 'F');
+        doc.setFontSize(11);
+        doc.setTextColor(27, 67, 50);
+        doc.text(`Item ${item.num}: ${item.name}`, M + 2, y + 5); y += 14;
+
+        r.findings.forEach(f => {
+            checkPage(25);
+            doc.setFontSize(9);
+            const sevColor = f.severity === 'red' ? [153, 27, 27] : f.severity === 'yellow' ? [146, 64, 14] : [6, 95, 70];
+            doc.setTextColor(...sevColor);
+            doc.text(f.severity === 'red' ? 'RED FLAG' : f.severity === 'yellow' ? 'CAUTION' : 'STANDARD', M, y); y += 5;
+
+            doc.setTextColor(60, 60, 60);
+            doc.setFontSize(9);
+            const lines = doc.splitTextToSize(f.finding, CW);
+            checkPage(lines.length * 4 + 10);
+            doc.text(lines, M, y); y += lines.length * 4 + 3;
+
+            if (f.question) {
+                doc.setTextColor(27, 67, 50);
+                doc.setFontSize(8);
+                const qlines = doc.splitTextToSize('Ask: ' + f.question, CW - 4);
+                checkPage(qlines.length * 3.5 + 6);
+                doc.text(qlines, M + 2, y); y += qlines.length * 3.5 + 3;
+            }
+            y += 4;
+        });
+        y += 6;
+    });
+
+    // Final page
+    addPage();
+    doc.setFontSize(14);
+    doc.setTextColor(27, 67, 50);
+    doc.text('Next Steps', M, y); y += 10;
+    doc.setFontSize(10);
+    doc.setTextColor(60, 60, 60);
+    const steps = [
+        '1. Contact current franchisees listed in Item 20 — ask about their actual experience.',
+        '2. Contact former franchisees — they have no reason to sugarcoat their answers.',
+        '3. Review all red flag items with a qualified franchise attorney.',
+        '4. Request clarification from the franchisor on every question listed in this report.',
+        '5. Do not sign anything or pay any money until all concerns are addressed.',
+        '6. Remember: no legitimate franchisor will pressure you to rush this process.'
+    ];
+    steps.forEach(s => {
+        const sl = doc.splitTextToSize(s, CW);
+        checkPage(sl.length * 5 + 4);
+        doc.text(sl, M, y); y += sl.length * 5 + 2;
+    });
+
+    y += 10;
+    doc.setFontSize(9);
+    doc.setTextColor(120, 120, 120);
+    doc.text('Report generated by Franchise-Grade Systems | franchisegradesystems.com', M, y);
+
+    doc.save('FDD-Analysis-Report.pdf');
+}
+</script>
+</body>
+</html>
