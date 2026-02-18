@@ -1,0 +1,9 @@
+{
+  "name": "franchise-grade-systems",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "stripe": "^14.0.0",
+    "@anthropic-ai/sdk": "^0.30.0"
+  }
+}

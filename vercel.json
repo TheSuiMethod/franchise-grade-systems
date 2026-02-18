@@ -1,8 +1,18 @@
 {
   "outputDirectory": "public",
   "cleanUrls": true,
+  "functions": {
+    "api/*.js": {
+      "memory": 256,
+      "maxDuration": 60
+    }
+  },
   "rewrites": [
-    { "source": "/tools", "destination": "/tools.html" }
+    { "source": "/tools", "destination": "/tools.html" },
+    { "source": "/fdd-analyzer", "destination": "/fdd-analyzer.html" },
+    { "source": "/fdd-analyzer-tool", "destination": "/fdd-analyzer-tool.html" },
+    { "source": "/privacy", "destination": "/privacy.html" },
+    { "source": "/terms", "destination": "/terms.html" }
   ],
   "headers": [
     {
@@ -10,6 +20,13 @@
       "headers": [
         { "key": "X-Content-Type-Options", "value": "nosniff" },
         { "key": "X-Frame-Options", "value": "DENY" }
+      ]
+    },
+    {
+      "source": "/fdd-analyzer-tool(.*)",
+      "headers": [
+        { "key": "X-Robots-Tag", "value": "noindex, nofollow" },
+        { "key": "Cache-Control", "value": "no-store, no-cache, must-revalidate" }
       ]
     }
   ]
