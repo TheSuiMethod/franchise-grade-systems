@@ -47,9 +47,12 @@
 <!-- FRANCHISE FEES -->
 <div class="calc-section"><div class="section-header"><div class="section-icon">📋</div><div><h2>Franchise Fees</h2><p>These are in your FDD — Items 5, 6, and 7. Don't skip any.</p></div></div>
 <div class="input-grid">
-<div class="input-group"><label>Royalty Fee <span class="hint">(% of revenue — typically 4-12%)</span></label><div class="input-wrap"><input type="text" id="royalty" class="has-suffix" placeholder="6" value="6"><span class="suffix">%</span></div></div>
+<div class="input-group"><label>Royalty Fee <span class="hint">(% of revenue — typically 4-12%. Check FDD Item 6 for minimum weekly floors.)</span></label><div class="input-wrap"><input type="text" id="royalty" class="has-suffix" placeholder="6" value="6"><span class="suffix">%</span></div></div>
 <div class="input-group"><label>Marketing/Ad Fund Fee <span class="hint">(% of revenue — typically 1-4%)</span></label><div class="input-wrap"><input type="text" id="adFund" class="has-suffix" placeholder="2" value="2"><span class="suffix">%</span></div></div>
-<div class="input-group"><label>Required Technology/Software <span class="info-tip">?<span class="tip-text">Many franchisors mandate specific POS, CRM, or management software costing $200-$500/month. Check FDD Item 7.</span></span> <span class="hint">(monthly)</span></label><div class="input-wrap"><span class="prefix">$</span><input type="text" id="techFees" class="has-prefix" placeholder="350" oninput="fmtC(this)"></div></div>
+<div class="input-group"><label>Required Technology/Software <span class="info-tip">?<span class="tip-text">Many franchisors mandate POS, CRM, or management software at $200-$500/month. WATCH OUT: many FDDs say "no cap on increases." Check FDD Items 6 and 7.</span></span> <span class="hint">(monthly)</span></label><div class="input-wrap"><span class="prefix">$</span><input type="text" id="techFees" class="has-prefix" placeholder="350" oninput="fmtC(this)"></div></div>
+<div class="input-group"><label>Required Bookkeeping/Accounting <span class="info-tip">?
+<span class="tip-text">Many franchisors REQUIRE you to use their designated bookkeeping service at $400-$600/month. This is separate from your own CPA. Check FDD Item 6 and Item 8.</span>
+</span> <span class="hint">(monthly, if required)</span></label><div class="input-wrap"><span class="prefix">$</span><input type="text" id="mandatedBookkeeping" class="has-prefix" placeholder="500" oninput="fmtC(this)"></div></div>
 <div class="input-group"><label>Other Ongoing Franchise Fees <span class="info-tip">?<span class="tip-text">Annual license renewals, training fees, conference fees beyond royalties. Check FDD Items 5 and 6.</span></span> <span class="hint">(annual)</span></label><div class="input-wrap"><span class="prefix">$</span><input type="text" id="otherFF" class="has-prefix" placeholder="2,650" oninput="fmtC(this)"></div></div>
 </div></div>
 
@@ -123,7 +126,7 @@ function calculate(){
 const rev=g('revenue');if(rev<=0){alert('Please enter your Annual Gross Revenue.');return}
 
 // Franchise Fees
-const royA=rev*(g('royalty')/100),adA=rev*(g('adFund')/100),techA=g('techFees')*12,offA=g('otherFF'),tFF=royA+adA+techA+offA;
+const royA=rev*(g('royalty')/100),adA=rev*(g('adFund')/100),techA=g('techFees')*12,offA=g('otherFF'),bkA=g('mandatedBookkeeping')*12,tFF=royA+adA+techA+offA+bkA;
 // Occupancy
 const rentA=g('rent')*12,utilA=g('utilities')*12,repA=g('repairs')*12,phA=g('phone')*12,tOcc=rentA+utilA+repA+phA;
 // Labor
@@ -172,6 +175,7 @@ document.getElementById('bd').innerHTML=`
 <div class="bd-row"><span class="l">− Royalty Fees (${g('royalty')}%)</span><span class="a">${f(royA)}</span></div>
 <div class="bd-row"><span class="l">− Marketing/Ad Fund (${g('adFund')}%)</span><span class="a">${f(adA)}</span></div>
 <div class="bd-row"><span class="l">− Required Technology</span><span class="a">${f(techA)}</span></div>
+<div class="bd-row"><span class="l">− Required Bookkeeping</span><span class="a">${f(bkA)}</span></div>
 <div class="bd-row"><span class="l">− Other Franchise Fees</span><span class="a">${f(offA)}</span></div>
 <div class="bd-row sub"><span class="l">Total Franchise Fees</span><span class="a">${f(tFF)}</span></div>
 <div class="bd-row"><span class="l">− Rent/Lease</span><span class="a">${f(rentA)}</span></div>
@@ -228,7 +232,8 @@ if(lnA>0&&lnA/rev>.15)qs.push(`Debt service is ${(lnA/rev*100).toFixed(1)}% of r
 if(th<0)qs.push(`At these numbers, you'd lose ${f(Math.abs(th))}/year. Ask: "What is the average net income after ALL expenses for franchisees in year 1? Year 2? Year 3? How many are currently operating at a loss?"`);
 qs.push('Ask EVERY franchisor: "Can I have contact info for franchisees who LEFT the system in the last 3 years?" (FDD Item 20 — they must provide it.)');
 qs.push('Ask: "How many franchise locations have closed in the last 3 years?" (FDD Item 20 must disclose this.)');
-document.getElementById('aq').innerHTML=qs.map(q=>`<li>${q}</li>`).join('');
+qs.push('Ask: "Are there caps on fee increases for technology fees, brand fund contributions, or bookkeeping charges? What is the maximum these can increase to?"');
+qs.push('Ask: "What are the total costs to EXIT this franchise — transfer fees, de-identification costs, lease obligations, and non-compete restrictions?"');document.getElementById('aq').innerHTML=qs.map(q=>`<li>${q}</li>`).join('');
 }
 </script>
 </body>
