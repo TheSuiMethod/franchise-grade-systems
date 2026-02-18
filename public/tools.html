@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free Franchise Calculators & Tools | Franchise-Grade Systems</title>
+    <meta name="description" content="Free AI-powered franchise calculators: profit margin, ROI, business scorecard. Evaluate any franchise deal before you invest. No account required.">
+    <meta name="keywords" content="franchise calculator, franchise profit margin calculator, franchise ROI calculator, franchise due diligence tools, free franchise tools">
+    <link rel="canonical" href="https://www.franchisegradesystems.com/tools">
+
+    <meta property="og:title" content="Free Franchise Calculators & Tools | Franchise-Grade Systems">
+    <meta property="og:description" content="Free AI-powered franchise calculators. Evaluate any franchise deal before you invest.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.franchisegradesystems.com/tools">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --forest: #1B4332;
+            --forest-mid: #2D6A4F;
+            --forest-light: #40916C;
+            --sage: #52B788;
+            --mint: #95D5B2;
+            --pale: #D8F3DC;
+            --cream: #F7FBF9;
+            --white: #FFFFFF;
+            --charcoal: #1A1A2E;
+            --slate: #4A4A5A;
+            --gray: #6B7280;
+            --light-gray: #E5E7EB;
+            --warning: #F59E0B;
+            --danger: #EF4444;
+            --success: #10B981;
+            --gold: #D4A843;
+            --gold-light: #F5E6C8;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'DM Sans', sans-serif; color: var(--charcoal); background: var(--cream); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+        h1, h2, h3 { font-family: 'Instrument Serif', serif; font-weight: 400; }
+
+        /* NAV */
+        .nav { background: var(--forest); padding: 16px 24px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 12px rgba(0,0,0,0.15); }
+        .nav-logo { font-family: 'Instrument Serif', serif; color: var(--white); font-size: 1.25rem; text-decoration: none; }
+        .nav-logo span { color: var(--sage); }
+        .nav-links { display: flex; gap: 24px; align-items: center; }
+        .nav-links a { color: var(--mint); text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: color 0.2s; }
+        .nav-links a:hover { color: var(--white); }
+        .nav-cta { background: var(--sage) !important; color: var(--forest) !important; padding: 8px 20px; border-radius: 8px; font-weight: 600 !important; transition: background 0.2s; }
+        .nav-cta:hover { background: var(--mint) !important; }
+        .mobile-menu-btn { display: none; background: none; border: none; color: var(--white); font-size: 1.5rem; cursor: pointer; }
+
+        /* HEADER */
+        .page-header {
+            background: linear-gradient(135deg, var(--forest) 0%, var(--forest-mid) 100%);
+            padding: 60px 24px 48px;
+            text-align: center;
+        }
+        .page-header h1 { color: var(--white); font-size: clamp(1.8rem, 4vw, 2.6rem); margin-bottom: 12px; }
+        .page-header h1 em { color: var(--sage); font-style: italic; }
+        .page-header p { color: var(--mint); font-size: 1.05rem; max-width: 600px; margin: 0 auto; }
+
+        /* TOOLS */
+        .tools-section { padding: 60px 24px 80px; max-width: 1000px; margin: 0 auto; }
+        .tools-label { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: var(--forest-light); margin-bottom: 12px; }
+        .tools-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 48px; }
+
+        .tool-card {
+            background: var(--white);
+            border: 2px solid var(--light-gray);
+            border-radius: 16px;
+            padding: 32px 28px;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.3s;
+            display: flex;
+            flex-direction: column;
+        }
+        .tool-card:hover { border-color: var(--sage); transform: translateY(-3px); box-shadow: 0 12px 40px rgba(27,67,50,0.08); }
+        .tool-badge {
+            display: inline-block;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 4px 12px;
+            border-radius: 6px;
+            margin-bottom: 16px;
+            width: fit-content;
+        }
+        .badge-live { background: #DCFCE7; color: #166534; }
+        .badge-soon { background: var(--gold-light); color: #92400E; }
+        .tool-card h3 { font-size: 1.35rem; margin-bottom: 10px; color: var(--charcoal); }
+        .tool-card p { color: var(--slate); font-size: 0.92rem; line-height: 1.7; flex: 1; margin-bottom: 16px; }
+        .tool-features {
+            list-style: none;
+            margin-bottom: 20px;
+        }
+        .tool-features li {
+            font-size: 0.85rem;
+            color: var(--slate);
+            padding: 4px 0 4px 20px;
+            position: relative;
+        }
+        .tool-features li::before { content: '✓'; position: absolute; left: 0; color: var(--sage); font-weight: 700; }
+        .tool-cta-btn {
+            display: inline-block;
+            background: var(--forest-mid);
+            color: var(--white);
+            padding: 12px 24px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-align: center;
+            transition: background 0.2s;
+        }
+        .tool-cta-btn:hover { background: var(--forest); }
+        .tool-cta-soon {
+            display: inline-block;
+            background: var(--light-gray);
+            color: var(--gray);
+            padding: 12px 24px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-align: center;
+            cursor: default;
+        }
+
+        /* LEAD MAGNET */
+        .lead-section {
+            background: var(--white);
+            border: 2px solid var(--light-gray);
+            border-radius: 16px;
+            padding: 40px 36px;
+            display: flex;
+            gap: 36px;
+            align-items: center;
+            margin-bottom: 48px;
+        }
+        .lead-content { flex: 1; }
+        .lead-content h3 { font-size: 1.4rem; margin-bottom: 8px; color: var(--charcoal); }
+        .lead-content p { color: var(--slate); font-size: 0.92rem; line-height: 1.7; margin-bottom: 16px; }
+        .lead-form { display: flex; gap: 10px; }
+        .lead-form input {
+            flex: 1;
+            padding: 12px 16px;
+            border: 2px solid var(--light-gray);
+            border-radius: 8px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.9rem;
+        }
+        .lead-form input:focus { outline: none; border-color: var(--sage); }
+        .lead-form button {
+            padding: 12px 24px;
+            background: var(--forest-mid);
+            color: var(--white);
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-family: 'DM Sans', sans-serif;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: background 0.2s;
+        }
+        .lead-form button:hover { background: var(--forest); }
+        .lead-badge {
+            display: inline-block;
+            background: var(--pale);
+            color: var(--forest-mid);
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 4px 12px;
+            border-radius: 6px;
+            margin-bottom: 12px;
+        }
+
+        /* UPSELL */
+        .upsell-bar {
+            background: var(--forest);
+            border-radius: 16px;
+            padding: 36px 32px;
+            text-align: center;
+        }
+        .upsell-bar h3 { color: var(--white); font-size: 1.3rem; margin-bottom: 8px; }
+        .upsell-bar p { color: var(--mint); font-size: 0.92rem; margin-bottom: 20px; }
+        .upsell-bar a {
+            display: inline-block;
+            background: var(--sage);
+            color: var(--forest);
+            padding: 12px 28px;
+            border-radius: 10px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: background 0.2s;
+        }
+        .upsell-bar a:hover { background: var(--mint); }
+
+        /* FOOTER */
+        .footer { background: #0A1F14; padding: 36px 24px; text-align: center; color: var(--mint); }
+        .footer-logo { font-family: 'Instrument Serif', serif; color: var(--white); font-size: 1.15rem; margin-bottom: 8px; }
+        .footer-logo span { color: var(--sage); }
+        .footer p { font-size: 0.82rem; opacity: 0.5; margin-bottom: 12px; }
+        .footer-links { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; }
+        .footer-links a { color: var(--mint); text-decoration: none; font-size: 0.85rem; opacity: 0.6; transition: opacity 0.2s; }
+        .footer-links a:hover { opacity: 1; color: var(--white); }
+
+        @media (max-width: 700px) {
+            .tools-grid { grid-template-columns: 1fr; }
+            .lead-section { flex-direction: column; padding: 28px 24px; }
+            .lead-form { flex-direction: column; }
+            .nav-links { display: none; }
+            .nav-links.open { display: flex; flex-direction: column; position: absolute; top: 100%; left: 0; right: 0; background: var(--forest); padding: 16px 24px; border-top: 1px solid rgba(255,255,255,0.1); }
+            .mobile-menu-btn { display: block; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="nav">
+        <a href="/" class="nav-logo">Franchise<span>-Grade</span> Systems</a>
+        <button class="mobile-menu-btn" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Menu">☰</button>
+        <div class="nav-links">
+            <a href="/tools">Free Tools</a>
+            <a href="/#products">Products</a>
+            <a href="/#story">Our Story</a>
+            <a href="/tools" class="nav-cta">Get Started Free</a>
+        </div>
+    </nav>
+
+    <section class="page-header">
+        <h1>Free franchise <em>analysis tools.</em></h1>
+        <p>Every calculator is 100% free. No account. No credit card. Just the numbers franchise companies don't want you to see.</p>
+    </section>
+
+    <section class="tools-section">
+
+        <!-- FREE CALCULATORS -->
+        <div class="tools-label">Calculators</div>
+        <div class="tools-grid">
+            <a href="/franchise-profit-margin-calculator" class="tool-card">
+                <span class="tool-badge badge-live">Live</span>
+                <h3>Profit Margin Calculator</h3>
+                <p>Calculate your real take-home pay after royalties, marketing fees, and hidden costs. See what franchise owners actually earn — not what the brochure says.</p>
+                <ul class="tool-features">
+                    <li>Accounts for all franchise-specific fees</li>
+                    <li>Industry benchmark comparison</li>
+                    <li>Visual gauge with verdict</li>
+                    <li>AI-powered analysis (coming soon)</li>
+                </ul>
+                <span class="tool-cta-btn">Use Calculator →</span>
+            </a>
+            <a href="/franchise-roi-calculator" class="tool-card">
+                <span class="tool-badge badge-live">Live</span>
+                <h3>ROI Calculator</h3>
+                <p>Calculate your franchise return on investment, break-even timeline, and see how it compares to simply investing the same money in the S&P 500.</p>
+                <ul class="tool-features">
+                    <li>Break-even timeline calculation</li>
+                    <li>S&P 500 comparison built in</li>
+                    <li>SBA loan financing toggle</li>
+                    <li>AI-powered analysis (coming soon)</li>
+                </ul>
+                <span class="tool-cta-btn">Use Calculator →</span>
+            </a>
+        </div>
+
+        <div class="tools-label">Coming Soon</div>
+        <div class="tools-grid" style="margin-bottom: 48px;">
+            <div class="tool-card" style="cursor: default;">
+                <span class="tool-badge badge-soon">Coming Soon</span>
+                <h3>Business Scorecard</h3>
+                <p>Score your franchise or independent business across 8 key operational areas. Get your Franchise-Grade rating and an AI-generated gap analysis.</p>
+                <ul class="tool-features">
+                    <li>Works for franchise buyers AND business owners</li>
+                    <li>8 operational categories scored</li>
+                    <li>AI-generated improvement plan</li>
+                    <li>Benchmark against franchise standards</li>
+                </ul>
+                <span class="tool-cta-soon">Coming Soon — Join Waitlist Below</span>
+            </div>
+            <div class="tool-card" style="cursor: default;">
+                <span class="tool-badge badge-soon">Coming Soon</span>
+                <h3>Franchise Comparison Tool</h3>
+                <p>Compare up to 5 franchise opportunities side by side. See which deal offers the best risk-adjusted return on your investment.</p>
+                <ul class="tool-features">
+                    <li>Side-by-side financial comparison</li>
+                    <li>Risk-adjusted scoring</li>
+                    <li>AI recommendation engine</li>
+                    <li>Part of the $297 Decision Engine</li>
+                </ul>
+                <span class="tool-cta-soon">Coming Soon — Join Waitlist Below</span>
+            </div>
+        </div>
+
+        <!-- LEAD MAGNET -->
+        <div class="lead-section">
+            <div class="lead-content">
+                <span class="lead-badge">Free Download</span>
+                <h3>FDD Red Flags Guide</h3>
+                <p>12 pages of the exact warning signs that cost franchise buyers thousands. Built from 15 years of corporate operations experience and a personal $300K franchise failure. Plus: be the first to access our AI tools when they launch.</p>
+                <form class="lead-form" onsubmit="handleDownload(event)">
+                    <input type="email" placeholder="Enter your email" required id="toolsEmail" autocomplete="email">
+                    <button type="submit">Get Free Guide</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- UPSELL -->
+        <div class="upsell-bar">
+            <h3>Need deeper analysis?</h3>
+            <p>Our AI-powered products analyze YOUR specific franchise deal — from $67. What attorneys charge $2,500+ for.</p>
+            <a href="/#products">See AI Products →</a>
+        </div>
+
+    </section>
+
+    <footer class="footer">
+        <div class="footer-logo">Franchise<span>-Grade</span> Systems</div>
+        <p>AI-powered tools for smarter franchise decisions.</p>
+        <p>&copy; 2025 Franchise-Grade Systems. All rights reserved. Not legal or financial advice.</p>
+        <div class="footer-links">
+            <a href="/">Home</a>
+            <a href="/tools">Free Tools</a>
+            <a href="/#products">Products</a>
+            <a href="/#story">Our Story</a>
+            <a href="/#waitlist">Free FDD Guide</a>
+        </div>
+    </footer>
+
+    <script>
+    function handleDownload(e) {
+        e.preventDefault();
+        const email = document.getElementById('toolsEmail').value;
+        const btn = e.target.querySelector('button');
+        btn.textContent = 'Downloading...';
+        btn.disabled = true;
+        setTimeout(() => {
+            window.open('/fdd-red-flags-guide.pdf', '_blank');
+            btn.textContent = '✓ Check your downloads!';
+            setTimeout(() => { btn.textContent = 'Get Free Guide'; btn.disabled = false; }, 3000);
+        }, 500);
+    }
+    </script>
+
+</body>
+</html>
