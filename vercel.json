@@ -1,7 +1,4 @@
 {
   "outputDirectory": "public",
-  "cleanUrls": true,
-  "rewrites": [
-    { "source": "/franchise-profit-margin-calculator", "destination": "/index.html" }
-  ]
+  "cleanUrls": true
 }
