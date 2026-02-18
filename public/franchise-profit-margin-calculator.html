@@ -7,7 +7,7 @@
     <meta name="description" content="Calculate your real franchise profit margin after royalties, fees, and ALL operating costs. Ratio warnings and break-even analysis built in.">
     <link rel="canonical" href="https://www.franchisegradesystems.com/franchise-profit-margin-calculator">
     <meta property="og:title" content="Franchise Profit Margin Calculator | Franchise-Grade Systems">
-    <meta property="og:description" content="Calculate your real franchise profit margin after ALL costs. Built by someone who lost over $300K on a franchise.">
+    <meta property="og:description" content="Calculate your real franchise profit margin after ALL costs. Built by someone who lost six figures on a franchise.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
@@ -37,7 +37,7 @@
 </head>
 <body>
 <nav class="nav"><a href="/" class="nav-logo">Franchise<span>-Grade</span> Systems</a><button class="mobile-menu-btn" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Menu">☰</button><div class="nav-links"><a href="/tools">Free Tools</a><a href="/franchise-roi-calculator">ROI Calculator</a><a href="/#products">Products</a><a href="/tools" class="nav-cta">Get Started Free</a></div></nav>
-<section class="hero"><h1>Franchise Profit Margin Calculator — <em>The Real Numbers</em></h1><p>Most franchise calculators miss half the costs. This one was built by someone who lost over $300K because nobody showed her the full picture. Every cost category below came from a real P&L.</p></section>
+<section class="hero"><h1>Franchise Profit Margin Calculator — <em>The Real Numbers</em></h1><p>Most franchise calculators miss half the costs. This one was built by someone who lost six figures because nobody showed them the full picture. Every cost category below came from a real P&L.</p></section>
 <div class="calc-container">
 
 <!-- REVENUE -->
@@ -111,11 +111,11 @@
 <div class="be-section"><h3>Break-Even Analysis</h3><div class="be-grid" id="bg"></div></div>
 <div class="assessment-section"><h3>Assessment</h3><div id="av"></div><div class="aq"><h4>Questions to Ask the Franchisor Based on Your Numbers</h4><ul id="aq"></ul></div></div>
 <div class="cta-section cta-primary"><h3>Want AI to Analyze Your Specific FDD?</h3><p>Our AI FDD Analyzer walks through all 23 disclosure items, flags risks specific to YOUR deal, and generates a personalized report. What attorneys charge $2,500+ for — from $67.</p><a href="/#products" class="cta-btn">See AI-Powered Products →</a></div>
-<div class="cta-section cta-secondary"><h3>Start With Our Free FDD Red Flags Guide</h3><p>12 pages of exact warning signs that cost franchise buyers thousands. Built by someone who lost over $300K learning the hard way.</p><a href="/#waitlist" class="cta-btn-outline">Download Free Guide →</a></div>
+<div class="cta-section cta-secondary"><h3>Start With Our Free FDD Red Flags Guide</h3><p>12 pages of exact warning signs that cost franchise buyers thousands. Built by someone who lost six figures learning the hard way.</p><a href="/#waitlist" class="cta-btn-outline">Download Free Guide →</a></div>
 </div>
 
 </div>
-<footer class="footer"><div class="footer-logo">Franchise<span>-Grade</span> Systems</div><p>AI-powered tools for smarter franchise decisions.</p><p>&copy; 2025 Franchise-Grade Systems. All rights reserved. Not legal or financial advice.</p><div class="footer-links"><a href="/">Home</a><a href="/tools">Free Tools</a><a href="/#products">Products</a><a href="/#story">Our Story</a><a href="/#waitlist">Free FDD Guide</a></div></footer>
+<footer class="footer"><div class="footer-logo">Franchise<span>-Grade</span> Systems</div><p>AI-powered tools for smarter franchise decisions.</p><p>&copy; 2026 Franchise-Grade Systems. All rights reserved. Not legal or financial advice.</p><div class="footer-links"><a href="/">Home</a><a href="/tools">Free Tools</a><a href="/#products">Products</a><a href="/#story">Our Story</a><a href="/#waitlist">Free FDD Guide</a><a href="/privacy">Privacy</a><a href="/terms">Terms</a></div></footer>
 
 <script>
 function fmtC(el){let v=el.value.replace(/[^0-9.]/g,'');if(v&&!isNaN(v)){const p=v.split('.');p[0]=p[0].replace(/\B(?=(\d{3})+(?!\d))/g,',');el.value=p.join('.')}}
@@ -217,7 +217,7 @@ document.getElementById('bg').innerHTML=`
 const redC=rats.filter(r=>r.v>r.y&&!(r.v===0&&r.n==='Debt Service Ratio')).length;
 const yelC=rats.filter(r=>r.v>r.g&&r.v<=r.y).length;
 let vc,vt,vb;
-if(th<0){vc='danger';vt='🚨 This franchise loses money at these numbers.';vb=`At ${f(rev)} in annual revenue, your total costs of ${f(tAll)} exceed income by ${f(Math.abs(th))} per year. You would need to inject personal cash every month just to keep the doors open — exactly what happened to our founder, who lost over $300K. You have ${redC} critical ratio warning(s). Before proceeding, pressure-test whether this revenue projection is realistic and whether these costs can be reduced.`}
+if(th<0){vc='danger';vt='🚨 This franchise loses money at these numbers.';vb=`At ${f(rev)} in annual revenue, your total costs of ${f(tAll)} exceed income by ${f(Math.abs(th))} per year. You would need to inject personal cash every month just to keep the doors open — exactly what happened to our founder, who lost six figures. You have ${redC} critical ratio warning(s). Before proceeding, pressure-test whether this revenue projection is realistic and whether these costs can be reduced.`}
 else if(mg<5){vc='caution';vt='⚠️ Razor-thin margin. One bad month wipes you out.';vb=`A ${mg.toFixed(1)}% net margin means you're taking home ${f(th)} on ${f(rev)} in revenue. Any unexpected expense — equipment failure, employee turnover, slow season — could push you into the red. Most financial advisors consider margins below 10% high-risk for franchise operations.`}
 else if(mg<15){vc='caution';vt='⚠️ Workable, but watch the ratios closely.';vb=`A ${mg.toFixed(1)}% margin is within the franchise average (5-20%), but you have ${yelC+redC} ratio warning(s) that need attention. Make sure you're confident in the revenue projection — most franchisors give best-case numbers, not averages.`}
 else{vc='good';vt='✅ Strong margin — if the revenue number is real.';vb=`A ${mg.toFixed(1)}% net margin is above average. Your take-home of ${f(th)} looks healthy. Critical question: is the ${f(rev)} figure from Item 19 of the FDD, or a salesperson's projection? Validate by calling existing franchisees directly (contact info is in FDD Item 20).`}
