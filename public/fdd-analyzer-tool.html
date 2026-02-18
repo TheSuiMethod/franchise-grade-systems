@@ -223,9 +223,9 @@
             <button class="download-btn" onclick="downloadPDF()">Download PDF Report</button>
         </div>
         <div class="upsell">
-            <h3>Want deeper analysis?</h3>
-            <p>The $97 Second Opinion Report includes industry benchmarking, financial stress-testing, and a detailed risk narrative.</p>
-            <a href="/fdd-analyzer">Learn more →</a>
+            <h3>Your Next Step: Get the Full Picture</h3>
+            <p>You've analyzed the red flags. The $97 Second Opinion Report (Step 3) adds industry benchmarking, financial stress-testing, and a 10-15 page detailed risk narrative for your specific deal.</p>
+            <a href="/#products">See the full due diligence path →</a>
         </div>
     </div>
 
@@ -796,6 +796,19 @@ function downloadPDF() {
         checkPage(sl.length * 5 + 4);
         doc.text(sl, M, y); y += sl.length * 5 + 2;
     });
+
+    y += 10;
+    checkPage(30);
+    doc.setFontSize(11);
+    doc.setTextColor(27, 67, 50);
+    doc.text('Go Deeper: Your Next Step', M, y); y += 7;
+    doc.setFontSize(9.5);
+    doc.setTextColor(60, 60, 60);
+    const upsellLines = doc.splitTextToSize(
+        'This report identified the key risks in your FDD. For a complete Second Opinion Report with industry benchmarking, financial stress-testing, and a detailed risk narrative, visit franchisegradesystems.com to see the full due diligence path.',
+        CW
+    );
+    doc.text(upsellLines, M, y); y += upsellLines.length * 5 + 6;
 
     y += 10;
     doc.setFontSize(9);

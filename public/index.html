@@ -414,124 +414,199 @@
         }
 
         /* ===== PRODUCT LADDER ===== */
-        .products-section {
+        /* JOURNEY PATH */
+        .journey-section {
             background: var(--white);
             padding: 80px 24px;
             border-top: 1px solid var(--light-gray);
             border-bottom: 1px solid var(--light-gray);
         }
-        .products-inner {
-            max-width: 1100px;
+        .journey-inner {
+            max-width: 800px;
             margin: 0 auto;
         }
-        .product-ladder {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
+        .journey-path {
             margin-top: 48px;
+            position: relative;
         }
-        .product-card {
+        /* Vertical connector line */
+        .journey-path::before {
+            content: '';
+            position: absolute;
+            left: 28px;
+            top: 36px;
+            bottom: 36px;
+            width: 2px;
+            background: linear-gradient(to bottom, var(--sage), var(--light-gray) 40%);
+        }
+        .journey-step {
+            display: flex;
+            gap: 24px;
+            align-items: flex-start;
+            position: relative;
+            margin-bottom: 12px;
+        }
+        .journey-step:last-child { margin-bottom: 0; }
+        .step-marker {
+            flex-shrink: 0;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.85rem;
+            z-index: 1;
+            border: 3px solid var(--light-gray);
+            background: var(--cream);
+            color: var(--gray);
+            transition: all 0.3s;
+        }
+        .journey-step.active .step-marker {
+            border-color: var(--forest-mid);
+            background: var(--forest-mid);
+            color: var(--white);
+            box-shadow: 0 4px 16px rgba(27,67,50,0.2);
+        }
+        .journey-step.available .step-marker {
+            border-color: var(--sage);
+            background: var(--sage);
+            color: var(--white);
+        }
+        .step-content {
+            flex: 1;
             background: var(--cream);
             border: 2px solid var(--light-gray);
             border-radius: 16px;
-            padding: 28px 24px;
-            display: flex;
-            flex-direction: column;
-            position: relative;
+            padding: 24px 28px;
             transition: all 0.3s;
         }
-        .product-card:hover { border-color: var(--sage); transform: translateY(-2px); }
-        .product-card.featured {
+        .journey-step.active .step-content {
             border-color: var(--forest-mid);
             background: var(--white);
-            box-shadow: 0 8px 30px rgba(27,67,50,0.1);
+            box-shadow: 0 8px 30px rgba(27,67,50,0.08);
         }
-        .product-popular {
-            position: absolute;
-            top: -12px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--forest-mid);
-            color: var(--white);
-            font-size: 0.7rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            padding: 4px 16px;
-            border-radius: 20px;
-            white-space: nowrap;
+        .journey-step.available .step-content {
+            border-color: var(--sage);
         }
-        .product-tier {
-            font-size: 0.75rem;
+        .journey-step:hover .step-content {
+            border-color: var(--sage);
+            transform: translateY(-1px);
+        }
+        .step-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+        .step-label {
+            font-size: 0.72rem;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 1.5px;
-            color: var(--forest-light);
-            margin-bottom: 8px;
+            color: var(--gray);
         }
-        .product-card h3 {
+        .journey-step.active .step-label { color: var(--forest-mid); }
+        .journey-step.available .step-label { color: var(--sage); }
+        .step-price {
+            font-family: 'Instrument Serif', serif;
+            font-size: 1.5rem;
+            color: var(--forest);
+        }
+        .step-content h3 {
             font-size: 1.2rem;
             color: var(--charcoal);
-            margin-bottom: 4px;
+            margin-bottom: 6px;
             line-height: 1.3;
         }
-        .product-price {
-            font-family: 'Instrument Serif', serif;
-            font-size: 2rem;
-            color: var(--forest);
-            margin: 12px 0 4px;
-        }
-        .product-price-note {
-            font-size: 0.8rem;
-            color: var(--gray);
-            margin-bottom: 16px;
-        }
-        .product-features {
-            list-style: none;
-            margin-bottom: 20px;
-            flex: 1;
-        }
-        .product-features li {
-            font-size: 0.85rem;
+        .step-desc {
+            font-size: 0.92rem;
             color: var(--slate);
-            padding: 5px 0;
-            padding-left: 20px;
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+        .step-features {
+            list-style: none;
+            margin-bottom: 16px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2px 16px;
+        }
+        .step-features li {
+            font-size: 0.82rem;
+            color: var(--slate);
+            padding: 3px 0 3px 18px;
             position: relative;
             line-height: 1.5;
         }
-        .product-features li::before {
+        .step-features li::before {
             content: '✓';
             position: absolute;
             left: 0;
             color: var(--sage);
             font-weight: 700;
         }
-        .product-btn {
-            display: block;
-            text-align: center;
-            padding: 12px 20px;
+        .step-cta {
+            display: inline-block;
+            padding: 10px 24px;
             border-radius: 10px;
             font-weight: 600;
-            font-size: 0.9rem;
+            font-size: 0.88rem;
             text-decoration: none;
             transition: all 0.2s;
+        }
+        .step-cta-primary {
+            background: var(--forest-mid);
+            color: var(--white);
+            border: 2px solid var(--forest-mid);
+        }
+        .step-cta-primary:hover { background: var(--forest); border-color: var(--forest); }
+        .step-cta-secondary {
             border: 2px solid var(--sage);
             color: var(--forest);
             background: var(--pale);
         }
-        .product-btn:hover { background: var(--sage); color: var(--white); }
-        .product-btn-primary {
-            background: var(--forest-mid);
-            color: var(--white);
-            border-color: var(--forest-mid);
+        .step-cta-secondary:hover { background: var(--sage); color: var(--white); }
+        .step-cta-muted {
+            border: 2px solid var(--light-gray);
+            color: var(--gray);
+            background: var(--cream);
+            cursor: default;
         }
-        .product-btn-primary:hover { background: var(--forest); border-color: var(--forest); }
-        .product-compare {
+        .step-badge {
+            display: inline-block;
+            font-size: 0.68rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 3px 10px;
+            border-radius: 12px;
+            margin-left: 8px;
+            vertical-align: middle;
+        }
+        .badge-now { background: var(--forest-mid); color: var(--white); }
+        .badge-soon { background: var(--light-gray); color: var(--gray); }
+        .step-tagline {
             font-size: 0.78rem;
             color: var(--gray);
-            text-align: center;
-            margin-top: 10px;
             font-style: italic;
+            margin-top: 6px;
+        }
+        .step-connector {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 4px 0 4px 68px;
+            color: var(--gray);
+            font-size: 0.78rem;
+        }
+        .step-connector::before {
+            content: '↓';
+            font-size: 1rem;
+            color: var(--sage);
         }
 
         /* ===== AI DIFFERENCE ===== */
@@ -735,7 +810,7 @@
             .paths-grid { grid-template-columns: 1fr; }
             .problem-grid { grid-template-columns: 1fr; }
             .tools-grid { grid-template-columns: 1fr; }
-            .product-ladder { grid-template-columns: 1fr 1fr; }
+            .step-features { grid-template-columns: 1fr; }
             .ai-grid { grid-template-columns: 1fr; }
             .footer-inner { grid-template-columns: 1fr 1fr; }
         }
@@ -755,7 +830,11 @@
             .mobile-menu-btn { display: block; }
             .hero { padding: 60px 20px 48px; }
             .hero-ctas { flex-direction: column; align-items: center; }
-            .product-ladder { grid-template-columns: 1fr; }
+            .step-header { flex-direction: column; align-items: flex-start; }
+            .journey-path::before { left: 20px; }
+            .step-marker { width: 40px; height: 40px; font-size: 0.75rem; }
+            .step-content { padding: 18px 20px; }
+            .step-connector { padding-left: 52px; }
             .trust-items { gap: 20px; }
             .capture-form { flex-direction: column; }
             .footer-inner { grid-template-columns: 1fr; gap: 28px; }
@@ -771,7 +850,7 @@
         <button class="mobile-menu-btn" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Menu">☰</button>
         <div class="nav-links">
             <a href="/tools">Free Tools</a>
-            <a href="#products">Products</a>
+            <a href="#products">How It Works</a>
             <a href="#story">Our Story</a>
             <a href="/tools" class="nav-cta">Get Started Free</a>
         </div>
@@ -785,7 +864,7 @@
             <p>Free AI-powered calculators and analysis tools that show you what franchise companies don't want you to see. Built by someone who lost six figures learning the hard way.</p>
             <div class="hero-ctas">
                 <a href="/tools" class="btn-primary">Use Free Calculators →</a>
-                <a href="#products" class="btn-outline">See All Products</a>
+                <a href="#products" class="btn-outline">See How It Works</a>
             </div>
         </div>
     </section>
@@ -846,11 +925,11 @@
         </div>
     </section>
 
-    <!-- FREE TOOLS -->
+    <!-- FREE TOOLS — STEP 1 -->
     <section class="section" id="tools">
-        <div class="section-label">Free Tools</div>
+        <div class="section-label">Step 1 — Free</div>
         <h2>Start here. <em>No credit card. No catch.</em></h2>
-        <p class="section-subtitle">Every tool is free to use. Our AI analysis gives you the insights that franchise companies charge thousands for.</p>
+        <p class="section-subtitle">Run the numbers before you read the fine print. These free tools show you what franchise companies hope you'll never calculate.</p>
         <div class="tools-grid">
             <a href="/franchise-profit-margin-calculator" class="tool-card">
                 <span class="tool-badge badge-live">Live</span>
@@ -874,79 +953,130 @@
     </section>
 
     <!-- PRODUCTS -->
-    <section class="products-section" id="products">
-        <div class="products-inner">
-            <div class="section-label">Products</div>
-            <h2>Go deeper. <em>Protect your investment.</em></h2>
-            <p class="section-subtitle">From free analysis to expert review. Each tier adds more AI firepower and personalized insight to your franchise decision.</p>
-            <div class="product-ladder">
+    <section class="journey-section" id="products">
+        <div class="journey-inner">
+            <div class="section-label">Your Due Diligence Path</div>
+            <h2>From first red flag to final decision.</h2>
+            <p class="section-subtitle">Each step gets you closer to a confident answer. Start free. Go deeper when you're ready.</p>
+            <div class="journey-path">
 
-                <!-- TIER 1 -->
-                <div class="product-card">
-                    <div class="product-tier">Tier 1</div>
-                    <h3>AI FDD Analyzer</h3>
-                    <div class="product-price">$67</div>
-                    <div class="product-price-note">One-time purchase</div>
-                    <ul class="product-features">
-                        <li>AI walkthrough of all 23 FDD items</li>
-                        <li>Personalized red/yellow flag detection</li>
-                        <li>Risk score for your specific deal</li>
-                        <li>Plain-English breakdown of legal jargon</li>
-                    </ul>
-                    <a href="/fdd-analyzer" class="product-btn">Analyze My FDD</a>
-                    <div class="product-compare">Know your deal in under 10 minutes</div>
+                <!-- STEP 1: FREE -->
+                <div class="journey-step available">
+                    <div class="step-marker">1</div>
+                    <div class="step-content">
+                        <div class="step-header">
+                            <div class="step-label">Start Here — Free</div>
+                            <div class="step-price">$0</div>
+                        </div>
+                        <h3>Spot the Warning Signs</h3>
+                        <p class="step-desc">Use our free calculators to stress-test the financials and download the red flags guide to know where to look in any FDD.</p>
+                        <ul class="step-features">
+                            <li>Franchise Profit Margin Calculator</li>
+                            <li>Franchise ROI Calculator</li>
+                            <li>FDD Red Flags Guide (12 pages)</li>
+                            <li>No account required</li>
+                        </ul>
+                        <a href="/tools" class="step-cta step-cta-secondary">Use Free Tools →</a>
+                        <div class="step-tagline">Most buyers stop here. The smart ones keep going.</div>
+                    </div>
                 </div>
 
-                <!-- TIER 1.5 -->
-                <div class="product-card">
-                    <div class="product-tier">Tier 2</div>
-                    <h3>AI Second Opinion Report</h3>
-                    <div class="product-price">$97</div>
-                    <div class="product-price-note">One-time purchase</div>
-                    <ul class="product-features">
-                        <li>Everything in the FDD Analyzer</li>
-                        <li>10-15 page personalized risk report</li>
-                        <li>Industry benchmark comparison</li>
-                        <li>AI stress-test of financial projections</li>
-                    </ul>
-                    <a href="#waitlist" class="product-btn">Join Waitlist</a>
-                    <div class="product-compare">The report your broker won't give you</div>
+                <div class="step-connector">You've run the numbers. Now analyze the actual document.</div>
+
+                <!-- STEP 2: $67 -->
+                <div class="journey-step active">
+                    <div class="step-marker">2</div>
+                    <div class="step-content">
+                        <div class="step-header">
+                            <div class="step-label">Analyze Your FDD <span class="step-badge badge-now">Available Now</span></div>
+                            <div class="step-price">$67</div>
+                        </div>
+                        <h3>AI FDD Analyzer</h3>
+                        <p class="step-desc">Paste each section of your FDD and get instant AI analysis of all 23 legally mandated items. Red flags, yellow flags, risk score, and the exact questions to ask your franchisor.</p>
+                        <ul class="step-features">
+                            <li>AI walkthrough of all 23 FDD items</li>
+                            <li>Personalized red/yellow flag detection</li>
+                            <li>Risk score for your specific deal</li>
+                            <li>Plain-English breakdown of legal jargon</li>
+                            <li>Downloadable PDF report</li>
+                            <li>Results in under 10 minutes</li>
+                        </ul>
+                        <a href="/fdd-analyzer" class="step-cta step-cta-primary">Analyze My FDD →</a>
+                        <div class="step-tagline">What franchise attorneys charge $2,000+ for — from $67.</div>
+                    </div>
                 </div>
 
-                <!-- TIER 2 -->
-                <div class="product-card featured">
-                    <div class="product-popular">Most Popular</div>
-                    <div class="product-tier">Tier 3</div>
-                    <h3>AI Franchise Decision Engine</h3>
-                    <div class="product-price">$297</div>
-                    <div class="product-price-note">One-time purchase</div>
-                    <ul class="product-features">
-                        <li>Everything in the Second Opinion</li>
-                        <li>Compare up to 5 franchises side-by-side</li>
-                        <li>AI Negotiation Simulator (practice before real calls)</li>
-                        <li>FDD Bootcamp: interactive due diligence modules</li>
-                        <li>Custom action plan with timeline</li>
-                        <li>Validation call scripts</li>
-                    </ul>
-                    <a href="#waitlist" class="product-btn product-btn-primary">Join Waitlist</a>
-                    <div class="product-compare">Complete due diligence system</div>
+                <div class="step-connector">Your analysis revealed risks. Now get the full picture.</div>
+
+                <!-- STEP 3: $97 -->
+                <div class="journey-step">
+                    <div class="step-marker">3</div>
+                    <div class="step-content">
+                        <div class="step-header">
+                            <div class="step-label">Get the Full Picture <span class="step-badge badge-soon">Coming Soon</span></div>
+                            <div class="step-price">$97</div>
+                        </div>
+                        <h3>AI Second Opinion Report</h3>
+                        <p class="step-desc">A 10-15 page personalized risk report that benchmarks your deal against industry data and stress-tests the financial projections.</p>
+                        <ul class="step-features">
+                            <li>Everything from Step 2 included</li>
+                            <li>Industry benchmark comparison</li>
+                            <li>Financial projection stress-test</li>
+                            <li>10-15 page detailed report</li>
+                        </ul>
+                        <span class="step-cta step-cta-muted">Coming Soon</span>
+                        <div class="step-tagline">The report your broker won't give you.</div>
+                    </div>
                 </div>
 
-                <!-- TIER 3 -->
-                <div class="product-card">
-                    <div class="product-tier">Tier 4</div>
-                    <h3>AI Analysis + Expert Review</h3>
-                    <div class="product-price">$697</div>
-                    <div class="product-price-note">One-time purchase</div>
-                    <ul class="product-features">
-                        <li>Everything in the Decision Engine</li>
-                        <li>45-minute 1-on-1 review session</li>
-                        <li>Expert eyes on AI findings</li>
-                        <li>Personalized go/no-go recommendation</li>
-                        <li>Follow-up action items</li>
-                    </ul>
-                    <a href="#waitlist" class="product-btn">Join Waitlist</a>
-                    <div class="product-compare">AI + human expertise, one price</div>
+                <div class="step-connector">You understand your deal. Now compare your options.</div>
+
+                <!-- STEP 4: $297 -->
+                <div class="journey-step">
+                    <div class="step-marker">4</div>
+                    <div class="step-content">
+                        <div class="step-header">
+                            <div class="step-label">Compare &amp; Decide <span class="step-badge badge-soon">Coming Soon</span></div>
+                            <div class="step-price">$297</div>
+                        </div>
+                        <h3>AI Franchise Decision Engine</h3>
+                        <p class="step-desc">Compare up to 5 franchise opportunities side-by-side, practice negotiation calls with AI, and get a custom action plan with timeline.</p>
+                        <ul class="step-features">
+                            <li>Everything from Steps 2 &amp; 3</li>
+                            <li>Compare up to 5 franchises</li>
+                            <li>AI Negotiation Simulator</li>
+                            <li>FDD Bootcamp modules</li>
+                            <li>Custom action plan with timeline</li>
+                            <li>Validation call scripts</li>
+                        </ul>
+                        <span class="step-cta step-cta-muted">Coming Soon</span>
+                        <div class="step-tagline">Complete due diligence system.</div>
+                    </div>
+                </div>
+
+                <div class="step-connector">You've done the work. Now get expert eyes on it.</div>
+
+                <!-- STEP 5: $697 -->
+                <div class="journey-step">
+                    <div class="step-marker">5</div>
+                    <div class="step-content">
+                        <div class="step-header">
+                            <div class="step-label">Expert Validation <span class="step-badge badge-soon">Coming Soon</span></div>
+                            <div class="step-price">$697</div>
+                        </div>
+                        <h3>AI Analysis + Expert Review</h3>
+                        <p class="step-desc">A 45-minute 1-on-1 session where an expert reviews your AI findings, gives you a personalized go/no-go recommendation, and outlines your next steps.</p>
+                        <ul class="step-features">
+                            <li>Everything from Steps 2, 3 &amp; 4</li>
+                            <li>45-minute 1-on-1 review session</li>
+                            <li>Expert eyes on AI findings</li>
+                            <li>Personalized go/no-go recommendation</li>
+                            <li>Follow-up action items</li>
+                            <li>AI + human expertise, one price</li>
+                        </ul>
+                        <span class="step-cta step-cta-muted">Coming Soon</span>
+                        <div class="step-tagline">The most affordable expert franchise review available.</div>
+                    </div>
                 </div>
 
             </div>
@@ -1025,11 +1155,12 @@
                 <a href="#waitlist">Business Scorecard (Soon)</a>
             </div>
             <div class="footer-col">
-                <h4>Products</h4>
-                <a href="#products">AI FDD Analyzer — $67</a>
-                <a href="#products">Second Opinion Report — $97</a>
-                <a href="#products">Decision Engine — $297</a>
-                <a href="#products">Expert Review — $697</a>
+                <h4>Due Diligence Path</h4>
+                <a href="#products">Step 1: Free Tools</a>
+                <a href="#products">Step 2: AI FDD Analyzer — $67</a>
+                <a href="#products">Step 3: Second Opinion — $97</a>
+                <a href="#products">Step 4: Decision Engine — $297</a>
+                <a href="#products">Step 5: Expert Review — $697</a>
             </div>
             <div class="footer-col">
                 <h4>Company</h4>
