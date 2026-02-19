@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expert FDD & Business Review — $697 | Franchise-Grade Systems</title>
+    <meta name="description" content="90-minute 1-on-1 review of your franchise deal with a former franchise owner. Get the business and operations perspective your attorney can't give you. $697 one-time.">
+    <link rel="canonical" href="https://www.franchisegradesystems.com/expert-review">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --forest: #1B4332;
+            --forest-mid: #2D6A4F;
+            --sage: #52B788;
+            --mint: #B7E4C7;
+            --pale: #D8F3DC;
+            --cream: #F8F6F0;
+            --white: #FFFFFF;
+            --charcoal: #2C2C2C;
+            --slate: #5A5A5A;
+            --gray: #8A8A8A;
+            --light-gray: #E8E8E8;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--charcoal); }
+        h1, h2, h3 { font-family: 'Instrument Serif', serif; }
+
+        .nav { display: flex; align-items: center; justify-content: space-between; padding: 16px 32px; background: var(--forest); position: sticky; top: 0; z-index: 100; }
+        .nav-logo { color: var(--white); font-family: 'Instrument Serif', serif; font-size: 1.2rem; text-decoration: none; }
+        .nav-logo span { color: var(--sage); }
+        .nav-links { display: flex; gap: 24px; align-items: center; }
+        .nav-links a { color: rgba(255,255,255,.85); text-decoration: none; font-size: .88rem; font-weight: 500; transition: color .2s; }
+        .nav-links a:hover { color: var(--white); }
+        .nav-cta { background: var(--sage) !important; color: var(--forest) !important; padding: 8px 20px; border-radius: 8px; font-weight: 700 !important; }
+        .mobile-menu-btn { display: none; background: none; border: none; color: var(--white); font-size: 1.5rem; cursor: pointer; }
+        @media (max-width: 768px) {
+            .nav-links { display: none; flex-direction: column; position: absolute; top: 100%; left: 0; right: 0; background: var(--forest); padding: 16px 32px; gap: 12px; }
+            .nav-links.open { display: flex; }
+            .mobile-menu-btn { display: block; }
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #0F2B1F 0%, var(--forest) 50%, var(--forest-mid) 100%);
+            padding: 80px 24px 60px;
+            text-align: center;
+            color: var(--white);
+        }
+        .hero-badge { display: inline-block; background: rgba(82,183,136,.15); color: var(--sage); padding: 6px 16px; border-radius: 20px; font-size: .78rem; font-weight: 600; letter-spacing: .5px; margin-bottom: 20px; }
+        .hero h1 { font-size: 2.2rem; line-height: 1.2; max-width: 700px; margin: 0 auto 16px; }
+        .hero p { font-size: 1.05rem; color: rgba(255,255,255,.8); max-width: 600px; margin: 0 auto 24px; line-height: 1.6; }
+        .hero-price { font-family: 'Instrument Serif', serif; font-size: 2.5rem; color: var(--sage); margin-bottom: 4px; }
+        .hero-price-note { font-size: .85rem; color: rgba(255,255,255,.6); margin-bottom: 24px; }
+        .hero-cta { display: inline-block; background: var(--sage); color: var(--forest); padding: 16px 36px; border-radius: 12px; font-weight: 700; font-size: 1.05rem; text-decoration: none; transition: all .2s; }
+        .hero-cta:hover { background: var(--mint); transform: translateY(-1px); }
+        .hero-sub { font-size: .82rem; color: rgba(255,255,255,.5); margin-top: 12px; }
+
+        .content { max-width: 720px; margin: 0 auto; padding: 60px 24px; }
+        .section-label { font-size: .72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--sage); margin-bottom: 12px; text-align: center; }
+        .section-title { font-size: 1.6rem; text-align: center; color: var(--charcoal); margin-bottom: 12px; }
+        .section-text { font-size: .95rem; color: var(--slate); line-height: 1.7; text-align: center; margin-bottom: 40px; }
+
+        .what-you-get { list-style: none; margin-bottom: 48px; }
+        .what-you-get li {
+            display: flex; gap: 16px; align-items: flex-start;
+            padding: 20px 24px; background: var(--white);
+            border: 1px solid var(--light-gray); border-radius: 12px;
+            margin-bottom: 12px; transition: all .2s;
+        }
+        .what-you-get li:hover { border-color: var(--sage); transform: translateY(-1px); }
+        .what-you-get .item-icon {
+            flex-shrink: 0; width: 40px; height: 40px;
+            background: var(--pale); border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.1rem;
+        }
+        .what-you-get .item-text strong { display: block; font-size: .95rem; color: var(--charcoal); margin-bottom: 2px; }
+        .what-you-get .item-text span { font-size: .85rem; color: var(--slate); line-height: 1.5; }
+
+        .who-its-for {
+            background: var(--white); border: 2px solid var(--light-gray);
+            border-radius: 16px; padding: 32px; margin-bottom: 48px;
+        }
+        .who-its-for h3 { font-size: 1.2rem; color: var(--charcoal); margin-bottom: 16px; text-align: center; }
+        .who-list { list-style: none; }
+        .who-list li { padding: 8px 0 8px 24px; position: relative; font-size: .9rem; color: var(--slate); line-height: 1.6; }
+        .who-list li::before { content: '✓'; position: absolute; left: 0; color: var(--sage); font-weight: 700; }
+
+        .comparison {
+            margin-bottom: 48px;
+        }
+        .comparison h3 { font-size: 1.2rem; color: var(--charcoal); margin-bottom: 16px; text-align: center; }
+        .comparison table { width: 100%; border-collapse: collapse; font-size: .88rem; }
+        .comparison th, .comparison td { padding: 12px 16px; text-align: left; border-bottom: 1px solid var(--light-gray); }
+        .comparison th { font-weight: 700; color: var(--forest); background: var(--pale); }
+        .comparison td:first-child { color: var(--slate); }
+        .comparison .highlight { background: rgba(82,183,136,.08); color: var(--forest); font-weight: 600; }
+
+        .cta-section {
+            background: linear-gradient(135deg, var(--forest) 0%, var(--forest-mid) 100%);
+            border-radius: 20px; padding: 48px 32px; text-align: center; color: var(--white);
+            margin-bottom: 48px;
+        }
+        .cta-section h3 { font-size: 1.4rem; margin-bottom: 8px; }
+        .cta-section p { color: rgba(255,255,255,.8); font-size: .92rem; margin-bottom: 24px; line-height: 1.6; max-width: 500px; margin-left: auto; margin-right: auto; margin-bottom: 24px; }
+        .cta-btn { display: inline-block; background: var(--sage); color: var(--forest); padding: 14px 32px; border-radius: 12px; font-weight: 700; font-size: 1rem; text-decoration: none; transition: all .2s; border: none; cursor: pointer; }
+        .cta-btn:hover { background: var(--mint); }
+        .cta-sub { font-size: .78rem; color: rgba(255,255,255,.5); margin-top: 12px; }
+
+        .downgrade {
+            text-align: center; padding: 32px; background: var(--white);
+            border: 1px solid var(--light-gray); border-radius: 14px;
+            margin-bottom: 48px;
+        }
+        .downgrade p { font-size: .72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--gray); margin-bottom: 8px; }
+        .downgrade h3 { font-size: 1.1rem; color: var(--charcoal); margin-bottom: 6px; }
+        .downgrade .desc { font-size: .85rem; color: var(--slate); line-height: 1.6; margin-bottom: 16px; }
+        .downgrade a { display: inline-block; padding: 10px 24px; border: 2px solid var(--sage); color: var(--forest); border-radius: 10px; font-weight: 600; font-size: .88rem; text-decoration: none; }
+        .downgrade a:hover { background: var(--pale); }
+
+        .footer { background: var(--forest); color: rgba(255,255,255,.7); padding: 40px 24px; text-align: center; }
+        .footer-logo { font-family: 'Instrument Serif', serif; font-size: 1.1rem; color: var(--white); margin-bottom: 8px; }
+        .footer-logo span { color: var(--sage); }
+        .footer p { font-size: .78rem; margin-bottom: 12px; }
+        .footer-links { display: flex; justify-content: center; flex-wrap: wrap; gap: 16px; }
+        .footer-links a { color: rgba(255,255,255,.6); text-decoration: none; font-size: .78rem; }
+        .footer-links a:hover { color: var(--white); }
+
+        @media (max-width: 600px) {
+            .hero h1 { font-size: 1.6rem; }
+            .hero { padding: 60px 20px 40px; }
+            .content { padding: 40px 20px; }
+            .comparison { overflow-x: auto; }
+        }
+    </style>
+</head>
+<body>
+
+<nav class="nav">
+    <a href="/" class="nav-logo">Franchise<span>-Grade</span> Systems</a>
+    <button class="mobile-menu-btn" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Menu">☰</button>
+    <div class="nav-links">
+        <a href="/tools">Free Tools</a>
+        <a href="/#products">How It Works</a>
+        <a href="/#story">Our Story</a>
+        <a href="/tools" class="nav-cta">Get Started Free</a>
+    </div>
+</nav>
+
+<section class="hero">
+    <div class="hero-badge">The Final Step Before You Sign</div>
+    <h1>Get expert eyes on your franchise deal.</h1>
+    <p>A 90-minute 1-on-1 session with a former franchise owner who reviews your deal from a business and operations perspective — the analysis your attorney won't do.</p>
+    <div class="hero-price">$697</div>
+    <div class="hero-price-note">one-time · 90-minute session + follow-up support</div>
+    <a href="#book" class="hero-cta" id="bookBtn">Book Your Expert Review →</a>
+    <div class="hero-sub">Limited availability. Sessions fill up fast.</div>
+</section>
+
+<div class="content">
+
+    <div class="section-label">What You Get</div>
+    <h2 class="section-title">More than just a second opinion.</h2>
+    <p class="section-text">Your attorney reviews the legal language. I review the business reality — because knowing the contract is legal doesn't mean the deal makes sense.</p>
+
+    <ul class="what-you-get">
+        <li>
+            <div class="item-icon">📋</div>
+            <div class="item-text">
+                <strong>90-Minute Deep Dive Session</strong>
+                <span>We go through your specific franchise deal together — financials, operations model, territory analysis, and every red flag I see from someone who's been in the trenches.</span>
+            </div>
+        </li>
+        <li>
+            <div class="item-icon">📊</div>
+            <div class="item-text">
+                <strong>Business & Operations Perspective</strong>
+                <span>I don't just read the document — I analyze whether this business will actually work for YOU based on your market, your capital, and your goals.</span>
+            </div>
+        </li>
+        <li>
+            <div class="item-icon">✅</div>
+            <div class="item-text">
+                <strong>Go / No-Go Recommendation</strong>
+                <span>A clear, honest recommendation with the specific rationale behind it. No hedging, no legal disclaimers masking the real answer.</span>
+            </div>
+        </li>
+        <li>
+            <div class="item-icon">🎯</div>
+            <div class="item-text">
+                <strong>Negotiation Strategy</strong>
+                <span>If the deal has potential, I'll tell you exactly what to negotiate on and how to position your asks — based on what actually works with franchisors.</span>
+            </div>
+        </li>
+        <li>
+            <div class="item-icon">📧</div>
+            <div class="item-text">
+                <strong>Follow-Up Action Plan & Email Support</strong>
+                <span>You get a written summary of our session with specific next steps, plus 2 weeks of email follow-up for any questions that come up after.</span>
+            </div>
+        </li>
+    </ul>
+
+    <div class="who-its-for">
+        <h3>This Is For You If...</h3>
+        <ul class="who-list">
+            <li>You're about to invest $100K–$500K+ and want an expert sanity check before signing</li>
+            <li>You've used our AI tools and want a human expert to validate what you found</li>
+            <li>Your attorney reviewed the legal terms but nobody has reviewed the business fundamentals</li>
+            <li>You're comparing 2–3 franchise opportunities and need help deciding</li>
+            <li>Something feels off about the deal but you can't pinpoint what</li>
+        </ul>
+    </div>
+
+    <div class="comparison">
+        <h3>Expert Review vs. Franchise Attorney</h3>
+        <table>
+            <tr>
+                <th></th>
+                <th>Franchise Attorney</th>
+                <th class="highlight">Expert Review ($697)</th>
+            </tr>
+            <tr>
+                <td>Cost</td>
+                <td>$2,000–$5,000</td>
+                <td class="highlight">$697</td>
+            </tr>
+            <tr>
+                <td>Focus</td>
+                <td>Legal compliance</td>
+                <td class="highlight">Business viability + operations</td>
+            </tr>
+            <tr>
+                <td>Perspective</td>
+                <td>Is the contract legal?</td>
+                <td class="highlight">Will this business actually work?</td>
+            </tr>
+            <tr>
+                <td>Franchise experience</td>
+                <td>Varies widely</td>
+                <td class="highlight">Former franchise owner (15yr ops)</td>
+            </tr>
+            <tr>
+                <td>Negotiation strategy</td>
+                <td>Rarely included</td>
+                <td class="highlight">Specific tactics for your deal</td>
+            </tr>
+            <tr>
+                <td>Follow-up support</td>
+                <td>Billable hours</td>
+                <td class="highlight">2 weeks included</td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="cta-section" id="book">
+        <h3>Ready for Expert Eyes on Your Deal?</h3>
+        <p>You're about to invest six figures. Spending $697 for an expert business review isn't caution — it's common sense.</p>
+        <a href="#book" class="cta-btn" id="bookBtnBottom">Book Your Expert Review — $697 →</a>
+        <div class="cta-sub">90-minute session · Written action plan · 2 weeks email support</div>
+    </div>
+
+    <div class="downgrade">
+        <p>Not Ready for 1-on-1?</p>
+        <h3>Do the analysis yourself with our AI tools.</h3>
+        <p class="desc">Start with the free calculators, or use the AI FDD Analyzer ($97) or full Decision Engine ($297) to do your own due diligence first.</p>
+        <a href="/tools">Start with Free Tools →</a>
+    </div>
+
+</div>
+
+<footer class="footer">
+    <div class="footer-logo">Franchise<span>-Grade</span> Systems</div>
+    <p>&copy; 2026 Franchise-Grade Systems. All rights reserved. Not legal or financial advice.</p>
+    <div class="footer-links">
+        <a href="/">Home</a> <a href="/tools">Free Tools</a>
+        <a href="/#products">How It Works</a> <a href="/#story">Our Story</a>
+        <a href="/privacy">Privacy</a> <a href="/terms">Terms</a>
+    </div>
+</footer>
+
+</body>
+</html>
