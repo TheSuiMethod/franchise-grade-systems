@@ -87,7 +87,7 @@
         <div class="add-row">
             <input class="franchise-input" id="franchiseName" placeholder="Franchise name (e.g., 'Subway #1', 'Great Clips')" maxlength="40">
             <button class="add-btn" id="addBtn" onclick="addFranchise()">+ Add Franchise</button>
-            <span class="franchise-count" id="franchiseCount">0 of 5 added</span>
+            <span class="franchise-count" id="franchiseCount">0 of 2 free comparisons</span>
         </div>
 
         <div class="franchise-tabs" id="tabs"></div>
@@ -106,7 +106,7 @@
             <p>Run it through the AI FDD Analyzer to catch every hidden risk before you sign.</p>
             <a href="/fdd-analyzer" class="cta-btn">Analyze My FDD — $97 →</a><br>
             <p style="margin-top:12px;font-size:0.85rem;color:var(--forest-light);">Need to compare more? The Decision Engine unlocks 5-way comparisons + all premium tools.</p>
-            <a href="/fdd-analyzer" class="cta-btn" style="background:var(--forest);margin-top:4px;">Get the Full Decision Engine — $297 →</a><br>
+            <a href="/decision-engine" class="cta-btn" style="background:var(--forest);margin-top:4px;">Get the Full Decision Engine — $297 →</a><br>
             <button class="reset-btn" onclick="resetAll()">↻ Start New Comparison</button>
         </div>
     </div>
@@ -122,7 +122,7 @@ let activeIdx = -1;
 const MAX = 5;
 const FREE_MAX = 2;
 const FIELDS = [
-    { section: '💰 Investment & Fees', icon: '💰', fields: [
+    { section: 'Investment & Fees', icon: '', fields: [
         { id: 'franchiseFee', label: 'Franchise Fee', prefix: '$', placeholder: '30,000' },
         { id: 'totalInvestment', label: 'Total Initial Investment', prefix: '$', placeholder: '250,000' },
         { id: 'royaltyRate', label: 'Royalty Rate', suffix: '%', placeholder: '6' },
@@ -130,19 +130,19 @@ const FIELDS = [
         { id: 'techFee', label: 'Technology Fee ($/month)', prefix: '$', placeholder: '250' },
         { id: 'otherMonthlyFees', label: 'Other Monthly Fees', prefix: '$', placeholder: '400' }
     ]},
-    { section: '📊 Revenue & Projections', icon: '📊', fields: [
+    { section: 'Revenue & Projections', icon: '', fields: [
         { id: 'avgRevenue', label: 'Estimated Annual Revenue', prefix: '$', placeholder: '480,000' },
         { id: 'avgExpenses', label: 'Estimated Annual Expenses (exc. fees)', prefix: '$', placeholder: '320,000' },
         { id: 'rampUpMonths', label: 'Months to Break Even (estimate)', placeholder: '18' }
     ]},
-    { section: '🗺️ Territory & Terms', icon: '🗺️', fields: [
+    { section: 'Territory & Terms', icon: '', fields: [
         { id: 'territoryMiles', label: 'Protected Territory (miles)', placeholder: '3' },
         { id: 'termYears', label: 'Initial Term (years)', placeholder: '10' },
         { id: 'renewalFee', label: 'Renewal Fee', prefix: '$', placeholder: '10,000' },
         { id: 'nonCompeteYears', label: 'Non-Compete (years)', placeholder: '2' },
         { id: 'transferFee', label: 'Transfer Fee', prefix: '$', placeholder: '15,000' }
     ]},
-    { section: '📈 System Health', icon: '📈', fields: [
+    { section: 'System Health', icon: '', fields: [
         { id: 'totalUnits', label: 'Total Franchise Units', placeholder: '150' },
         { id: 'closedUnits', label: 'Units Closed Last Year', placeholder: '5' },
         { id: 'newUnits', label: 'New Units Opened Last Year', placeholder: '20' },
@@ -174,7 +174,7 @@ function showCompareUpgrade() {
         banner.innerHTML = `
             <h4 style="color:#fff;font-size:1.1rem;margin-bottom:6px;">Compare Up to 5 Franchises with the Decision Engine</h4>
             <p style="color:#B8D4CC;font-size:0.88rem;margin-bottom:14px;line-height:1.6;">You've compared 2 deals — but most serious buyers evaluate 3-5 before deciding. The AI Franchise Decision Engine unlocks full 5-way comparisons plus negotiation practice, validation scripts, and more.</p>
-            <a href="/fdd-analyzer" style="display:inline-block;background:#B8D4CC;color:#1A3C34;padding:10px 24px;border-radius:8px;font-weight:700;text-decoration:none;font-size:0.9rem;">Get the Full Decision Engine — $297 →</a>
+            <a href="/decision-engine" style="display:inline-block;background:#B8D4CC;color:#1A3C34;padding:10px 24px;border-radius:8px;font-weight:700;text-decoration:none;font-size:0.9rem;">Get the Full Decision Engine — $297 →</a>
         `;
         document.getElementById('tabs').parentNode.insertBefore(banner, document.getElementById('tabs').nextSibling);
     }
@@ -213,7 +213,7 @@ function renderForm() {
     const f = franchises[activeIdx];
     area.innerHTML = FIELDS.map(section => `
         <div class="input-section">
-            <h3><span class="section-icon">${section.icon}</span> ${section.section}</h3>
+            <h3>${section.section}</h3>
             <div class="input-grid">
                 ${section.fields.map(field => {
                     const cls = field.prefix ? 'field-prefix' : field.suffix ? 'field-suffix' : '';
@@ -308,7 +308,6 @@ function compare() {
         score = Math.max(0, Math.min(100, Math.round(score)));
 
         return { name: f.name, rev, totalFees, feePercent, netIncome, margin, totalInv, roi, paybackYears, closedPct, growthRate, score, dataCoverage, data: d };
-    });
     });
 
     // Find best/worst for each metric

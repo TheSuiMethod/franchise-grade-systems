@@ -33,7 +33,7 @@
         .concern-tag:hover{border-color:var(--sage)}
         .concern-tag.selected{border-color:var(--forest-mid);background:rgba(45,106,79,.06);color:var(--forest-mid);font-weight:500}
         .concern-tag.locked{opacity:0.7;cursor:pointer}
-        .concern-tag.locked::after{content:' 🔒';font-size:.7rem}
+        .concern-tag.locked::after{content:' Locked';font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.3px;color:var(--gray)}
         .concern-tag.locked.selected{border-color:var(--light-gray);background:var(--white);color:var(--charcoal);font-weight:400}
         .free-label{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--success);margin-left:4px}
         .upgrade-inline{background:linear-gradient(135deg,var(--forest) 0%,var(--forest-mid) 100%);border-radius:14px;padding:24px 28px;text-align:center;margin:16px 0;display:none}
@@ -113,19 +113,19 @@
             <h3>Select areas to focus on</h3>
             <p>2 topics included free. Unlock all 8 with the Decision Engine.</p>
             <div class="concern-tags">
-                <span class="concern-tag selected" onclick="toggleConcern(this)" data-topic="financial">💰 Financial Reality<span class="free-label">Free</span></span>
-                <span class="concern-tag selected" onclick="toggleConcern(this)" data-topic="support">🤝 Franchisor Support<span class="free-label">Free</span></span>
-                <span class="concern-tag locked" onclick="toggleLockedConcern(this)" data-topic="territory">🗺️ Territory Issues</span>
-                <span class="concern-tag locked" onclick="toggleLockedConcern(this)" data-topic="fees">📋 Fee Surprises</span>
-                <span class="concern-tag locked" onclick="toggleLockedConcern(this)" data-topic="operations">⚙️ Day-to-Day Operations</span>
-                <span class="concern-tag locked" onclick="toggleLockedConcern(this)" data-topic="satisfaction">😊 Overall Satisfaction</span>
-                <span class="concern-tag locked" onclick="toggleLockedConcern(this)" data-topic="exit">🚪 Exit & Regret</span>
-                <span class="concern-tag locked" onclick="toggleLockedConcern(this)" data-topic="marketing">📣 Marketing & Leads</span>
+                <span class="concern-tag selected" onclick="toggleConcern(this)" data-topic="financial">Financial Reality<span class="free-label">Free</span></span>
+                <span class="concern-tag selected" onclick="toggleConcern(this)" data-topic="support">Franchisor Support<span class="free-label">Free</span></span>
+                <span class="concern-tag locked" onclick="toggleLockedConcern(this)" data-topic="territory">Territory Issues</span>
+                <span class="concern-tag locked" onclick="toggleLockedConcern(this)" data-topic="fees">Fee Surprises</span>
+                <span class="concern-tag locked" onclick="toggleLockedConcern(this)" data-topic="operations">Day-to-Day Operations</span>
+                <span class="concern-tag locked" onclick="toggleLockedConcern(this)" data-topic="satisfaction">Overall Satisfaction</span>
+                <span class="concern-tag locked" onclick="toggleLockedConcern(this)" data-topic="exit">Exit & Regret</span>
+                <span class="concern-tag locked" onclick="toggleLockedConcern(this)" data-topic="marketing">Marketing & Leads</span>
             </div>
             <div class="upgrade-inline" id="scriptUpgradeBanner">
                 <h4>6 More Script Topics in the Decision Engine</h4>
                 <p>You're prepared for 2 conversations. But thorough due diligence covers all 8 topics — territory, fees, operations, satisfaction, exit terms, and marketing. The Decision Engine unlocks everything.</p>
-                <a href="/fdd-analyzer">Get the Full Decision Engine — $297 →</a>
+                <a href="/decision-engine">Get the Full Decision Engine — $297 →</a>
             </div>
         </div>
 
@@ -152,7 +152,7 @@
             <p>Validation calls tell you the experience. The FDD tells you the contract. Analyze both.</p>
             <a href="/fdd-analyzer" class="cta-btn">Analyze My FDD — $97 →</a><br>
             <p style="margin-top:12px;font-size:.85rem;color:var(--forest-light);">Want all 8 script topics + comparison tools + negotiation practice?</p>
-            <a href="/fdd-analyzer" class="cta-btn" style="background:var(--forest);margin-top:4px;">Get the Full Decision Engine — $297 →</a><br>
+            <a href="/decision-engine" class="cta-btn" style="background:var(--forest);margin-top:4px;">Get the Full Decision Engine — $297 →</a><br>
             <button class="reset-btn" onclick="resetScripts()">↻ Generate New Scripts</button>
         </div>
     </div>
@@ -312,8 +312,8 @@ function generateScripts() {
                 ${questions.map(q => {
                     let text = q.you.replace('[BRAND]', brand).replace('[X]', '___');
                     let result = `<p><span class="you">You:</span> "${text}"</p>`;
-                    if (q.tip) result += `<span class="tip">💡 ${q.tip}</span>`;
-                    if (q.flag) result += `<div class="red-flag">🚩 ${q.flag}</div>`;
+                    if (q.tip) result += `<span class="tip">Tip: ${q.tip}</span>`;
+                    if (q.flag) result += `<div class="red-flag">Red Flag: ${q.flag}</div>`;
                     return result;
                 }).join('')}
             </div>
@@ -356,7 +356,7 @@ function generateScripts() {
             <h3 style="color:#fff;font-family:'Instrument Serif',serif;font-size:1.15rem;margin-bottom:8px;">You're Prepared for ${selected.length} of 8 Critical Topics</h3>
             <p style="color:#95D5B2;font-size:.88rem;margin-bottom:6px;line-height:1.7;">The Decision Engine unlocks scripts for:</p>
             <p style="color:#B8D4CC;font-size:.85rem;margin-bottom:16px;">${lockedTopics.join(' · ')}</p>
-            <a href="/fdd-analyzer" style="display:inline-block;background:#52B788;color:#1B4332;padding:12px 28px;border-radius:8px;font-weight:700;text-decoration:none;font-size:.9rem;">Get All 8 Topics — $297 →</a>
+            <a href="/decision-engine" style="display:inline-block;background:#52B788;color:#1B4332;padding:12px 28px;border-radius:8px;font-weight:700;text-decoration:none;font-size:.9rem;">Get All 8 Topics — $297 →</a>
         `;
         document.getElementById('scriptsContent').appendChild(teaser);
     }

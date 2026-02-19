@@ -46,6 +46,8 @@
         .scenario-card:hover { border-color: var(--sage); transform: translateY(-2px); box-shadow: 0 6px 24px rgba(27,67,50,0.06); }
         .scenario-card.selected { border-color: var(--forest-mid); background: rgba(45,106,79,0.04); }
         .scenario-icon { font-size: 1.4rem; margin-bottom: 8px; }
+        .scenario-number { width: 32px; height: 32px; border-radius: 50%; background: var(--pale); color: var(--forest); font-weight: 700; font-size: 0.85rem; display: flex; align-items: center; justify-content: center; margin-bottom: 8px; }
+        .scenario-card.locked .scenario-number { background: var(--light-gray); color: var(--gray); }
         .scenario-card h4 { font-size: 1.05rem; margin-bottom: 4px; color: var(--charcoal); }
         .scenario-card p { font-size: 0.82rem; color: var(--slate); line-height: 1.5; }
         .scenario-tag { display: inline-block; font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; padding: 2px 8px; border-radius: 4px; margin-top: 8px; background: #FEF3C7; color: #92400E; }
@@ -183,50 +185,50 @@
         <p>Each scenario simulates a real conversation you'll face during franchise due diligence.</p>
 
         <div class="scenario-grid">
-            <div class="scenario-card" onclick="selectScenario('item19', this)">
-                <div class="scenario-icon">📊</div>
+            <div class="scenario-card" onclick="selectScenario('item19', this); startSimulation();">
+                <div class="scenario-number">1</div>
                 <h4>Financial Performance (Item 19)</h4>
                 <p>The "average" revenue looks good — until you dig into the footnotes. Challenge the numbers.</p>
                 <span class="scenario-tag easy">Good First Try</span>
-                <span class="free-badge">✓ Free</span>
+                <span class="free-badge">Start Free Scenario →</span>
             </div>
             <div class="scenario-card locked" onclick="showUpgrade()">
-                <div class="scenario-icon">🗺️</div>
+                <div class="scenario-number">2</div>
                 <h4>Territory Protection</h4>
                 <p>Your territory is only 3 miles with carve-outs for online and delivery. Push for stronger exclusivity.</p>
                 <span class="scenario-tag">Medium</span>
-                <span class="lock-badge">🔒 Decision Engine</span>
+                <span class="lock-badge">Locked · Decision Engine</span>
             </div>
             <div class="scenario-card locked" onclick="showUpgrade()">
-                <div class="scenario-icon">💰</div>
+                <div class="scenario-number">3</div>
                 <h4>Fee Negotiation</h4>
                 <p>Uncapped tech fees, mandatory vendors, 6% royalty with minimums. Push back on the total cost burden.</p>
                 <span class="scenario-tag hard">Hard</span>
-                <span class="lock-badge">🔒 Decision Engine</span>
+                <span class="lock-badge">Locked · Decision Engine</span>
             </div>
             <div class="scenario-card locked" onclick="showUpgrade()">
-                <div class="scenario-icon">🚪</div>
+                <div class="scenario-number">4</div>
                 <h4>Exit & Transfer Terms</h4>
                 <p>2-year non-compete, $15K transfer fee, vague buyer approval criteria. Negotiate your exit strategy.</p>
                 <span class="scenario-tag hard">Hard</span>
-                <span class="lock-badge">🔒 Decision Engine</span>
+                <span class="lock-badge">Locked · Decision Engine</span>
             </div>
             <div class="scenario-card locked" onclick="showUpgrade()">
-                <div class="scenario-icon">🔄</div>
+                <div class="scenario-number">5</div>
                 <h4>Renewal Terms</h4>
                 <p>Renewal requires signing a new agreement with potentially different terms. Lock in your protections.</p>
                 <span class="scenario-tag">Medium</span>
-                <span class="lock-badge">🔒 Decision Engine</span>
+                <span class="lock-badge">Locked · Decision Engine</span>
             </div>
         </div>
 
         <div class="upgrade-banner" id="upgradeBanner" style="display:none;">
             <h4>4 More Scenarios in the Decision Engine</h4>
             <p>You've practiced one conversation. But franchise buyers face at least 5 critical negotiations — territory, fees, exit terms, and renewal. The AI Franchise Decision Engine unlocks all 5 scenarios plus comparison tools, validation scripts, and more.</p>
-            <a href="/fdd-analyzer">Get the Full Decision Engine — $297 →</a>
+            <a href="/decision-engine">Get the Full Decision Engine — $297 →</a>
         </div>
 
-        <button class="start-btn" id="startBtn" onclick="startSimulation()" disabled>Start Free Scenario →</button>
+        <button class="start-btn" id="startBtn" onclick="startSimulation()" disabled style="display:none;">Start Free Scenario →</button>
     </div>
 
     <!-- CHAT INTERFACE -->
@@ -268,7 +270,7 @@
         <div class="coaching-cta">
             <h3>Ready to Negotiate for Real?</h3>
             <p>You've practiced 1 of 5 critical franchise negotiations. The full AI Franchise Decision Engine unlocks all 5 scenarios plus side-by-side comparison tools, validation call scripts, and more.</p>
-            <a href="/fdd-analyzer" class="cta-btn">Get the Full Decision Engine — $297 →</a>
+            <a href="/decision-engine" class="cta-btn">Get the Full Decision Engine — $297 →</a>
             <a href="javascript:void(0)" class="cta-btn cta-secondary" onclick="resetSimulation()">↻ Replay This Scenario</a>
         </div>
     </div>
