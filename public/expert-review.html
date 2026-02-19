@@ -54,12 +54,6 @@
         .hero-price-note { font-size: .85rem; color: rgba(255,255,255,.6); margin-bottom: 24px; }
         .hero-cta { display: inline-block; background: var(--sage); color: var(--forest); padding: 16px 36px; border-radius: 12px; font-weight: 700; font-size: 1.05rem; text-decoration: none; transition: all .2s; }
         .hero-cta:hover { background: var(--mint); transform: translateY(-1px); }
-        .hero-booking { display: flex; gap: 10px; max-width: 440px; margin: 0 auto; }
-        .hero-booking input { flex: 1; padding: 14px 18px; border: 2px solid rgba(255,255,255,.3); border-radius: 12px; font-size: .95rem; font-family: 'DM Sans', sans-serif; background: rgba(255,255,255,.1); color: #fff; }
-        .hero-booking input::placeholder { color: rgba(255,255,255,.5); }
-        .hero-booking input:focus { outline: none; border-color: var(--sage); background: rgba(255,255,255,.15); }
-        .hero-booking button { padding: 14px 28px; background: var(--sage); color: var(--forest); border: none; border-radius: 12px; font-weight: 700; font-size: .95rem; font-family: 'DM Sans', sans-serif; cursor: pointer; white-space: nowrap; transition: all .2s; }
-        .hero-booking button:hover { background: var(--mint); }
         .hero-sub { font-size: .82rem; color: rgba(255,255,255,.5); margin-top: 12px; }
 
         .content { max-width: 720px; margin: 0 auto; padding: 60px 24px; }
@@ -131,7 +125,6 @@
         @media (max-width: 600px) {
             .hero h1 { font-size: 1.6rem; }
             .hero { padding: 60px 20px 40px; }
-            .hero-booking { flex-direction: column; }
             .content { padding: 40px 20px; }
             .comparison { overflow-x: auto; }
         }
@@ -154,11 +147,8 @@
     <p>A 90-minute 1-on-1 session with a former franchise owner who reviews your deal from a business and operations perspective — the analysis your attorney won't do.</p>
     <div class="hero-price">$697</div>
     <div class="hero-price-note">one-time · 90-minute session + follow-up support</div>
-    <form class="hero-booking" onsubmit="handleBooking(event)">
-        <input type="email" id="heroBookingEmail" placeholder="Your email" required>
-        <button type="submit" id="heroBookBtn">Book Your Expert Review →</button>
-    </form>
-    <div class="hero-sub">Limited availability. We'll confirm your session within 24 hours.</div>
+    <a href="https://calendly.com/franchisegradesystems/expert-fdd-business-review" target="_blank" class="hero-cta">Book Your Expert Review →</a>
+    <div class="hero-sub">Limited availability. Tues & Thurs, 10am–2pm ET.</div>
 </section>
 
 <div class="content">
@@ -255,10 +245,7 @@
     <div class="cta-section" id="book">
         <h3>Ready for Expert Eyes on Your Deal?</h3>
         <p>You're about to invest six figures. Spending $697 for an expert business review isn't caution — it's common sense.</p>
-        <form style="max-width:400px;margin:20px auto 0;display:flex;gap:10px;" onsubmit="handleBooking(event)">
-            <input type="email" id="bookingEmail" placeholder="Your email" required style="flex:1;padding:12px 16px;border:2px solid var(--sage);border-radius:10px;font-size:.9rem;font-family:'DM Sans',sans-serif;">
-            <button type="submit" id="bookSubmitBtn" style="padding:12px 24px;background:var(--forest-mid);color:#fff;border:none;border-radius:10px;font-weight:700;font-size:.88rem;font-family:'DM Sans',sans-serif;cursor:pointer;white-space:nowrap;">Request Session →</button>
-        </form>
+        <a href="https://calendly.com/franchisegradesystems/expert-fdd-business-review" target="_blank" class="cta-btn" style="display:inline-block;padding:14px 32px;background:var(--forest-mid);color:#fff;border-radius:10px;font-weight:700;font-size:1rem;text-decoration:none;">Book Your Expert Review →</a>
         <div class="cta-sub">90-minute session · Written action plan · 2 weeks email support</div>
     </div>
 
@@ -281,45 +268,5 @@
     </div>
 </footer>
 
-<script>
-async function handleBooking(e) {
-    e.preventDefault();
-    const form = e.target;
-    const emailInput = form.querySelector('input[type="email"]');
-    const btn = form.querySelector('button');
-    const email = emailInput.value;
-    const origText = btn.textContent;
-    btn.textContent = 'Sending...';
-    btn.disabled = true;
-    try {
-        const res = await fetch('/api/subscribe', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email, source: 'expert-review-booking' })
-        });
-        if (res.ok) {
-            btn.textContent = '✓ Request Received!';
-            btn.style.background = '#DCFCE7';
-            btn.style.color = '#166534';
-            emailInput.style.display = 'none';
-            // Also update the other form if it exists
-            document.querySelectorAll('form').forEach(f => {
-                if (f !== form) {
-                    const otherBtn = f.querySelector('button');
-                    const otherInput = f.querySelector('input[type="email"]');
-                    if (otherBtn) { otherBtn.textContent = '✓ Request Received!'; otherBtn.style.background = '#DCFCE7'; otherBtn.style.color = '#166534'; otherBtn.disabled = true; }
-                    if (otherInput) otherInput.style.display = 'none';
-                }
-            });
-        } else {
-            btn.textContent = 'Error — try again';
-            btn.disabled = false;
-        }
-    } catch (err) {
-        btn.textContent = 'Error — try again';
-        btn.disabled = false;
-    }
-}
-</script>
 </body>
 </html>
