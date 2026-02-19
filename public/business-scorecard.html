@@ -215,6 +215,14 @@
             <br>
             <button class="restart-btn" onclick="restartAssessment()">↻ Retake Assessment</button>
         </div>
+        <div class="cta-section" id="emailCapture" style="border-color:var(--light-gray);margin-top:16px;">
+            <h3>Get the Free FDD Red Flags Guide</h3>
+            <p>12 warning signs that cost franchise buyers thousands — whether you're buying a franchise or running your own business.</p>
+            <form onsubmit="captureEmail(event)" style="display:flex;gap:8px;max-width:440px;margin:0 auto">
+                <input type="email" id="captureEmail" placeholder="Your email" required style="flex:1;padding:10px 14px;border:2px solid var(--light-gray);border-radius:8px;font-family:'DM Sans',sans-serif;font-size:.9rem">
+                <button type="submit" style="padding:10px 20px;background:var(--forest-mid);color:var(--white);border:none;border-radius:8px;font-weight:700;font-family:'DM Sans',sans-serif;cursor:pointer;white-space:nowrap">Get Free Guide</button>
+            </form>
+        </div>
     </div>
 </div>
 
@@ -669,6 +677,25 @@ function restartAssessment() {
 }
 
 init();
+
+async function captureEmail(e) {
+    e.preventDefault();
+    const email = document.getElementById('captureEmail').value;
+    const btn = e.target.querySelector('button');
+    btn.textContent = 'Sending...';
+    btn.disabled = true;
+    try {
+        const res = await fetch('/api/subscribe', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, source: 'scorecard' })
+        });
+        if (res.ok) {
+            window.open('/fdd-red-flags-guide.pdf', '_blank');
+            document.getElementById('emailCapture').innerHTML = '<h3 style="color:var(--forest)">Sent! Check your downloads.</h3><p>Next step: <a href="/fdd-analyzer" style="color:var(--forest-mid);font-weight:700">Analyze your actual FDD →</a></p>';
+        } else { btn.textContent = 'Error — try again'; btn.disabled = false; }
+    } catch (err) { btn.textContent = 'Error — try again'; btn.disabled = false; }
+}
 </script>
 
 </body>

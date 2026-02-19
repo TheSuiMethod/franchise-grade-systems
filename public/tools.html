@@ -359,17 +359,32 @@
     </footer>
 
     <script>
-    function handleDownload(e) {
+    async function handleDownload(e) {
         e.preventDefault();
         const email = document.getElementById('toolsEmail').value;
         const btn = e.target.querySelector('button');
-        btn.textContent = 'Downloading...';
+        btn.textContent = 'Sending...';
         btn.disabled = true;
-        setTimeout(() => {
-            window.open('/fdd-red-flags-guide.pdf', '_blank');
-            btn.textContent = '✓ Check your downloads!';
-            setTimeout(() => { btn.textContent = 'Get Free Guide'; btn.disabled = false; }, 3000);
-        }, 500);
+        try {
+            const res = await fetch('/api/subscribe', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, source: 'red-flags-guide' })
+            });
+            if (res.ok) {
+                window.open('/fdd-red-flags-guide.pdf', '_blank');
+                btn.textContent = 'Sent! Check your downloads';
+                btn.style.background = '#DCFCE7';
+                btn.style.color = '#166534';
+                document.getElementById('toolsEmail').style.display = 'none';
+            } else {
+                btn.textContent = 'Error — try again';
+                btn.disabled = false;
+            }
+        } catch (err) {
+            btn.textContent = 'Error — try again';
+            btn.disabled = false;
+        }
     }
     </script>
 

@@ -348,6 +348,20 @@ function generateScripts() {
 
     container.innerHTML = html;
 
+    // Add email capture after scripts
+    const emailDiv = document.createElement('div');
+    emailDiv.id = 'emailCaptureScripts';
+    emailDiv.style.cssText = 'background:#D8F3DC;border-radius:12px;padding:24px 28px;margin:20px 0;text-align:center;';
+    emailDiv.innerHTML = `
+        <h4 style="font-family:'Instrument Serif',serif;font-size:1.1rem;margin-bottom:6px;color:#1B4332;">Get the Free FDD Red Flags Guide</h4>
+        <p style="color:#4A4A5A;font-size:.88rem;margin-bottom:12px;">12 warning signs to watch for during your validation calls — beyond what these scripts cover.</p>
+        <form onsubmit="captureEmail(event)" style="display:flex;gap:8px;max-width:420px;margin:0 auto">
+            <input type="email" id="captureEmail" placeholder="Your email" required style="flex:1;padding:10px 14px;border:2px solid #E5E7EB;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:.9rem;background:#fff">
+            <button type="submit" style="padding:10px 20px;background:#2D6A4F;color:#fff;border:none;border-radius:8px;font-weight:700;font-family:'DM Sans',sans-serif;cursor:pointer;white-space:nowrap">Get Free Guide</button>
+        </form>
+    `;
+    container.appendChild(emailDiv);
+
     // Add locked topics teaser if not all selected
     const lockedTopics = ['Territory Issues', 'Fee Surprises', 'Day-to-Day Operations', 'Overall Satisfaction', 'Exit & Regret', 'Marketing & Leads'];
     if (selected.length < 8) {
@@ -381,6 +395,47 @@ function resetScripts() {
     document.getElementById('inputView').style.display = 'block';
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
+
+async function captureEmail(e) {
+    e.preventDefault();
+    const email = document.getElementById('captureEmail').value;
+    const btn = e.target.querySelector('button');
+    btn.textContent = 'Sending...';
+    btn.disabled = true;
+    try {
+        const res = await fetch('/api/subscribe', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, source: 'validation' })
+        });
+        if (res.ok) {
+            window.open('/fdd-red-flags-guide.pdf', '_blank');
+            document.getElementById('emailCaptureScripts').innerHTML = '<p style="color:#1B4332;font-weight:600;padding:16px 0;">Sent! Check your downloads. <a href="/fdd-analyzer" style="color:#2D6A4F;text-decoration:underline;">Next: Analyze your actual FDD →</a></p>';
+        } else { btn.textContent = 'Error — try again'; btn.disabled = false; }
+    } catch (err) { btn.textContent = 'Error — try again'; btn.disabled = false; }
+}
+
+// Decision Engine unlock check
+(function checkEngineAccess() {
+    const params = new URLSearchParams(window.location.search);
+    const hasAccess = params.get('access') === 'engine' || localStorage.getItem('fgs_engine_token');
+    if (!hasAccess) return;
+
+    // Unlock all locked concern tags
+    document.querySelectorAll('.concern-tag.locked').forEach(tag => {
+        tag.classList.remove('locked');
+        tag.onclick = function() { toggleConcern(this); };
+        // Remove "Free" labels from originally free tags since everything is unlocked
+    });
+
+    // Update subtitle
+    const subtitle = document.querySelector('.concern-subtitle');
+    if (subtitle) subtitle.textContent = 'All 8 topics unlocked with the Decision Engine.';
+
+    // Update picker heading area
+    const freeLabels = document.querySelectorAll('.free-label');
+    freeLabels.forEach(l => { l.textContent = 'Included'; l.style.background = '#DCFCE7'; l.style.color = '#166534'; });
+})();
 </script>
 </body>
 </html>

@@ -101,6 +101,16 @@
         <h2>Side-by-Side Comparison</h2>
         <div id="comparisonTable"></div>
         <div id="verdictSection"></div>
+
+        <div id="emailCaptureComparison" style="background:#D8F3DC;border-radius:12px;padding:24px 28px;margin:24px 0;text-align:center;">
+            <h4 style="font-family:'Instrument Serif',serif;font-size:1.1rem;margin-bottom:6px;color:#1B4332;">Get the Free FDD Red Flags Guide</h4>
+            <p style="color:#4A4A5A;font-size:.88rem;margin-bottom:12px;">Before you pick a winner — know the 12 warning signs hidden in every FDD.</p>
+            <form onsubmit="captureEmail(event)" style="display:flex;gap:8px;max-width:420px;margin:0 auto">
+                <input type="email" id="captureEmail" placeholder="Your email" required style="flex:1;padding:10px 14px;border:2px solid #E5E7EB;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:.9rem;background:#fff">
+                <button type="submit" style="padding:10px 20px;background:#2D6A4F;color:#fff;border:none;border-radius:8px;font-weight:700;font-family:'DM Sans',sans-serif;cursor:pointer;white-space:nowrap">Get Free Guide</button>
+            </form>
+        </div>
+
         <div class="cta-bar">
             <h3>Found Your Top Pick?</h3>
             <p>Run it through the AI FDD Analyzer to catch every hidden risk before you sign.</p>
@@ -152,8 +162,9 @@ const FIELDS = [
 
 function addFranchise() {
     const name = document.getElementById('franchiseName').value.trim();
+    const limit = window._engineAccess ? MAX : FREE_MAX;
     if (!name || franchises.length >= MAX) return;
-    if (franchises.length >= FREE_MAX) {
+    if (franchises.length >= limit) {
         showCompareUpgrade();
         return;
     }
@@ -237,8 +248,10 @@ function saveCurrentForm() {
 }
 
 function updateState() {
-    document.getElementById('franchiseCount').textContent = `${franchises.length} of ${FREE_MAX} free comparisons`;
-    document.getElementById('addBtn').disabled = franchises.length >= FREE_MAX;
+    const limit = window._engineAccess ? MAX : FREE_MAX;
+    const label = window._engineAccess ? `${franchises.length} of ${MAX} comparisons` : `${franchises.length} of ${FREE_MAX} free comparisons`;
+    document.getElementById('franchiseCount').textContent = label;
+    document.getElementById('addBtn').disabled = franchises.length >= limit;
     document.getElementById('compareBtn').disabled = franchises.length < 2;
 }
 
@@ -403,7 +416,36 @@ function resetAll() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
+// Decision Engine unlock check
+(function checkEngineAccess() {
+    const params = new URLSearchParams(window.location.search);
+    const hasAccess = params.get('access') === 'engine' || localStorage.getItem('fgs_engine_token');
+    if (hasAccess) {
+        // Override free limit to full limit
+        window._engineAccess = true;
+    }
+})();
+
 renderForm(); updateState();
+
+async function captureEmail(e) {
+    e.preventDefault();
+    const email = document.getElementById('captureEmail').value;
+    const btn = e.target.querySelector('button');
+    btn.textContent = 'Sending...';
+    btn.disabled = true;
+    try {
+        const res = await fetch('/api/subscribe', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, source: 'comparison' })
+        });
+        if (res.ok) {
+            window.open('/fdd-red-flags-guide.pdf', '_blank');
+            document.getElementById('emailCaptureComparison').innerHTML = '<p style="color:#1B4332;font-weight:600;padding:16px 0;">Sent! Check your downloads. <a href="/fdd-analyzer" style="color:#2D6A4F;text-decoration:underline;">Next: Analyze your top pick\'s FDD →</a></p>';
+        } else { btn.textContent = 'Error — try again'; btn.disabled = false; }
+    } catch (err) { btn.textContent = 'Error — try again'; btn.disabled = false; }
+}
 </script>
 </body>
 </html>

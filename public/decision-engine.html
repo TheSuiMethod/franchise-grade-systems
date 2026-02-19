@@ -71,8 +71,8 @@
     <p>Everything you need to make a confident go/no-go franchise decision. AI-powered negotiation practice, side-by-side comparisons, validation scripts, and the full FDD Analyzer — in one package.</p>
     <div class="hero-price">$297</div>
     <div class="hero-price-note">one-time purchase · includes the $97 FDD Analyzer</div>
-    <a href="#notify" class="hero-cta">Get Notified at Launch →</a>
-    <div class="hero-sub">Launching soon. Free previews of each tool available now.</div>
+    <a href="#" onclick="startEngineCheckout(event)" class="hero-cta" id="buyBtn">Get the Decision Engine — $297 →</a>
+    <div class="hero-sub">One-time purchase. Includes the $97 FDD Analyzer. Instant access.</div>
 </div>
 
 <div class="main">
@@ -138,15 +138,16 @@
     </div>
 
     <div class="cta-section" id="notify">
-        <h3>Get Notified When the Decision Engine Launches</h3>
-        <p>The full $297 Decision Engine is launching soon. Enter your email and we'll let you know the moment it's available — plus early-bird pricing for the first 50 buyers.</p>
-        <form id="notifyForm" onsubmit="handleNotify(event)" style="max-width:400px;margin:0 auto;">
-            <input type="email" id="notifyEmail" placeholder="Your email address" required style="width:100%;padding:12px 16px;border:2px solid rgba(255,255,255,.3);border-radius:8px;font-size:.95rem;font-family:'DM Sans',sans-serif;margin-bottom:12px;background:rgba(255,255,255,.1);color:var(--white);">
-            <button type="submit" style="width:100%;padding:14px;background:var(--sage);color:var(--forest);border:none;border-radius:10px;font-weight:700;font-size:1.05rem;cursor:pointer;font-family:'DM Sans',sans-serif;">Notify Me at Launch →</button>
-        </form>
-        <div class="cta-sub">No spam. Just one email when it's live.</div>
+        <h3>Ready to Make a Confident Decision?</h3>
+        <p>The Decision Engine gives you every tool you need for thorough franchise due diligence. One purchase, full access, use as many times as you need.</p>
+        <a href="#" id="buyBtn" onclick="startEngineCheckout(event)" class="cta-btn" style="font-size:1.05rem;padding:14px 36px;">Get the Decision Engine — $297 →</a>
+        <div class="cta-sub">Includes the $97 FDD Analyzer. 100% of your $97 applies if you already purchased it separately.</div>
         <div class="or-text">— or —</div>
-        <a href="/tools" style="color:var(--mint);font-size:.9rem;text-decoration:underline;">Try the free tool previews now</a>
+        <p style="color:var(--mint);font-size:.9rem;margin-bottom:8px;">Not ready to buy? Get the free FDD Red Flags Guide first:</p>
+        <form onsubmit="captureEmailDE(event)" style="display:flex;gap:8px;max-width:400px;margin:0 auto" id="deEmailForm">
+            <input type="email" id="captureEmailDE" placeholder="Your email" required style="flex:1;padding:10px 14px;border:2px solid rgba(255,255,255,.3);border-radius:8px;font-size:.9rem;font-family:'DM Sans',sans-serif;background:rgba(255,255,255,.1);color:#fff;">
+            <button type="submit" style="padding:10px 20px;background:var(--sage);color:var(--forest);border:none;border-radius:8px;font-weight:700;font-family:'DM Sans',sans-serif;cursor:pointer;white-space:nowrap">Get Free Guide</button>
+        </form>
     </div>
 
 </div>
@@ -161,19 +162,45 @@
 </footer>
 
 <script>
-function handleNotify(e) {
+async function startEngineCheckout(e) {
     e.preventDefault();
-    const email = document.getElementById('notifyEmail').value;
-    // Store in localStorage for now; replace with actual email service later
+    const btn = document.getElementById('buyBtn');
+    btn.textContent = 'Redirecting to checkout...';
+    btn.style.pointerEvents = 'none';
+    try {
+        const res = await fetch('/api/create-checkout-engine', { method: 'POST' });
+        const data = await res.json();
+        if (data.url) {
+            window.location.href = data.url;
+        } else {
+            alert('Unable to start checkout. Please try again.');
+            btn.textContent = 'Get the Decision Engine — $297 →';
+            btn.style.pointerEvents = 'auto';
+        }
+    } catch (err) {
+        alert('Connection error. Please try again.');
+        btn.textContent = 'Get the Decision Engine — $297 →';
+        btn.style.pointerEvents = 'auto';
+    }
+}
+
+async function captureEmailDE(e) {
+    e.preventDefault();
+    const email = document.getElementById('captureEmailDE').value;
     const btn = e.target.querySelector('button');
-    btn.textContent = 'Saving...';
+    btn.textContent = 'Sending...';
     btn.disabled = true;
-    setTimeout(() => {
-        btn.textContent = 'You\'re on the list!';
-        btn.style.background = '#DCFCE7';
-        btn.style.color = '#166534';
-        document.getElementById('notifyEmail').style.display = 'none';
-    }, 800);
+    try {
+        const res = await fetch('/api/subscribe', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, source: 'decision-engine' })
+        });
+        if (res.ok) {
+            window.open('/fdd-red-flags-guide.pdf', '_blank');
+            document.getElementById('deEmailForm').innerHTML = '<p style="color:#DCFCE7;font-weight:600;">Sent! Check your downloads.</p>';
+        } else { btn.textContent = 'Error — try again'; btn.disabled = false; }
+    } catch (err) { btn.textContent = 'Error — try again'; btn.disabled = false; }
 }
 </script>
 </body>

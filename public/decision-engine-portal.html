@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Decision Engine Portal — Franchise-Grade Systems</title>
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+    <style>
+        :root{--forest:#1B4332;--forest-mid:#2D6A4F;--forest-light:#40916C;--sage:#52B788;--mint:#95D5B2;--pale:#D8F3DC;--cream:#F7FBF9;--white:#FFFFFF;--charcoal:#1A1A2E;--slate:#4A4A5A;--gray:#6B7280;--light-gray:#E5E7EB;--danger:#EF4444;--success:#10B981}
+        *{margin:0;padding:0;box-sizing:border-box}body{font-family:'DM Sans',sans-serif;color:var(--charcoal);background:var(--cream);line-height:1.6}h1,h2,h3{font-family:'Instrument Serif',serif;font-weight:400}
+
+        .gate-overlay{position:fixed;inset:0;background:var(--cream);z-index:9999;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:16px}
+        .gate-overlay.hidden{display:none}
+        .gate-spinner{width:40px;height:40px;border:4px solid var(--light-gray);border-top-color:var(--sage);border-radius:50%;animation:spin .8s linear infinite}
+        @keyframes spin{to{transform:rotate(360deg)}}
+        .gate-msg{font-size:16px;color:var(--slate)}
+        .gate-error{max-width:500px;text-align:center;padding:40px}
+        .gate-error h2{font-size:28px;margin-bottom:12px;color:var(--danger)}
+        .gate-error p{color:var(--slate);font-size:15px;margin-bottom:20px}
+        .gate-error a{color:var(--forest-mid);font-weight:600}
+
+        nav{background:var(--forest);padding:16px 24px;display:flex;align-items:center;justify-content:space-between}
+        .nav-logo{font-family:'Instrument Serif',serif;color:var(--white);font-size:1.25rem;text-decoration:none}.nav-logo span{color:var(--sage)}
+        .nav-links a{color:var(--mint);text-decoration:none;font-size:.9rem;margin-left:20px}
+
+        .hero{background:linear-gradient(135deg,var(--forest),var(--forest-mid));padding:48px 24px 40px;text-align:center}
+        .hero-badge{display:inline-block;background:rgba(16,185,129,.2);border:1px solid rgba(16,185,129,.4);color:#6EE7B7;font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;padding:5px 14px;border-radius:20px;margin-bottom:12px}
+        .hero h1{color:var(--white);font-size:clamp(1.6rem,3.5vw,2.2rem);margin-bottom:8px}.hero h1 em{color:var(--sage);font-style:italic}
+        .hero p{color:var(--mint);font-size:.95rem;max-width:550px;margin:0 auto}
+
+        .main{max-width:800px;margin:0 auto;padding:40px 24px 80px}
+        .section-label{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:var(--forest-light);margin-bottom:8px}
+        .tool-grid{display:grid;gap:16px;margin-bottom:40px}
+        .tool-card{background:var(--white);border:2px solid var(--light-gray);border-radius:14px;padding:24px;display:flex;align-items:flex-start;gap:16px;text-decoration:none;color:var(--charcoal);transition:border-color .2s,box-shadow .2s}
+        .tool-card:hover{border-color:var(--sage);box-shadow:0 4px 16px rgba(27,67,50,.08)}
+        .tool-num{width:36px;height:36px;border-radius:50%;background:var(--pale);color:var(--forest);font-weight:700;font-size:.85rem;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+        .tool-info{flex:1}
+        .tool-info h3{font-size:1.1rem;margin-bottom:4px}
+        .tool-info p{color:var(--slate);font-size:.85rem;margin-bottom:8px}
+        .tool-tag{display:inline-block;font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;padding:2px 8px;border-radius:4px}
+        .tag-full{background:var(--pale);color:var(--forest)}
+        .tag-included{background:#DCFCE7;color:#166534}
+        .tool-arrow{color:var(--sage);font-size:1.2rem;font-weight:700;align-self:center}
+
+        .access-note{background:var(--white);border:2px solid var(--mint);border-radius:12px;padding:20px 24px;margin-bottom:32px;text-align:center}
+        .access-note p{color:var(--slate);font-size:.9rem}
+        .access-note strong{color:var(--forest)}
+
+        .footer{background:var(--forest);padding:32px 24px;text-align:center;color:var(--mint);font-size:.85rem}
+        .footer a{color:var(--mint);text-decoration:none;margin:0 10px}
+        @media(max-width:640px){.tool-card{flex-direction:column}.tool-arrow{display:none}}
+    </style>
+</head>
+<body>
+
+<!-- ACCESS GATE -->
+<div class="gate-overlay" id="gateOverlay">
+    <div class="gate-spinner"></div>
+    <div class="gate-msg">Verifying your purchase...</div>
+</div>
+
+<nav>
+    <a href="/" class="nav-logo">Franchise<span>-Grade</span> Systems</a>
+    <div class="nav-links">
+        <a href="/tools">Free Tools</a>
+        <a href="/#products">How It Works</a>
+    </div>
+</nav>
+
+<div class="hero">
+    <div class="hero-badge">Access Confirmed</div>
+    <h1>Your <em>Decision Engine</em></h1>
+    <p>All tools are unlocked. Use them as many times as you need during your due diligence process.</p>
+</div>
+
+<div class="main">
+
+    <div class="access-note">
+        <p><strong>Bookmark this page.</strong> Your access is saved to this browser. You can return anytime to use your tools.</p>
+    </div>
+
+    <div class="section-label">Your Tools</div>
+    <div class="tool-grid">
+        <a href="/fdd-analyzer-tool" class="tool-card" id="fddLink">
+            <div class="tool-num">1</div>
+            <div class="tool-info">
+                <h3>AI FDD Analyzer</h3>
+                <p>Upload your FDD and get a risk report covering all 23 items. Red flags, hidden costs, and questions to ask.</p>
+                <span class="tool-tag tag-included">Included ($97 value)</span>
+            </div>
+            <div class="tool-arrow">→</div>
+        </a>
+        <a href="/negotiation-simulator?access=engine" class="tool-card">
+            <div class="tool-num">2</div>
+            <div class="tool-info">
+                <h3>AI Negotiation Simulator</h3>
+                <p>All 5 scenarios unlocked: Financial Performance, Territory, Fees, Exit Terms, and Renewal.</p>
+                <span class="tool-tag tag-full">Full Access — 5 Scenarios</span>
+            </div>
+            <div class="tool-arrow">→</div>
+        </a>
+        <a href="/franchise-comparison?access=engine" class="tool-card">
+            <div class="tool-num">3</div>
+            <div class="tool-info">
+                <h3>Franchise Comparison Tool</h3>
+                <p>Compare up to 5 franchise opportunities side by side on 20+ metrics with risk-adjusted scoring.</p>
+                <span class="tool-tag tag-full">Full Access — 5 Franchises</span>
+            </div>
+            <div class="tool-arrow">→</div>
+        </a>
+        <a href="/validation-scripts?access=engine" class="tool-card">
+            <div class="tool-num">4</div>
+            <div class="tool-info">
+                <h3>Validation Call Scripts</h3>
+                <p>All 8 topic areas: Financial Reality, Support, Territory, Fees, Operations, Satisfaction, Exit, Marketing.</p>
+                <span class="tool-tag tag-full">Full Access — 8 Topics</span>
+            </div>
+            <div class="tool-arrow">→</div>
+        </a>
+        <a href="/franchise-profit-margin-calculator" class="tool-card">
+            <div class="tool-num">5</div>
+            <div class="tool-info">
+                <h3>Profit Margin Calculator</h3>
+                <p>Stress-test the franchise financials before you commit.</p>
+                <span class="tool-tag tag-full">Always Free</span>
+            </div>
+            <div class="tool-arrow">→</div>
+        </a>
+        <a href="/franchise-roi-calculator" class="tool-card">
+            <div class="tool-num">6</div>
+            <div class="tool-info">
+                <h3>ROI Calculator</h3>
+                <p>Project your actual return over time — not the franchisor's best-case scenario.</p>
+                <span class="tool-tag tag-full">Always Free</span>
+            </div>
+            <div class="tool-arrow">→</div>
+        </a>
+    </div>
+</div>
+
+<footer class="footer">
+    <p>&copy; 2026 Franchise-Grade Systems. All rights reserved. Not legal or financial advice.</p>
+    <div><a href="/">Home</a><a href="/tools">Free Tools</a><a href="/privacy">Privacy</a><a href="/terms">Terms</a></div>
+</footer>
+
+<script>
+(async function verifyAccess() {
+    const gate = document.getElementById('gateOverlay');
+
+    // Check URL for new session_id (coming from Stripe checkout)
+    const params = new URLSearchParams(window.location.search);
+    const sessionId = params.get('session_id');
+
+    // Check localStorage for existing access
+    const storedToken = localStorage.getItem('fgs_engine_token');
+
+    const tokenToVerify = sessionId || storedToken;
+
+    if (!tokenToVerify) {
+        showError('No Access Found', 'You need to purchase the Decision Engine to access this portal.', '/decision-engine');
+        return;
+    }
+
+    try {
+        const res = await fetch(`/api/verify-engine?session_id=${tokenToVerify}`);
+        const data = await res.json();
+
+        if (data.valid && (data.product === 'decision_engine' || data.product === 'fdd_analyzer')) {
+            // Store access token for future visits
+            localStorage.setItem('fgs_engine_token', tokenToVerify);
+            localStorage.setItem('fgs_engine_product', data.product);
+            localStorage.setItem('fgs_engine_verified', Date.now().toString());
+
+            // If they only bought FDD Analyzer ($97), show limited portal
+            if (data.product === 'fdd_analyzer') {
+                // Still give them portal access but note the upgrade option
+                document.querySelector('.hero-badge').textContent = 'FDD Analyzer Access';
+            }
+
+            // Update FDD Analyzer link with session token
+            const fddLink = document.getElementById('fddLink');
+            fddLink.href = `/fdd-analyzer-tool?session_id=${tokenToVerify}`;
+
+            // Clean URL (remove session_id from address bar)
+            if (sessionId) {
+                window.history.replaceState({}, '', '/decision-engine-portal');
+            }
+
+            gate.classList.add('hidden');
+        } else {
+            showError('Access Expired or Invalid', 'This session could not be verified. If you recently purchased, try refreshing. Otherwise, you may need to purchase again.', '/decision-engine');
+        }
+    } catch (err) {
+        showError('Connection Error', 'Could not verify your access. Please check your internet connection and try again.', null);
+    }
+})();
+
+function showError(title, message, link) {
+    const gate = document.getElementById('gateOverlay');
+    gate.innerHTML = `<div class="gate-error">
+        <h2>${title}</h2>
+        <p>${message}</p>
+        ${link ? `<a href="${link}">Go to Decision Engine →</a>` : '<a href="#" onclick="location.reload()">Try Again</a>'}
+    </div>`;
+}
+</script>
+</body>
+</html>

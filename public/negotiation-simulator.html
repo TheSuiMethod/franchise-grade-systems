@@ -267,6 +267,15 @@
         </div>
         <div id="coachingContent"></div>
 
+        <div id="emailCaptureCoaching" class="email-capture-inline" style="background:var(--pale);border-radius:12px;padding:24px 28px;margin:24px 0;text-align:center;">
+            <h4 style="font-family:'Instrument Serif',serif;font-size:1.1rem;margin-bottom:6px;">Get the Free FDD Red Flags Guide</h4>
+            <p style="color:var(--slate);font-size:.88rem;margin-bottom:12px;">12 warning signs that cost franchise buyers thousands — so you know what to negotiate on.</p>
+            <form onsubmit="captureEmail(event)" style="display:flex;gap:8px;max-width:420px;margin:0 auto">
+                <input type="email" id="captureEmail" placeholder="Your email" required style="flex:1;padding:10px 14px;border:2px solid var(--light-gray);border-radius:8px;font-family:'DM Sans',sans-serif;font-size:.9rem;background:var(--white)">
+                <button type="submit" style="padding:10px 20px;background:var(--forest-mid);color:var(--white);border:none;border-radius:8px;font-weight:700;font-family:'DM Sans',sans-serif;cursor:pointer;white-space:nowrap">Get Free Guide</button>
+            </form>
+        </div>
+
         <div class="coaching-cta">
             <h3>Ready to Negotiate for Real?</h3>
             <p>You've practiced 1 of 5 critical franchise negotiations. The full AI Franchise Decision Engine unlocks all 5 scenarios plus side-by-side comparison tools, validation call scripts, and more.</p>
@@ -580,6 +589,61 @@ function resetSimulation() {
     turnCount = 0;
     selectedScenario = null;
     window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// Decision Engine unlock check
+(function checkEngineAccess() {
+    const params = new URLSearchParams(window.location.search);
+    const hasAccess = params.get('access') === 'engine' || localStorage.getItem('fgs_engine_token');
+    if (!hasAccess) return;
+
+    // Unlock all scenario cards
+    document.querySelectorAll('.scenario-card.locked').forEach(card => {
+        card.classList.remove('locked');
+        const scenarioMap = {
+            'Territory Protection': 'territory',
+            'Fee Negotiation': 'fees',
+            'Exit & Transfer Terms': 'exit',
+            'Renewal Terms': 'renewal'
+        };
+        const title = card.querySelector('h4')?.textContent;
+        const scenarioId = scenarioMap[title];
+        if (scenarioId) {
+            card.onclick = function() { selectScenario(scenarioId, this); startSimulation(); };
+        }
+        // Update badge
+        const lockBadge = card.querySelector('.lock-badge');
+        if (lockBadge) { lockBadge.textContent = 'Decision Engine'; lockBadge.style.background = 'var(--sage)'; lockBadge.style.color = 'var(--forest)'; }
+        // Add free-badge style
+        const freeBadge = document.createElement('span');
+        freeBadge.className = 'free-badge';
+        freeBadge.textContent = 'Unlocked';
+        freeBadge.style.background = '#DCFCE7';
+        freeBadge.style.color = '#166534';
+    });
+
+    // Hide upgrade banner if visible
+    const banner = document.getElementById('upgradeBanner');
+    if (banner) banner.style.display = 'none';
+})();
+
+async function captureEmail(e) {
+    e.preventDefault();
+    const email = document.getElementById('captureEmail').value;
+    const btn = e.target.querySelector('button');
+    btn.textContent = 'Sending...';
+    btn.disabled = true;
+    try {
+        const res = await fetch('/api/subscribe', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, source: 'negotiation' })
+        });
+        if (res.ok) {
+            window.open('/fdd-red-flags-guide.pdf', '_blank');
+            document.getElementById('emailCaptureCoaching').innerHTML = '<p style="color:var(--forest);font-weight:600;padding:16px 0;">Sent! Check your downloads. <a href="/fdd-analyzer" style="color:var(--forest-mid);text-decoration:underline;">Next: Analyze your actual FDD →</a></p>';
+        } else { btn.textContent = 'Error — try again'; btn.disabled = false; }
+    } catch (err) { btn.textContent = 'Error — try again'; btn.disabled = false; }
 }
 </script>
 
