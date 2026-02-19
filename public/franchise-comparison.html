@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Franchise Comparison Tool | Franchise-Grade Systems</title>
-    <meta name="description" content="Compare up to 5 franchise opportunities side-by-side. Analyze fees, investment, territory, risk scores, and ROI to make a confident decision.">
+    <meta name="description" content="Compare 2 franchise opportunities side-by-side for free. Analyze fees, investment, territory, risk scores, and ROI. Upgrade to compare up to 5 with the Decision Engine.">
     <link rel="canonical" href="https://www.franchisegradesystems.com/franchise-comparison">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -80,7 +80,7 @@
 <section class="hero">
     <div class="hero-badge">Part of the $297 Decision Engine</div>
     <h1>Compare Franchises <em>Side-by-Side</em></h1>
-    <p>Enter the details from up to 5 FDDs and see which deal actually gives you the best risk-adjusted return.</p>
+    <p>Compare 2 franchise deals side-by-side for free. See which one actually gives you the best risk-adjusted return.</p>
 </section>
 <div class="main">
     <div id="inputView">
@@ -105,6 +105,8 @@
             <h3>Found Your Top Pick?</h3>
             <p>Run it through the AI FDD Analyzer to catch every hidden risk before you sign.</p>
             <a href="/fdd-analyzer" class="cta-btn">Analyze My FDD — $97 →</a><br>
+            <p style="margin-top:12px;font-size:0.85rem;color:var(--forest-light);">Need to compare more? The Decision Engine unlocks 5-way comparisons + all premium tools.</p>
+            <a href="/fdd-analyzer" class="cta-btn" style="background:var(--forest);margin-top:4px;">Get the Full Decision Engine — $297 →</a><br>
             <button class="reset-btn" onclick="resetAll()">↻ Start New Comparison</button>
         </div>
     </div>
@@ -118,6 +120,7 @@
 let franchises = [];
 let activeIdx = -1;
 const MAX = 5;
+const FREE_MAX = 2;
 const FIELDS = [
     { section: '💰 Investment & Fees', icon: '💰', fields: [
         { id: 'franchiseFee', label: 'Franchise Fee', prefix: '$', placeholder: '30,000' },
@@ -150,12 +153,33 @@ const FIELDS = [
 function addFranchise() {
     const name = document.getElementById('franchiseName').value.trim();
     if (!name || franchises.length >= MAX) return;
+    if (franchises.length >= FREE_MAX) {
+        showCompareUpgrade();
+        return;
+    }
     franchises.push({ name, data: {} });
     document.getElementById('franchiseName').value = '';
     activeIdx = franchises.length - 1;
     renderTabs();
     renderForm();
     updateState();
+}
+
+function showCompareUpgrade() {
+    let banner = document.getElementById('compareUpgradeBanner');
+    if (!banner) {
+        banner = document.createElement('div');
+        banner.id = 'compareUpgradeBanner';
+        banner.style.cssText = 'background:linear-gradient(135deg,#1A3C34 0%,#2D5A4A 100%);border-radius:14px;padding:24px 28px;text-align:center;margin:20px 0;';
+        banner.innerHTML = `
+            <h4 style="color:#fff;font-size:1.1rem;margin-bottom:6px;">Compare Up to 5 Franchises with the Decision Engine</h4>
+            <p style="color:#B8D4CC;font-size:0.88rem;margin-bottom:14px;line-height:1.6;">You've compared 2 deals — but most serious buyers evaluate 3-5 before deciding. The AI Franchise Decision Engine unlocks full 5-way comparisons plus negotiation practice, validation scripts, and more.</p>
+            <a href="/fdd-analyzer" style="display:inline-block;background:#B8D4CC;color:#1A3C34;padding:10px 24px;border-radius:8px;font-weight:700;text-decoration:none;font-size:0.9rem;">Get the Full Decision Engine — $297 →</a>
+        `;
+        document.getElementById('tabs').parentNode.insertBefore(banner, document.getElementById('tabs').nextSibling);
+    }
+    banner.style.display = 'block';
+    banner.scrollIntoView({ behavior: 'smooth', block: 'center' });
 }
 
 function renderTabs() {
@@ -213,8 +237,8 @@ function saveCurrentForm() {
 }
 
 function updateState() {
-    document.getElementById('franchiseCount').textContent = `${franchises.length} of ${MAX} added`;
-    document.getElementById('addBtn').disabled = franchises.length >= MAX;
+    document.getElementById('franchiseCount').textContent = `${franchises.length} of ${FREE_MAX} free comparisons`;
+    document.getElementById('addBtn').disabled = franchises.length >= FREE_MAX;
     document.getElementById('compareBtn').disabled = franchises.length < 2;
 }
 
@@ -224,6 +248,22 @@ function pct(n) { return n.toFixed(1) + '%'; }
 
 function compare() {
     saveCurrentForm();
+
+    // Validate minimum data — require at least Total Investment and Revenue for each franchise
+    const incomplete = [];
+    franchises.forEach(f => {
+        const d = f.data;
+        const hasInvestment = pn(d.totalInvestment) > 0;
+        const hasRevenue = pn(d.avgRevenue) > 0;
+        if (!hasInvestment && !hasRevenue) {
+            incomplete.push(f.name);
+        }
+    });
+    if (incomplete.length > 0) {
+        alert('Please enter at least the Total Investment or Estimated Revenue for: ' + incomplete.join(', ') + '.\n\nThe comparison needs real numbers to give you meaningful results.');
+        return;
+    }
+
     const results = franchises.map(f => {
         const d = f.data;
         const rev = pn(d.avgRevenue);
@@ -242,21 +282,33 @@ function compare() {
         const closedPct = pn(d.totalUnits) > 0 ? pn(d.closedUnits) / pn(d.totalUnits) * 100 : 0;
         const growthRate = pn(d.totalUnits) > 0 ? pn(d.newUnits) / pn(d.totalUnits) * 100 : 0;
 
-        // Composite score (higher = better)
+        // Count how many data fields are filled
+        const allFields = ['franchiseFee','totalInvestment','royaltyRate','marketingFee','techFee','otherMonthlyFees','avgRevenue','avgExpenses','rampUpMonths','territoryMiles','termYears','renewalFee','nonCompeteYears','transferFee','totalUnits','closedUnits','newUnits','litigationCount'];
+        const filledCount = allFields.filter(key => pn(d[key]) > 0).length;
+        const dataCoverage = Math.round(filledCount / allFields.length * 100);
+
+        // Composite score (higher = better) — only meaningful with real data
         let score = 50;
-        score += Math.min(margin, 20); // Profit margin bonus (up to 20 pts)
-        score += Math.min(roi / 2, 15); // ROI bonus (up to 15 pts)
-        score -= Math.min(feePercent, 15); // Fee penalty
-        score -= Math.min(paybackYears * 2, 10); // Payback penalty
-        score += Math.min(pn(d.territoryMiles) * 2, 10); // Territory bonus
-        score += Math.min(pn(d.termYears), 10); // Term bonus
-        score -= Math.min(closedPct * 3, 10); // Closure penalty
-        score += Math.min(growthRate, 10); // Growth bonus
-        score -= Math.min(pn(d.litigationCount) * 3, 10); // Litigation penalty
-        score -= pn(d.nonCompeteYears) * 2; // Non-compete penalty
+        if (rev > 0) {
+            score += Math.min(margin, 20);
+            score -= Math.min(feePercent, 15);
+        }
+        if (totalInv > 0) {
+            score += Math.min(roi / 2, 15);
+            score -= Math.min(paybackYears < 99 ? paybackYears * 2 : 0, 10);
+        }
+        score += Math.min(pn(d.territoryMiles) * 2, 10);
+        score += Math.min(pn(d.termYears), 10);
+        if (pn(d.totalUnits) > 0) {
+            score -= Math.min(closedPct * 3, 10);
+            score += Math.min(growthRate, 10);
+        }
+        score -= Math.min(pn(d.litigationCount) * 3, 10);
+        score -= pn(d.nonCompeteYears) * 2;
         score = Math.max(0, Math.min(100, Math.round(score)));
 
-        return { name: f.name, rev, totalFees, feePercent, netIncome, margin, totalInv, roi, paybackYears, closedPct, growthRate, score, data: d };
+        return { name: f.name, rev, totalFees, feePercent, netIncome, margin, totalInv, roi, paybackYears, closedPct, growthRate, score, dataCoverage, data: d };
+    });
     });
 
     // Find best/worst for each metric
@@ -314,16 +366,30 @@ function compare() {
     const sorted = [...results].sort((a, b) => b.score - a.score);
     const winner = sorted[0];
     const runnerUp = sorted[1];
-    document.getElementById('verdictSection').innerHTML = `
+    const avgCoverage = Math.round(results.reduce((a, r) => a + r.dataCoverage, 0) / results.length);
+    const lowData = avgCoverage < 40;
+
+    let verdictHTML = '';
+    if (lowData) {
+        verdictHTML = `
+        <div class="verdict-section" style="background:var(--warning);">
+            <div class="verdict-winner" style="background:#FEF3C7;color:#92400E;">Insufficient Data for Reliable Comparison</div>
+            <h3 style="color:#1A1A2E;">Data Coverage: ${avgCoverage}%</h3>
+            <p style="color:#4A4A5A;">You've only filled in ${avgCoverage}% of the available fields. The scores above are unreliable without more data. Go back and enter at least the investment, revenue, fees, and territory details from each FDD for a meaningful comparison. The more data you enter, the more accurate the scoring becomes.</p>
+        </div>`;
+    } else {
+        const coverageNote = avgCoverage < 70 ? `<br><br><strong>Data note:</strong> You've filled ${avgCoverage}% of available fields. Entering more details (territory, system health, fees) will improve the accuracy of this comparison.` : '';
+        verdictHTML = `
         <div class="verdict-section">
             <div class="verdict-winner">Best Overall: ${winner.name}</div>
             <h3>Score: ${winner.score}/100</h3>
             <p>${winner.name} leads with ${winner.score > runnerUp.score + 15 ? 'a significant advantage' : 'a narrow edge'} over ${runnerUp.name} (${runnerUp.score}/100).
             ${winner.margin > 15 ? ' Strong profit margins give this deal financial breathing room.' : winner.margin > 0 ? ' Margins are tight — watch the fee structure closely.' : ' Warning: This deal shows negative margins. Proceed with extreme caution.'}
             ${winner.paybackYears < 3 ? ' Payback under 3 years is solid.' : winner.paybackYears < 5 ? ' Payback of ' + winner.paybackYears.toFixed(1) + ' years is reasonable but not exceptional.' : ' Long payback period is a concern.'}
-            Remember: this comparison is based on YOUR estimates. Always verify with the actual FDD and validate with current franchisees.</p>
-        </div>
-    `;
+            Remember: this comparison is based on YOUR estimates. Always verify with the actual FDD and validate with current franchisees.${coverageNote}</p>
+        </div>`;
+    }
+    document.getElementById('verdictSection').innerHTML = verdictHTML;
 
     document.getElementById('inputView').style.display = 'none';
     document.getElementById('resultsView').classList.add('visible');

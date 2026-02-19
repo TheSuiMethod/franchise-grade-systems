@@ -52,6 +52,16 @@
         .scenario-tag.hard { background: #FECACA; color: #991B1B; }
         .scenario-tag.easy { background: #DCFCE7; color: #166534; }
 
+        .scenario-card.locked { opacity: 0.7; position: relative; }
+        .scenario-card.locked::after { content: ''; position: absolute; inset: 0; background: rgba(255,255,255,0.1); border-radius: 12px; }
+        .lock-badge { display: inline-flex; align-items: center; gap: 4px; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; padding: 3px 10px; border-radius: 4px; background: var(--forest); color: var(--white); margin-top: 8px; }
+        .free-badge { display: inline-flex; align-items: center; gap: 4px; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; padding: 3px 10px; border-radius: 4px; background: #DCFCE7; color: #166534; margin-top: 8px; }
+        .upgrade-banner { background: linear-gradient(135deg, var(--forest) 0%, var(--forest-mid) 100%); border-radius: 14px; padding: 24px 28px; text-align: center; margin-top: 20px; }
+        .upgrade-banner h4 { color: var(--white); font-size: 1.1rem; margin-bottom: 6px; }
+        .upgrade-banner p { color: var(--mint); font-size: 0.88rem; margin-bottom: 14px; line-height: 1.6; }
+        .upgrade-banner a { display: inline-block; background: var(--sage); color: var(--forest); padding: 10px 24px; border-radius: 8px; font-weight: 700; text-decoration: none; font-size: 0.9rem; transition: background 0.2s; }
+        .upgrade-banner a:hover { background: var(--mint); }
+
         .start-btn { display: block; width: 100%; padding: 16px; background: var(--forest-mid); color: var(--white); border: none; border-radius: 12px; font-weight: 700; font-size: 1rem; cursor: pointer; font-family: 'DM Sans', sans-serif; margin-top: 20px; transition: background 0.2s; }
         .start-btn:hover { background: var(--forest); }
         .start-btn:disabled { background: var(--light-gray); color: var(--gray); cursor: not-allowed; }
@@ -173,39 +183,50 @@
         <p>Each scenario simulates a real conversation you'll face during franchise due diligence.</p>
 
         <div class="scenario-grid">
-            <div class="scenario-card" onclick="selectScenario('territory', this)">
-                <div class="scenario-icon">🗺️</div>
-                <h4>Territory Protection</h4>
-                <p>Your territory is only 3 miles with carve-outs for online and delivery. Push for stronger exclusivity.</p>
-                <span class="scenario-tag">Medium</span>
-            </div>
-            <div class="scenario-card" onclick="selectScenario('fees', this)">
-                <div class="scenario-icon">💰</div>
-                <h4>Fee Negotiation</h4>
-                <p>Uncapped tech fees, mandatory vendors, 6% royalty with minimums. Push back on the total cost burden.</p>
-                <span class="scenario-tag hard">Hard</span>
-            </div>
-            <div class="scenario-card" onclick="selectScenario('exit', this)">
-                <div class="scenario-icon">🚪</div>
-                <h4>Exit & Transfer Terms</h4>
-                <p>2-year non-compete, $15K transfer fee, vague buyer approval criteria. Negotiate your exit strategy.</p>
-                <span class="scenario-tag hard">Hard</span>
-            </div>
-            <div class="scenario-card" onclick="selectScenario('renewal', this)">
-                <div class="scenario-icon">🔄</div>
-                <h4>Renewal Terms</h4>
-                <p>Renewal requires signing a new agreement with potentially different terms. Lock in your protections.</p>
-                <span class="scenario-tag">Medium</span>
-            </div>
             <div class="scenario-card" onclick="selectScenario('item19', this)">
                 <div class="scenario-icon">📊</div>
                 <h4>Financial Performance (Item 19)</h4>
                 <p>The "average" revenue looks good — until you dig into the footnotes. Challenge the numbers.</p>
                 <span class="scenario-tag easy">Good First Try</span>
+                <span class="free-badge">✓ Free</span>
+            </div>
+            <div class="scenario-card locked" onclick="showUpgrade()">
+                <div class="scenario-icon">🗺️</div>
+                <h4>Territory Protection</h4>
+                <p>Your territory is only 3 miles with carve-outs for online and delivery. Push for stronger exclusivity.</p>
+                <span class="scenario-tag">Medium</span>
+                <span class="lock-badge">🔒 Decision Engine</span>
+            </div>
+            <div class="scenario-card locked" onclick="showUpgrade()">
+                <div class="scenario-icon">💰</div>
+                <h4>Fee Negotiation</h4>
+                <p>Uncapped tech fees, mandatory vendors, 6% royalty with minimums. Push back on the total cost burden.</p>
+                <span class="scenario-tag hard">Hard</span>
+                <span class="lock-badge">🔒 Decision Engine</span>
+            </div>
+            <div class="scenario-card locked" onclick="showUpgrade()">
+                <div class="scenario-icon">🚪</div>
+                <h4>Exit & Transfer Terms</h4>
+                <p>2-year non-compete, $15K transfer fee, vague buyer approval criteria. Negotiate your exit strategy.</p>
+                <span class="scenario-tag hard">Hard</span>
+                <span class="lock-badge">🔒 Decision Engine</span>
+            </div>
+            <div class="scenario-card locked" onclick="showUpgrade()">
+                <div class="scenario-icon">🔄</div>
+                <h4>Renewal Terms</h4>
+                <p>Renewal requires signing a new agreement with potentially different terms. Lock in your protections.</p>
+                <span class="scenario-tag">Medium</span>
+                <span class="lock-badge">🔒 Decision Engine</span>
             </div>
         </div>
 
-        <button class="start-btn" id="startBtn" onclick="startSimulation()" disabled>Start Negotiation →</button>
+        <div class="upgrade-banner" id="upgradeBanner" style="display:none;">
+            <h4>4 More Scenarios in the Decision Engine</h4>
+            <p>You've practiced one conversation. But franchise buyers face at least 5 critical negotiations — territory, fees, exit terms, and renewal. The AI Franchise Decision Engine unlocks all 5 scenarios plus comparison tools, validation scripts, and more.</p>
+            <a href="/fdd-analyzer">Get the Full Decision Engine — $297 →</a>
+        </div>
+
+        <button class="start-btn" id="startBtn" onclick="startSimulation()" disabled>Start Free Scenario →</button>
     </div>
 
     <!-- CHAT INTERFACE -->
@@ -246,9 +267,9 @@
 
         <div class="coaching-cta">
             <h3>Ready to Negotiate for Real?</h3>
-            <p>Your Negotiation Simulator practice is the first step. The full AI Franchise Decision Engine gives you everything you need to make a confident go/no-go decision.</p>
-            <a href="/fdd-analyzer" class="cta-btn">Analyze My FDD — $97 →</a>
-            <a href="javascript:void(0)" class="cta-btn cta-secondary" onclick="resetSimulation()">↻ Practice Another Scenario</a>
+            <p>You've practiced 1 of 5 critical franchise negotiations. The full AI Franchise Decision Engine unlocks all 5 scenarios plus side-by-side comparison tools, validation call scripts, and more.</p>
+            <a href="/fdd-analyzer" class="cta-btn">Get the Full Decision Engine — $297 →</a>
+            <a href="javascript:void(0)" class="cta-btn cta-secondary" onclick="resetSimulation()">↻ Replay This Scenario</a>
         </div>
     </div>
 
@@ -303,7 +324,13 @@ let conversationHistory = [];
 let turnCount = 0;
 const MAX_TURNS = 8;
 
+function showUpgrade() {
+    document.getElementById('upgradeBanner').style.display = 'block';
+    document.getElementById('upgradeBanner').scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
 function selectScenario(id, el) {
+    if (el.classList.contains('locked')) { showUpgrade(); return; }
     document.querySelectorAll('.scenario-card').forEach(c => c.classList.remove('selected'));
     el.classList.add('selected');
     selectedScenario = id;
@@ -385,10 +412,14 @@ async function sendMessage() {
         if (data.reply) {
             addMessage('ai', data.reply);
             conversationHistory.push({ role: 'assistant', content: data.reply });
+        } else {
+            addMessage('ai', '<span style="color:var(--danger);font-weight:600;">⚠ Service unavailable.</span> The AI negotiation partner is temporarily offline. Please try again later.');
+            turnCount--; // Don't count failed turns
+            document.getElementById('turnCount').textContent = turnCount;
         }
     } catch (err) {
         document.getElementById('typingIndicator').classList.remove('visible');
-        addMessage('ai', "I appreciate your point. Let me think about that for a moment... Could you elaborate on your reasoning?");
+        addMessage('ai', '<span style="color:var(--danger);font-weight:600;">⚠ Connection error.</span> The AI negotiation partner couldn\'t respond. This may be a temporary issue — try sending your message again. If the problem persists, the service may be temporarily unavailable.');
     }
 
     // Re-enable input
@@ -402,6 +433,10 @@ async function sendMessage() {
 }
 
 function endSimulation() {
+    if (turnCount === 0) {
+        alert('You haven\'t sent any messages yet. Practice at least one exchange before getting your coaching report.');
+        return;
+    }
     document.getElementById('chatView').classList.remove('active');
     const coaching = document.getElementById('coachingView');
     coaching.classList.add('active');

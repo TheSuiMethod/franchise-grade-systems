@@ -32,6 +32,14 @@
         .concern-tag{padding:8px 16px;border:2px solid var(--light-gray);border-radius:20px;font-size:.85rem;cursor:pointer;transition:all .2s;background:var(--white)}
         .concern-tag:hover{border-color:var(--sage)}
         .concern-tag.selected{border-color:var(--forest-mid);background:rgba(45,106,79,.06);color:var(--forest-mid);font-weight:500}
+        .concern-tag.locked{opacity:0.7;cursor:pointer}
+        .concern-tag.locked::after{content:' 🔒';font-size:.7rem}
+        .concern-tag.locked.selected{border-color:var(--light-gray);background:var(--white);color:var(--charcoal);font-weight:400}
+        .free-label{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--success);margin-left:4px}
+        .upgrade-inline{background:linear-gradient(135deg,var(--forest) 0%,var(--forest-mid) 100%);border-radius:14px;padding:24px 28px;text-align:center;margin:16px 0;display:none}
+        .upgrade-inline h4{color:var(--white);font-size:1.05rem;margin-bottom:6px}
+        .upgrade-inline p{color:var(--mint);font-size:.85rem;margin-bottom:14px;line-height:1.6}
+        .upgrade-inline a{display:inline-block;background:var(--sage);color:var(--forest);padding:10px 24px;border-radius:8px;font-weight:700;text-decoration:none;font-size:.9rem}
 
         .gen-btn{display:block;width:100%;padding:16px;background:var(--forest-mid);color:var(--white);border:none;border-radius:12px;font-weight:700;font-size:1rem;cursor:pointer;font-family:'DM Sans',sans-serif;transition:background .2s;margin-bottom:32px}.gen-btn:hover{background:var(--forest)}
 
@@ -103,16 +111,21 @@
 
         <div class="concern-picker">
             <h3>Select areas to focus on</h3>
-            <p>Pick the topics most important to you. Your scripts will prioritize these.</p>
+            <p>2 topics included free. Unlock all 8 with the Decision Engine.</p>
             <div class="concern-tags">
-                <span class="concern-tag selected" onclick="toggleConcern(this)" data-topic="financial">💰 Financial Reality</span>
-                <span class="concern-tag selected" onclick="toggleConcern(this)" data-topic="support">🤝 Franchisor Support</span>
-                <span class="concern-tag" onclick="toggleConcern(this)" data-topic="territory">🗺️ Territory Issues</span>
-                <span class="concern-tag" onclick="toggleConcern(this)" data-topic="fees">📋 Fee Surprises</span>
-                <span class="concern-tag" onclick="toggleConcern(this)" data-topic="operations">⚙️ Day-to-Day Operations</span>
-                <span class="concern-tag" onclick="toggleConcern(this)" data-topic="satisfaction">😊 Overall Satisfaction</span>
-                <span class="concern-tag" onclick="toggleConcern(this)" data-topic="exit">🚪 Exit & Regret</span>
-                <span class="concern-tag" onclick="toggleConcern(this)" data-topic="marketing">📣 Marketing & Leads</span>
+                <span class="concern-tag selected" onclick="toggleConcern(this)" data-topic="financial">💰 Financial Reality<span class="free-label">Free</span></span>
+                <span class="concern-tag selected" onclick="toggleConcern(this)" data-topic="support">🤝 Franchisor Support<span class="free-label">Free</span></span>
+                <span class="concern-tag locked" onclick="toggleLockedConcern(this)" data-topic="territory">🗺️ Territory Issues</span>
+                <span class="concern-tag locked" onclick="toggleLockedConcern(this)" data-topic="fees">📋 Fee Surprises</span>
+                <span class="concern-tag locked" onclick="toggleLockedConcern(this)" data-topic="operations">⚙️ Day-to-Day Operations</span>
+                <span class="concern-tag locked" onclick="toggleLockedConcern(this)" data-topic="satisfaction">😊 Overall Satisfaction</span>
+                <span class="concern-tag locked" onclick="toggleLockedConcern(this)" data-topic="exit">🚪 Exit & Regret</span>
+                <span class="concern-tag locked" onclick="toggleLockedConcern(this)" data-topic="marketing">📣 Marketing & Leads</span>
+            </div>
+            <div class="upgrade-inline" id="scriptUpgradeBanner">
+                <h4>6 More Script Topics in the Decision Engine</h4>
+                <p>You're prepared for 2 conversations. But thorough due diligence covers all 8 topics — territory, fees, operations, satisfaction, exit terms, and marketing. The Decision Engine unlocks everything.</p>
+                <a href="/fdd-analyzer">Get the Full Decision Engine — $297 →</a>
             </div>
         </div>
 
@@ -138,6 +151,8 @@
             <h3>Ready to Analyze the FDD Itself?</h3>
             <p>Validation calls tell you the experience. The FDD tells you the contract. Analyze both.</p>
             <a href="/fdd-analyzer" class="cta-btn">Analyze My FDD — $97 →</a><br>
+            <p style="margin-top:12px;font-size:.85rem;color:var(--forest-light);">Want all 8 script topics + comparison tools + negotiation practice?</p>
+            <a href="/fdd-analyzer" class="cta-btn" style="background:var(--forest);margin-top:4px;">Get the Full Decision Engine — $297 →</a><br>
             <button class="reset-btn" onclick="resetScripts()">↻ Generate New Scripts</button>
         </div>
     </div>
@@ -149,6 +164,13 @@
 </footer>
 <script>
 function toggleConcern(el) { el.classList.toggle('selected'); }
+
+function toggleLockedConcern(el) {
+    document.getElementById('scriptUpgradeBanner').style.display = 'block';
+    document.getElementById('scriptUpgradeBanner').scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+const FREE_TOPICS = ['financial', 'support'];
 
 const SCRIPTS = {
     financial: {
@@ -324,6 +346,21 @@ function generateScripts() {
     </div>`;
 
     container.innerHTML = html;
+
+    // Add locked topics teaser if not all selected
+    const lockedTopics = ['Territory Issues', 'Fee Surprises', 'Day-to-Day Operations', 'Overall Satisfaction', 'Exit & Regret', 'Marketing & Leads'];
+    if (selected.length < 8) {
+        const teaser = document.createElement('div');
+        teaser.style.cssText = 'background:linear-gradient(135deg,#1B4332 0%,#2D6A4F 100%);border-radius:16px;padding:28px;text-align:center;margin:20px 0;';
+        teaser.innerHTML = `
+            <h3 style="color:#fff;font-family:'Instrument Serif',serif;font-size:1.15rem;margin-bottom:8px;">You're Prepared for ${selected.length} of 8 Critical Topics</h3>
+            <p style="color:#95D5B2;font-size:.88rem;margin-bottom:6px;line-height:1.7;">The Decision Engine unlocks scripts for:</p>
+            <p style="color:#B8D4CC;font-size:.85rem;margin-bottom:16px;">${lockedTopics.join(' · ')}</p>
+            <a href="/fdd-analyzer" style="display:inline-block;background:#52B788;color:#1B4332;padding:12px 28px;border-radius:8px;font-weight:700;text-decoration:none;font-size:.9rem;">Get All 8 Topics — $297 →</a>
+        `;
+        document.getElementById('scriptsContent').appendChild(teaser);
+    }
+
     document.getElementById('inputView').style.display = 'none';
     document.getElementById('scriptsView').classList.add('visible');
     window.scrollTo({ top: 0, behavior: 'smooth' });
