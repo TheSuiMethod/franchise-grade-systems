@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /fdd-analyzer-tool
+Disallow: /decision-engine-portal
+Disallow: /api/
+
+Sitemap: https://www.franchisegradesystems.com/sitemap.xml
