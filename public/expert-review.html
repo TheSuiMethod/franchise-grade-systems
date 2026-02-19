@@ -54,6 +54,12 @@
         .hero-price-note { font-size: .85rem; color: rgba(255,255,255,.6); margin-bottom: 24px; }
         .hero-cta { display: inline-block; background: var(--sage); color: var(--forest); padding: 16px 36px; border-radius: 12px; font-weight: 700; font-size: 1.05rem; text-decoration: none; transition: all .2s; }
         .hero-cta:hover { background: var(--mint); transform: translateY(-1px); }
+        .hero-booking { display: flex; gap: 10px; max-width: 440px; margin: 0 auto; }
+        .hero-booking input { flex: 1; padding: 14px 18px; border: 2px solid rgba(255,255,255,.3); border-radius: 12px; font-size: .95rem; font-family: 'DM Sans', sans-serif; background: rgba(255,255,255,.1); color: #fff; }
+        .hero-booking input::placeholder { color: rgba(255,255,255,.5); }
+        .hero-booking input:focus { outline: none; border-color: var(--sage); background: rgba(255,255,255,.15); }
+        .hero-booking button { padding: 14px 28px; background: var(--sage); color: var(--forest); border: none; border-radius: 12px; font-weight: 700; font-size: .95rem; font-family: 'DM Sans', sans-serif; cursor: pointer; white-space: nowrap; transition: all .2s; }
+        .hero-booking button:hover { background: var(--mint); }
         .hero-sub { font-size: .82rem; color: rgba(255,255,255,.5); margin-top: 12px; }
 
         .content { max-width: 720px; margin: 0 auto; padding: 60px 24px; }
@@ -67,14 +73,9 @@
             padding: 20px 24px; background: var(--white);
             border: 1px solid var(--light-gray); border-radius: 12px;
             margin-bottom: 12px; transition: all .2s;
+            border-left: 4px solid var(--sage);
         }
-        .what-you-get li:hover { border-color: var(--sage); transform: translateY(-1px); }
-        .what-you-get .item-icon {
-            flex-shrink: 0; width: 40px; height: 40px;
-            background: var(--pale); border-radius: 10px;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 1.1rem;
-        }
+        .what-you-get li:hover { border-color: var(--sage); border-left-color: var(--forest-mid); transform: translateY(-1px); }
         .what-you-get .item-text strong { display: block; font-size: .95rem; color: var(--charcoal); margin-bottom: 2px; }
         .what-you-get .item-text span { font-size: .85rem; color: var(--slate); line-height: 1.5; }
 
@@ -130,6 +131,7 @@
         @media (max-width: 600px) {
             .hero h1 { font-size: 1.6rem; }
             .hero { padding: 60px 20px 40px; }
+            .hero-booking { flex-direction: column; }
             .content { padding: 40px 20px; }
             .comparison { overflow-x: auto; }
         }
@@ -152,8 +154,11 @@
     <p>A 90-minute 1-on-1 session with a former franchise owner who reviews your deal from a business and operations perspective — the analysis your attorney won't do.</p>
     <div class="hero-price">$697</div>
     <div class="hero-price-note">one-time · 90-minute session + follow-up support</div>
-    <a href="#book" class="hero-cta" id="bookBtn">Book Your Expert Review →</a>
-    <div class="hero-sub">Limited availability. Sessions fill up fast.</div>
+    <form class="hero-booking" onsubmit="handleBooking(event)">
+        <input type="email" id="heroBookingEmail" placeholder="Your email" required>
+        <button type="submit" id="heroBookBtn">Book Your Expert Review →</button>
+    </form>
+    <div class="hero-sub">Limited availability. We'll confirm your session within 24 hours.</div>
 </section>
 
 <div class="content">
@@ -164,35 +169,30 @@
 
     <ul class="what-you-get">
         <li>
-            <div class="item-icon">📋</div>
             <div class="item-text">
                 <strong>90-Minute Deep Dive Session</strong>
                 <span>We go through your specific franchise deal together — financials, operations model, territory analysis, and every red flag I see from someone who's been in the trenches.</span>
             </div>
         </li>
         <li>
-            <div class="item-icon">📊</div>
             <div class="item-text">
                 <strong>Business & Operations Perspective</strong>
                 <span>I don't just read the document — I analyze whether this business will actually work for YOU based on your market, your capital, and your goals.</span>
             </div>
         </li>
         <li>
-            <div class="item-icon">✅</div>
             <div class="item-text">
                 <strong>Go / No-Go Recommendation</strong>
                 <span>A clear, honest recommendation with the specific rationale behind it. No hedging, no legal disclaimers masking the real answer.</span>
             </div>
         </li>
         <li>
-            <div class="item-icon">🎯</div>
             <div class="item-text">
                 <strong>Negotiation Strategy</strong>
                 <span>If the deal has potential, I'll tell you exactly what to negotiate on and how to position your asks — based on what actually works with franchisors.</span>
             </div>
         </li>
         <li>
-            <div class="item-icon">📧</div>
             <div class="item-text">
                 <strong>Follow-Up Action Plan & Email Support</strong>
                 <span>You get a written summary of our session with specific next steps, plus 2 weeks of email follow-up for any questions that come up after.</span>
@@ -217,7 +217,7 @@
             <tr>
                 <th></th>
                 <th>Franchise Attorney</th>
-                <th class="highlight">Expert Review ($697)</th>
+                <th class="highlight">Expert Review</th>
             </tr>
             <tr>
                 <td>Cost</td>
@@ -284,8 +284,11 @@
 <script>
 async function handleBooking(e) {
     e.preventDefault();
-    const email = document.getElementById('bookingEmail').value;
-    const btn = document.getElementById('bookSubmitBtn');
+    const form = e.target;
+    const emailInput = form.querySelector('input[type="email"]');
+    const btn = form.querySelector('button');
+    const email = emailInput.value;
+    const origText = btn.textContent;
     btn.textContent = 'Sending...';
     btn.disabled = true;
     try {
@@ -298,7 +301,16 @@ async function handleBooking(e) {
             btn.textContent = '✓ Request Received!';
             btn.style.background = '#DCFCE7';
             btn.style.color = '#166534';
-            document.getElementById('bookingEmail').style.display = 'none';
+            emailInput.style.display = 'none';
+            // Also update the other form if it exists
+            document.querySelectorAll('form').forEach(f => {
+                if (f !== form) {
+                    const otherBtn = f.querySelector('button');
+                    const otherInput = f.querySelector('input[type="email"]');
+                    if (otherBtn) { otherBtn.textContent = '✓ Request Received!'; otherBtn.style.background = '#DCFCE7'; otherBtn.style.color = '#166534'; otherBtn.disabled = true; }
+                    if (otherInput) otherInput.style.display = 'none';
+                }
+            });
         } else {
             btn.textContent = 'Error — try again';
             btn.disabled = false;

@@ -41,11 +41,11 @@
 <div class="calc-container">
 
 <!-- REVENUE -->
-<div class="calc-section"><div class="section-header"><div class="section-icon">💰</div><div><h2>Revenue</h2><p>What the franchise says you'll make (or your actual numbers)</p></div></div>
+<div class="calc-section"><div class="section-header"><div><h2>Revenue</h2><p>What the franchise says you'll make (or your actual numbers)</p></div></div>
 <div class="input-grid"><div class="input-group"><label>Annual Gross Revenue <span class="hint">(Item 19 of FDD, or your estimate)</span></label><div class="input-wrap"><span class="prefix">$</span><input type="text" id="revenue" class="has-prefix" placeholder="e.g. 250,000" oninput="fmtC(this)"></div></div></div></div>
 
 <!-- FRANCHISE FEES -->
-<div class="calc-section"><div class="section-header"><div class="section-icon">📋</div><div><h2>Franchise Fees</h2><p>These are in your FDD — Items 5, 6, and 7. Don't skip any.</p></div></div>
+<div class="calc-section"><div class="section-header"><div><h2>Franchise Fees</h2><p>These are in your FDD — Items 5, 6, and 7. Don't skip any.</p></div></div>
 <div class="input-grid">
 <div class="input-group"><label>Royalty Fee <span class="hint">(% of revenue — typically 4-12%. Check FDD Item 6 for minimum weekly floors.)</span></label><div class="input-wrap"><input type="text" id="royalty" class="has-suffix" placeholder="6" value="6"><span class="suffix">%</span></div></div>
 <div class="input-group"><label>Marketing/Ad Fund Fee <span class="hint">(% of revenue — typically 1-4%)</span></label><div class="input-wrap"><input type="text" id="adFund" class="has-suffix" placeholder="2" value="2"><span class="suffix">%</span></div></div>
@@ -57,7 +57,7 @@
 </div></div>
 
 <!-- OCCUPANCY -->
-<div class="calc-section"><div class="section-header"><div class="section-icon">🏢</div><div><h2>Occupancy Costs</h2><p>If rent eats more than 15% of revenue, that's a red flag.</p></div></div>
+<div class="calc-section"><div class="section-header"><div><h2>Occupancy Costs</h2><p>If rent eats more than 15% of revenue, that's a red flag.</p></div></div>
 <div class="input-grid">
 <div class="input-group"><label>Rent / Lease <span class="hint">(monthly)</span></label><div class="input-wrap"><span class="prefix">$</span><input type="text" id="rent" class="has-prefix" placeholder="3,300" oninput="fmtC(this)"></div></div>
 <div class="input-group"><label>Utilities <span class="hint">(electric, water, gas — monthly)</span></label><div class="input-wrap"><span class="prefix">$</span><input type="text" id="utilities" class="has-prefix" placeholder="350" oninput="fmtC(this)"></div></div>
@@ -66,7 +66,7 @@
 </div></div>
 
 <!-- LABOR -->
-<div class="calc-section"><div class="section-header"><div class="section-icon">👥</div><div><h2>Labor Costs</h2><p>Wages are only part of it. Payroll taxes, processing, and training add 15-25% more.</p></div></div>
+<div class="calc-section"><div class="section-header"><div><h2>Labor Costs</h2><p>Wages are only part of it. Payroll taxes, processing, and training add 15-25% more.</p></div></div>
 <div class="input-grid">
 <div class="input-group"><label>Total Wages / Salaries <span class="hint">(monthly — all employees)</span></label><div class="input-wrap"><span class="prefix">$</span><input type="text" id="wages" class="has-prefix" placeholder="6,600" oninput="fmtC(this)"></div></div>
 <div class="input-group"><label>Payroll Tax Rate <span class="info-tip">?<span class="tip-text">Employer FICA (7.65%) + state unemployment (1-5%). Most employers pay 10-14% on top of wages.</span></span> <span class="hint">(% of wages)</span></label><div class="input-wrap"><input type="text" id="payrollTax" class="has-suffix" placeholder="12" value="12"><span class="suffix">%</span></div></div>
@@ -77,7 +77,7 @@
 </div></div>
 
 <!-- OPERATING -->
-<div class="calc-section"><div class="section-header"><div class="section-icon">⚙️</div><div><h2>Operating Costs</h2><p>Day-to-day costs of running the business.</p></div></div>
+<div class="calc-section"><div class="section-header"><div><h2>Operating Costs</h2><p>Day-to-day costs of running the business.</p></div></div>
 <div class="input-grid">
 <div class="input-group"><label>COGS / Materials & Supplies <span class="hint">(% of revenue)</span></label><div class="input-wrap"><input type="text" id="cogs" class="has-suffix" placeholder="10" value="10"><span class="suffix">%</span></div></div>
 <div class="input-group"><label>General Liability Insurance <span class="hint">(monthly)</span></label><div class="input-wrap"><span class="prefix">$</span><input type="text" id="insurance" class="has-prefix" placeholder="420" oninput="fmtC(this)"></div></div>
@@ -86,7 +86,7 @@
 </div></div>
 
 <!-- FINANCIAL - SILENT KILLERS -->
-<div class="calc-section" style="border-color:#FDE68A;background:#FFFDF5"><div class="section-header"><div class="section-icon" style="background:#FEF3C7">⚠️</div><div><h2>Financial Costs — The Silent Killers</h2><p>Invisible until they drain your bank account. Most franchise buyers forget ALL of them.</p></div></div>
+<div class="calc-section" style="border-color:#FDE68A;background:#FFFDF5"><div class="section-header"><div><h2>Financial Costs — The Silent Killers</h2><p>Invisible until they drain your bank account. Most franchise buyers forget ALL of them.</p></div></div>
 <div class="input-grid">
 <div class="input-group"><label>Loan Payment <span class="info-tip">?<span class="tip-text">SBA, commercial loans, or equipment financing. If borrowing to buy this franchise, enter monthly payment.</span></span> <span class="hint">(monthly, if financing)</span></label><div class="input-wrap"><span class="prefix">$</span><input type="text" id="loanPmt" class="has-prefix" placeholder="2,800" oninput="fmtC(this)"></div></div>
 <div class="input-group"><label>Payment Processing Fees <span class="info-tip">?<span class="tip-text">Credit card and payment processing fees. Typically 2.5-3.5% of ALL revenue. On $250K revenue = $6,250-$8,750/yr most buyers never account for.</span></span> <span class="hint">(% of revenue)</span></label><div class="input-wrap"><input type="text" id="merchantFees" class="has-suffix" placeholder="3" value="3"><span class="suffix">%</span></div></div>
@@ -95,7 +95,7 @@
 </div></div>
 
 <!-- YOUR PERSONAL COSTS -->
-<div class="calc-section"><div class="section-header"><div class="section-icon">🧑</div><div><h2>What You Need to Live</h2><p>A franchise that can't pay you isn't a business — it's an expensive job that charges you for showing up.</p></div></div>
+<div class="calc-section"><div class="section-header"><div><h2>What You Need to Live</h2><p>A franchise that can't pay you isn't a business — it's an expensive job that charges you for showing up.</p></div></div>
 <div class="input-grid">
 <div class="input-group"><label>Your Desired Monthly Income <span class="hint">(what you need to take home)</span></label><div class="input-wrap"><span class="prefix">$</span><input type="text" id="ownerPay" class="has-prefix" placeholder="6,000" oninput="fmtC(this)"></div></div>
 <div class="input-group"><label>Your Health Insurance <span class="hint">(monthly)</span></label><div class="input-wrap"><span class="prefix">$</span><input type="text" id="healthIns" class="has-prefix" placeholder="800" oninput="fmtC(this)"></div></div>

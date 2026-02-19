@@ -22,14 +22,19 @@
         .add-btn{padding:14px 24px;background:var(--forest-mid);color:var(--white);border:none;border-radius:12px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;white-space:nowrap;transition:background .2s}.add-btn:hover{background:var(--forest)}.add-btn:disabled{background:var(--light-gray);color:var(--gray);cursor:not-allowed}
         .franchise-count{font-size:.85rem;color:var(--gray)}
 
-        .franchise-tabs{display:flex;gap:8px;margin-bottom:24px;flex-wrap:wrap}
+        .franchise-tabs{display:flex;gap:8px;margin-bottom:8px;flex-wrap:wrap}
         .tab{padding:10px 20px;border:2px solid var(--light-gray);border-radius:10px;background:var(--white);cursor:pointer;font-size:.88rem;font-weight:500;transition:all .2s;display:flex;align-items:center;gap:8px}
-        .tab.active{border-color:var(--forest-mid);background:rgba(45,106,79,.04);color:var(--forest-mid)}
-        .tab:hover{border-color:var(--sage)}
-        .tab-close{width:18px;height:18px;border-radius:50%;background:var(--light-gray);display:flex;align-items:center;justify-content:center;font-size:.7rem;color:var(--gray);cursor:pointer;transition:all .2s}
+        .tab.active{border-color:var(--forest-mid);background:var(--forest-mid);color:var(--white);font-weight:700}
+        .tab:not(.active):hover{border-color:var(--sage);background:var(--pale)}
+        .tab-close{width:18px;height:18px;border-radius:50%;background:rgba(0,0,0,.1);display:flex;align-items:center;justify-content:center;font-size:.7rem;color:inherit;cursor:pointer;transition:all .2s}
+        .tab.active .tab-close{background:rgba(255,255,255,.3);color:var(--white)}
         .tab-close:hover{background:var(--danger);color:var(--white)}
+        .active-franchise-banner{background:var(--forest-mid);color:var(--white);padding:12px 20px;border-radius:10px 10px 0 0;font-weight:700;font-size:.95rem;margin-bottom:0;display:flex;align-items:center;gap:8px}
+        .active-franchise-banner .edit-dot{width:8px;height:8px;border-radius:50%;background:var(--sage);animation:pulse 2s infinite}
+        @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
 
         .input-section{background:var(--white);border:2px solid var(--light-gray);border-radius:16px;padding:28px;margin-bottom:24px}
+        .active-franchise-banner + .input-section{border-top-left-radius:0;border-top-right-radius:0;margin-top:0}
         .input-section h3{font-size:1.15rem;margin-bottom:16px;color:var(--charcoal);display:flex;align-items:center;gap:8px}
         .section-icon{font-size:1.2rem}
         .input-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
@@ -220,7 +225,7 @@ function renderForm() {
     const area = document.getElementById('formArea');
     if (activeIdx < 0 || !franchises[activeIdx]) { area.innerHTML = '<p style="color:var(--gray);text-align:center;padding:40px;">Add a franchise above to start entering data.</p>'; return; }
     const f = franchises[activeIdx];
-    area.innerHTML = FIELDS.map(section => `
+    area.innerHTML = `<div class="active-franchise-banner"><span class="edit-dot"></span> Entering data for: ${f.name}</div>` + FIELDS.map(section => `
         <div class="input-section">
             <h3>${section.section}</h3>
             <div class="input-grid">
