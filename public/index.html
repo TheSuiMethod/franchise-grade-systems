@@ -609,6 +609,88 @@
             color: var(--sage);
         }
 
+        /* Next Steps Teaser — Progressive Disclosure */
+        .next-steps-teaser {
+            margin-top: 40px;
+            padding-top: 32px;
+            border-top: 1px solid var(--light-gray);
+        }
+        .teaser-intro {
+            font-size: 0.88rem;
+            color: var(--gray);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+        }
+        .teaser-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        .teaser-step {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 16px 20px;
+            background: var(--cream);
+            border: 1px solid var(--light-gray);
+            border-radius: 12px;
+            transition: all 0.2s;
+            text-decoration: none;
+            color: inherit;
+        }
+        .teaser-step:hover {
+            border-color: var(--sage);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(27,67,50,0.06);
+        }
+        .teaser-num {
+            flex-shrink: 0;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.75rem;
+            border: 2px solid var(--light-gray);
+            background: var(--white);
+            color: var(--gray);
+        }
+        .teaser-text {
+            flex: 1;
+        }
+        .teaser-text strong {
+            display: block;
+            font-size: 0.95rem;
+            color: var(--charcoal);
+            margin-bottom: 2px;
+        }
+        .teaser-text span {
+            font-size: 0.82rem;
+            color: var(--slate);
+            line-height: 1.5;
+        }
+        .teaser-arrow {
+            flex-shrink: 0;
+            font-size: 1.2rem;
+            color: var(--sage);
+            font-weight: 600;
+            transition: transform 0.2s;
+        }
+        .teaser-step:hover .teaser-arrow {
+            transform: translateX(4px);
+            color: var(--forest-mid);
+        }
+        @media (max-width: 600px) {
+            .teaser-step {
+                padding: 14px 16px;
+                gap: 12px;
+            }
+        }
+
         /* ===== AI DIFFERENCE ===== */
         .ai-section {
             background: linear-gradient(135deg, #0F2B1F 0%, var(--forest) 100%);
@@ -835,6 +917,8 @@
             .step-marker { width: 40px; height: 40px; font-size: 0.75rem; }
             .step-content { padding: 18px 20px; }
             .step-connector { padding-left: 52px; }
+            .teaser-intro { padding-left: 0; }
+            .teaser-step { padding: 16px 18px; gap: 14px; }
             .trust-items { gap: 20px; }
             .capture-form { flex-direction: column; }
             .footer-inner { grid-template-columns: 1fr; gap: 28px; }
@@ -849,7 +933,6 @@
         <a href="/" class="nav-logo">Franchise<span>-Grade</span> Systems</a>
         <button class="mobile-menu-btn" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Menu">☰</button>
         <div class="nav-links">
-            <a href="/tools">Free Tools</a>
             <a href="#products">How It Works</a>
             <a href="#story">Our Story</a>
             <a href="/tools" class="nav-cta">Get Started Free</a>
@@ -952,21 +1035,20 @@
         </div>
     </section>
 
-    <!-- PRODUCTS -->
+    <!-- HOW IT WORKS -->
     <section class="journey-section" id="products">
         <div class="journey-inner">
-            <div class="section-label">Your Due Diligence Path</div>
-            <h2>From first red flag to final decision.</h2>
-            <p class="section-subtitle">Each step gets you closer to a confident answer. Start free. Go deeper when you're ready.</p>
+            <div class="section-label">How It Works</div>
+            <h2>Start free. Go deeper when you're ready.</h2>
+            <p class="section-subtitle">Every smart franchise decision starts with the numbers. Use our free tools — no account, no credit card, no catch.</p>
             <div class="journey-path">
 
-                <!-- STEP 1: FREE -->
+                <!-- STEP 1: FREE — Full detail (the entry point) -->
                 <div class="journey-step available">
                     <div class="step-marker">1</div>
                     <div class="step-content">
                         <div class="step-header">
                             <div class="step-label">Start Here — Free</div>
-                            <div class="step-price">$0</div>
                         </div>
                         <h3>Spot the Warning Signs</h3>
                         <p class="step-desc">Use our free calculators to stress-test the financials and download the red flags guide to know where to look in any FDD.</p>
@@ -981,80 +1063,39 @@
                     </div>
                 </div>
 
-                <div class="step-connector">You've run the numbers. Now analyze the actual document.</div>
-
-                <!-- STEP 2: $97 — AI FDD ANALYZER (merged with Second Opinion) -->
-                <div class="journey-step active">
-                    <div class="step-marker">2</div>
-                    <div class="step-content">
-                        <div class="step-header">
-                            <div class="step-label">Analyze Your FDD <span class="step-badge badge-now">Available Now</span></div>
-                            <div class="step-price">$97</div>
-                        </div>
-                        <h3>AI FDD Analyzer</h3>
-                        <p class="step-desc">Paste each section of your FDD and get instant AI analysis of all 23 legally mandated items — with personalized risk scoring, industry benchmarking, and the exact questions to ask your franchisor.</p>
-                        <ul class="step-features">
-                            <li>AI walkthrough of all 23 FDD items</li>
-                            <li>Personalized red/yellow flag detection</li>
-                            <li>Deal risk score with industry benchmarks</li>
-                            <li>Plain-English breakdown of legal jargon</li>
-                            <li>Financial projection stress-test</li>
-                            <li>Downloadable PDF report</li>
-                        </ul>
-                        <a href="/fdd-analyzer" class="step-cta step-cta-primary">Analyze My FDD →</a>
-                        <div class="step-tagline">What franchise attorneys charge $2,000+ for — yours for $97.</div>
-                    </div>
-                </div>
-
-                <div class="step-connector">Your analysis revealed risks. Now get the tools to act on them.</div>
-
-                <!-- STEP 3: $297 — AI FRANCHISE DECISION ENGINE -->
-                <div class="journey-step">
-                    <div class="step-marker">3</div>
-                    <div class="step-content">
-                        <div class="step-header">
-                            <div class="step-label">Compare, Practice &amp; Decide <span class="step-badge" style="background:#DCFCE7;color:#166534">Available Now</span></div>
-                            <div class="step-price">$297</div>
-                        </div>
-                        <h3>AI Franchise Decision Engine</h3>
-                        <p class="step-desc">Compare up to 5 franchise opportunities side-by-side, practice negotiation calls with our AI Simulator, and walk away with a complete due diligence action plan.</p>
-                        <ul class="step-features">
-                            <li>Compare up to 5 franchises side-by-side</li>
-                            <li>AI Negotiation Simulator — practice before real calls</li>
-                            <li>Franchisee validation call scripts</li>
-                            <li>Includes the AI FDD Analyzer ($97 value)</li>
-                        </ul>
-                        <a href="/decision-engine" class="step-cta">Get the Decision Engine — $297 →</a>
-                        <div class="step-tagline">Free previews of each tool available. Full access unlocked with purchase.</div>
-                    </div>
-                </div>
-
-                <div class="step-connector">You've done the work. Now get expert eyes on it.</div>
-
-                <!-- STEP 4: $697 — EXPERT FDD & BUSINESS REVIEW -->
-                <div class="journey-step">
-                    <div class="step-marker">4</div>
-                    <div class="step-content">
-                        <div class="step-header">
-                            <div class="step-label">Expert Validation <span class="step-badge badge-soon">Coming Soon</span></div>
-                            <div class="step-price">$697</div>
-                        </div>
-                        <h3>Expert FDD &amp; Business Review</h3>
-                        <p class="step-desc">A 90-minute 1-on-1 session with a former franchise owner who reviews your deal from a business and operations perspective — the analysis your attorney won't do.</p>
-                        <ul class="step-features">
-                            <li>90-minute personalized review session</li>
-                            <li>Business &amp; operations perspective (not just legal)</li>
-                            <li>Go/no-go recommendation with rationale</li>
-                            <li>Negotiation strategy for your specific deal</li>
-                            <li>Follow-up action plan &amp; email support</li>
-                            <li>65% less than a franchise attorney — with the business insight they miss</li>
-                        </ul>
-                        <span class="step-cta step-cta-muted">Coming Soon</span>
-                        <div class="step-tagline">The business review your attorney won't give you.</div>
-                    </div>
-                </div>
-
             </div>
+
+            <!-- NEXT STEPS TEASER — Progressive disclosure -->
+            <div class="next-steps-teaser">
+                <p class="teaser-intro">When you're ready to go deeper:</p>
+                <div class="teaser-steps">
+                    <a href="/fdd-analyzer" class="teaser-step">
+                        <div class="teaser-num">2</div>
+                        <div class="teaser-text">
+                            <strong>Analyze Your FDD</strong>
+                            <span>AI scans all 23 disclosure items for hidden fees, risk patterns, and the questions your franchisor hopes you won't ask.</span>
+                        </div>
+                        <span class="teaser-arrow">→</span>
+                    </a>
+                    <a href="/decision-engine" class="teaser-step">
+                        <div class="teaser-num">3</div>
+                        <div class="teaser-text">
+                            <strong>Compare, Practice &amp; Decide</strong>
+                            <span>Compare franchise opportunities side-by-side, practice negotiation calls with AI, and build your complete action plan.</span>
+                        </div>
+                        <span class="teaser-arrow">→</span>
+                    </a>
+                    <a href="/expert-review" class="teaser-step">
+                        <div class="teaser-num">4</div>
+                        <div class="teaser-text">
+                            <strong>Get Expert Eyes on Your Deal</strong>
+                            <span>1-on-1 review with a former franchise owner who gives you the business perspective your attorney can't.</span>
+                        </div>
+                        <span class="teaser-arrow">→</span>
+                    </a>
+                </div>
+            </div>
+
         </div>
     </section>
 
@@ -1130,16 +1171,14 @@
                 <a href="/business-scorecard">Business Scorecard</a>
             </div>
             <div class="footer-col">
-                <h4>Due Diligence Path</h4>
-                <a href="#products">Step 1: Free Tools</a>
-                <a href="/fdd-analyzer">Step 2: AI FDD Analyzer — $97</a>
-                <a href="/decision-engine">Step 3: Decision Engine — $297</a>
-                <a href="#products">Step 4: Expert Review — $697</a>
+                <h4>Resources</h4>
+                <a href="/tools">Free Tools</a>
+                <a href="#products">How It Works</a>
+                <a href="#waitlist">Get Free Guide</a>
             </div>
             <div class="footer-col">
                 <h4>Company</h4>
                 <a href="#story">Our Story</a>
-                <a href="#waitlist">Get Free Guide</a>
                 <a href="/privacy">Privacy Policy</a>
                 <a href="/terms">Terms of Service</a>
             </div>

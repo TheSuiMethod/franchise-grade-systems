@@ -141,10 +141,8 @@
     <a href="/" class="nav-logo">Franchise<span>-Grade</span> Systems</a>
     <button class="mobile-menu-btn" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Menu">☰</button>
     <div class="nav-links">
-        <a href="/tools">Free Tools</a>
         <a href="/#products">How It Works</a>
         <a href="/#story">Our Story</a>
-        <a href="/tools" class="nav-cta">Get Started Free</a>
     </div>
 </nav>
 
@@ -257,14 +255,17 @@
     <div class="cta-section" id="book">
         <h3>Ready for Expert Eyes on Your Deal?</h3>
         <p>You're about to invest six figures. Spending $697 for an expert business review isn't caution — it's common sense.</p>
-        <a href="#book" class="cta-btn" id="bookBtnBottom">Book Your Expert Review — $697 →</a>
+        <form style="max-width:400px;margin:20px auto 0;display:flex;gap:10px;" onsubmit="handleBooking(event)">
+            <input type="email" id="bookingEmail" placeholder="Your email" required style="flex:1;padding:12px 16px;border:2px solid var(--sage);border-radius:10px;font-size:.9rem;font-family:'DM Sans',sans-serif;">
+            <button type="submit" id="bookSubmitBtn" style="padding:12px 24px;background:var(--forest-mid);color:#fff;border:none;border-radius:10px;font-weight:700;font-size:.88rem;font-family:'DM Sans',sans-serif;cursor:pointer;white-space:nowrap;">Request Session →</button>
+        </form>
         <div class="cta-sub">90-minute session · Written action plan · 2 weeks email support</div>
     </div>
 
     <div class="downgrade">
         <p>Not Ready for 1-on-1?</p>
         <h3>Do the analysis yourself with our AI tools.</h3>
-        <p class="desc">Start with the free calculators, or use the AI FDD Analyzer ($97) or full Decision Engine ($297) to do your own due diligence first.</p>
+        <p class="desc">Start with the free calculators, or use the AI FDD Analyzer or full Decision Engine to do your own due diligence first.</p>
         <a href="/tools">Start with Free Tools →</a>
     </div>
 
@@ -280,5 +281,33 @@
     </div>
 </footer>
 
+<script>
+async function handleBooking(e) {
+    e.preventDefault();
+    const email = document.getElementById('bookingEmail').value;
+    const btn = document.getElementById('bookSubmitBtn');
+    btn.textContent = 'Sending...';
+    btn.disabled = true;
+    try {
+        const res = await fetch('/api/subscribe', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, source: 'expert-review-booking' })
+        });
+        if (res.ok) {
+            btn.textContent = '✓ Request Received!';
+            btn.style.background = '#DCFCE7';
+            btn.style.color = '#166534';
+            document.getElementById('bookingEmail').style.display = 'none';
+        } else {
+            btn.textContent = 'Error — try again';
+            btn.disabled = false;
+        }
+    } catch (err) {
+        btn.textContent = 'Error — try again';
+        btn.disabled = false;
+    }
+}
+</script>
 </body>
 </html>
