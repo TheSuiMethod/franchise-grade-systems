@@ -275,11 +275,12 @@ const SCRIPTS = {
 };
 
 function generateScripts() {
-    const brand = document.getElementById('brand').value.trim() || '[Franchise Name]';
+    const brand = document.getElementById('brand').value.trim();
     const callType = document.getElementById('callType').value;
     const concerns = document.getElementById('concerns').value.trim();
-    const selected = Array.from(document.querySelectorAll('.concern-tag.selected')).map(t => t.dataset.topic);
+    const selected = Array.from(document.querySelectorAll('.concern-tag.selected:not(.locked)')).map(t => t.dataset.topic);
 
+    if (!brand) { alert('Enter the franchise name first. Your scripts will be customized to that specific brand.'); document.getElementById('brand').focus(); return; }
     if (selected.length === 0) { alert('Please select at least one topic area.'); return; }
 
     const container = document.getElementById('scriptsContent');
