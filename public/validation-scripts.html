@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Franchisee Validation Call Scripts | Franchise-Grade Systems</title>
+    <meta name="description" content="Get customized scripts for calling existing franchise owners during due diligence. Know exactly what to ask, how to ask it, and what red flags to listen for.">
+    <link rel="canonical" href="https://www.franchisegradesystems.com/validation-scripts">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+    <style>
+        :root{--forest:#1B4332;--forest-mid:#2D6A4F;--forest-light:#40916C;--sage:#52B788;--mint:#95D5B2;--pale:#D8F3DC;--cream:#F7FBF9;--white:#FFFFFF;--charcoal:#1A1A2E;--slate:#4A4A5A;--gray:#6B7280;--light-gray:#E5E7EB;--warning:#F59E0B;--danger:#EF4444;--success:#10B981}
+        *{margin:0;padding:0;box-sizing:border-box}body{font-family:'DM Sans',sans-serif;color:var(--charcoal);background:var(--cream);line-height:1.6;-webkit-font-smoothing:antialiased}h1,h2,h3,h4{font-family:'Instrument Serif',serif;font-weight:400}
+        .nav{background:var(--forest);padding:16px 24px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:1000;box-shadow:0 2px 12px rgba(0,0,0,.15)}.nav-logo{font-family:'Instrument Serif',serif;color:var(--white);font-size:1.25rem;text-decoration:none}.nav-logo span{color:var(--sage)}.nav-links{display:flex;gap:24px;align-items:center}.nav-links a{color:var(--mint);text-decoration:none;font-size:.9rem;font-weight:500}.nav-links a:hover{color:var(--white)}.nav-cta{background:var(--sage)!important;color:var(--forest)!important;padding:8px 20px;border-radius:8px;font-weight:600!important}.mobile-menu-btn{display:none;background:none;border:none;color:var(--white);font-size:1.5rem;cursor:pointer}
+        .hero{background:linear-gradient(135deg,var(--forest),var(--forest-mid));padding:48px 24px 40px;text-align:center}.hero-badge{display:inline-block;background:rgba(82,183,136,.2);border:1px solid rgba(82,183,136,.3);color:var(--mint);font-size:.75rem;font-weight:600;text-transform:uppercase;letter-spacing:1.5px;padding:5px 14px;border-radius:20px;margin-bottom:16px}.hero h1{color:var(--white);font-size:clamp(1.6rem,3.5vw,2.2rem);margin-bottom:10px}.hero h1 em{color:var(--sage);font-style:italic}.hero p{color:var(--mint);font-size:.95rem;max-width:600px;margin:0 auto}
+        .main{max-width:800px;margin:0 auto;padding:36px 24px 80px}
+
+        .setup{background:var(--white);border:2px solid var(--light-gray);border-radius:16px;padding:28px;margin-bottom:24px}
+        .setup h3{font-size:1.15rem;margin-bottom:16px}
+        .setup-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+        .field{display:flex;flex-direction:column;gap:4px}
+        .field label{font-size:.82rem;font-weight:600;color:var(--slate)}
+        .field input,.field select,.field textarea{padding:10px 14px;border:2px solid var(--light-gray);border-radius:8px;font-family:'DM Sans',sans-serif;font-size:.9rem}
+        .field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--sage)}
+        .field-full{grid-column:1/-1}
+
+        .concern-picker{margin-bottom:24px}
+        .concern-picker h3{font-size:1.15rem;margin-bottom:8px}
+        .concern-picker>p{font-size:.88rem;color:var(--slate);margin-bottom:16px}
+        .concern-tags{display:flex;flex-wrap:wrap;gap:8px}
+        .concern-tag{padding:8px 16px;border:2px solid var(--light-gray);border-radius:20px;font-size:.85rem;cursor:pointer;transition:all .2s;background:var(--white)}
+        .concern-tag:hover{border-color:var(--sage)}
+        .concern-tag.selected{border-color:var(--forest-mid);background:rgba(45,106,79,.06);color:var(--forest-mid);font-weight:500}
+
+        .gen-btn{display:block;width:100%;padding:16px;background:var(--forest-mid);color:var(--white);border:none;border-radius:12px;font-weight:700;font-size:1rem;cursor:pointer;font-family:'DM Sans',sans-serif;transition:background .2s;margin-bottom:32px}.gen-btn:hover{background:var(--forest)}
+
+        /* SCRIPTS OUTPUT */
+        .scripts{display:none}.scripts.visible{display:block}
+        .script-card{background:var(--white);border:2px solid var(--light-gray);border-radius:16px;padding:28px;margin-bottom:20px;position:relative}
+        .script-card h3{font-size:1.15rem;margin-bottom:4px}
+        .script-card .script-type{font-size:.78rem;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:var(--forest-light);margin-bottom:16px}
+        .script-text{font-size:.92rem;line-height:1.8;color:var(--charcoal)}
+        .script-text .you{color:var(--forest-mid);font-weight:600}
+        .script-text .tip{background:var(--pale);color:var(--forest-mid);font-size:.82rem;padding:8px 14px;border-radius:8px;margin:12px 0;font-style:italic;display:block}
+        .script-text .red-flag{background:#FEF2F2;border-left:3px solid var(--danger);padding:8px 14px;margin:12px 0;font-size:.85rem;color:#991B1B;border-radius:0 8px 8px 0}
+        .copy-btn{position:absolute;top:16px;right:16px;padding:8px 16px;background:var(--pale);color:var(--forest-mid);border:none;border-radius:8px;font-size:.82rem;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s}
+        .copy-btn:hover{background:var(--sage);color:var(--white)}
+
+        .pro-tips{background:var(--forest);border-radius:16px;padding:32px;color:var(--white);margin-bottom:32px}
+        .pro-tips h3{color:var(--white);font-size:1.3rem;margin-bottom:16px}
+        .pro-tips li{color:var(--mint);font-size:.9rem;line-height:1.7;margin-bottom:8px;padding-left:4px}
+
+        .cta-bar{background:var(--white);border:2px solid var(--sage);border-radius:16px;padding:32px;text-align:center}
+        .cta-bar h3{font-size:1.3rem;margin-bottom:8px}.cta-bar p{color:var(--slate);font-size:.9rem;margin-bottom:16px}
+        .cta-btn{display:inline-block;background:var(--forest-mid);color:var(--white);padding:14px 28px;border-radius:10px;font-weight:700;text-decoration:none;transition:background .2s}.cta-btn:hover{background:var(--forest)}
+        .reset-btn{display:inline-block;margin-top:12px;color:var(--gray);font-size:.85rem;cursor:pointer;text-decoration:underline;background:none;border:none;font-family:'DM Sans',sans-serif}
+
+        .footer{background:#0A1F14;padding:36px 24px;text-align:center;color:var(--mint)}.footer-logo{font-family:'Instrument Serif',serif;color:var(--white);font-size:1.15rem;margin-bottom:8px}.footer-logo span{color:var(--sage)}.footer p{font-size:.82rem;opacity:.5;margin-bottom:12px}.footer-links{display:flex;gap:20px;justify-content:center;flex-wrap:wrap}.footer-links a{color:var(--mint);text-decoration:none;font-size:.85rem;opacity:.6}.footer-links a:hover{opacity:1}
+        @media(max-width:700px){.setup-grid{grid-template-columns:1fr}.nav-links{display:none}.nav-links.open{display:flex;flex-direction:column;position:absolute;top:100%;left:0;right:0;background:var(--forest);padding:16px 24px}.mobile-menu-btn{display:block}}
+    </style>
+</head>
+<body>
+<nav class="nav">
+    <a href="/" class="nav-logo">Franchise<span>-Grade</span> Systems</a>
+    <button class="mobile-menu-btn" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Menu">☰</button>
+    <div class="nav-links"><a href="/tools">Free Tools</a><a href="/#products">How It Works</a><a href="/#story">Our Story</a><a href="/tools" class="nav-cta">Get Started Free</a></div>
+</nav>
+<section class="hero">
+    <div class="hero-badge">Part of the $297 Decision Engine</div>
+    <h1>Franchisee <em>Validation Call Scripts</em></h1>
+    <p>Know exactly what to ask existing franchise owners — and what red flags to listen for. Customized to your specific deal.</p>
+</section>
+<div class="main">
+    <div id="inputView">
+        <div class="setup">
+            <h3>Tell us about the franchise you're evaluating</h3>
+            <div class="setup-grid">
+                <div class="field"><label>Franchise Brand</label><input type="text" id="brand" placeholder="e.g., Great Clips, Orangetheory"></div>
+                <div class="field"><label>Industry</label>
+                    <select id="industry">
+                        <option value="">Select industry</option>
+                        <option>Food & Restaurant</option><option>Health & Fitness</option>
+                        <option>Home Services</option><option>Retail</option>
+                        <option>Personal Services</option><option>Automotive</option>
+                        <option>Education & Childcare</option><option>Business Services</option>
+                        <option>Other</option>
+                    </select>
+                </div>
+                <div class="field"><label>Your Total Investment (est.)</label><input type="text" id="investment" placeholder="$250,000" inputmode="numeric"></div>
+                <div class="field"><label>Call Type</label>
+                    <select id="callType">
+                        <option value="current">Current Franchisee (active)</option>
+                        <option value="former">Former Franchisee (left/closed)</option>
+                        <option value="new">Newer Franchisee (under 2 years)</option>
+                    </select>
+                </div>
+                <div class="field field-full"><label>Specific concerns from your FDD (optional)</label>
+                    <textarea id="concerns" rows="2" placeholder="e.g., Uncapped tech fees, limited territory, high closure rate..."></textarea>
+                </div>
+            </div>
+        </div>
+
+        <div class="concern-picker">
+            <h3>Select areas to focus on</h3>
+            <p>Pick the topics most important to you. Your scripts will prioritize these.</p>
+            <div class="concern-tags">
+                <span class="concern-tag selected" onclick="toggleConcern(this)" data-topic="financial">💰 Financial Reality</span>
+                <span class="concern-tag selected" onclick="toggleConcern(this)" data-topic="support">🤝 Franchisor Support</span>
+                <span class="concern-tag" onclick="toggleConcern(this)" data-topic="territory">🗺️ Territory Issues</span>
+                <span class="concern-tag" onclick="toggleConcern(this)" data-topic="fees">📋 Fee Surprises</span>
+                <span class="concern-tag" onclick="toggleConcern(this)" data-topic="operations">⚙️ Day-to-Day Operations</span>
+                <span class="concern-tag" onclick="toggleConcern(this)" data-topic="satisfaction">😊 Overall Satisfaction</span>
+                <span class="concern-tag" onclick="toggleConcern(this)" data-topic="exit">🚪 Exit & Regret</span>
+                <span class="concern-tag" onclick="toggleConcern(this)" data-topic="marketing">📣 Marketing & Leads</span>
+            </div>
+        </div>
+
+        <button class="gen-btn" onclick="generateScripts()">Generate My Scripts →</button>
+    </div>
+
+    <div class="scripts" id="scriptsView">
+        <div id="scriptsContent"></div>
+
+        <div class="pro-tips">
+            <h3>Pro Tips for Validation Calls</h3>
+            <ol>
+                <li><strong>Call at least 5-8 franchisees</strong> — including ones NOT on the franchisor's "recommended" list. Use the Item 20 list in your FDD to find all current/former owners.</li>
+                <li><strong>Call former franchisees</strong> — they have zero reason to sugarcoat. Ask why they left.</li>
+                <li><strong>Listen for hesitation</strong> — long pauses and vague answers tell you more than enthusiastic pitches.</li>
+                <li><strong>Ask the same questions to multiple owners</strong> — consistent answers build confidence; conflicting answers are red flags.</li>
+                <li><strong>Take notes immediately after each call</strong> — details fade fast. Record impressions, not just facts.</li>
+                <li><strong>Avoid leading questions</strong> — "The fees seem reasonable, right?" will get you a yes. "How do the fees compare to what you expected?" gets you truth.</li>
+            </ol>
+        </div>
+
+        <div class="cta-bar">
+            <h3>Ready to Analyze the FDD Itself?</h3>
+            <p>Validation calls tell you the experience. The FDD tells you the contract. Analyze both.</p>
+            <a href="/fdd-analyzer" class="cta-btn">Analyze My FDD — $97 →</a><br>
+            <button class="reset-btn" onclick="resetScripts()">↻ Generate New Scripts</button>
+        </div>
+    </div>
+</div>
+<footer class="footer">
+    <div class="footer-logo">Franchise<span>-Grade</span> Systems</div>
+    <p>&copy; 2026 Franchise-Grade Systems. All rights reserved. Not legal or financial advice.</p>
+    <div class="footer-links"><a href="/">Home</a><a href="/tools">Free Tools</a><a href="/#products">How It Works</a><a href="/privacy">Privacy</a><a href="/terms">Terms</a></div>
+</footer>
+<script>
+function toggleConcern(el) { el.classList.toggle('selected'); }
+
+const SCRIPTS = {
+    financial: {
+        title: 'Financial Reality Check',
+        type: 'Must-Ask — Every Call',
+        current: [
+            { you: "I'm doing my due diligence on [BRAND] and would really value your honest perspective. First — roughly how long did it take you to break even on your initial investment?", tip: "Listen for: Do they give a specific number or hedge? Hedging often means longer than expected." },
+            { you: "The FDD shows average revenue of around [X]. How does that compare to your actual experience in Year 1 and now?", flag: "RED FLAG: If they say 'it's different for everyone' or refuse to discuss numbers at all, that's evasion." },
+            { you: "After royalties, marketing fees, rent, labor, and all the mandatory costs — what does your actual take-home look like? Not revenue, but what you personally keep.", tip: "This is the question most buyers never ask. Gross revenue means nothing — net take-home is everything." },
+            { you: "Were there any significant costs that surprised you — things that weren't obvious from the FDD or Discovery Day?", flag: "RED FLAG: Multiple franchisees mentioning the same surprise cost = systemic issue the franchisor isn't transparent about." }
+        ],
+        former: [
+            { you: "I'm considering [BRAND] and doing thorough due diligence. Would you be willing to share why you decided to leave the system?", tip: "Former franchisees are your most honest source. They have nothing to gain from spinning." },
+            { you: "Did the financial reality match what was presented during the sales process and in the FDD?", flag: "RED FLAG: 'Not even close' or visible frustration = the FDD projections may be misleading." },
+            { you: "How much did it actually cost you to exit — transfer fees, de-identification, lost investment?", tip: "Total exit cost = a number you need to model in your worst-case scenario." }
+        ],
+        new: [
+            { you: "You're about [X] months in — how is revenue tracking against what you expected from the FDD and Discovery Day?", tip: "New franchisees are living your near-future. Their reality check is the most relevant." },
+            { you: "What's been the biggest financial surprise — positive or negative — since opening?", flag: "RED FLAG: If they mention fees increasing shortly after signing, watch for the same pattern." }
+        ]
+    },
+    support: {
+        title: 'Franchisor Support Quality',
+        type: 'Must-Ask — Every Call',
+        current: [
+            { you: "How would you rate the corporate support you receive on a scale of 1-10? What would make it a 10?", tip: "The gap between their number and 10 tells you exactly what's missing." },
+            { you: "When you have an operational problem — a staffing issue, a supplier problem, a tough customer situation — how responsive is the corporate team?", flag: "RED FLAG: 'I've learned to handle things myself' = support is inadequate." },
+            { you: "How often does your field consultant visit? And when they do, is it helpful or just checking boxes?", tip: "Frequency AND quality both matter. Monthly visits that are just audits aren't real support." },
+            { you: "If you could change one thing about the franchisor's support, what would it be?", tip: "This question bypasses the 'everything's great' filter. Everyone has one thing." }
+        ],
+        former: [
+            { you: "How was the franchisor's support during difficult periods? Did they step up or step back?", flag: "RED FLAG: 'They only care about collecting royalties' = support is transactional, not relational." }
+        ],
+        new: [
+            { you: "How was the initial training? Did it actually prepare you to run the business on Day 1?", tip: "Training quality = your first 90 days. Bad training = expensive mistakes." },
+            { you: "Is the ongoing support matching what was promised during Discovery Day?", flag: "RED FLAG: 'It was different once I signed' = classic bait and switch." }
+        ]
+    },
+    territory: {
+        title: 'Territory & Competition',
+        type: 'Key Concern',
+        current: [
+            { you: "Have you experienced any territory encroachment — another [BRAND] location or online/delivery sales competing in your area?", flag: "RED FLAG: Any yes here = the territory protection in the FDD has real holes." },
+            { you: "How do you feel about the delivery app and online sales situation? Does it help or hurt your location's revenue?", tip: "This reveals whether digital channels are additive or cannibalistic." },
+            { you: "If you could renegotiate your territory terms, what would you change?", tip: "Their answer tells you exactly what to negotiate before you sign." }
+        ]
+    },
+    fees: {
+        title: 'Fee Structure Reality',
+        type: 'Key Concern',
+        current: [
+            { you: "Have any of your fees increased since you signed? Which ones and by how much?", flag: "RED FLAG: Technology fee or Brand Fund increases with no corresponding value increase." },
+            { you: "The FDD shows about [X]% of revenue goes to mandatory fees. Does that match your experience?", tip: "If their number is higher, the FDD is understating the real burden." },
+            { you: "Are there any mandatory vendor costs that feel excessive? Do you feel you're getting fair value?", flag: "RED FLAG: 'I'm paying twice what I could get elsewhere' = mandatory vendor = hidden profit center for franchisor." },
+            { you: "The technology fee doesn't appear to be capped. Has that been a concern?", tip: "If they don't know it's uncapped, that's also information — it means they haven't read their own FDD carefully." }
+        ]
+    },
+    operations: {
+        title: 'Day-to-Day Operations',
+        type: 'Operational Reality',
+        current: [
+            { you: "Walk me through a typical week for you as the owner. How many hours are you working?", tip: "FDDs never mention owner hours. If it's 60+ per week, factor that into your 'salary' calculation." },
+            { you: "What's your biggest operational headache? Staffing, supply chain, equipment, something else?", flag: "RED FLAG: If every franchisee mentions the same operational problem, the 'system' isn't solving it." },
+            { you: "How prescriptive is corporate? Do you have flexibility to adapt to your local market?", tip: "Too prescriptive = you're a manager, not an owner. Too loose = what are you paying royalties for?" },
+            { you: "How is staffing? How long does it take to hire and train a good employee?", tip: "Labor is the #1 cost and headache for most franchise businesses." }
+        ]
+    },
+    satisfaction: {
+        title: 'Overall Satisfaction & Regret',
+        type: 'The Big Question',
+        current: [
+            { you: "Knowing everything you know now — the real numbers, the actual work, the relationship with corporate — would you do it again?", flag: "RED FLAG: Anything other than a clear, immediate 'yes' is a yellow flag. Listen for pauses, qualifiers, and sighs." },
+            { you: "Would you recommend this franchise to a close friend or family member who was considering it?", tip: "The friend/family test is the ultimate filter. People protect their own differently than strangers." },
+            { you: "What's the one thing you wish you had known before signing the franchise agreement?", tip: "This is gold. Write down exactly what they say." }
+        ],
+        former: [
+            { you: "If you could go back, would you have still bought this franchise? Or would you have chosen differently?", tip: "This question gets to the core of whether the model works for operators, not just corporate." }
+        ]
+    },
+    exit: {
+        title: 'Exit & Transfer Experience',
+        type: 'Key Concern',
+        current: [
+            { you: "Have you thought about your exit strategy? How easy would it be to sell your franchise if you wanted to?", tip: "Many franchisees don't think about exit until it's too late. Their awareness level tells you a lot." },
+            { you: "Do you know anyone who's tried to sell their [BRAND] franchise? How did it go?", flag: "RED FLAG: 'Nobody wants to buy these' or 'Corporate blocked the sale' = your exit risk is HIGH." },
+            { you: "The FDD mentions a 2-year non-compete. Does that concern you?", tip: "If they didn't know about it, they didn't read their FDD. If they did, their reaction tells you how restrictive it feels." }
+        ],
+        former: [
+            { you: "What was the actual process of leaving? How long did it take and what did it cost you total?", flag: "RED FLAG: If exit took over 6 months or cost more than expected, the transfer/termination terms are predatory." },
+            { you: "Did the franchisor cooperate with your exit or make it difficult?", tip: "A franchisor that makes exit hard is telling you something about how they view franchisees." }
+        ]
+    },
+    marketing: {
+        title: 'Marketing & Lead Generation',
+        type: 'Revenue Driver',
+        current: [
+            { you: "The Brand Fund is [X]% of revenue. Where does that money actually go? Do you see results?", flag: "RED FLAG: 'I have no idea where it goes' = the Brand Fund may be a slush fund." },
+            { you: "How do most of your customers find you? Does the franchisor's marketing drive real leads to your location?", tip: "If most customers come from the owner's own efforts, the brand premium you're paying (royalties + marketing fund) may not be worth it." },
+            { you: "Has the franchisor's marketing strategy changed since you joined? Better or worse?", tip: "Trend direction matters more than current state." }
+        ]
+    }
+};
+
+function generateScripts() {
+    const brand = document.getElementById('brand').value.trim() || '[Franchise Name]';
+    const callType = document.getElementById('callType').value;
+    const concerns = document.getElementById('concerns').value.trim();
+    const selected = Array.from(document.querySelectorAll('.concern-tag.selected')).map(t => t.dataset.topic);
+
+    if (selected.length === 0) { alert('Please select at least one topic area.'); return; }
+
+    const container = document.getElementById('scriptsContent');
+    let html = '';
+
+    // Intro script
+    html += `<div class="script-card">
+        <button class="copy-btn" onclick="copyScript(this)">Copy</button>
+        <h3>Opening Script</h3>
+        <div class="script-type">Start Every Call With This</div>
+        <div class="script-text">
+            <p><span class="you">You:</span> "Hi, my name is [Your Name]. I'm currently evaluating ${brand} as a potential franchise investment and doing my due diligence. I got your information from the FDD. Would you be willing to spend about 15-20 minutes sharing your experience? I'd really value your honest perspective."</p>
+            <span class="tip">If they seem hesitant, add: "Everything you share is just for my own decision-making. I won't share specifics with anyone, including corporate." This usually opens people up.</span>
+            ${callType === 'former' ? '<p><span class="you">You:</span> "I understand you\'re no longer with the system, and I think that perspective is actually the most valuable. Would you be open to sharing what led to your decision?"</p>' : ''}
+        </div>
+    </div>`;
+
+    // Generate scripts for each selected topic
+    selected.forEach(topic => {
+        const data = SCRIPTS[topic];
+        if (!data) return;
+        const questions = [...(data[callType] || data.current || [])];
+        if (!questions.length) return;
+
+        html += `<div class="script-card">
+            <button class="copy-btn" onclick="copyScript(this)">Copy</button>
+            <h3>${data.title}</h3>
+            <div class="script-type">${data.type}</div>
+            <div class="script-text">
+                ${questions.map(q => {
+                    let text = q.you.replace('[BRAND]', brand).replace('[X]', '___');
+                    let result = `<p><span class="you">You:</span> "${text}"</p>`;
+                    if (q.tip) result += `<span class="tip">💡 ${q.tip}</span>`;
+                    if (q.flag) result += `<div class="red-flag">🚩 ${q.flag}</div>`;
+                    return result;
+                }).join('')}
+            </div>
+        </div>`;
+    });
+
+    // Custom concerns section
+    if (concerns) {
+        html += `<div class="script-card">
+            <button class="copy-btn" onclick="copyScript(this)">Copy</button>
+            <h3>Your Specific Concerns</h3>
+            <div class="script-type">Custom Questions</div>
+            <div class="script-text">
+                <p><span class="you">You:</span> "I noticed some things in the FDD that I wanted to ask about specifically. ${concerns.includes('fee') || concerns.includes('cost') ? 'Have any of your fees or costs changed significantly since you signed?' : ''} ${concerns.includes('territory') || concerns.includes('area') ? 'Have you experienced any competition from other locations or online channels in your area?' : ''}"</p>
+                <span class="tip">Frame your specific concerns as open questions — don't lead the witness. Let them tell you their experience before sharing what you found in the FDD.</span>
+            </div>
+        </div>`;
+    }
+
+    // Closing script
+    html += `<div class="script-card">
+        <button class="copy-btn" onclick="copyScript(this)">Copy</button>
+        <h3>Closing Script</h3>
+        <div class="script-type">End Every Call With This</div>
+        <div class="script-text">
+            <p><span class="you">You:</span> "This has been incredibly helpful. Two final questions: Is there anything I should have asked that I didn't? And is there anyone else in the system — or who's left the system — that you'd recommend I speak with?"</p>
+            <span class="tip">The "anything I should have asked" question often surfaces the most important information of the entire call. Don't skip it.</span>
+            <p><span class="you">You:</span> "Thank you so much for your time and honesty. It means a lot to get a real perspective."</p>
+        </div>
+    </div>`;
+
+    container.innerHTML = html;
+    document.getElementById('inputView').style.display = 'none';
+    document.getElementById('scriptsView').classList.add('visible');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function copyScript(btn) {
+    const card = btn.closest('.script-card');
+    const text = card.querySelector('.script-text').innerText;
+    navigator.clipboard.writeText(text).then(() => {
+        btn.textContent = '✓ Copied!';
+        setTimeout(() => { btn.textContent = 'Copy'; }, 2000);
+    });
+}
+
+function resetScripts() {
+    document.getElementById('scriptsView').classList.remove('visible');
+    document.getElementById('inputView').style.display = 'block';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+</body>
+</html>

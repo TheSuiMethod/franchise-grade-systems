@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Franchise Comparison Tool | Franchise-Grade Systems</title>
+    <meta name="description" content="Compare up to 5 franchise opportunities side-by-side. Analyze fees, investment, territory, risk scores, and ROI to make a confident decision.">
+    <link rel="canonical" href="https://www.franchisegradesystems.com/franchise-comparison">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+    <style>
+        :root{--forest:#1B4332;--forest-mid:#2D6A4F;--forest-light:#40916C;--sage:#52B788;--mint:#95D5B2;--pale:#D8F3DC;--cream:#F7FBF9;--white:#FFFFFF;--charcoal:#1A1A2E;--slate:#4A4A5A;--gray:#6B7280;--light-gray:#E5E7EB;--warning:#F59E0B;--danger:#EF4444;--success:#10B981}
+        *{margin:0;padding:0;box-sizing:border-box}body{font-family:'DM Sans',sans-serif;color:var(--charcoal);background:var(--cream);line-height:1.6;-webkit-font-smoothing:antialiased}h1,h2,h3,h4{font-family:'Instrument Serif',serif;font-weight:400}
+        .nav{background:var(--forest);padding:16px 24px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:1000;box-shadow:0 2px 12px rgba(0,0,0,.15)}.nav-logo{font-family:'Instrument Serif',serif;color:var(--white);font-size:1.25rem;text-decoration:none}.nav-logo span{color:var(--sage)}.nav-links{display:flex;gap:24px;align-items:center}.nav-links a{color:var(--mint);text-decoration:none;font-size:.9rem;font-weight:500}.nav-links a:hover{color:var(--white)}.nav-cta{background:var(--sage)!important;color:var(--forest)!important;padding:8px 20px;border-radius:8px;font-weight:600!important}.mobile-menu-btn{display:none;background:none;border:none;color:var(--white);font-size:1.5rem;cursor:pointer}
+        .hero{background:linear-gradient(135deg,var(--forest),var(--forest-mid));padding:48px 24px 40px;text-align:center}.hero-badge{display:inline-block;background:rgba(82,183,136,.2);border:1px solid rgba(82,183,136,.3);color:var(--mint);font-size:.75rem;font-weight:600;text-transform:uppercase;letter-spacing:1.5px;padding:5px 14px;border-radius:20px;margin-bottom:16px}.hero h1{color:var(--white);font-size:clamp(1.6rem,3.5vw,2.2rem);margin-bottom:10px}.hero h1 em{color:var(--sage);font-style:italic}.hero p{color:var(--mint);font-size:.95rem;max-width:580px;margin:0 auto}
+        .main{max-width:1100px;margin:0 auto;padding:36px 24px 80px}
+
+        .add-row{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:32px;align-items:center}
+        .franchise-input{flex:1;min-width:200px;padding:14px 18px;border:2px solid var(--light-gray);border-radius:12px;font-family:'DM Sans',sans-serif;font-size:.92rem;background:var(--white)}
+        .franchise-input:focus{outline:none;border-color:var(--sage)}
+        .add-btn{padding:14px 24px;background:var(--forest-mid);color:var(--white);border:none;border-radius:12px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;white-space:nowrap;transition:background .2s}.add-btn:hover{background:var(--forest)}.add-btn:disabled{background:var(--light-gray);color:var(--gray);cursor:not-allowed}
+        .franchise-count{font-size:.85rem;color:var(--gray)}
+
+        .franchise-tabs{display:flex;gap:8px;margin-bottom:24px;flex-wrap:wrap}
+        .tab{padding:10px 20px;border:2px solid var(--light-gray);border-radius:10px;background:var(--white);cursor:pointer;font-size:.88rem;font-weight:500;transition:all .2s;display:flex;align-items:center;gap:8px}
+        .tab.active{border-color:var(--forest-mid);background:rgba(45,106,79,.04);color:var(--forest-mid)}
+        .tab:hover{border-color:var(--sage)}
+        .tab-close{width:18px;height:18px;border-radius:50%;background:var(--light-gray);display:flex;align-items:center;justify-content:center;font-size:.7rem;color:var(--gray);cursor:pointer;transition:all .2s}
+        .tab-close:hover{background:var(--danger);color:var(--white)}
+
+        .input-section{background:var(--white);border:2px solid var(--light-gray);border-radius:16px;padding:28px;margin-bottom:24px}
+        .input-section h3{font-size:1.15rem;margin-bottom:16px;color:var(--charcoal);display:flex;align-items:center;gap:8px}
+        .section-icon{font-size:1.2rem}
+        .input-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+        .field{display:flex;flex-direction:column;gap:4px}
+        .field label{font-size:.82rem;font-weight:600;color:var(--slate)}
+        .field input,.field select{padding:10px 14px;border:2px solid var(--light-gray);border-radius:8px;font-family:'DM Sans',sans-serif;font-size:.9rem}
+        .field input:focus,.field select:focus{outline:none;border-color:var(--sage)}
+        .field-prefix{position:relative}.field-prefix input{padding-left:28px}.field-prefix::before{content:'$';position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--gray);font-size:.9rem;margin-top:12px}
+        .field-suffix{position:relative}.field-suffix input{padding-right:28px}.field-suffix::after{content:'%';position:absolute;right:12px;top:50%;transform:translateY(-50%);color:var(--gray);font-size:.9rem;margin-top:12px}
+
+        .compare-btn{display:block;width:100%;padding:16px;background:var(--forest-mid);color:var(--white);border:none;border-radius:12px;font-weight:700;font-size:1rem;cursor:pointer;font-family:'DM Sans',sans-serif;margin-top:8px;transition:background .2s}.compare-btn:hover{background:var(--forest)}.compare-btn:disabled{background:var(--light-gray);color:var(--gray);cursor:not-allowed}
+
+        /* RESULTS */
+        .results{display:none}.results.visible{display:block}
+        .results h2{font-size:1.5rem;margin-bottom:24px;text-align:center}
+
+        .comparison-table{width:100%;border-collapse:separate;border-spacing:0;background:var(--white);border-radius:16px;overflow:hidden;border:2px solid var(--light-gray);margin-bottom:32px}
+        .comparison-table th{background:var(--forest);color:var(--white);padding:14px 16px;font-size:.85rem;font-weight:600;text-align:left;border-bottom:2px solid var(--light-gray)}
+        .comparison-table th:first-child{border-right:2px solid rgba(255,255,255,.15)}
+        .comparison-table td{padding:12px 16px;font-size:.88rem;border-bottom:1px solid var(--light-gray);vertical-align:middle}
+        .comparison-table td:first-child{font-weight:600;color:var(--charcoal);background:var(--cream);border-right:2px solid var(--light-gray);white-space:nowrap}
+        .comparison-table tr:last-child td{border-bottom:none}
+        .comparison-table tr:hover td{background:rgba(82,183,136,.03)}
+        .best-cell{background:rgba(82,183,136,.08)!important;font-weight:600;color:var(--forest-mid)}
+        .worst-cell{background:rgba(239,68,68,.04)!important;color:var(--danger)}
+        .winner-row td{background:var(--pale)!important;font-weight:700}.winner-row td:first-child{color:var(--forest-mid)}
+
+        .verdict-section{background:var(--forest);border-radius:16px;padding:36px 32px;color:var(--white);text-align:center;margin-bottom:32px}
+        .verdict-section h3{color:var(--white);font-size:1.5rem;margin-bottom:12px}
+        .verdict-section p{color:var(--mint);font-size:.95rem;line-height:1.7;max-width:600px;margin:0 auto}
+        .verdict-winner{display:inline-block;background:var(--sage);color:var(--forest);font-weight:700;padding:6px 20px;border-radius:8px;font-size:1.1rem;margin-bottom:12px}
+
+        .cta-bar{background:var(--white);border:2px solid var(--sage);border-radius:16px;padding:32px;text-align:center}
+        .cta-bar h3{font-size:1.3rem;margin-bottom:8px}.cta-bar p{color:var(--slate);font-size:.9rem;margin-bottom:16px}
+        .cta-btn{display:inline-block;background:var(--forest-mid);color:var(--white);padding:14px 28px;border-radius:10px;font-weight:700;text-decoration:none;transition:background .2s}.cta-btn:hover{background:var(--forest)}
+        .reset-btn{display:inline-block;margin-top:12px;color:var(--gray);font-size:.85rem;cursor:pointer;text-decoration:underline;background:none;border:none;font-family:'DM Sans',sans-serif}
+
+        .footer{background:#0A1F14;padding:36px 24px;text-align:center;color:var(--mint)}.footer-logo{font-family:'Instrument Serif',serif;color:var(--white);font-size:1.15rem;margin-bottom:8px}.footer-logo span{color:var(--sage)}.footer p{font-size:.82rem;opacity:.5;margin-bottom:12px}.footer-links{display:flex;gap:20px;justify-content:center;flex-wrap:wrap}.footer-links a{color:var(--mint);text-decoration:none;font-size:.85rem;opacity:.6}.footer-links a:hover{opacity:1}
+        @media(max-width:700px){.input-grid{grid-template-columns:1fr}.nav-links{display:none}.nav-links.open{display:flex;flex-direction:column;position:absolute;top:100%;left:0;right:0;background:var(--forest);padding:16px 24px}.mobile-menu-btn{display:block}.comparison-table{font-size:.8rem}.comparison-table td,.comparison-table th{padding:8px 10px}}
+    </style>
+</head>
+<body>
+<nav class="nav">
+    <a href="/" class="nav-logo">Franchise<span>-Grade</span> Systems</a>
+    <button class="mobile-menu-btn" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Menu">☰</button>
+    <div class="nav-links"><a href="/tools">Free Tools</a><a href="/#products">How It Works</a><a href="/#story">Our Story</a><a href="/tools" class="nav-cta">Get Started Free</a></div>
+</nav>
+<section class="hero">
+    <div class="hero-badge">Part of the $297 Decision Engine</div>
+    <h1>Compare Franchises <em>Side-by-Side</em></h1>
+    <p>Enter the details from up to 5 FDDs and see which deal actually gives you the best risk-adjusted return.</p>
+</section>
+<div class="main">
+    <div id="inputView">
+        <div class="add-row">
+            <input class="franchise-input" id="franchiseName" placeholder="Franchise name (e.g., 'Subway #1', 'Great Clips')" maxlength="40">
+            <button class="add-btn" id="addBtn" onclick="addFranchise()">+ Add Franchise</button>
+            <span class="franchise-count" id="franchiseCount">0 of 5 added</span>
+        </div>
+
+        <div class="franchise-tabs" id="tabs"></div>
+
+        <div id="formArea"></div>
+
+        <button class="compare-btn" id="compareBtn" onclick="compare()" disabled>Compare Franchises →</button>
+    </div>
+
+    <div class="results" id="resultsView">
+        <h2>Side-by-Side Comparison</h2>
+        <div id="comparisonTable"></div>
+        <div id="verdictSection"></div>
+        <div class="cta-bar">
+            <h3>Found Your Top Pick?</h3>
+            <p>Run it through the AI FDD Analyzer to catch every hidden risk before you sign.</p>
+            <a href="/fdd-analyzer" class="cta-btn">Analyze My FDD — $97 →</a><br>
+            <button class="reset-btn" onclick="resetAll()">↻ Start New Comparison</button>
+        </div>
+    </div>
+</div>
+<footer class="footer">
+    <div class="footer-logo">Franchise<span>-Grade</span> Systems</div>
+    <p>&copy; 2026 Franchise-Grade Systems. All rights reserved. Not legal or financial advice.</p>
+    <div class="footer-links"><a href="/">Home</a><a href="/tools">Free Tools</a><a href="/#products">How It Works</a><a href="/privacy">Privacy</a><a href="/terms">Terms</a></div>
+</footer>
+<script>
+let franchises = [];
+let activeIdx = -1;
+const MAX = 5;
+const FIELDS = [
+    { section: '💰 Investment & Fees', icon: '💰', fields: [
+        { id: 'franchiseFee', label: 'Franchise Fee', prefix: '$', placeholder: '30,000' },
+        { id: 'totalInvestment', label: 'Total Initial Investment', prefix: '$', placeholder: '250,000' },
+        { id: 'royaltyRate', label: 'Royalty Rate', suffix: '%', placeholder: '6' },
+        { id: 'marketingFee', label: 'Marketing/Brand Fund', suffix: '%', placeholder: '2' },
+        { id: 'techFee', label: 'Technology Fee ($/month)', prefix: '$', placeholder: '250' },
+        { id: 'otherMonthlyFees', label: 'Other Monthly Fees', prefix: '$', placeholder: '400' }
+    ]},
+    { section: '📊 Revenue & Projections', icon: '📊', fields: [
+        { id: 'avgRevenue', label: 'Estimated Annual Revenue', prefix: '$', placeholder: '480,000' },
+        { id: 'avgExpenses', label: 'Estimated Annual Expenses (exc. fees)', prefix: '$', placeholder: '320,000' },
+        { id: 'rampUpMonths', label: 'Months to Break Even (estimate)', placeholder: '18' }
+    ]},
+    { section: '🗺️ Territory & Terms', icon: '🗺️', fields: [
+        { id: 'territoryMiles', label: 'Protected Territory (miles)', placeholder: '3' },
+        { id: 'termYears', label: 'Initial Term (years)', placeholder: '10' },
+        { id: 'renewalFee', label: 'Renewal Fee', prefix: '$', placeholder: '10,000' },
+        { id: 'nonCompeteYears', label: 'Non-Compete (years)', placeholder: '2' },
+        { id: 'transferFee', label: 'Transfer Fee', prefix: '$', placeholder: '15,000' }
+    ]},
+    { section: '📈 System Health', icon: '📈', fields: [
+        { id: 'totalUnits', label: 'Total Franchise Units', placeholder: '150' },
+        { id: 'closedUnits', label: 'Units Closed Last Year', placeholder: '5' },
+        { id: 'newUnits', label: 'New Units Opened Last Year', placeholder: '20' },
+        { id: 'litigationCount', label: 'Litigation Cases (Item 3)', placeholder: '2' }
+    ]}
+];
+
+function addFranchise() {
+    const name = document.getElementById('franchiseName').value.trim();
+    if (!name || franchises.length >= MAX) return;
+    franchises.push({ name, data: {} });
+    document.getElementById('franchiseName').value = '';
+    activeIdx = franchises.length - 1;
+    renderTabs();
+    renderForm();
+    updateState();
+}
+
+function renderTabs() {
+    const container = document.getElementById('tabs');
+    container.innerHTML = franchises.map((f, i) => `
+        <div class="tab ${i === activeIdx ? 'active' : ''}" onclick="switchTab(${i})">
+            ${f.name}
+            <span class="tab-close" onclick="event.stopPropagation();removeFranchise(${i})">✕</span>
+        </div>
+    `).join('');
+}
+
+function switchTab(idx) {
+    saveCurrentForm();
+    activeIdx = idx;
+    renderTabs();
+    renderForm();
+}
+
+function removeFranchise(idx) {
+    franchises.splice(idx, 1);
+    if (activeIdx >= franchises.length) activeIdx = franchises.length - 1;
+    renderTabs();
+    renderForm();
+    updateState();
+}
+
+function renderForm() {
+    const area = document.getElementById('formArea');
+    if (activeIdx < 0 || !franchises[activeIdx]) { area.innerHTML = '<p style="color:var(--gray);text-align:center;padding:40px;">Add a franchise above to start entering data.</p>'; return; }
+    const f = franchises[activeIdx];
+    area.innerHTML = FIELDS.map(section => `
+        <div class="input-section">
+            <h3><span class="section-icon">${section.icon}</span> ${section.section}</h3>
+            <div class="input-grid">
+                ${section.fields.map(field => {
+                    const cls = field.prefix ? 'field-prefix' : field.suffix ? 'field-suffix' : '';
+                    return `<div class="field ${cls}">
+                        <label for="${field.id}">${field.label}</label>
+                        <input type="text" id="${field.id}" placeholder="${field.placeholder}" value="${f.data[field.id] || ''}" inputmode="numeric" onchange="saveField('${field.id}', this.value)">
+                    </div>`;
+                }).join('')}
+            </div>
+        </div>
+    `).join('');
+}
+
+function saveField(id, value) { if (franchises[activeIdx]) franchises[activeIdx].data[id] = value; }
+function saveCurrentForm() {
+    if (activeIdx < 0 || !franchises[activeIdx]) return;
+    FIELDS.forEach(s => s.fields.forEach(f => {
+        const el = document.getElementById(f.id);
+        if (el) franchises[activeIdx].data[f.id] = el.value;
+    }));
+}
+
+function updateState() {
+    document.getElementById('franchiseCount').textContent = `${franchises.length} of ${MAX} added`;
+    document.getElementById('addBtn').disabled = franchises.length >= MAX;
+    document.getElementById('compareBtn').disabled = franchises.length < 2;
+}
+
+function pn(val) { return parseFloat(String(val).replace(/[^0-9.-]/g, '')) || 0; }
+function fmt(n) { return n >= 1000 ? '$' + Math.round(n).toLocaleString() : '$' + Math.round(n); }
+function pct(n) { return n.toFixed(1) + '%'; }
+
+function compare() {
+    saveCurrentForm();
+    const results = franchises.map(f => {
+        const d = f.data;
+        const rev = pn(d.avgRevenue);
+        const exp = pn(d.avgExpenses);
+        const royalty = rev * (pn(d.royaltyRate) / 100);
+        const mktg = rev * (pn(d.marketingFee) / 100);
+        const tech = pn(d.techFee) * 12;
+        const other = pn(d.otherMonthlyFees) * 12;
+        const totalFees = royalty + mktg + tech + other;
+        const feePercent = rev > 0 ? totalFees / rev * 100 : 0;
+        const netIncome = rev - exp - totalFees;
+        const margin = rev > 0 ? netIncome / rev * 100 : 0;
+        const totalInv = pn(d.totalInvestment);
+        const roi = totalInv > 0 ? netIncome / totalInv * 100 : 0;
+        const paybackYears = netIncome > 0 ? totalInv / netIncome : 99;
+        const closedPct = pn(d.totalUnits) > 0 ? pn(d.closedUnits) / pn(d.totalUnits) * 100 : 0;
+        const growthRate = pn(d.totalUnits) > 0 ? pn(d.newUnits) / pn(d.totalUnits) * 100 : 0;
+
+        // Composite score (higher = better)
+        let score = 50;
+        score += Math.min(margin, 20); // Profit margin bonus (up to 20 pts)
+        score += Math.min(roi / 2, 15); // ROI bonus (up to 15 pts)
+        score -= Math.min(feePercent, 15); // Fee penalty
+        score -= Math.min(paybackYears * 2, 10); // Payback penalty
+        score += Math.min(pn(d.territoryMiles) * 2, 10); // Territory bonus
+        score += Math.min(pn(d.termYears), 10); // Term bonus
+        score -= Math.min(closedPct * 3, 10); // Closure penalty
+        score += Math.min(growthRate, 10); // Growth bonus
+        score -= Math.min(pn(d.litigationCount) * 3, 10); // Litigation penalty
+        score -= pn(d.nonCompeteYears) * 2; // Non-compete penalty
+        score = Math.max(0, Math.min(100, Math.round(score)));
+
+        return { name: f.name, rev, totalFees, feePercent, netIncome, margin, totalInv, roi, paybackYears, closedPct, growthRate, score, data: d };
+    });
+
+    // Find best/worst for each metric
+    const metrics = [
+        { label: 'Total Investment', key: 'totalInv', fmt: fmt, lower: true },
+        { label: 'Franchise Fee', key: 'data.franchiseFee', fmt: v => fmt(pn(v)), lower: true, raw: true },
+        { label: 'Est. Annual Revenue', key: 'rev', fmt: fmt, lower: false },
+        { label: 'Total Annual Fees', key: 'totalFees', fmt: fmt, lower: true },
+        { label: 'Fee Burden (% of Revenue)', key: 'feePercent', fmt: pct, lower: true },
+        { label: 'Est. Net Income', key: 'netIncome', fmt: fmt, lower: false },
+        { label: 'Profit Margin', key: 'margin', fmt: pct, lower: false },
+        { label: 'ROI (Year 1)', key: 'roi', fmt: pct, lower: false },
+        { label: 'Payback Period', key: 'paybackYears', fmt: v => v >= 99 ? 'N/A' : v.toFixed(1) + ' yrs', lower: true },
+        { label: 'Territory (miles)', key: 'data.territoryMiles', fmt: v => pn(v) + ' mi', lower: false, raw: true },
+        { label: 'Initial Term', key: 'data.termYears', fmt: v => pn(v) + ' yrs', lower: false, raw: true },
+        { label: 'Non-Compete', key: 'data.nonCompeteYears', fmt: v => pn(v) + ' yrs', lower: true, raw: true },
+        { label: 'Transfer Fee', key: 'data.transferFee', fmt: v => fmt(pn(v)), lower: true, raw: true },
+        { label: 'Unit Closure Rate', key: 'closedPct', fmt: pct, lower: true },
+        { label: 'System Growth Rate', key: 'growthRate', fmt: pct, lower: false },
+        { label: 'Litigation Cases', key: 'data.litigationCount', fmt: v => pn(v).toString(), lower: true, raw: true },
+    ];
+
+    function getVal(r, key, raw) {
+        if (raw) { const parts = key.split('.'); return parts.length > 1 ? r[parts[0]][parts[1]] : r[key]; }
+        return r[key];
+    }
+    function getNum(r, key, raw) { const v = getVal(r, key, raw); return typeof v === 'number' ? v : pn(v); }
+
+    let tableHTML = '<table class="comparison-table"><tr><th>Metric</th>' + results.map(r => `<th>${r.name}</th>`).join('') + '</tr>';
+
+    metrics.forEach(m => {
+        const vals = results.map(r => getNum(r, m.key, m.raw));
+        const valid = vals.filter(v => v !== 0 && v < 99);
+        const best = valid.length > 0 ? (m.lower ? Math.min(...valid) : Math.max(...valid)) : null;
+        const worst = valid.length > 0 ? (m.lower ? Math.max(...valid) : Math.min(...valid)) : null;
+
+        tableHTML += `<tr><td>${m.label}</td>`;
+        results.forEach((r, i) => {
+            const v = getNum(r, m.key, m.raw);
+            const display = m.fmt(m.raw ? getVal(r, m.key, m.raw) : v);
+            const isBest = v === best && valid.length > 1;
+            const isWorst = v === worst && valid.length > 1 && best !== worst;
+            tableHTML += `<td class="${isBest ? 'best-cell' : isWorst ? 'worst-cell' : ''}">${display}</td>`;
+        });
+        tableHTML += '</tr>';
+    });
+
+    // Overall score row
+    tableHTML += `<tr class="winner-row"><td>Overall Score</td>` + results.map(r => `<td>${r.score}/100</td>`).join('') + '</tr>';
+    tableHTML += '</table>';
+
+    document.getElementById('comparisonTable').innerHTML = tableHTML;
+
+    // Verdict
+    const sorted = [...results].sort((a, b) => b.score - a.score);
+    const winner = sorted[0];
+    const runnerUp = sorted[1];
+    document.getElementById('verdictSection').innerHTML = `
+        <div class="verdict-section">
+            <div class="verdict-winner">Best Overall: ${winner.name}</div>
+            <h3>Score: ${winner.score}/100</h3>
+            <p>${winner.name} leads with ${winner.score > runnerUp.score + 15 ? 'a significant advantage' : 'a narrow edge'} over ${runnerUp.name} (${runnerUp.score}/100).
+            ${winner.margin > 15 ? ' Strong profit margins give this deal financial breathing room.' : winner.margin > 0 ? ' Margins are tight — watch the fee structure closely.' : ' Warning: This deal shows negative margins. Proceed with extreme caution.'}
+            ${winner.paybackYears < 3 ? ' Payback under 3 years is solid.' : winner.paybackYears < 5 ? ' Payback of ' + winner.paybackYears.toFixed(1) + ' years is reasonable but not exceptional.' : ' Long payback period is a concern.'}
+            Remember: this comparison is based on YOUR estimates. Always verify with the actual FDD and validate with current franchisees.</p>
+        </div>
+    `;
+
+    document.getElementById('inputView').style.display = 'none';
+    document.getElementById('resultsView').classList.add('visible');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function resetAll() {
+    franchises = []; activeIdx = -1;
+    document.getElementById('resultsView').classList.remove('visible');
+    document.getElementById('inputView').style.display = 'block';
+    renderTabs(); renderForm(); updateState();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+renderForm(); updateState();
+</script>
+</body>
+</html>

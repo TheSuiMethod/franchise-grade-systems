@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Franchise Negotiation Simulator | Franchise-Grade Systems</title>
+    <meta name="description" content="Practice franchise negotiations before the real thing. Our AI simulates real franchisor responses so you can negotiate with confidence. Part of the AI Franchise Decision Engine.">
+    <link rel="canonical" href="https://www.franchisegradesystems.com/negotiation-simulator">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --forest: #1B4332; --forest-mid: #2D6A4F; --forest-light: #40916C;
+            --sage: #52B788; --mint: #95D5B2; --pale: #D8F3DC; --cream: #F7FBF9;
+            --white: #FFFFFF; --charcoal: #1A1A2E; --slate: #4A4A5A; --gray: #6B7280;
+            --light-gray: #E5E7EB; --warning: #F59E0B; --danger: #EF4444; --success: #10B981;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'DM Sans', sans-serif; color: var(--charcoal); background: var(--cream); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+        h1, h2, h3, h4 { font-family: 'Instrument Serif', serif; font-weight: 400; }
+
+        .nav { background: var(--forest); padding: 16px 24px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 12px rgba(0,0,0,0.15); }
+        .nav-logo { font-family: 'Instrument Serif', serif; color: var(--white); font-size: 1.25rem; text-decoration: none; }
+        .nav-logo span { color: var(--sage); }
+        .nav-links { display: flex; gap: 24px; align-items: center; }
+        .nav-links a { color: var(--mint); text-decoration: none; font-size: 0.9rem; font-weight: 500; }
+        .nav-links a:hover { color: var(--white); }
+        .nav-cta { background: var(--sage) !important; color: var(--forest) !important; padding: 8px 20px; border-radius: 8px; font-weight: 600 !important; }
+        .mobile-menu-btn { display: none; background: none; border: none; color: var(--white); font-size: 1.5rem; cursor: pointer; }
+
+        .hero { background: linear-gradient(135deg, var(--forest) 0%, var(--forest-mid) 100%); padding: 48px 24px 40px; text-align: center; }
+        .hero-badge { display: inline-block; background: rgba(82,183,136,0.2); border: 1px solid rgba(82,183,136,0.3); color: var(--mint); font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; padding: 5px 14px; border-radius: 20px; margin-bottom: 16px; }
+        .hero h1 { color: var(--white); font-size: clamp(1.6rem, 3.5vw, 2.2rem); margin-bottom: 10px; }
+        .hero h1 em { color: var(--sage); font-style: italic; }
+        .hero p { color: var(--mint); font-size: 0.95rem; max-width: 580px; margin: 0 auto; }
+
+        .main { max-width: 860px; margin: 0 auto; padding: 36px 24px 80px; }
+
+        /* SCENARIO PICKER */
+        .scenario-section { margin-bottom: 32px; }
+        .scenario-section h2 { font-size: 1.35rem; margin-bottom: 6px; }
+        .scenario-section > p { color: var(--slate); font-size: 0.9rem; margin-bottom: 20px; }
+        .scenario-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+        .scenario-card { background: var(--white); border: 2px solid var(--light-gray); border-radius: 14px; padding: 20px; cursor: pointer; transition: all 0.2s; }
+        .scenario-card:hover { border-color: var(--sage); transform: translateY(-2px); box-shadow: 0 6px 24px rgba(27,67,50,0.06); }
+        .scenario-card.selected { border-color: var(--forest-mid); background: rgba(45,106,79,0.04); }
+        .scenario-icon { font-size: 1.4rem; margin-bottom: 8px; }
+        .scenario-card h4 { font-size: 1.05rem; margin-bottom: 4px; color: var(--charcoal); }
+        .scenario-card p { font-size: 0.82rem; color: var(--slate); line-height: 1.5; }
+        .scenario-tag { display: inline-block; font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; padding: 2px 8px; border-radius: 4px; margin-top: 8px; background: #FEF3C7; color: #92400E; }
+        .scenario-tag.hard { background: #FECACA; color: #991B1B; }
+        .scenario-tag.easy { background: #DCFCE7; color: #166534; }
+
+        .start-btn { display: block; width: 100%; padding: 16px; background: var(--forest-mid); color: var(--white); border: none; border-radius: 12px; font-weight: 700; font-size: 1rem; cursor: pointer; font-family: 'DM Sans', sans-serif; margin-top: 20px; transition: background 0.2s; }
+        .start-btn:hover { background: var(--forest); }
+        .start-btn:disabled { background: var(--light-gray); color: var(--gray); cursor: not-allowed; }
+
+        /* CHAT INTERFACE */
+        .chat-container { display: none; }
+        .chat-container.active { display: block; }
+
+        .chat-context { background: var(--white); border: 2px solid var(--light-gray); border-radius: 14px; padding: 20px; margin-bottom: 20px; }
+        .chat-context h3 { font-size: 1.1rem; margin-bottom: 6px; }
+        .chat-context p { font-size: 0.85rem; color: var(--slate); line-height: 1.6; }
+        .context-role { display: inline-block; background: var(--pale); color: var(--forest-mid); font-size: 0.78rem; font-weight: 600; padding: 3px 10px; border-radius: 6px; margin-bottom: 8px; }
+
+        .chat-tips { background: rgba(82,183,136,0.08); border: 1px solid rgba(82,183,136,0.2); border-radius: 10px; padding: 14px 16px; margin-bottom: 20px; }
+        .chat-tips h4 { font-size: 0.85rem; color: var(--forest-mid); margin-bottom: 6px; font-family: 'DM Sans', sans-serif; font-weight: 600; }
+        .chat-tips ul { list-style: none; }
+        .chat-tips li { font-size: 0.82rem; color: var(--slate); padding: 2px 0 2px 16px; position: relative; }
+        .chat-tips li::before { content: '→'; position: absolute; left: 0; color: var(--sage); }
+
+        .chat-messages { min-height: 200px; max-height: 500px; overflow-y: auto; margin-bottom: 16px; padding: 4px; }
+        .message { display: flex; gap: 12px; margin-bottom: 16px; align-items: flex-start; }
+        .message.user { flex-direction: row-reverse; }
+        .msg-avatar { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; font-weight: 700; flex-shrink: 0; }
+        .message.ai .msg-avatar { background: var(--forest-mid); color: var(--white); }
+        .message.user .msg-avatar { background: var(--sage); color: var(--white); }
+        .msg-bubble { max-width: 75%; padding: 14px 18px; border-radius: 16px; font-size: 0.9rem; line-height: 1.6; }
+        .message.ai .msg-bubble { background: var(--white); border: 1px solid var(--light-gray); border-bottom-left-radius: 4px; color: var(--charcoal); }
+        .message.user .msg-bubble { background: var(--forest-mid); color: var(--white); border-bottom-right-radius: 4px; }
+
+        .typing-indicator { display: none; align-items: center; gap: 12px; margin-bottom: 16px; }
+        .typing-indicator.visible { display: flex; }
+        .typing-dots { display: flex; gap: 4px; padding: 14px 18px; background: var(--white); border: 1px solid var(--light-gray); border-radius: 16px; border-bottom-left-radius: 4px; }
+        .typing-dots span { width: 8px; height: 8px; background: var(--gray); border-radius: 50%; animation: bounce 1.2s infinite; }
+        .typing-dots span:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dots span:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes bounce { 0%, 80%, 100% { transform: translateY(0); } 40% { transform: translateY(-6px); } }
+
+        .chat-input-area { display: flex; gap: 10px; }
+        .chat-input { flex: 1; padding: 14px 18px; border: 2px solid var(--light-gray); border-radius: 12px; font-family: 'DM Sans', sans-serif; font-size: 0.92rem; resize: none; min-height: 52px; max-height: 120px; }
+        .chat-input:focus { outline: none; border-color: var(--sage); }
+        .send-btn { padding: 14px 24px; background: var(--forest-mid); color: var(--white); border: none; border-radius: 12px; font-weight: 600; font-size: 0.92rem; cursor: pointer; font-family: 'DM Sans', sans-serif; white-space: nowrap; transition: background 0.2s; }
+        .send-btn:hover { background: var(--forest); }
+        .send-btn:disabled { background: var(--light-gray); color: var(--gray); cursor: not-allowed; }
+
+        .turn-counter { text-align: center; font-size: 0.82rem; color: var(--gray); margin-top: 10px; }
+        .end-btn { display: block; margin: 16px auto 0; padding: 12px 28px; background: transparent; border: 2px solid var(--forest-mid); color: var(--forest-mid); border-radius: 10px; font-weight: 600; font-size: 0.9rem; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all 0.2s; }
+        .end-btn:hover { background: var(--forest-mid); color: var(--white); }
+
+        /* COACHING FEEDBACK */
+        .coaching { display: none; }
+        .coaching.active { display: block; }
+        .coaching-header { text-align: center; margin-bottom: 32px; }
+        .coaching-header h2 { font-size: 1.6rem; margin-bottom: 8px; }
+        .coaching-header p { color: var(--slate); font-size: 0.95rem; }
+
+        .coaching-card { background: var(--white); border: 2px solid var(--light-gray); border-radius: 16px; padding: 28px; margin-bottom: 16px; }
+        .coaching-card h4 { font-size: 1.1rem; margin-bottom: 12px; color: var(--charcoal); }
+        .coaching-card p, .coaching-card li { font-size: 0.9rem; color: var(--slate); line-height: 1.7; }
+        .coaching-card ul { list-style: none; padding: 0; }
+        .coaching-card li { padding: 6px 0 6px 20px; position: relative; }
+        .coaching-card li::before { content: '•'; position: absolute; left: 4px; color: var(--sage); font-weight: 700; }
+        .coaching-card li.miss::before { content: '✗'; color: var(--danger); }
+        .coaching-card li.hit::before { content: '✓'; color: var(--success); }
+
+        .score-bar-container { margin: 16px 0; }
+        .score-bar-label { display: flex; justify-content: space-between; font-size: 0.82rem; font-weight: 500; margin-bottom: 4px; }
+        .score-bar { height: 10px; background: var(--light-gray); border-radius: 10px; overflow: hidden; }
+        .score-bar-fill { height: 100%; border-radius: 10px; transition: width 1s ease; }
+
+        .coaching-cta { background: var(--forest); border-radius: 16px; padding: 36px 32px; text-align: center; color: var(--white); margin-top: 32px; }
+        .coaching-cta h3 { color: var(--white); font-size: 1.35rem; margin-bottom: 8px; }
+        .coaching-cta p { color: var(--mint); font-size: 0.92rem; margin-bottom: 20px; }
+        .coaching-cta .cta-btn { display: inline-block; background: var(--sage); color: var(--forest); padding: 14px 28px; border-radius: 10px; font-weight: 700; text-decoration: none; transition: background 0.2s; margin: 0 8px; }
+        .coaching-cta .cta-btn:hover { background: var(--mint); }
+        .cta-secondary { background: transparent !important; color: var(--white) !important; border: 2px solid rgba(255,255,255,0.3); }
+        .cta-secondary:hover { border-color: var(--white) !important; }
+
+        .footer { background: #0A1F14; padding: 36px 24px; text-align: center; color: var(--mint); }
+        .footer-logo { font-family: 'Instrument Serif', serif; color: var(--white); font-size: 1.15rem; margin-bottom: 8px; }
+        .footer-logo span { color: var(--sage); }
+        .footer p { font-size: 0.82rem; opacity: 0.5; margin-bottom: 12px; }
+        .footer-links { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; }
+        .footer-links a { color: var(--mint); text-decoration: none; font-size: 0.85rem; opacity: 0.6; }
+        .footer-links a:hover { opacity: 1; }
+
+        @media (max-width: 700px) {
+            .scenario-grid { grid-template-columns: 1fr; }
+            .nav-links { display: none; }
+            .nav-links.open { display: flex; flex-direction: column; position: absolute; top: 100%; left: 0; right: 0; background: var(--forest); padding: 16px 24px; }
+            .mobile-menu-btn { display: block; }
+            .msg-bubble { max-width: 85%; }
+        }
+    </style>
+</head>
+<body>
+
+<nav class="nav">
+    <a href="/" class="nav-logo">Franchise<span>-Grade</span> Systems</a>
+    <button class="mobile-menu-btn" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Menu">☰</button>
+    <div class="nav-links">
+        <a href="/tools">Free Tools</a>
+        <a href="/#products">How It Works</a>
+        <a href="/#story">Our Story</a>
+        <a href="/tools" class="nav-cta">Get Started Free</a>
+    </div>
+</nav>
+
+<section class="hero">
+    <div class="hero-badge">Part of the $297 Decision Engine</div>
+    <h1>AI Franchise <em>Negotiation Simulator</em></h1>
+    <p>Practice tough franchise negotiations before the real thing. Our AI plays the franchisor — push back, negotiate terms, and build confidence.</p>
+</section>
+
+<div class="main">
+
+    <!-- SCENARIO SELECTION -->
+    <div class="scenario-section" id="scenarioView">
+        <h2>Choose your negotiation scenario</h2>
+        <p>Each scenario simulates a real conversation you'll face during franchise due diligence.</p>
+
+        <div class="scenario-grid">
+            <div class="scenario-card" onclick="selectScenario('territory', this)">
+                <div class="scenario-icon">🗺️</div>
+                <h4>Territory Protection</h4>
+                <p>Your territory is only 3 miles with carve-outs for online and delivery. Push for stronger exclusivity.</p>
+                <span class="scenario-tag">Medium</span>
+            </div>
+            <div class="scenario-card" onclick="selectScenario('fees', this)">
+                <div class="scenario-icon">💰</div>
+                <h4>Fee Negotiation</h4>
+                <p>Uncapped tech fees, mandatory vendors, 6% royalty with minimums. Push back on the total cost burden.</p>
+                <span class="scenario-tag hard">Hard</span>
+            </div>
+            <div class="scenario-card" onclick="selectScenario('exit', this)">
+                <div class="scenario-icon">🚪</div>
+                <h4>Exit & Transfer Terms</h4>
+                <p>2-year non-compete, $15K transfer fee, vague buyer approval criteria. Negotiate your exit strategy.</p>
+                <span class="scenario-tag hard">Hard</span>
+            </div>
+            <div class="scenario-card" onclick="selectScenario('renewal', this)">
+                <div class="scenario-icon">🔄</div>
+                <h4>Renewal Terms</h4>
+                <p>Renewal requires signing a new agreement with potentially different terms. Lock in your protections.</p>
+                <span class="scenario-tag">Medium</span>
+            </div>
+            <div class="scenario-card" onclick="selectScenario('item19', this)">
+                <div class="scenario-icon">📊</div>
+                <h4>Financial Performance (Item 19)</h4>
+                <p>The "average" revenue looks good — until you dig into the footnotes. Challenge the numbers.</p>
+                <span class="scenario-tag easy">Good First Try</span>
+            </div>
+        </div>
+
+        <button class="start-btn" id="startBtn" onclick="startSimulation()" disabled>Start Negotiation →</button>
+    </div>
+
+    <!-- CHAT INTERFACE -->
+    <div class="chat-container" id="chatView">
+        <div class="chat-context" id="chatContext"></div>
+
+        <div class="chat-tips">
+            <h4>Negotiation Tips</h4>
+            <ul>
+                <li>Reference specific FDD items and data points — vague objections get vague answers</li>
+                <li>Ask for specifics: "What has the fee been for each of the last 3 years?"</li>
+                <li>Use silence as a tactic — don't rush to fill every gap</li>
+                <li>When they deflect, redirect: "I appreciate that, but my specific concern is..."</li>
+            </ul>
+        </div>
+
+        <div class="chat-messages" id="chatMessages"></div>
+
+        <div class="typing-indicator" id="typingIndicator">
+            <div class="msg-avatar" style="background:var(--forest-mid);color:var(--white);">FR</div>
+            <div class="typing-dots"><span></span><span></span><span></span></div>
+        </div>
+
+        <div class="chat-input-area">
+            <textarea class="chat-input" id="chatInput" placeholder="Type your negotiation response..." rows="1" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendMessage();}"></textarea>
+            <button class="send-btn" id="sendBtn" onclick="sendMessage()">Send</button>
+        </div>
+        <div class="turn-counter">Turn <span id="turnCount">0</span> of 8 — <button class="end-btn" style="display:inline;padding:4px 12px;margin:0;font-size:0.82rem;border-width:1px;" onclick="endSimulation()">End & Get Coaching</button></div>
+    </div>
+
+    <!-- COACHING FEEDBACK -->
+    <div class="coaching" id="coachingView">
+        <div class="coaching-header">
+            <h2>Negotiation Coaching Report</h2>
+            <p>Here's how you did — and what to work on before the real conversation.</p>
+        </div>
+        <div id="coachingContent"></div>
+
+        <div class="coaching-cta">
+            <h3>Ready to Negotiate for Real?</h3>
+            <p>Your Negotiation Simulator practice is the first step. The full AI Franchise Decision Engine gives you everything you need to make a confident go/no-go decision.</p>
+            <a href="/fdd-analyzer" class="cta-btn">Analyze My FDD — $97 →</a>
+            <a href="javascript:void(0)" class="cta-btn cta-secondary" onclick="resetSimulation()">↻ Practice Another Scenario</a>
+        </div>
+    </div>
+
+</div>
+
+<footer class="footer">
+    <div class="footer-logo">Franchise<span>-Grade</span> Systems</div>
+    <p>AI-powered tools for smarter franchise decisions.</p>
+    <p>&copy; 2026 Franchise-Grade Systems. All rights reserved. Not legal or financial advice.</p>
+    <div class="footer-links">
+        <a href="/">Home</a> <a href="/tools">Free Tools</a> <a href="/#products">How It Works</a>
+        <a href="/#story">Our Story</a> <a href="/privacy">Privacy</a> <a href="/terms">Terms</a>
+    </div>
+</footer>
+
+<script>
+const SCENARIOS = {
+    territory: {
+        title: 'Territory Exclusivity Negotiation',
+        role: 'VP of Franchise Development',
+        context: 'Your FDD grants a 3-mile "protected area" with carve-outs for online sales, delivery apps, and non-traditional venues (airports, stadiums). The franchisor recently expanded to DoorDash/UberEats, which overlaps your territory. You want stronger territory protection.',
+        opener: "Thanks for taking the time to discuss this. I understand you have some questions about the territory provisions in our FDD. I want to assure you, our territory structure has been carefully designed to balance franchisee protection with system-wide growth. What specifically would you like to discuss?"
+    },
+    fees: {
+        title: 'Fee Structure Negotiation',
+        role: 'Director of Franchise Operations',
+        context: 'The FDD shows: 6% royalty with $125/week minimum, uncapped technology fee ($250/month currently), mandatory bookkeeping vendor ($400-600/month), and Brand Fund contribution of 2%. Total ongoing fees are 18-22% of gross revenue. You want fee caps and vendor flexibility.',
+        opener: "I appreciate you bringing this up. Our fee structure reflects the value of the system — our franchisees benefit from national marketing, proprietary technology, and operational support that would cost far more to build independently. What aspects of the fee structure would you like to walk through?"
+    },
+    exit: {
+        title: 'Exit & Transfer Terms Negotiation',
+        role: 'General Counsel',
+        context: 'The FDD includes: 2-year post-termination non-compete (25-mile radius), $15,000 transfer fee, franchisor right of first refusal on any sale, buyer approval at franchisor\'s "reasonable discretion," and de-identification costs of $10K-$25K. You want better exit terms.',
+        opener: "I'm happy to walk through the transfer and termination provisions with you. These provisions are standard across franchise systems and are designed to protect the brand and the entire franchise network. Which specific provisions concern you?"
+    },
+    renewal: {
+        title: 'Renewal Terms Negotiation',
+        role: 'Senior VP of Franchise Relations',
+        context: 'The FDD offers a 10-year initial term with renewal option, but renewal requires: signing the "then-current" franchise agreement (could have different terms), $10K renewal fee, remodel to current brand standards ($50K-$100K estimated), and "good standing" (undefined). You want renewal protections.',
+        opener: "Renewal is something we take very seriously because we value our long-term franchise partners. In fact, our renewal rate is over 80%, which I think speaks to how well our system works for operators. What questions do you have about the renewal process?"
+    },
+    item19: {
+        title: 'Financial Performance Discussion',
+        role: 'CFO',
+        context: 'Item 19 shows average gross revenue of $480K across the system. However: only top 60% of locations are included in the average, median is not disclosed, expenses and net income are not provided, and footnotes mention "results vary materially." You want real financial data.',
+        opener: "I'm glad you're looking closely at our financial performance representations. The $480K average gross revenue really demonstrates the strength of our brand. We're proud that many of our franchisees significantly exceed that number. What would you like to know more about?"
+    }
+};
+
+let selectedScenario = null;
+let conversationHistory = [];
+let turnCount = 0;
+const MAX_TURNS = 8;
+
+function selectScenario(id, el) {
+    document.querySelectorAll('.scenario-card').forEach(c => c.classList.remove('selected'));
+    el.classList.add('selected');
+    selectedScenario = id;
+    document.getElementById('startBtn').disabled = false;
+}
+
+function startSimulation() {
+    if (!selectedScenario) return;
+    const sc = SCENARIOS[selectedScenario];
+
+    document.getElementById('scenarioView').style.display = 'none';
+    const chat = document.getElementById('chatView');
+    chat.classList.add('active');
+
+    document.getElementById('chatContext').innerHTML = `
+        <span class="context-role">You're speaking with: ${sc.role}</span>
+        <h3>${sc.title}</h3>
+        <p>${sc.context}</p>
+    `;
+
+    // Initial message from franchisor
+    conversationHistory = [];
+    turnCount = 0;
+    addMessage('ai', sc.opener);
+    conversationHistory.push({ role: 'assistant', content: sc.opener });
+    document.getElementById('chatInput').focus();
+}
+
+function addMessage(type, text) {
+    const container = document.getElementById('chatMessages');
+    const initials = type === 'ai' ? 'FR' : 'YOU';
+    const div = document.createElement('div');
+    div.className = `message ${type}`;
+    div.innerHTML = `
+        <div class="msg-avatar">${initials}</div>
+        <div class="msg-bubble">${text}</div>
+    `;
+    container.appendChild(div);
+    container.scrollTop = container.scrollHeight;
+}
+
+async function sendMessage() {
+    const input = document.getElementById('chatInput');
+    const text = input.value.trim();
+    if (!text) return;
+
+    if (turnCount >= MAX_TURNS) {
+        endSimulation();
+        return;
+    }
+
+    // Add user message
+    addMessage('user', text);
+    conversationHistory.push({ role: 'user', content: text });
+    input.value = '';
+    turnCount++;
+    document.getElementById('turnCount').textContent = turnCount;
+
+    // Disable input
+    input.disabled = true;
+    document.getElementById('sendBtn').disabled = true;
+    document.getElementById('typingIndicator').classList.add('visible');
+
+    try {
+        const response = await fetch('/api/negotiate', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                scenario: selectedScenario,
+                history: conversationHistory,
+                userMessage: text
+            })
+        });
+
+        const data = await response.json();
+
+        document.getElementById('typingIndicator').classList.remove('visible');
+
+        if (data.reply) {
+            addMessage('ai', data.reply);
+            conversationHistory.push({ role: 'assistant', content: data.reply });
+        }
+    } catch (err) {
+        document.getElementById('typingIndicator').classList.remove('visible');
+        addMessage('ai', "I appreciate your point. Let me think about that for a moment... Could you elaborate on your reasoning?");
+    }
+
+    // Re-enable input
+    input.disabled = false;
+    document.getElementById('sendBtn').disabled = false;
+    input.focus();
+
+    if (turnCount >= MAX_TURNS) {
+        setTimeout(() => endSimulation(), 1500);
+    }
+}
+
+function endSimulation() {
+    document.getElementById('chatView').classList.remove('active');
+    const coaching = document.getElementById('coachingView');
+    coaching.classList.add('active');
+    generateCoaching();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function generateCoaching() {
+    const userMessages = conversationHistory.filter(m => m.role === 'user');
+    const allUserText = userMessages.map(m => m.content).join(' ').toLowerCase();
+
+    // Scoring criteria
+    const criteria = {
+        territory: [
+            { name: 'Referenced specific FDD items or data', check: () => /item\s*\d|fdd|disclosure|section/i.test(allUserText), weight: 15 },
+            { name: 'Asked about delivery app revenue sharing', check: () => /delivery|doordash|ubereats|app|online.*revenue|digital.*sales/i.test(allUserText), weight: 15 },
+            { name: 'Requested specific mile radius expansion', check: () => /\d+.*mile|mile.*\d+|expand.*radius|radius.*expand|larger.*territory/i.test(allUserText), weight: 10 },
+            { name: 'Asked for data on encroachment complaints', check: () => /complaint|encroach|overlap|cannibali|other.*franchisee|existing.*location/i.test(allUserText), weight: 15 },
+            { name: 'Proposed specific alternative terms', check: () => /propose|suggest|what if|how about|would you consider|counter/i.test(allUserText), weight: 15 },
+            { name: 'Referenced industry standards or benchmarks', check: () => /industry|standard|typical|benchmark|average|other.*franchise|competitor/i.test(allUserText), weight: 10 },
+            { name: 'Maintained professional tone throughout', check: () => !/stupid|ridiculous|insane|rip.?off|scam|terrible/i.test(allUserText), weight: 10 },
+            { name: 'Asked follow-up questions (not just statements)', check: () => (allUserText.match(/\?/g) || []).length >= 2, weight: 10 }
+        ],
+        fees: [
+            { name: 'Calculated total fee burden as % of revenue', check: () => /percent|%|\d+.*revenue|total.*fee|fee.*total|burden|combined/i.test(allUserText), weight: 15 },
+            { name: 'Asked for fee history (actual increases)', check: () => /history|last.*year|previous|increase.*past|how.*much.*gone.*up|track.*record/i.test(allUserText), weight: 15 },
+            { name: 'Requested fee cap or ceiling', check: () => /cap|ceiling|maximum|limit|not.*exceed|no.*more.*than/i.test(allUserText), weight: 15 },
+            { name: 'Challenged mandatory vendor requirements', check: () => /vendor|bookkeep|mandatory|required.*supplier|own.*choice|alternative/i.test(allUserText), weight: 10 },
+            { name: 'Asked about revenue sharing with vendors', check: () => /revenue.*shar|kickback|affiliate|compensation.*vendor|profit.*from.*vendor/i.test(allUserText), weight: 15 },
+            { name: 'Referenced minimum royalty floor risk', check: () => /minimum|floor|\$125|slow.*month|bad.*quarter|guarantee/i.test(allUserText), weight: 10 },
+            { name: 'Proposed specific counter-terms', check: () => /propose|suggest|what if|counter|willing to|would you agree/i.test(allUserText), weight: 10 },
+            { name: 'Maintained composure under pressure', check: () => !/stupid|ridiculous|insane|rip.?off|scam/i.test(allUserText), weight: 10 }
+        ],
+        exit: [
+            { name: 'Challenged non-compete scope (time or radius)', check: () => /non.?compete|2.*year|25.*mile|radius|geographic|scope|duration/i.test(allUserText), weight: 15 },
+            { name: 'Asked for buyer approval criteria in writing', check: () => /criteria|writing|define|specific|reasonable|what.*qualif|standard/i.test(allUserText), weight: 15 },
+            { name: 'Questioned de-identification cost estimates', check: () => /de.?ident|removal|signage|cost.*estimat|\$10|\$25|rebrand/i.test(allUserText), weight: 10 },
+            { name: 'Addressed right of first refusal terms', check: () => /first.*refusal|right.*refusal|match.*offer|buy.*back|ROFR/i.test(allUserText), weight: 15 },
+            { name: 'Asked about transfer fee justification', check: () => /transfer.*fee|\$15|justify|what.*cover|training.*new|fee.*for/i.test(allUserText), weight: 10 },
+            { name: 'Discussed termination triggers and cure periods', check: () => /terminat|default|cure|breach|2.*default|trigger/i.test(allUserText), weight: 15 },
+            { name: 'Proposed specific modifications', check: () => /reduce|modify|change|adjust|shorten|narrow|revise/i.test(allUserText), weight: 10 },
+            { name: 'Asked professional, specific questions', check: () => (allUserText.match(/\?/g) || []).length >= 2, weight: 10 }
+        ],
+        renewal: [
+            { name: 'Challenged "then-current" agreement requirement', check: () => /then.?current|new.*agreement|different.*terms|change.*terms|same.*terms/i.test(allUserText), weight: 20 },
+            { name: 'Asked for renewal cost cap or estimate', check: () => /remodel|cap|cost|estimat|\$50|\$100|renovation|upgrade|how.*much/i.test(allUserText), weight: 15 },
+            { name: 'Requested definition of "good standing"', check: () => /good.*standing|define|what.*mean|criteria|specific|qualify/i.test(allUserText), weight: 15 },
+            { name: 'Asked about renewal denial history', check: () => /denied|refused|reject|history|how.*many|ever.*not.*renew/i.test(allUserText), weight: 15 },
+            { name: 'Proposed term-lock or modification cap', check: () => /lock|guarantee|protect|cap|limit|ceiling|assurance/i.test(allUserText), weight: 15 },
+            { name: 'Referenced long-term investment protection', check: () => /invest|10.*year|long.*term|protect.*my|return.*on/i.test(allUserText), weight: 10 },
+            { name: 'Used professional negotiation tactics', check: () => (allUserText.match(/\?/g) || []).length >= 2, weight: 10 }
+        ],
+        item19: [
+            { name: 'Questioned why bottom 40% excluded', check: () => /bottom|40|exclu|why.*not.*all|select|cherry|omit/i.test(allUserText), weight: 20 },
+            { name: 'Asked for median (not just average)', check: () => /median|middle|typical|not.*average|actual.*middle/i.test(allUserText), weight: 15 },
+            { name: 'Requested expense or net income data', check: () => /expense|net.*income|take.*home|profit|cost|what.*keep|overhead/i.test(allUserText), weight: 15 },
+            { name: 'Asked about owner compensation specifically', check: () => /owner.*comp|salary|what.*owner.*make|draw|pay.*yourself|take.*home/i.test(allUserText), weight: 15 },
+            { name: 'Challenged the footnotes or methodology', check: () => /footnote|methodol|how.*calculat|basis|sample|data.*set/i.test(allUserText), weight: 10 },
+            { name: 'Referenced what the FDD does NOT disclose', check: () => /not.*disclos|missing|absent|why.*no|doesn't.*show|omit/i.test(allUserText), weight: 15 },
+            { name: 'Asked to speak with actual franchisees', check: () => /speak.*franchisee|talk.*to|contact|call.*existing|validation/i.test(allUserText), weight: 10 }
+        ]
+    };
+
+    const checks = criteria[selectedScenario] || criteria.territory;
+    let totalScore = 0;
+    let maxPossible = 0;
+    const hits = [];
+    const misses = [];
+
+    checks.forEach(c => {
+        maxPossible += c.weight;
+        if (c.check()) {
+            totalScore += c.weight;
+            hits.push(c.name);
+        } else {
+            misses.push(c.name);
+        }
+    });
+
+    // Bonus for more turns (engagement)
+    const engagementBonus = Math.min(turnCount * 2, 10);
+    totalScore += engagementBonus;
+    maxPossible += 10;
+
+    const pct = Math.round(totalScore / maxPossible * 100);
+
+    let grade, gradeColor, verdict;
+    if (pct >= 80) { grade = 'Strong Negotiator'; gradeColor = '#10B981'; verdict = 'You covered the key issues, asked pointed questions, and maintained composure. You\'re well-prepared for the real conversation.'; }
+    else if (pct >= 60) { grade = 'Good Foundation'; gradeColor = '#52B788'; verdict = 'You hit several important points but missed some critical angles. Review the items below and practice one more round.'; }
+    else if (pct >= 40) { grade = 'Needs Work'; gradeColor = '#F59E0B'; verdict = 'You engaged with the scenario but missed key negotiation opportunities. Study the missed items below — these are the questions that protect your investment.'; }
+    else { grade = 'Not Ready Yet'; gradeColor = '#EF4444'; verdict = 'You need more preparation before this conversation. Review the FDD items relevant to this scenario and try again with more specific, data-backed arguments.'; }
+
+    const container = document.getElementById('coachingContent');
+    container.innerHTML = `
+        <div class="coaching-card">
+            <h4>Overall Performance</h4>
+            <div class="score-bar-container">
+                <div class="score-bar-label"><span>${grade}</span><span>${pct}%</span></div>
+                <div class="score-bar"><div class="score-bar-fill" style="width:${pct}%;background:${gradeColor}"></div></div>
+            </div>
+            <p>${verdict}</p>
+        </div>
+
+        <div class="coaching-card">
+            <h4>What You Did Well</h4>
+            ${hits.length > 0 ?
+                `<ul>${hits.map(h => `<li class="hit">${h}</li>`).join('')}</ul>` :
+                `<p style="color:var(--gray);">No key criteria were met. Try again with more specific, data-driven arguments.</p>`
+            }
+        </div>
+
+        <div class="coaching-card">
+            <h4>What You Missed</h4>
+            ${misses.length > 0 ?
+                `<ul>${misses.map(m => `<li class="miss">${m}</li>`).join('')}</ul>
+                 <p style="margin-top:12px;font-style:italic;color:var(--gray);">Each of these represents leverage you left on the table. In a real negotiation, these gaps could cost you thousands.</p>` :
+                `<p style="color:var(--success);font-weight:600;">You covered all the key areas. Impressive.</p>`
+            }
+        </div>
+
+        <div class="coaching-card">
+            <h4>Session Stats</h4>
+            <p>Turns used: ${turnCount} of ${MAX_TURNS}<br>
+            Questions asked: ${(allUserText.match(/\?/g) || []).length}<br>
+            Key points covered: ${hits.length} of ${checks.length}<br>
+            Engagement bonus: +${engagementBonus} points</p>
+        </div>
+    `;
+}
+
+function resetSimulation() {
+    document.getElementById('coachingView').classList.remove('active');
+    document.getElementById('chatView').classList.remove('active');
+    document.getElementById('scenarioView').style.display = 'block';
+    document.querySelectorAll('.scenario-card').forEach(c => c.classList.remove('selected'));
+    document.getElementById('startBtn').disabled = true;
+    document.getElementById('chatMessages').innerHTML = '';
+    conversationHistory = [];
+    turnCount = 0;
+    selectedScenario = null;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+
+</body>
+</html>

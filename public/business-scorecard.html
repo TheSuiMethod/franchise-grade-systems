@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free Franchise-Grade Business Scorecard | Franchise-Grade Systems</title>
+    <meta name="description" content="Score your business or franchise opportunity across 8 key operational areas. Get your Franchise-Grade rating and a personalized gap analysis. 100% free.">
+    <meta name="keywords" content="franchise scorecard, business scorecard, franchise evaluation, business operations assessment, franchise grade">
+    <link rel="canonical" href="https://www.franchisegradesystems.com/business-scorecard">
+    <meta property="og:title" content="Free Business Scorecard | Franchise-Grade Systems">
+    <meta property="og:description" content="Score your business across 8 operational areas. Get your Franchise-Grade rating free.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --forest: #1B4332; --forest-mid: #2D6A4F; --forest-light: #40916C;
+            --sage: #52B788; --mint: #95D5B2; --pale: #D8F3DC; --cream: #F7FBF9;
+            --white: #FFFFFF; --charcoal: #1A1A2E; --slate: #4A4A5A; --gray: #6B7280;
+            --light-gray: #E5E7EB; --warning: #F59E0B; --danger: #EF4444; --success: #10B981;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'DM Sans', sans-serif; color: var(--charcoal); background: var(--cream); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+        h1, h2, h3, h4 { font-family: 'Instrument Serif', serif; font-weight: 400; }
+
+        .nav { background: var(--forest); padding: 16px 24px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 12px rgba(0,0,0,0.15); }
+        .nav-logo { font-family: 'Instrument Serif', serif; color: var(--white); font-size: 1.25rem; text-decoration: none; }
+        .nav-logo span { color: var(--sage); }
+        .nav-links { display: flex; gap: 24px; align-items: center; }
+        .nav-links a { color: var(--mint); text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: color 0.2s; }
+        .nav-links a:hover { color: var(--white); }
+        .nav-cta { background: var(--sage) !important; color: var(--forest) !important; padding: 8px 20px; border-radius: 8px; font-weight: 600 !important; }
+        .mobile-menu-btn { display: none; background: none; border: none; color: var(--white); font-size: 1.5rem; cursor: pointer; }
+
+        .hero { background: linear-gradient(135deg, var(--forest) 0%, var(--forest-mid) 100%); padding: 60px 24px 48px; text-align: center; }
+        .hero h1 { color: var(--white); font-size: clamp(1.8rem, 4vw, 2.6rem); margin-bottom: 12px; }
+        .hero h1 em { color: var(--sage); font-style: italic; }
+        .hero p { color: var(--mint); font-size: 1.05rem; max-width: 640px; margin: 0 auto 8px; }
+        .hero-sub { color: var(--mint); font-size: 0.88rem; opacity: 0.7; }
+
+        .main { max-width: 800px; margin: 0 auto; padding: 48px 24px 80px; }
+
+        /* PROGRESS BAR */
+        .progress-bar { background: var(--light-gray); border-radius: 20px; height: 8px; margin-bottom: 32px; overflow: hidden; }
+        .progress-fill { background: linear-gradient(90deg, var(--sage), var(--forest-mid)); height: 100%; border-radius: 20px; transition: width 0.4s ease; width: 0%; }
+        .progress-text { font-size: 0.82rem; color: var(--gray); margin-bottom: 8px; font-weight: 500; }
+
+        /* CATEGORY CARDS */
+        .category { background: var(--white); border: 2px solid var(--light-gray); border-radius: 16px; padding: 32px 28px; margin-bottom: 20px; transition: border-color 0.3s; }
+        .category.completed { border-color: var(--sage); }
+        .category.active { border-color: var(--forest-mid); box-shadow: 0 4px 20px rgba(27,67,50,0.08); }
+        .category-header { display: flex; align-items: center; gap: 16px; margin-bottom: 4px; cursor: pointer; }
+        .category-num { width: 40px; height: 40px; border-radius: 50%; background: var(--light-gray); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.85rem; color: var(--gray); flex-shrink: 0; transition: all 0.3s; }
+        .category.completed .category-num { background: var(--sage); color: var(--white); }
+        .category.active .category-num { background: var(--forest-mid); color: var(--white); }
+        .category-title { font-size: 1.25rem; color: var(--charcoal); }
+        .category-score-badge { margin-left: auto; font-size: 0.82rem; font-weight: 600; padding: 4px 12px; border-radius: 20px; display: none; }
+        .category.completed .category-score-badge { display: inline-block; }
+
+        .category-body { display: none; margin-top: 20px; }
+        .category.active .category-body { display: block; }
+        .category-desc { color: var(--slate); font-size: 0.92rem; margin-bottom: 20px; line-height: 1.7; }
+
+        /* QUESTIONS */
+        .question { margin-bottom: 20px; }
+        .question-text { font-size: 0.92rem; font-weight: 600; color: var(--charcoal); margin-bottom: 10px; }
+        .options { display: flex; flex-direction: column; gap: 8px; }
+        .option { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border: 2px solid var(--light-gray); border-radius: 10px; cursor: pointer; transition: all 0.2s; font-size: 0.9rem; color: var(--slate); }
+        .option:hover { border-color: var(--sage); background: var(--pale); }
+        .option.selected { border-color: var(--forest-mid); background: rgba(45,106,79,0.06); color: var(--charcoal); font-weight: 500; }
+        .option input { display: none; }
+        .option-dot { width: 20px; height: 20px; border: 2px solid var(--light-gray); border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
+        .option.selected .option-dot { border-color: var(--forest-mid); background: var(--forest-mid); }
+        .option.selected .option-dot::after { content: ''; width: 8px; height: 8px; border-radius: 50%; background: white; }
+
+        .cat-nav { display: flex; justify-content: space-between; margin-top: 24px; }
+        .cat-btn { padding: 12px 28px; border-radius: 10px; font-weight: 600; font-size: 0.92rem; cursor: pointer; border: none; font-family: 'DM Sans', sans-serif; transition: all 0.2s; }
+        .cat-btn-next { background: var(--forest-mid); color: var(--white); }
+        .cat-btn-next:hover { background: var(--forest); }
+        .cat-btn-next:disabled { background: var(--light-gray); color: var(--gray); cursor: not-allowed; }
+        .cat-btn-back { background: transparent; color: var(--forest-mid); border: 2px solid var(--light-gray); }
+        .cat-btn-back:hover { border-color: var(--forest-mid); }
+
+        /* RESULTS */
+        .results { display: none; }
+        .results.visible { display: block; }
+
+        .overall-score { text-align: center; margin-bottom: 48px; }
+        .score-ring { position: relative; width: 200px; height: 200px; margin: 0 auto 20px; }
+        .score-ring svg { width: 200px; height: 200px; transform: rotate(-90deg); }
+        .score-ring .track { fill: none; stroke: var(--light-gray); stroke-width: 12; }
+        .score-ring .fill-ring { fill: none; stroke-width: 12; stroke-linecap: round; transition: stroke-dashoffset 1.5s ease; }
+        .score-value { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; }
+        .score-num { font-family: 'Instrument Serif', serif; font-size: 3.2rem; line-height: 1; }
+        .score-label { font-size: 0.85rem; color: var(--gray); font-weight: 500; }
+        .grade-badge { display: inline-block; font-size: 1.1rem; font-weight: 700; padding: 8px 24px; border-radius: 12px; margin-bottom: 12px; }
+        .overall-verdict { font-size: 1rem; color: var(--slate); max-width: 560px; margin: 0 auto; line-height: 1.7; }
+
+        /* CATEGORY RESULTS */
+        .cat-result { background: var(--white); border: 2px solid var(--light-gray); border-radius: 14px; padding: 24px; margin-bottom: 16px; }
+        .cat-result-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+        .cat-result-title { font-size: 1.15rem; color: var(--charcoal); }
+        .cat-result-score { font-weight: 700; font-size: 0.92rem; padding: 4px 14px; border-radius: 20px; }
+        .score-high { background: #DCFCE7; color: #166534; }
+        .score-mid { background: #FEF3C7; color: #92400E; }
+        .score-low { background: #FECACA; color: #991B1B; }
+
+        .cat-bar { height: 8px; background: var(--light-gray); border-radius: 10px; margin-bottom: 12px; overflow: hidden; }
+        .cat-bar-fill { height: 100%; border-radius: 10px; transition: width 1s ease; }
+
+        .cat-findings { font-size: 0.88rem; color: var(--slate); line-height: 1.7; }
+        .finding-item { padding: 8px 0 8px 16px; border-left: 3px solid var(--light-gray); margin-bottom: 8px; }
+        .finding-item.strength { border-left-color: var(--sage); }
+        .finding-item.gap { border-left-color: var(--warning); }
+        .finding-item.risk { border-left-color: var(--danger); }
+        .finding-label { font-weight: 600; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 2px; }
+        .finding-label.strength { color: #166534; }
+        .finding-label.gap { color: #92400E; }
+        .finding-label.risk { color: #991B1B; }
+
+        /* ACTION PLAN */
+        .action-section { background: var(--forest); border-radius: 16px; padding: 36px 32px; margin: 48px 0 32px; color: var(--white); }
+        .action-section h3 { color: var(--white); font-size: 1.5rem; margin-bottom: 8px; }
+        .action-section > p { color: var(--mint); font-size: 0.92rem; margin-bottom: 24px; }
+        .action-item { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12); border-radius: 12px; padding: 16px 20px; margin-bottom: 12px; }
+        .action-priority { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+        .priority-high { color: #F87171; }
+        .priority-med { color: var(--warning); }
+        .priority-low { color: var(--sage); }
+        .action-text { color: var(--mint); font-size: 0.9rem; line-height: 1.6; }
+
+        /* CTA */
+        .cta-section { background: var(--white); border: 2px solid var(--sage); border-radius: 16px; padding: 36px 32px; text-align: center; margin-top: 32px; }
+        .cta-section h3 { font-size: 1.4rem; margin-bottom: 8px; }
+        .cta-section p { color: var(--slate); font-size: 0.92rem; margin-bottom: 20px; max-width: 500px; margin-left: auto; margin-right: auto; }
+        .cta-btn { display: inline-block; background: var(--forest-mid); color: var(--white); padding: 14px 32px; border-radius: 10px; font-weight: 700; font-size: 1rem; text-decoration: none; transition: all 0.2s; border: none; cursor: pointer; font-family: 'DM Sans', sans-serif; }
+        .cta-btn:hover { background: var(--forest); transform: translateY(-1px); }
+
+        .restart-btn { display: inline-block; margin-top: 16px; color: var(--gray); font-size: 0.88rem; cursor: pointer; text-decoration: underline; background: none; border: none; font-family: 'DM Sans', sans-serif; }
+
+        .footer { background: #0A1F14; padding: 36px 24px; text-align: center; color: var(--mint); }
+        .footer-logo { font-family: 'Instrument Serif', serif; color: var(--white); font-size: 1.15rem; margin-bottom: 8px; }
+        .footer-logo span { color: var(--sage); }
+        .footer p { font-size: 0.82rem; opacity: 0.5; margin-bottom: 12px; }
+        .footer-links { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; }
+        .footer-links a { color: var(--mint); text-decoration: none; font-size: 0.85rem; opacity: 0.6; transition: opacity 0.2s; }
+        .footer-links a:hover { opacity: 1; }
+
+        @media (max-width: 700px) {
+            .nav-links { display: none; }
+            .nav-links.open { display: flex; flex-direction: column; position: absolute; top: 100%; left: 0; right: 0; background: var(--forest); padding: 16px 24px; }
+            .mobile-menu-btn { display: block; }
+            .main { padding: 32px 16px 60px; }
+            .category { padding: 24px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+<nav class="nav">
+    <a href="/" class="nav-logo">Franchise<span>-Grade</span> Systems</a>
+    <button class="mobile-menu-btn" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Menu">☰</button>
+    <div class="nav-links">
+        <a href="/tools">Free Tools</a>
+        <a href="/#products">How It Works</a>
+        <a href="/#story">Our Story</a>
+        <a href="/tools" class="nav-cta">Get Started Free</a>
+    </div>
+</nav>
+
+<section class="hero">
+    <h1>Your <em>Franchise-Grade</em> Business Scorecard</h1>
+    <p>Score your business — or any franchise you're evaluating — across 8 operational areas. Takes about 3 minutes.</p>
+    <p class="hero-sub">100% free. No account. No email required. Instant results.</p>
+</section>
+
+<div class="main">
+    <div id="assessmentView">
+        <div class="progress-text">Category <span id="currentStep">1</span> of 8</div>
+        <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+
+        <div id="categoriesContainer"></div>
+    </div>
+
+    <div class="results" id="resultsView">
+        <div class="overall-score">
+            <div class="score-ring">
+                <svg viewBox="0 0 200 200">
+                    <circle class="track" cx="100" cy="100" r="85"/>
+                    <circle class="fill-ring" id="scoreRing" cx="100" cy="100" r="85" stroke-dasharray="534" stroke-dashoffset="534"/>
+                </svg>
+                <div class="score-value">
+                    <div class="score-num" id="overallScore">0</div>
+                    <div class="score-label">out of 100</div>
+                </div>
+            </div>
+            <div class="grade-badge" id="gradeBadge">—</div>
+            <h2 id="gradeTitle" style="margin-bottom:8px;"></h2>
+            <p class="overall-verdict" id="gradeVerdict"></p>
+        </div>
+
+        <h3 style="font-size:1.3rem; margin-bottom:20px;">Category Breakdown</h3>
+        <div id="categoryResults"></div>
+
+        <div class="action-section">
+            <h3>Your Priority Action Plan</h3>
+            <p>Based on your scores, here's where to focus first for the biggest impact.</p>
+            <div id="actionPlan"></div>
+        </div>
+
+        <div class="cta-section">
+            <h3>Ready to Go Deeper?</h3>
+            <p>Your scorecard shows where the gaps are. Our AI FDD Analyzer shows exactly what's hidden in your franchise agreement — for $97.</p>
+            <a href="/fdd-analyzer" class="cta-btn">Analyze My FDD — $97 →</a>
+            <br>
+            <button class="restart-btn" onclick="restartAssessment()">↻ Retake Assessment</button>
+        </div>
+    </div>
+</div>
+
+<footer class="footer">
+    <div class="footer-logo">Franchise<span>-Grade</span> Systems</div>
+    <p>AI-powered tools for smarter franchise decisions.</p>
+    <p>&copy; 2026 Franchise-Grade Systems. All rights reserved. Not legal or financial advice.</p>
+    <div class="footer-links">
+        <a href="/">Home</a> <a href="/tools">Free Tools</a> <a href="/#products">How It Works</a>
+        <a href="/#story">Our Story</a> <a href="/privacy">Privacy</a> <a href="/terms">Terms</a>
+    </div>
+</footer>
+
+<script>
+const CATEGORIES = [
+    {
+        id: 'financial',
+        title: 'Financial Systems',
+        desc: 'How well do you track revenue, expenses, cash flow, and profitability? Strong financial systems let you make decisions from data, not gut feelings.',
+        questions: [
+            { text: 'How do you track revenue and expenses?', options: [
+                { label: 'Manually or not at all', score: 1 },
+                { label: 'Basic spreadsheet', score: 2 },
+                { label: 'Accounting software (QuickBooks, etc.)', score: 3 },
+                { label: 'Accounting software + regular financial reviews', score: 4 }
+            ]},
+            { text: 'How often do you review your profit margins?', options: [
+                { label: 'Rarely or never', score: 1 },
+                { label: 'Quarterly', score: 2 },
+                { label: 'Monthly', score: 3 },
+                { label: 'Weekly with KPI dashboards', score: 4 }
+            ]},
+            { text: 'Do you have a cash flow forecast?', options: [
+                { label: 'No', score: 1 },
+                { label: 'Rough mental estimate', score: 2 },
+                { label: 'Basic 30-day projection', score: 3 },
+                { label: 'Rolling 90-day forecast with scenarios', score: 4 }
+            ]}
+        ],
+        strengths: { high: 'Strong financial visibility — you can make confident decisions from real data.', mid: 'Basic financial tracking in place, but gaps in forecasting could leave you exposed.', low: 'Flying blind financially. This is the #1 reason businesses fail.' },
+        gaps: { high: 'Consider automating financial reporting for even faster insights.', mid: 'Add regular financial review cadence and basic cash flow forecasting.', low: 'Priority: Get accounting software set up and start tracking every dollar immediately.' },
+        actions: { high: 'Add scenario modeling to your financial forecasts.', mid: 'Set up weekly 15-minute financial check-ins and a 90-day cash flow forecast.', low: 'URGENT: Set up QuickBooks or Wave today. Start tracking revenue vs. expenses weekly.' }
+    },
+    {
+        id: 'operations',
+        title: 'Operations & Processes',
+        desc: 'Are your day-to-day operations documented, repeatable, and efficient? Or does everything depend on you and tribal knowledge?',
+        questions: [
+            { text: 'Are your core business processes documented?', options: [
+                { label: 'Nothing is written down', score: 1 },
+                { label: 'A few things are documented', score: 2 },
+                { label: 'Most key processes have SOPs', score: 3 },
+                { label: 'Full operations manual with regular updates', score: 4 }
+            ]},
+            { text: 'Could someone run your business for 2 weeks without you?', options: [
+                { label: 'Absolutely not', score: 1 },
+                { label: 'Maybe, but things would suffer', score: 2 },
+                { label: 'Yes, with some guidance', score: 3 },
+                { label: 'Yes, seamlessly — systems handle it', score: 4 }
+            ]},
+            { text: 'How do you handle quality control?', options: [
+                { label: 'No formal process', score: 1 },
+                { label: 'I personally check things', score: 2 },
+                { label: 'Checklists and spot-checks', score: 3 },
+                { label: 'Systematic QC with metrics and feedback loops', score: 4 }
+            ]}
+        ],
+        strengths: { high: 'Operationally tight — your business can scale without breaking.', mid: 'Some processes documented, but too much still lives in your head.', low: 'Owner-dependent operations — this limits growth and kills resale value.' },
+        gaps: { high: 'Refine and automate your existing processes for even more efficiency.', mid: 'Document your top 5 most critical processes as SOPs this month.', low: 'You ARE the business. Start documenting immediately — begin with your daily workflow.' },
+        actions: { high: 'Audit processes for automation opportunities using AI tools.', mid: 'Block 2 hours this week to document your 3 most repeated tasks as step-by-step SOPs.', low: 'URGENT: Record yourself doing your core tasks this week (video or written). That\'s your first SOP.' }
+    },
+    {
+        id: 'sales',
+        title: 'Sales & Revenue',
+        desc: 'Do you have a predictable, repeatable sales process? Or is revenue unpredictable and dependent on hope?',
+        questions: [
+            { text: 'Do you have a defined sales process?', options: [
+                { label: 'No — sales happen ad hoc', score: 1 },
+                { label: 'Informal process I follow', score: 2 },
+                { label: 'Documented pipeline with stages', score: 3 },
+                { label: 'Full CRM with pipeline, follow-ups, and conversion tracking', score: 4 }
+            ]},
+            { text: 'How predictable is your monthly revenue?', options: [
+                { label: 'Completely unpredictable', score: 1 },
+                { label: 'Roughly know what to expect', score: 2 },
+                { label: 'Can forecast within 20%', score: 3 },
+                { label: 'Forecast within 10% with recurring revenue', score: 4 }
+            ]},
+            { text: 'Do you track customer acquisition cost (CAC)?', options: [
+                { label: 'No idea what it costs', score: 1 },
+                { label: 'Rough estimate', score: 2 },
+                { label: 'Track it quarterly', score: 3 },
+                { label: 'Track it monthly with LTV:CAC ratio', score: 4 }
+            ]}
+        ],
+        strengths: { high: 'Predictable revenue engine — you know what to expect and how to grow it.', mid: 'Revenue coming in but without clear visibility into what drives it.', low: 'Revenue is unpredictable. No sales system means you\'re always hustling, never scaling.' },
+        gaps: { high: 'Optimize your funnel — small conversion improvements compound fast.', mid: 'Formalize your sales pipeline and start tracking conversion rates.', low: 'You need a defined sales process before anything else. Start tracking every lead source.' },
+        actions: { high: 'A/B test your highest-volume conversion point for 10%+ improvement.', mid: 'Set up a simple CRM (even a spreadsheet) and track leads → proposals → closes this month.', low: 'URGENT: Map your current customer journey from first contact to sale. That\'s your sales process v1.' }
+    },
+    {
+        id: 'marketing',
+        title: 'Marketing & Lead Generation',
+        desc: 'Do leads come to you consistently, or are you always chasing the next customer?',
+        questions: [
+            { text: 'Where do most of your leads come from?', options: [
+                { label: 'Word of mouth only', score: 1 },
+                { label: 'A mix, but nothing systematic', score: 2 },
+                { label: '2-3 channels I actively manage', score: 3 },
+                { label: 'Multi-channel system with tracking and attribution', score: 4 }
+            ]},
+            { text: 'Do you have an email list or CRM?', options: [
+                { label: 'No', score: 1 },
+                { label: 'Have one but rarely use it', score: 2 },
+                { label: 'Active list with occasional emails', score: 3 },
+                { label: 'Segmented list with automated sequences', score: 4 }
+            ]},
+            { text: 'How consistent is your content/marketing output?', options: [
+                { label: 'No marketing activity', score: 1 },
+                { label: 'Sporadic — when I have time', score: 2 },
+                { label: 'Regular schedule (weekly+)', score: 3 },
+                { label: 'Content calendar with multi-format distribution', score: 4 }
+            ]}
+        ],
+        strengths: { high: 'Marketing machine — leads flow in consistently without you chasing.', mid: 'Some lead generation happening but not systematized or tracked.', low: 'Relying entirely on word of mouth. That\'s not a strategy — it\'s a prayer.' },
+        gaps: { high: 'Test new channels to diversify and reduce single-source dependency.', mid: 'Pick ONE channel and commit to consistent output for 90 days.', low: 'Start with the simplest lead gen: build an email list and send value weekly.' },
+        actions: { high: 'Audit your channel performance — double down on your top performer.', mid: 'Set up an email list this week and commit to one piece of content per week.', low: 'URGENT: Choose one platform (social, email, or local). Post/send something valuable 3x this week.' }
+    },
+    {
+        id: 'customer',
+        title: 'Customer Experience',
+        desc: 'Do customers come back and refer others? Or do you constantly need new ones because retention is poor?',
+        questions: [
+            { text: 'Do you have a formal onboarding process for new customers?', options: [
+                { label: 'No', score: 1 },
+                { label: 'Informal — varies each time', score: 2 },
+                { label: 'Standard welcome process', score: 3 },
+                { label: 'Automated onboarding with touchpoints and follow-ups', score: 4 }
+            ]},
+            { text: 'How do you collect customer feedback?', options: [
+                { label: 'I don\'t', score: 1 },
+                { label: 'Informally through conversations', score: 2 },
+                { label: 'Occasional surveys or reviews', score: 3 },
+                { label: 'Systematic feedback with NPS/CSAT and action plans', score: 4 }
+            ]},
+            { text: 'What\'s your customer retention like?', options: [
+                { label: 'Most customers are one-time', score: 1 },
+                { label: 'Some repeat, but I don\'t track it', score: 2 },
+                { label: 'Good retention — most come back', score: 3 },
+                { label: 'High retention with referral program and lifetime value tracking', score: 4 }
+            ]}
+        ],
+        strengths: { high: 'Customers love you AND you\'ve systematized that love into retention and referrals.', mid: 'Decent customer relationships but no system to maximize retention or referrals.', low: 'Leaky bucket — you\'re spending to acquire customers who don\'t come back.' },
+        gaps: { high: 'Launch a formal referral program to turn happy customers into growth engine.', mid: 'Add a post-service follow-up and review request to your process.', low: 'Focus on customer experience basics before spending on more marketing.' },
+        actions: { high: 'Implement a referral incentive program this month.', mid: 'Set up automated post-service emails (thank you + feedback request + review ask).', low: 'URGENT: Call your last 5 customers. Ask what went well and what didn\'t. Build from there.' }
+    },
+    {
+        id: 'team',
+        title: 'Team & Hiring',
+        desc: 'Can you attract, train, and retain good people? Or is staffing a constant headache?',
+        questions: [
+            { text: 'Do you have documented job descriptions and hiring criteria?', options: [
+                { label: 'No — I hire based on gut', score: 1 },
+                { label: 'Basic job posts but no formal criteria', score: 2 },
+                { label: 'Clear roles with skills requirements', score: 3 },
+                { label: 'Full hiring playbook with scorecards and structured interviews', score: 4 }
+            ]},
+            { text: 'How do you train new hires?', options: [
+                { label: 'Sink or swim', score: 1 },
+                { label: 'Shadow me for a while', score: 2 },
+                { label: 'Basic training checklist', score: 3 },
+                { label: 'Structured onboarding program with milestones', score: 4 }
+            ]},
+            { text: 'How would you rate employee retention?', options: [
+                { label: 'High turnover — constant problem', score: 1 },
+                { label: 'Some turnover, normal for industry', score: 2 },
+                { label: 'Good — most stay 1+ years', score: 3 },
+                { label: 'Excellent — team is stable with growth paths', score: 4 }
+            ]}
+        ],
+        strengths: { high: 'Strong team systems — you can hire well, train fast, and keep people.', mid: 'Team is functional but hiring and training need more structure.', low: 'Team is your weakest link. High turnover signals culture or systems problems.' },
+        gaps: { high: 'Develop leadership pipeline and cross-training to reduce single points of failure.', mid: 'Create a simple training checklist for each role — even bullet points help.', low: 'The staffing problem IS the business problem. Fix hiring and training first.' },
+        actions: { high: 'Implement quarterly growth conversations with each team member.', mid: 'Write a 1-page training guide for your most critical role this week.', low: 'URGENT: Document what a great first 30 days looks like for your most important role.' }
+    },
+    {
+        id: 'tech',
+        title: 'Technology & Automation',
+        desc: 'Are you leveraging technology to save time and reduce errors, or doing everything manually?',
+        questions: [
+            { text: 'How much of your workflow is automated?', options: [
+                { label: 'Nothing — all manual', score: 1 },
+                { label: 'A few things (email, scheduling)', score: 2 },
+                { label: 'Key workflows automated (invoicing, follow-ups, etc.)', score: 3 },
+                { label: 'Integrated tech stack with automations across operations', score: 4 }
+            ]},
+            { text: 'Are you using AI tools in your business?', options: [
+                { label: 'No', score: 1 },
+                { label: 'Experimenting with a few', score: 2 },
+                { label: 'Using AI for specific tasks (writing, analysis, etc.)', score: 3 },
+                { label: 'AI integrated into multiple workflows systematically', score: 4 }
+            ]},
+            { text: 'Do your systems talk to each other?', options: [
+                { label: 'What systems?', score: 1 },
+                { label: 'Separate tools, manual data transfer', score: 2 },
+                { label: 'Some integrations (Zapier, etc.)', score: 3 },
+                { label: 'Connected ecosystem — data flows automatically', score: 4 }
+            ]}
+        ],
+        strengths: { high: 'Tech-forward operation — you\'re saving hours weekly through automation.', mid: 'Using some tools but not maximizing their potential.', low: 'Manual everything. You\'re trading time for money at the worst exchange rate.' },
+        gaps: { high: 'Explore AI agents for your most time-consuming remaining manual tasks.', mid: 'Connect your existing tools with simple automations (Zapier, Make).', low: 'Start with the basics: scheduling, invoicing, and email templates.' },
+        actions: { high: 'Identify your top 3 remaining manual tasks and build automations this month.', mid: 'Set up ONE automation this week (e.g., auto-send invoice after service).', low: 'URGENT: Get scheduling software (Calendly), invoicing (Wave), and email templates running this week.' }
+    },
+    {
+        id: 'growth',
+        title: 'Growth & Scalability',
+        desc: 'Is your business designed to grow, or are you stuck at a revenue ceiling because everything depends on you?',
+        questions: [
+            { text: 'Do you have a written growth plan?', options: [
+                { label: 'No plan', score: 1 },
+                { label: 'Ideas in my head', score: 2 },
+                { label: 'Basic goals with some milestones', score: 3 },
+                { label: 'Detailed plan with targets, timelines, and KPIs', score: 4 }
+            ]},
+            { text: 'Could you open a second location or scale 2x without breaking?', options: [
+                { label: 'Absolutely not', score: 1 },
+                { label: 'It would be extremely hard', score: 2 },
+                { label: 'Possible with significant effort', score: 3 },
+                { label: 'Yes — systems are built for it', score: 4 }
+            ]},
+            { text: 'Do you track KPIs and leading indicators?', options: [
+                { label: 'No', score: 1 },
+                { label: 'Revenue only', score: 2 },
+                { label: 'Revenue + a few other metrics', score: 3 },
+                { label: '5+ KPIs tracked weekly with trend analysis', score: 4 }
+            ]}
+        ],
+        strengths: { high: 'Growth-ready business — you have the systems and visibility to scale.', mid: 'Growth potential exists but infrastructure gaps will bottleneck you.', low: 'Stuck at a ceiling. The business can\'t grow because it depends entirely on you.' },
+        gaps: { high: 'Stress-test your systems by modeling 2x volume — find the breaking points.', mid: 'Define your top 5 KPIs and start tracking them weekly.', low: 'Before thinking about growth, fix the operational foundations in categories 1-7.' },
+        actions: { high: 'Model your 12-month growth scenario and identify the 3 systems that would break first.', mid: 'Write down 3 specific growth goals with deadlines and the KPIs that measure progress.', low: 'URGENT: Your growth plan is to fix operations first. Score above 50 overall, then revisit this.' }
+    }
+];
+
+let answers = {};
+let currentCategory = 0;
+
+function init() {
+    const container = document.getElementById('categoriesContainer');
+    container.innerHTML = '';
+    CATEGORIES.forEach((cat, i) => {
+        const div = document.createElement('div');
+        div.className = `category ${i === 0 ? 'active' : ''}`;
+        div.id = `cat-${cat.id}`;
+        div.innerHTML = `
+            <div class="category-header" onclick="goToCategory(${i})">
+                <div class="category-num">${i + 1}</div>
+                <div class="category-title">${cat.title}</div>
+                <span class="category-score-badge" id="badge-${cat.id}"></span>
+            </div>
+            <div class="category-body">
+                <p class="category-desc">${cat.desc}</p>
+                ${cat.questions.map((q, qi) => `
+                    <div class="question">
+                        <div class="question-text">${q.text}</div>
+                        <div class="options">
+                            ${q.options.map((o, oi) => `
+                                <label class="option" onclick="selectOption('${cat.id}', ${qi}, ${oi}, ${o.score}, this)">
+                                    <input type="radio" name="${cat.id}_${qi}" value="${o.score}">
+                                    <span class="option-dot"></span>
+                                    ${o.label}
+                                </label>
+                            `).join('')}
+                        </div>
+                    </div>
+                `).join('')}
+                <div class="cat-nav">
+                    <button class="cat-btn cat-btn-back" onclick="prevCategory()" ${i === 0 ? 'style="visibility:hidden"' : ''}>← Back</button>
+                    <button class="cat-btn cat-btn-next" id="nextBtn-${cat.id}" onclick="${i === CATEGORIES.length - 1 ? 'showResults()' : 'nextCategory()'}" disabled>
+                        ${i === CATEGORIES.length - 1 ? 'See My Score →' : 'Next Category →'}
+                    </button>
+                </div>
+            </div>
+        `;
+        container.appendChild(div);
+    });
+    answers = {};
+    CATEGORIES.forEach(c => { answers[c.id] = {}; });
+}
+
+function selectOption(catId, qIdx, oIdx, score, el) {
+    answers[catId][qIdx] = score;
+    // Visual selection
+    el.closest('.options').querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
+    el.classList.add('selected');
+    // Enable next if all questions answered
+    const cat = CATEGORIES.find(c => c.id === catId);
+    const allAnswered = cat.questions.every((_, i) => answers[catId][i] !== undefined);
+    document.getElementById(`nextBtn-${catId}`).disabled = !allAnswered;
+}
+
+function nextCategory() {
+    const cat = CATEGORIES[currentCategory];
+    markCompleted(currentCategory);
+    currentCategory++;
+    goToCategory(currentCategory);
+}
+
+function prevCategory() {
+    if (currentCategory > 0) {
+        currentCategory--;
+        goToCategory(currentCategory);
+    }
+}
+
+function goToCategory(idx) {
+    if (idx > currentCategory + 1) return; // Can't skip ahead
+    currentCategory = idx;
+    document.querySelectorAll('.category').forEach((el, i) => {
+        el.classList.remove('active');
+        if (i === idx) el.classList.add('active');
+    });
+    document.getElementById('currentStep').textContent = idx + 1;
+    document.getElementById('progressFill').style.width = ((idx) / CATEGORIES.length * 100) + '%';
+    window.scrollTo({ top: document.getElementById(`cat-${CATEGORIES[idx].id}`).offsetTop - 100, behavior: 'smooth' });
+}
+
+function markCompleted(idx) {
+    const cat = CATEGORIES[idx];
+    const el = document.getElementById(`cat-${cat.id}`);
+    el.classList.add('completed');
+    const score = getCategoryScore(cat.id);
+    const pct = Math.round(score / (cat.questions.length * 4) * 100);
+    const badge = document.getElementById(`badge-${cat.id}`);
+    badge.textContent = `${pct}%`;
+    badge.className = 'category-score-badge ' + (pct >= 75 ? 'score-high' : pct >= 45 ? 'score-mid' : 'score-low');
+}
+
+function getCategoryScore(catId) {
+    return Object.values(answers[catId]).reduce((a, b) => a + b, 0);
+}
+
+function showResults() {
+    markCompleted(currentCategory);
+    document.getElementById('progressFill').style.width = '100%';
+
+    // Calculate overall
+    let totalScore = 0;
+    let maxScore = 0;
+    CATEGORIES.forEach(cat => {
+        totalScore += getCategoryScore(cat.id);
+        maxScore += cat.questions.length * 4;
+    });
+    const pct = Math.round(totalScore / maxScore * 100);
+
+    // Show results view
+    document.getElementById('assessmentView').style.display = 'none';
+    const rv = document.getElementById('resultsView');
+    rv.classList.add('visible');
+
+    // Animate score ring
+    const ring = document.getElementById('scoreRing');
+    const circumference = 534;
+    const offset = circumference - (pct / 100 * circumference);
+    setTimeout(() => {
+        ring.style.strokeDashoffset = offset;
+        ring.style.stroke = pct >= 75 ? '#10B981' : pct >= 50 ? '#52B788' : pct >= 35 ? '#F59E0B' : '#EF4444';
+    }, 100);
+
+    // Animate number
+    let current = 0;
+    const numEl = document.getElementById('overallScore');
+    const interval = setInterval(() => {
+        current++;
+        numEl.textContent = current;
+        if (current >= pct) clearInterval(interval);
+    }, 20);
+
+    // Grade
+    let grade, gradeColor, title, verdict;
+    if (pct >= 85) { grade = 'A'; gradeColor = '#DCFCE7; color: #166534'; title = 'Franchise-Grade Operations'; verdict = 'Your business runs like a well-oiled franchise system. Strong across the board. Focus on optimizing what you have and stress-testing for growth.'; }
+    else if (pct >= 70) { grade = 'B'; gradeColor = '#DCFCE7; color: #166534'; title = 'Solid Foundation, Room to Optimize'; verdict = 'Good systems in place. A few areas need tightening, but you\'re ahead of most small businesses. Focus on the gaps below to move toward franchise-grade.'; }
+    else if (pct >= 55) { grade = 'C'; gradeColor = '#FEF3C7; color: #92400E'; title = 'Functional but Fragile'; verdict = 'Your business works, but it depends too much on you. Several operational gaps are limiting your growth and increasing your risk. Address the yellow and red areas below.'; }
+    else if (pct >= 40) { grade = 'D'; gradeColor = '#FEF3C7; color: #92400E'; title = 'Significant Operational Gaps'; verdict = 'Multiple systems need attention. Your business is vulnerable to disruption, and growth will be difficult until foundational gaps are addressed. Start with the action plan below.'; }
+    else { grade = 'F'; gradeColor = '#FECACA; color: #991B1B'; title = 'Critical: Systems Overhaul Needed'; verdict = 'Your business is running on adrenaline, not systems. This is unsustainable. The good news: every improvement from here compounds. Start with the urgent actions below.'; }
+
+    document.getElementById('gradeBadge').textContent = `Grade: ${grade}`;
+    document.getElementById('gradeBadge').style.cssText = `background: ${gradeColor}`;
+    document.getElementById('gradeTitle').textContent = title;
+    document.getElementById('gradeVerdict').textContent = verdict;
+
+    // Category results
+    const resultsContainer = document.getElementById('categoryResults');
+    resultsContainer.innerHTML = '';
+    const catScores = [];
+
+    CATEGORIES.forEach(cat => {
+        const score = getCategoryScore(cat.id);
+        const catMax = cat.questions.length * 4;
+        const catPct = Math.round(score / catMax * 100);
+        catScores.push({ cat, pct: catPct });
+
+        const tier = catPct >= 75 ? 'high' : catPct >= 45 ? 'mid' : 'low';
+        const barColor = catPct >= 75 ? '#10B981' : catPct >= 45 ? '#F59E0B' : '#EF4444';
+        const scoreClass = catPct >= 75 ? 'score-high' : catPct >= 45 ? 'score-mid' : 'score-low';
+        const findingType = catPct >= 75 ? 'strength' : catPct >= 45 ? 'gap' : 'risk';
+        const findingLabel = catPct >= 75 ? 'Strength' : catPct >= 45 ? 'Gap' : 'Risk';
+
+        resultsContainer.innerHTML += `
+            <div class="cat-result">
+                <div class="cat-result-header">
+                    <div class="cat-result-title">${cat.title}</div>
+                    <span class="cat-result-score ${scoreClass}">${catPct}%</span>
+                </div>
+                <div class="cat-bar"><div class="cat-bar-fill" style="width:${catPct}%; background:${barColor}"></div></div>
+                <div class="cat-findings">
+                    <div class="finding-item ${findingType}">
+                        <div class="finding-label ${findingType}">${findingLabel}</div>
+                        ${cat.strengths[tier]}
+                    </div>
+                    <div class="finding-item ${catPct >= 75 ? 'strength' : 'gap'}">
+                        <div class="finding-label ${catPct >= 75 ? 'strength' : 'gap'}">${catPct >= 75 ? 'Next Level' : 'Recommendation'}</div>
+                        ${cat.gaps[tier]}
+                    </div>
+                </div>
+            </div>
+        `;
+    });
+
+    // Action plan — sorted by lowest score first
+    const actionContainer = document.getElementById('actionPlan');
+    actionContainer.innerHTML = '';
+    catScores.sort((a, b) => a.pct - b.pct);
+    catScores.forEach((item, i) => {
+        const tier = item.pct >= 75 ? 'high' : item.pct >= 45 ? 'mid' : 'low';
+        const priority = item.pct < 45 ? 'high' : item.pct < 75 ? 'med' : 'low';
+        const priorityLabel = item.pct < 45 ? 'Fix Now' : item.pct < 75 ? 'Improve' : 'Optimize';
+        actionContainer.innerHTML += `
+            <div class="action-item">
+                <div class="action-priority priority-${priority}">${priorityLabel} — ${item.cat.title} (${item.pct}%)</div>
+                <div class="action-text">${item.cat.actions[tier]}</div>
+            </div>
+        `;
+    });
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function restartAssessment() {
+    document.getElementById('assessmentView').style.display = 'block';
+    document.getElementById('resultsView').classList.remove('visible');
+    currentCategory = 0;
+    init();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+init();
+</script>
+
+</body>
+</html>
