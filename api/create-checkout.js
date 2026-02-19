@@ -15,9 +15,9 @@ module.exports = async function handler(req, res) {
           currency: 'usd',
           product_data: {
             name: 'AI FDD Analyzer',
-            description: 'One-time AI analysis of your Franchise Disclosure Document. Covers all 23 FDD items with risk scoring, red flag detection, and downloadable PDF report.',
+            description: 'One-time AI analysis of your Franchise Disclosure Document. Covers all 23 FDD items with risk scoring, red flag detection, industry benchmarks, and downloadable PDF report.',
           },
-          unit_amount: 6700, // $67.00
+          unit_amount: 9700, // $97.00
         },
         quantity: 1,
       }],
