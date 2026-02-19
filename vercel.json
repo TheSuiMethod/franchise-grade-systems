@@ -12,7 +12,8 @@
     { "source": "/fdd-analyzer", "destination": "/fdd-analyzer.html" },
     { "source": "/fdd-analyzer-tool", "destination": "/fdd-analyzer-tool.html" },
     { "source": "/privacy", "destination": "/privacy.html" },
-    { "source": "/terms", "destination": "/terms.html" }
+    { "source": "/terms", "destination": "/terms.html" },
+    { "source": "/expert-review", "destination": "/expert-review.html" }
   ],
   "headers": [
     {
