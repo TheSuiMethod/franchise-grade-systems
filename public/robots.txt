@@ -2,6 +2,9 @@ User-agent: *
 Allow: /
 Disallow: /fdd-analyzer-tool
 Disallow: /decision-engine-portal
+Disallow: /blueprint-confirmed
+Disallow: /expert-review-booked
+Disallow: /bundle-confirmed
 Disallow: /api/
 
 Sitemap: https://www.franchisegradesystems.com/sitemap.xml
