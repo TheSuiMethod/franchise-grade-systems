@@ -5,6 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AI Franchise Decision Engine - $297 | Franchise-Grade Systems</title>
   <meta name="description" content="The complete AI-powered franchise due diligence toolkit. 5 negotiation scenarios, 5-way franchise comparison, 8 validation call scripts, and the FDD Analyzer. Everything you need for a confident go/no-go decision.">
+  <meta property="og:title" content="AI Franchise Decision Engine - $297 | Franchise-Grade Systems">
+  <meta property="og:description" content="The complete AI-powered franchise due diligence toolkit. Negotiation practice, franchise comparison, validation scripts, and FDD analysis. Everything for a confident go/no-go decision.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.franchisegradesystems.com/decision-engine">
   <link rel="canonical" href="https://www.franchisegradesystems.com/decision-engine">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -144,7 +148,7 @@
   <div class="cta-section" id="notify">
     <h3>Ready to Make a Confident Decision?</h3>
     <p>The Decision Engine gives you every tool you need for thorough franchise due diligence - including the full FDD Analyzer. One purchase, full access.</p>
-    <a href="#" id="buyBtn" onclick="startEngineCheckout(event)" class="cta-btn" style="font-size:1.05rem;padding:14px 36px;">Get the Decision Engine - $297</a>
+    <a href="#" id="buyBtn2" onclick="startEngineCheckout(event)" class="cta-btn" style="font-size:1.05rem;padding:14px 36px;">Get the Decision Engine - $297</a>
     <div class="cta-sub">One-time purchase. Instant access to all tools.</div>
     <div style="background:rgba(255,255,255,0.08);border:1px solid rgba(82,183,136,0.3);border-radius:10px;padding:16px 24px;margin:20px auto 0;max-width:480px;text-align:center;">
       <div style="font-size:0.75rem;font-weight:700;color:var(--sage);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;">Save $97</div>
@@ -203,7 +207,8 @@
 <script>
 async function startEngineCheckout(e) {
   e.preventDefault();
-  const btn = document.getElementById('buyBtn');
+  const btn = e.currentTarget;
+  const originalText = btn.textContent;
   btn.textContent = 'Redirecting to checkout...';
   btn.style.pointerEvents = 'none';
   try {
@@ -213,12 +218,12 @@ async function startEngineCheckout(e) {
       window.location.href = data.url;
     } else {
       alert('Unable to start checkout. Please try again.');
-      btn.textContent = 'Get the Decision Engine - $297 →';
+      btn.textContent = originalText;
       btn.style.pointerEvents = 'auto';
     }
   } catch (err) {
     alert('Connection error. Please try again.');
-    btn.textContent = 'Get the Decision Engine - $297 →';
+    btn.textContent = originalText;
     btn.style.pointerEvents = 'auto';
   }
 }
@@ -244,3 +249,4 @@ async function captureEmailDE(e) {
 </script>
 </body>
 </html>
+

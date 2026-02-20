@@ -359,7 +359,8 @@
         source: 'red-flags-checklist'
       })
     }).then(res => res.json()).then(data => {
-      btn.textContent = 'Sent! Check your email.';
+      window.open('/fdd-red-flags-guide.pdf', '_blank');
+      btn.textContent = 'Sent! Check your downloads.';
       btn.style.background = '#10B981';
     }).catch(() => {
       btn.textContent = 'Checklist is below!';
