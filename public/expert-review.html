@@ -302,6 +302,22 @@
 
 </div>
 
+<!-- Email Capture -->
+<div style="max-width:720px;margin:48px auto;padding:36px;background:#fff;border:2px solid #E5E5E5;border-radius:16px;display:flex;gap:28px;align-items:center;flex-wrap:wrap;">
+  <div style="flex:1;min-width:240px;">
+    <span style="display:inline-block;padding:4px 12px;background:#DCFCE7;color:#166534;border-radius:20px;font-size:0.75rem;font-weight:700;margin-bottom:8px;">Free Download</span>
+    <h3 style="font-size:1.3rem;margin:0 0 8px;color:#1A1A1A;font-family:DM Sans,sans-serif;">FDD Red Flags Guide</h3>
+    <p style="color:#5A5A5A;font-size:0.9rem;line-height:1.7;margin:0 0 16px;font-family:DM Sans,sans-serif;">12 pages of the exact warning signs that cost franchise buyers thousands. Built from 15 years of corporate operations experience and a personal six-figure franchise failure.</p>
+    <form style="display:flex;gap:10px;flex-wrap:wrap;" onsubmit="handleLeadCapture(event,this)">
+      <input type="email" placeholder="Enter your email" required style="flex:1;min-width:180px;padding:12px 16px;border:2px solid #E5E5E5;border-radius:8px;font-family:DM Sans,sans-serif;font-size:0.9rem;" autocomplete="email">
+      <button type="submit" style="padding:12px 24px;background:#2D5A3D;color:#fff;border:none;border-radius:8px;font-weight:600;font-family:DM Sans,sans-serif;cursor:pointer;">Get Free Guide</button>
+    </form>
+  </div>
+</div>
+<script>
+async function handleLeadCapture(e,form){e.preventDefault();var email=form.querySelector("input[type=email]").value;var btn=form.querySelector("button");btn.textContent="Sending...";btn.disabled=true;try{var res=await fetch("/api/subscribe",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({email:email,source:"red-flags-guide"})});if(res.ok){window.open("/fdd-red-flags-guide.pdf","_blank");btn.textContent="Sent! Check your downloads";btn.style.background="#DCFCE7";btn.style.color="#166534";form.querySelector("input").style.display="none";}else{btn.textContent="Error - try again";btn.disabled=false;}}catch(err){btn.textContent="Error - try again";btn.disabled=false;}}
+</script>
+
 <footer class="footer">
     <div class="footer-logo">Franchise<span>-Grade</span> Systems</div>
     <p>&copy; 2026 Franchise-Grade Systems. All rights reserved. Not legal or financial advice.</p>
