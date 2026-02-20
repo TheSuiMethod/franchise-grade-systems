@@ -327,27 +327,21 @@
         const email = document.getElementById('leadEmail').value;
         if (!email) return;
 
-        // Replace YOUR_FORM_ID with your Kit (ConvertKit) form ID
-        // This sends the email to Kit via their API
-        // For now, store locally and show confirmation
         const btn = document.querySelector('.capture-box button');
-        const originalText = btn.textContent;
         btn.textContent = 'Sending...';
         btn.disabled = true;
 
-        // Kit form submission - replace with your actual Kit form URL
-        fetch('https://app.kit.com/forms/9109721/subscriptions', {
+        fetch('/api/subscribe', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-                email_address: email,
-                tags: ['red-flags-checklist', 'lead-magnet']
+                email: email,
+                source: 'red-flags-checklist'
             })
-        }).then(() => {
+        }).then(res => res.json()).then(data => {
             btn.textContent = 'Sent! Check your email.';
             btn.style.background = '#10B981';
         }).catch(() => {
-            // Fallback - show the content anyway since it's on the page
             btn.textContent = 'Checklist is below!';
             btn.style.background = '#10B981';
         });
