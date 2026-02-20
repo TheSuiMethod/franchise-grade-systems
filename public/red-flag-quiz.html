@@ -122,6 +122,11 @@
         footer { background: var(--forest); padding: 40px 24px; text-align: center; }
         footer p { color: var(--mint); font-size: 0.85rem; }
         footer a { color: var(--sage); text-decoration: underline; }
+        .footer-logo { font-family: 'Instrument Serif', serif; font-size: 1.3rem; color: var(--white); margin-bottom: 12px; }
+        .footer-logo span { color: var(--sage); }
+        .footer-links { margin-top: 16px; display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+        .footer-links a { color: var(--mint); font-size: 0.8rem; text-decoration: none; opacity: 0.8; }
+        .footer-links a:hover { opacity: 1; }
 
         .mobile-menu-btn { display: none; background: none; border: none; color: var(--mint); font-size: 1.5rem; cursor: pointer; }
         @media (max-width: 768px) {
@@ -342,8 +347,13 @@
     </div>
 
     <footer>
-        <p>2026 Franchise-Grade Systems. <a href="/privacy">Privacy</a> / <a href="/terms">Terms</a> / <a href="/data-security">Data Security</a></p>
-        <p style="font-size:0.75rem;color:var(--gray);margin-top:8px;">This quiz is for educational purposes. It does not constitute legal or financial advice.</p>
+        <div class="footer-logo">Franchise<span>-Grade</span> Systems</div>
+        <p>&copy; 2026 Franchise-Grade Systems. All rights reserved. Not legal or financial advice.</p>
+        <div class="footer-links">
+            <a href="/">Home</a> <a href="/tools">Free Tools</a>
+            <a href="/#products">How It Works</a> <a href="/#story">Our Story</a>
+            <a href="/privacy">Privacy</a> <a href="/terms">Terms</a>
+        </div>
     </footer>
 
     <script>

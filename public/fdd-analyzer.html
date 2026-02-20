@@ -335,6 +335,11 @@
             font-size: 14px;
         }
         footer a { color: var(--sage); text-decoration: none; }
+        .footer-logo { font-family: 'Instrument Serif', serif; font-size: 1.3rem; color: var(--white); margin-bottom: 12px; }
+        .footer-logo span { color: var(--sage); }
+        .footer-links { margin-top: 16px; display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+        .footer-links a { color: var(--mint); font-size: 0.8rem; text-decoration: none; opacity: 0.8; }
+        .footer-links a:hover { opacity: 1; }
 
         @media (max-width: 768px) {
             nav { padding: 14px 20px; }
@@ -639,15 +644,16 @@ async function handleLeadCapture(e,form){e.preventDefault();var email=form.query
 </script>
 
 <footer>
-        <p>&copy; 2026 Franchise-Grade Systems. All rights reserved.</p>
-        <p style="margin-top:8px;">
-            <a href="/">Home</a> &middot;
-            <a href="/tools">Free Tools</a> &middot;
-            <a href="/#products">How It Works</a> &middot;
-            <a href="/privacy">Privacy</a> &middot;
+        <div class="footer-logo">Franchise<span>-Grade</span> Systems</div>
+        <p>&copy; 2026 Franchise-Grade Systems. All rights reserved. Not legal or financial advice.</p>
+        <div class="footer-links">
+            <a href="/">Home</a>
+            <a href="/tools">Free Tools</a>
+            <a href="/#products">How It Works</a>
+            <a href="/#story">Our Story</a>
+            <a href="/privacy">Privacy</a>
             <a href="/terms">Terms</a>
-        </p>
-        <p style="margin-top: 16px; font-size: 12px; opacity: 0.6;">This tool provides educational analysis and is not a substitute for legal or financial advice. Consult qualified professionals before making franchise investment decisions.</p>
+        </div>
     </footer>
 
     <script>

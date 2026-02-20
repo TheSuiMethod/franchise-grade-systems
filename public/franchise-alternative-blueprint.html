@@ -125,6 +125,11 @@
         footer { background: var(--forest); padding: 40px 24px; text-align: center; }
         footer p { color: var(--mint); font-size: 0.85rem; }
         footer a { color: var(--sage); text-decoration: underline; }
+        .footer-logo { font-family: 'Instrument Serif', serif; font-size: 1.3rem; color: var(--white); margin-bottom: 12px; }
+        .footer-logo span { color: var(--sage); }
+        .footer-links { margin-top: 16px; display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+        .footer-links a { color: var(--mint); font-size: 0.8rem; text-decoration: none; opacity: 0.8; }
+        .footer-links a:hover { opacity: 1; }
 
         .mobile-menu-btn { display: none; background: none; border: none; color: var(--mint); font-size: 1.5rem; cursor: pointer; }
         @media (max-width: 768px) {
@@ -233,7 +238,7 @@
                 <div class="step-num">3</div>
                 <div class="step-content">
                     <h3>Get your deliverables</h3>
-                    <p>You receive all 6 components within 5 business days. Everything is delivered as editable documents you own forever.</p>
+                    <p>You receive all 6 components within 2 business days. Everything is delivered as editable documents you own forever.</p>
                 </div>
             </div>
             <div class="process-step">
@@ -330,7 +335,7 @@
                 <p>&#10003; Technology stack recommendations</p>
                 <p>&#10003; 90-day implementation roadmap</p>
                 <p>&#10003; All documents editable and yours forever</p>
-                <p>&#10003; Delivered within 5 business days</p>
+                <p>&#10003; Delivered within 2 business days</p>
             </div>
             <a href="https://buy.stripe.com/bJe4gycEEd3GalTgpj63K08" class="btn-buy" id="buyBtn">Get Your Blueprint</a>
             <p class="guarantee">Secure checkout via Stripe. All sales are final for digital products. See <a href="/terms" style="color:var(--gray);">terms</a>.</p>
@@ -360,8 +365,13 @@ async function handleLeadCapture(e,form){e.preventDefault();var email=form.query
 </script>
 
 <footer>
-        <p>2026 Franchise-Grade Systems. <a href="/privacy">Privacy</a> / <a href="/terms">Terms</a> / <a href="/data-security">Data Security</a></p>
-        <p style="font-size:0.75rem;color:var(--gray);margin-top:8px;">This product is for educational and planning purposes. It does not constitute legal or financial advice.</p>
+        <div class="footer-logo">Franchise<span>-Grade</span> Systems</div>
+        <p>&copy; 2026 Franchise-Grade Systems. All rights reserved. Not legal or financial advice.</p>
+        <div class="footer-links">
+            <a href="/">Home</a> <a href="/tools">Free Tools</a>
+            <a href="/#products">How It Works</a> <a href="/#story">Our Story</a>
+            <a href="/privacy">Privacy</a> <a href="/terms">Terms</a>
+        </div>
     </footer>
 
     <script>
