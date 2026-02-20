@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sample FDD Analysis Report | Franchise-Grade Systems</title>
+    <meta name="description" content="See exactly what our AI FDD Analyzer delivers. Full sample report showing red flags, risk scores, and expert questions — the analysis franchise attorneys don't provide.">
+    <meta property="og:title" content="Sample FDD Analysis Report | Franchise-Grade Systems">
+    <meta property="og:description" content="See what a $97 AI FDD analysis looks like before you buy. Real red flags, real scores, real questions.">
+    <link rel="canonical" href="https://www.franchisegradesystems.com/sample-report">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --forest: #1B4332;
+            --forest-mid: #2D6A4F;
+            --forest-light: #40916C;
+            --sage: #52B788;
+            --mint: #95D5B2;
+            --pale: #D8F3DC;
+            --cream: #F7FBF9;
+            --white: #FFFFFF;
+            --charcoal: #1A1A2E;
+            --slate: #4A4A5A;
+            --gray: #6B7280;
+            --light-gray: #E5E7EB;
+            --warning: #F59E0B;
+            --danger: #EF4444;
+            --success: #10B981;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'DM Sans', sans-serif; color: var(--charcoal); background: var(--cream); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+        h1, h2, h3 { font-family: 'Instrument Serif', serif; font-weight: 400; }
+
+        .nav { background: var(--forest); padding: 16px 24px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 12px rgba(0,0,0,0.15); }
+        .nav-logo { font-family: 'Instrument Serif', serif; color: var(--white); font-size: 1.25rem; text-decoration: none; }
+        .nav-logo span { color: var(--sage); }
+        .nav-links { display: flex; gap: 24px; align-items: center; }
+        .nav-links a { color: var(--mint); text-decoration: none; font-size: 0.9rem; font-weight: 500; }
+        .nav-cta { background: var(--sage); color: var(--forest) !important; padding: 8px 20px; border-radius: 8px; font-weight: 700 !important; }
+
+        /* HERO */
+        .hero { background: var(--forest); padding: 60px 24px 50px; text-align: center; }
+        .hero-badge { display: inline-block; background: rgba(82,183,136,0.15); color: var(--sage); padding: 6px 16px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 20px; }
+        .hero h1 { color: var(--white); font-size: 2.4rem; max-width: 700px; margin: 0 auto 16px; line-height: 1.2; }
+        .hero p { color: var(--mint); font-size: 1.1rem; max-width: 600px; margin: 0 auto 24px; }
+        .hero-note { color: var(--gray); font-size: 0.85rem; font-style: italic; max-width: 500px; margin: 0 auto; }
+
+        /* REPORT CONTAINER */
+        .report-wrap { max-width: 800px; margin: -30px auto 0; padding: 0 20px 60px; position: relative; z-index: 10; }
+        .report { background: var(--white); border-radius: 16px; box-shadow: 0 8px 40px rgba(0,0,0,0.1); overflow: hidden; }
+
+        /* REPORT HEADER */
+        .report-header { background: var(--forest); padding: 32px 36px; }
+        .report-header h2 { color: var(--white); font-size: 1.6rem; margin-bottom: 4px; }
+        .report-header .report-subtitle { color: var(--mint); font-size: 0.9rem; }
+        .report-meta { display: flex; gap: 24px; margin-top: 16px; flex-wrap: wrap; }
+        .report-meta-item { color: var(--mint); font-size: 0.8rem; }
+        .report-meta-item strong { color: var(--white); }
+
+        /* OVERALL SCORE */
+        .overall-score { padding: 28px 36px; border-bottom: 1px solid var(--light-gray); display: flex; align-items: center; gap: 24px; flex-wrap: wrap; }
+        .score-circle { width: 80px; height: 80px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-direction: column; flex-shrink: 0; }
+        .score-circle.high-risk { background: #FEE2E2; border: 3px solid var(--danger); }
+        .score-circle.medium-risk { background: #FEF3C7; border: 3px solid var(--warning); }
+        .score-circle.low-risk { background: #D1FAE5; border: 3px solid var(--success); }
+        .score-number { font-family: 'DM Sans', sans-serif; font-size: 1.6rem; font-weight: 700; line-height: 1; }
+        .score-label { font-size: 0.6rem; text-transform: uppercase; font-weight: 600; letter-spacing: 0.5px; }
+        .score-circle.high-risk .score-number { color: var(--danger); }
+        .score-circle.high-risk .score-label { color: var(--danger); }
+        .score-summary { flex: 1; }
+        .score-summary h3 { font-size: 1.3rem; margin-bottom: 6px; color: var(--charcoal); }
+        .score-summary p { font-size: 0.9rem; color: var(--slate); }
+        .score-breakdown { display: flex; gap: 12px; margin-top: 12px; flex-wrap: wrap; }
+        .score-pill { padding: 4px 12px; border-radius: 12px; font-size: 0.75rem; font-weight: 600; }
+        .pill-red { background: #FEE2E2; color: #991B1B; }
+        .pill-yellow { background: #FEF3C7; color: #92400E; }
+        .pill-green { background: #D1FAE5; color: #065F46; }
+
+        /* ITEM SECTIONS */
+        .item-section { padding: 28px 36px; border-bottom: 1px solid var(--light-gray); }
+        .item-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; flex-wrap: wrap; gap: 8px; }
+        .item-title { font-size: 1.15rem; color: var(--charcoal); }
+        .item-badge { padding: 4px 14px; border-radius: 8px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+        .badge-red { background: #FEE2E2; color: #991B1B; }
+        .badge-yellow { background: #FEF3C7; color: #92400E; }
+        .badge-green { background: #D1FAE5; color: #065F46; }
+
+        .finding { margin-bottom: 20px; padding-left: 16px; border-left: 3px solid var(--light-gray); }
+        .finding.red { border-left-color: var(--danger); }
+        .finding.yellow { border-left-color: var(--warning); }
+        .finding.green { border-left-color: var(--success); }
+        .finding-label { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+        .finding.red .finding-label { color: var(--danger); }
+        .finding.yellow .finding-label { color: var(--warning); }
+        .finding.green .finding-label { color: var(--success); }
+        .finding-text { font-size: 0.9rem; color: var(--slate); margin-bottom: 10px; line-height: 1.6; }
+        .finding-question { background: var(--cream); padding: 10px 14px; border-radius: 8px; font-size: 0.85rem; color: var(--forest); }
+        .finding-question strong { color: var(--forest-mid); }
+
+        /* BLURRED/LOCKED SECTIONS */
+        .locked-section { padding: 28px 36px; border-bottom: 1px solid var(--light-gray); position: relative; }
+        .locked-content { filter: blur(6px); user-select: none; pointer-events: none; }
+        .locked-overlay { position: absolute; top: 0; left: 0; right: 0; bottom: 0; display: flex; align-items: center; justify-content: center; background: rgba(247,251,249,0.6); }
+        .locked-cta { text-align: center; background: var(--white); padding: 24px 32px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
+        .locked-cta p { font-size: 0.9rem; color: var(--slate); margin-bottom: 12px; }
+        .locked-cta a { display: inline-block; background: var(--forest-mid); color: var(--white); padding: 10px 24px; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 0.9rem; }
+
+        /* BOTTOM CTA */
+        .report-cta { padding: 40px 36px; text-align: center; background: var(--pale); }
+        .report-cta h2 { font-size: 1.6rem; color: var(--charcoal); margin-bottom: 8px; }
+        .report-cta p { color: var(--slate); font-size: 0.95rem; margin-bottom: 20px; max-width: 500px; margin-left: auto; margin-right: auto; }
+        .report-cta a { display: inline-block; background: var(--forest-mid); color: var(--white); padding: 14px 32px; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 1rem; }
+        .report-cta .trust-row { display: flex; justify-content: center; gap: 24px; margin-top: 16px; flex-wrap: wrap; }
+        .report-cta .trust-row span { font-size: 0.8rem; color: var(--gray); }
+
+        /* FOOTER */
+        footer { background: var(--forest); padding: 40px 24px; text-align: center; }
+        footer p { color: var(--mint); font-size: 0.85rem; }
+        footer a { color: var(--sage); text-decoration: underline; }
+
+        .mobile-menu-btn { display: none; background: none; border: none; color: var(--mint); font-size: 1.5rem; cursor: pointer; }
+
+        @media (max-width: 768px) {
+            .nav-links { display: none; flex-direction: column; position: absolute; top: 60px; right: 0; background: var(--forest); padding: 20px; border-radius: 0 0 0 12px; box-shadow: -4px 4px 12px rgba(0,0,0,0.2); }
+            .nav-links.open { display: flex; }
+            .mobile-menu-btn { display: block; }
+            .hero h1 { font-size: 1.8rem; }
+            .report-wrap { padding: 0 12px 40px; }
+            .report-header, .item-section, .locked-section, .overall-score, .report-cta { padding-left: 20px; padding-right: 20px; }
+            .overall-score { flex-direction: column; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav">
+        <a href="/" class="nav-logo"><em>Franchise</em>-<span>Grade</span> Systems</a>
+        <button class="mobile-menu-btn" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Menu">&#9776;</button>
+        <div class="nav-links">
+            <a href="/tools">Free Tools</a>
+            <a href="/#how-it-works">How It Works</a>
+            <a href="/#our-story">Our Story</a>
+            <a href="/fdd-analyzer" class="nav-cta">Analyze Your FDD</a>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-badge">Sample Report Preview</div>
+        <h1>See exactly what you get <em>before</em> you buy.</h1>
+        <p>This is a redacted sample from a real FDD analysis. Your report covers all 23 FDD items with findings specific to your franchise deal.</p>
+        <p class="hero-note">Franchise name and identifying details have been anonymized for privacy.</p>
+    </section>
+
+    <div class="report-wrap">
+        <div class="report">
+            <!-- REPORT HEADER -->
+            <div class="report-header">
+                <h2>FDD Risk Analysis Report</h2>
+                <div class="report-subtitle">AI-Powered Franchise Due Diligence by Franchise-Grade Systems</div>
+                <div class="report-meta">
+                    <div class="report-meta-item"><strong>Franchise:</strong> [Name Redacted]</div>
+                    <div class="report-meta-item"><strong>Industry:</strong> Home Services</div>
+                    <div class="report-meta-item"><strong>FDD Year:</strong> 2025</div>
+                    <div class="report-meta-item"><strong>Analysis Date:</strong> February 2026</div>
+                </div>
+            </div>
+
+            <!-- OVERALL SCORE -->
+            <div class="overall-score">
+                <div class="score-circle high-risk">
+                    <div class="score-number">38</div>
+                    <div class="score-label">of 100</div>
+                </div>
+                <div class="score-summary">
+                    <h3>Overall Risk Assessment: High Risk</h3>
+                    <p>This FDD contains multiple red flags that require serious investigation before proceeding. Key concerns include uncapped fee escalation, restrictive territory protections, and limited financial performance data.</p>
+                    <div class="score-breakdown">
+                        <span class="score-pill pill-red">6 Red Flags</span>
+                        <span class="score-pill pill-yellow">4 Cautions</span>
+                        <span class="score-pill pill-green">3 Clear</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ITEM 5: INITIAL FEES -->
+            <div class="item-section">
+                <div class="item-header">
+                    <h3 class="item-title">Item 5: Initial Fees</h3>
+                    <span class="item-badge badge-yellow">CAUTION</span>
+                </div>
+                <div class="finding yellow">
+                    <div class="finding-label">Caution</div>
+                    <div class="finding-text">The initial franchise fee is non-refundable under any circumstances, including if the franchisor fails to provide pre-opening support as described in Item 11. Many newer franchise systems offer partial refund windows or performance-based fee structures. The absence of any refund provision shifts 100% of the pre-opening risk to you.</div>
+                    <div class="finding-question"><strong>Ask the franchisor:</strong> "Under what circumstances, if any, is any portion of the initial fee refundable? Has any franchisee ever received a refund, and for what reason?"</div>
+                </div>
+                <div class="finding green">
+                    <div class="finding-label">Standard</div>
+                    <div class="finding-text">The franchise fee amount falls within the typical range for this industry segment. No unusual additional pre-opening fees were identified beyond the standard franchise fee.</div>
+                </div>
+            </div>
+
+            <!-- ITEM 6: OTHER FEES -->
+            <div class="item-section">
+                <div class="item-header">
+                    <h3 class="item-title">Item 6: Other Fees</h3>
+                    <span class="item-badge badge-red">HIGH RISK</span>
+                </div>
+                <div class="finding red">
+                    <div class="finding-label">Red Flag</div>
+                    <div class="finding-text">The technology fee has no stated maximum and can be increased with 30 days notice. The FDD language allows the franchisor to "modify the products, services, and fees associated with required technology" at its sole discretion. Over a 10-year term, this creates unbudgetable cost exposure.</div>
+                    <div class="finding-question"><strong>Ask the franchisor:</strong> "What has the technology fee been for each of the last 3 years? Will you agree to cap future increases at a specific percentage per year?"</div>
+                </div>
+                <div class="finding red">
+                    <div class="finding-label">Red Flag</div>
+                    <div class="finding-text">A minimum royalty floor applies regardless of revenue performance. If your location has a slow month, you still owe the fixed minimum. This creates significant cash flow pressure during the exact periods when your business can least absorb additional costs.</div>
+                    <div class="finding-question"><strong>Ask the franchisor:</strong> "Is the minimum royalty waived during temporary closures? What percentage of current franchisees regularly pay the minimum rather than the percentage rate?"</div>
+                </div>
+                <div class="finding yellow">
+                    <div class="finding-label">Caution</div>
+                    <div class="finding-text">You are required to use a franchisor-designated vendor for a core operational function at rates that appear above market. Check Item 8 to determine whether the franchisor or its affiliates receive revenue from this mandatory vendor relationship.</div>
+                    <div class="finding-question"><strong>Ask the franchisor:</strong> "Does the franchisor receive any compensation from this required vendor? Can I use an alternative provider if they meet specified quality standards?"</div>
+                </div>
+            </div>
+
+            <!-- LOCKED SECTIONS - Items 7-11, 13-18, 20-23 -->
+            <div class="locked-section">
+                <div class="locked-content">
+                    <div class="item-header">
+                        <h3 class="item-title">Item 7: Estimated Initial Investment</h3>
+                        <span class="item-badge badge-yellow">CAUTION</span>
+                    </div>
+                    <div class="finding yellow">
+                        <div class="finding-label">Caution</div>
+                        <div class="finding-text">Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</div>
+                    </div>
+                    <div class="item-header" style="margin-top: 24px;">
+                        <h3 class="item-title">Item 8: Restrictions on Sources</h3>
+                        <span class="item-badge badge-red">HIGH RISK</span>
+                    </div>
+                    <div class="finding red">
+                        <div class="finding-label">Red Flag</div>
+                        <div class="finding-text">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur excepteur sint occaecat cupidatat non proident sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
+                    </div>
+                    <div class="item-header" style="margin-top: 24px;">
+                        <h3 class="item-title">Items 9-23: Remaining Analysis</h3>
+                        <span class="item-badge badge-yellow">MIXED</span>
+                    </div>
+                    <div class="finding yellow">
+                        <div class="finding-label">Multiple Findings</div>
+                        <div class="finding-text">Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium totam rem aperiam eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</div>
+                    </div>
+                </div>
+                <div class="locked-overlay">
+                    <div class="locked-cta">
+                        <p><strong>Items 7-23 are included in your full report.</strong><br>Your analysis covers all 23 FDD items with findings specific to your franchise deal.</p>
+                        <a href="/fdd-analyzer">Get Your Full Analysis -- $97</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- BOTTOM CTA -->
+            <div class="report-cta">
+                <h2>Ready to analyze <em>your</em> FDD?</h2>
+                <p>Get the same depth of analysis for your specific franchise deal. All 23 items. All red flags. All the questions you need to ask.</p>
+                <a href="/fdd-analyzer">Analyze My FDD -- $97</a>
+                <div class="trust-row">
+                    <span>Stripe Secure Checkout</span>
+                    <span>Your FDD Text Never Stored</span>
+                    <span>AI via Anthropic Commercial API</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Franchise-Grade Systems. <a href="/privacy">Privacy</a> &middot; <a href="/terms">Terms</a> &middot; <a href="/data-security">Data Security</a></p>
+    </footer>
+</body>
+</html>

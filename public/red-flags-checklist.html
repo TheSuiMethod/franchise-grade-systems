@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>21 Franchise Red Flags Your Attorney Won't Catch | Free Checklist</title>
+    <meta name="description" content="Free downloadable checklist: 21 operational red flags hidden in franchise FDDs that attorneys and CPAs routinely miss. Built from real franchise failure experience.">
+    <meta property="og:title" content="21 Franchise Red Flags Your Attorney Won't Catch">
+    <meta property="og:description" content="Free checklist from someone who lost six figures on a franchise. These are the warning signs no one told me about.">
+    <link rel="canonical" href="https://www.franchisegradesystems.com/red-flags-checklist">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --forest: #1B4332;
+            --forest-mid: #2D6A4F;
+            --forest-light: #40916C;
+            --sage: #52B788;
+            --mint: #95D5B2;
+            --pale: #D8F3DC;
+            --cream: #F7FBF9;
+            --white: #FFFFFF;
+            --charcoal: #1A1A2E;
+            --slate: #4A4A5A;
+            --gray: #6B7280;
+            --light-gray: #E5E7EB;
+            --danger: #EF4444;
+            --warning: #F59E0B;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'DM Sans', sans-serif; color: var(--charcoal); background: var(--cream); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+        h1, h2, h3 { font-family: 'Instrument Serif', serif; font-weight: 400; }
+
+        .nav { background: var(--forest); padding: 16px 24px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 12px rgba(0,0,0,0.15); }
+        .nav-logo { font-family: 'Instrument Serif', serif; color: var(--white); font-size: 1.25rem; text-decoration: none; }
+        .nav-logo span { color: var(--sage); }
+        .nav-links { display: flex; gap: 24px; align-items: center; }
+        .nav-links a { color: var(--mint); text-decoration: none; font-size: 0.9rem; font-weight: 500; }
+        .nav-cta { background: var(--sage); color: var(--forest) !important; padding: 8px 20px; border-radius: 8px; font-weight: 700 !important; }
+
+        /* HERO */
+        .hero { background: var(--forest); padding: 60px 24px 50px; text-align: center; }
+        .hero h1 { color: var(--white); font-size: 2.4rem; max-width: 700px; margin: 0 auto 16px; line-height: 1.2; }
+        .hero p { color: var(--mint); font-size: 1.05rem; max-width: 560px; margin: 0 auto 28px; }
+        .hero-note { color: rgba(149,213,178,0.6); font-size: 0.85rem; font-style: italic; max-width: 480px; margin: 0 auto; }
+
+        /* EMAIL CAPTURE */
+        .capture-box { max-width: 480px; margin: 0 auto; background: rgba(255,255,255,0.08); border: 1px solid rgba(82,183,136,0.3); border-radius: 12px; padding: 24px; }
+        .capture-box .form-row { display: flex; gap: 8px; }
+        .capture-box input[type="email"] { flex: 1; padding: 12px 16px; border: 2px solid rgba(255,255,255,0.2); border-radius: 8px; font-size: 0.95rem; font-family: 'DM Sans', sans-serif; background: rgba(255,255,255,0.1); color: #fff; }
+        .capture-box input[type="email"]::placeholder { color: rgba(255,255,255,0.4); }
+        .capture-box button { padding: 12px 24px; background: var(--sage); color: var(--forest); border: none; border-radius: 8px; font-weight: 700; font-family: 'DM Sans', sans-serif; cursor: pointer; white-space: nowrap; font-size: 0.95rem; }
+        .capture-box button:hover { background: var(--mint); }
+        .capture-box .form-note { font-size: 0.75rem; color: rgba(149,213,178,0.5); margin-top: 8px; text-align: center; }
+
+        /* CONTENT */
+        .content { max-width: 720px; margin: 0 auto; padding: 48px 24px 60px; }
+        .content > p { font-size: 0.95rem; color: var(--slate); margin-bottom: 16px; }
+
+        .section-intro { font-size: 1rem; color: var(--slate); margin-bottom: 32px; }
+
+        /* RED FLAG CATEGORIES */
+        .category { margin-bottom: 40px; }
+        .category-header { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 2px solid var(--sage); }
+        .category-header h2 { font-size: 1.3rem; color: var(--charcoal); }
+        .category-tag { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--white); background: var(--danger); padding: 3px 10px; border-radius: 4px; }
+        .category-tag.caution { background: var(--warning); color: var(--charcoal); }
+
+        .flag-item { background: var(--white); border-radius: 10px; padding: 20px 24px; margin-bottom: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+        .flag-number { font-size: 0.7rem; font-weight: 700; color: var(--danger); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+        .flag-number.caution { color: var(--warning); }
+        .flag-item h3 { font-size: 1.05rem; margin-bottom: 6px; color: var(--charcoal); }
+        .flag-item p { font-size: 0.9rem; color: var(--slate); }
+        .flag-item .where-to-find { font-size: 0.8rem; color: var(--forest-mid); font-weight: 600; margin-top: 8px; }
+
+        /* CTA SECTION */
+        .cta-section { background: var(--forest); padding: 48px 24px; text-align: center; border-radius: 16px; margin: 40px 0; }
+        .cta-section h2 { color: var(--white); font-size: 1.5rem; margin-bottom: 10px; }
+        .cta-section p { color: var(--mint); font-size: 0.95rem; max-width: 480px; margin: 0 auto 20px; }
+        .cta-btn { display: inline-block; background: var(--sage); color: var(--forest); padding: 14px 32px; border-radius: 10px; font-weight: 700; font-size: 1rem; text-decoration: none; }
+
+        footer { background: var(--forest); padding: 40px 24px; text-align: center; }
+        footer p { color: var(--mint); font-size: 0.85rem; }
+        footer a { color: var(--sage); text-decoration: underline; }
+
+        .mobile-menu-btn { display: none; background: none; border: none; color: var(--mint); font-size: 1.5rem; cursor: pointer; }
+        @media (max-width: 768px) {
+            .nav-links { display: none; flex-direction: column; position: absolute; top: 60px; right: 0; background: var(--forest); padding: 20px; border-radius: 0 0 0 12px; box-shadow: -4px 4px 12px rgba(0,0,0,0.2); }
+            .nav-links.open { display: flex; }
+            .mobile-menu-btn { display: block; }
+            .hero h1 { font-size: 1.7rem; }
+            .capture-box .form-row { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav">
+        <a href="/" class="nav-logo"><em>Franchise</em>-<span>Grade</span> Systems</a>
+        <button class="mobile-menu-btn" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Menu">&#9776;</button>
+        <div class="nav-links">
+            <a href="/tools">Free Tools</a>
+            <a href="/#how-it-works">How It Works</a>
+            <a href="/fdd-analyzer" class="nav-cta">Analyze Your FDD</a>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <h1>21 franchise red flags <em>your attorney won't catch.</em></h1>
+        <p>Attorneys check for legal compliance. CPAs check the tax structure. Nobody checks whether the business actually works. This checklist does.</p>
+        <div class="capture-box">
+            <div class="form-row">
+                <!-- Replace ACTION_URL with your Kit form action URL -->
+                <input type="email" id="leadEmail" placeholder="Enter your email" required>
+                <button onclick="captureLeadEmail()">Get the Checklist</button>
+            </div>
+            <div class="form-note">Free. No spam. Unsubscribe anytime.</div>
+        </div>
+        <p class="hero-note">Built from a six-figure franchise loss. These are the warnings nobody gave me.</p>
+    </section>
+
+    <div class="content">
+        <p class="section-intro">Below is the full checklist. Bookmark this page or enter your email above to get a formatted version you can reference while reviewing any FDD.</p>
+
+        <!-- CATEGORY 1: FEE STRUCTURE -->
+        <div class="category">
+            <div class="category-header">
+                <h2>Fee Structure Red Flags</h2>
+                <span class="category-tag">Critical</span>
+            </div>
+
+            <div class="flag-item">
+                <div class="flag-number">Red Flag #1</div>
+                <h3>Uncapped technology or marketing fees</h3>
+                <p>If the FDD says the franchisor can "modify" or "adjust" technology, marketing, or advertising fees without a stated maximum, you're signing a blank check. A $200/month fee today could become $500/month next year with no recourse.</p>
+                <div class="where-to-find">Where to find it: FDD Item 6 (Other Fees) and Item 11 (Franchisor's Obligations)</div>
+            </div>
+
+            <div class="flag-item">
+                <div class="flag-number">Red Flag #2</div>
+                <h3>Minimum royalty floors regardless of revenue</h3>
+                <p>Some franchisors impose a minimum dollar amount in royalties even when your revenue is low. During a slow season or ramp-up period, you pay the floor amount regardless of what you actually earn. This creates cash flow pressure exactly when you can least afford it.</p>
+                <div class="where-to-find">Where to find it: FDD Item 6 (Other Fees) — look for "minimum" or "floor" language in the royalty section</div>
+            </div>
+
+            <div class="flag-item">
+                <div class="flag-number">Red Flag #3</div>
+                <h3>Mandatory vendor relationships with no alternatives</h3>
+                <p>When the FDD requires you to purchase from specific vendors — especially if the franchisor or its affiliates receive revenue from those vendors — you're locked into pricing you can't negotiate. Check whether the franchisor discloses these relationships.</p>
+                <div class="where-to-find">Where to find it: FDD Item 8 (Restrictions on Sources of Products and Services)</div>
+            </div>
+
+            <div class="flag-item">
+                <div class="flag-number">Red Flag #4</div>
+                <h3>Brand fund with no spending accountability</h3>
+                <p>Many franchises collect 1-2% of revenue for a "brand fund" or "advertising fund." If the FDD doesn't require the franchisor to report how brand fund dollars are spent — or if spending can include "administrative costs" — your marketing dollars may not be marketing your location.</p>
+                <div class="where-to-find">Where to find it: FDD Item 6 (look for "advertising fund" or "brand fund") and Item 11</div>
+            </div>
+
+            <div class="flag-item">
+                <div class="flag-number">Red Flag #5</div>
+                <h3>Transfer fees that make exiting expensive</h3>
+                <p>Transfer fees of 25-50% of the initial franchise fee (plus legal costs, training for the new owner, and mandatory renovations) can make it financially devastating to sell your franchise if things don't work out.</p>
+                <div class="where-to-find">Where to find it: FDD Item 6 (Transfer Fees) and Item 17 (Renewal, Termination, Transfer)</div>
+            </div>
+        </div>
+
+        <!-- CATEGORY 2: FINANCIAL TRANSPARENCY -->
+        <div class="category">
+            <div class="category-header">
+                <h2>Financial Transparency Red Flags</h2>
+                <span class="category-tag">Critical</span>
+            </div>
+
+            <div class="flag-item">
+                <div class="flag-number">Red Flag #6</div>
+                <h3>No Item 19 financial performance data at all</h3>
+                <p>Franchisors are not required to provide financial performance representations. If they choose not to include Item 19 data, you have zero official data on what existing locations earn. Ask yourself: if results were good, why wouldn't they share them?</p>
+                <div class="where-to-find">Where to find it: FDD Item 19 — if it says "We do not make any financial performance representations," that's a significant gap</div>
+            </div>
+
+            <div class="flag-item">
+                <div class="flag-number">Red Flag #7</div>
+                <h3>Item 19 shows only gross revenue (not expenses or profit)</h3>
+                <p>Gross revenue means nothing without knowing expenses. A location doing $500K in revenue could be losing money after rent, payroll, royalties, marketing fees, and supplies. If Item 19 shows revenue without any expense or profit data, you cannot determine whether locations are actually profitable.</p>
+                <div class="where-to-find">Where to find it: FDD Item 19 — look for what's NOT included (operating expenses, owner earnings, net income)</div>
+            </div>
+
+            <div class="flag-item">
+                <div class="flag-number">Red Flag #8</div>
+                <h3>Cherry-picked location data in Item 19</h3>
+                <p>If the financial representation is based on "top-performing locations" or excludes locations open less than 2 years, the numbers don't represent what a typical new franchisee will experience. Look for what percentage of locations are included in the data.</p>
+                <div class="where-to-find">Where to find it: FDD Item 19 footnotes and methodology description</div>
+            </div>
+
+            <div class="flag-item">
+                <div class="flag-number">Red Flag #9</div>
+                <h3>Initial investment range that's unrealistically narrow</h3>
+                <p>If the FDD estimates startup costs of $150K-$170K, the real number is almost certainly higher. Actual franchisee spend frequently exceeds the FDD high-end estimate by 15-30% when you account for local permitting, buildout overruns, and working capital needs during ramp-up.</p>
+                <div class="where-to-find">Where to find it: FDD Item 7 (Estimated Initial Investment) — compare high and low estimates</div>
+            </div>
+        </div>
+
+        <!-- CATEGORY 3: TERRITORY & COMPETITION -->
+        <div class="category">
+            <div class="category-header">
+                <h2>Territory & Competition Red Flags</h2>
+                <span class="category-tag caution">Caution</span>
+            </div>
+
+            <div class="flag-item">
+                <div class="flag-number caution">Red Flag #10</div>
+                <h3>Territory exceptions for "alternative channels"</h3>
+                <p>Your territory may technically be "exclusive" — but if the franchisor reserves the right to sell within it through websites, apps, third-party partnerships, or mobile units, your exclusivity is an illusion.</p>
+                <div class="where-to-find">Where to find it: FDD Item 12 (Territory) — look for carve-outs and exceptions to territorial rights</div>
+            </div>
+
+            <div class="flag-item">
+                <div class="flag-number caution">Red Flag #11</div>
+                <h3>Right to reduce your territory after signing</h3>
+                <p>Some FDDs allow the franchisor to modify territory boundaries upon renewal or if you fail to meet performance targets. This means the territory you thought you bought can shrink.</p>
+                <div class="where-to-find">Where to find it: FDD Item 12 and Item 17 (Renewal conditions)</div>
+            </div>
+
+            <div class="flag-item">
+                <div class="flag-number caution">Red Flag #12</div>
+                <h3>High saturation in your market</h3>
+                <p>Check Item 20 for the number of existing and planned locations in your state and metro area. A franchise with 15 locations in your city and plans for 10 more may leave you fighting for scraps in an oversaturated market.</p>
+                <div class="where-to-find">Where to find it: FDD Item 20 (Outlets and Franchisee Information) — look for your state/market specifically</div>
+            </div>
+        </div>
+
+        <!-- CATEGORY 4: OPERATIONAL REALITY -->
+        <div class="category">
+            <div class="category-header">
+                <h2>Operational Reality Red Flags</h2>
+                <span class="category-tag">Critical</span>
+            </div>
+
+            <div class="flag-item">
+                <div class="flag-number">Red Flag #13</div>
+                <h3>High franchisee turnover in the last 3 years</h3>
+                <p>If the system has had significant closures, terminations, or transfers relative to total units, something is wrong. Calculate the turnover rate from Item 20 data. A healthy system should have minimal closures and few forced terminations.</p>
+                <div class="where-to-find">Where to find it: FDD Item 20 — add up ceased operations, terminations, and transfers over 3 years and divide by total units</div>
+            </div>
+
+            <div class="flag-item">
+                <div class="flag-number">Red Flag #14</div>
+                <h3>Vague or minimal operational support commitments</h3>
+                <p>If Item 11 describes the franchisor's operational support in generic terms ("we will provide ongoing support") without specific deliverables, frequency, or accountability measures, you may be buying a brand name without a functioning support system.</p>
+                <div class="where-to-find">Where to find it: FDD Item 11 (Franchisor's Assistance, Advertising, Computer Systems, and Training)</div>
+            </div>
+
+            <div class="flag-item">
+                <div class="flag-number">Red Flag #15</div>
+                <h3>Short or superficial training program</h3>
+                <p>A training program under 2 weeks for a complex business is a warning sign. Also watch for training that's purely classroom-based with no hands-on component at an operating location. You need to learn the business, not just hear about it.</p>
+                <div class="where-to-find">Where to find it: FDD Item 11 (Training section) — look at duration, format, and who teaches</div>
+            </div>
+
+            <div class="flag-item">
+                <div class="flag-number">Red Flag #16</div>
+                <h3>The franchisor is also the landlord or supplier</h3>
+                <p>When the franchisor controls your lease, your supply chain, or your required technology, they profit from your business in ways beyond royalties. This creates misaligned incentives — they may benefit financially even if your location struggles.</p>
+                <div class="where-to-find">Where to find it: FDD Item 8 and Item 10 (Financing) — look for franchisor-affiliated entities</div>
+            </div>
+        </div>
+
+        <!-- CATEGORY 5: EXIT & LEGAL -->
+        <div class="category">
+            <div class="category-header">
+                <h2>Exit & Legal Red Flags</h2>
+                <span class="category-tag caution">Caution</span>
+            </div>
+
+            <div class="flag-item">
+                <div class="flag-number caution">Red Flag #17</div>
+                <h3>Broad non-compete that survives termination</h3>
+                <p>If the non-compete clause prevents you from operating a similar business for 2+ years after termination within a wide geographic radius, you could be locked out of your own industry if the franchise fails. You lose the business AND the ability to use your expertise.</p>
+                <div class="where-to-find">Where to find it: FDD Item 17 (Post-term covenants) and the Franchise Agreement non-compete section</div>
+            </div>
+
+            <div class="flag-item">
+                <div class="flag-number caution">Red Flag #18</div>
+                <h3>Mandatory arbitration in franchisor's home state</h3>
+                <p>If disputes must be resolved through arbitration in the franchisor's home state (not yours), the cost and logistics of pursuing a claim become prohibitive for most franchisees. This effectively eliminates your legal leverage.</p>
+                <div class="where-to-find">Where to find it: FDD Item 17 and the Franchise Agreement (Dispute Resolution section)</div>
+            </div>
+
+            <div class="flag-item">
+                <div class="flag-number caution">Red Flag #19</div>
+                <h3>Termination triggers that are easy to trip</h3>
+                <p>Review the conditions under which the franchisor can terminate your agreement. If termination can be triggered by failing to meet subjective "brand standards" or by a single late royalty payment, you're operating with very little margin for error.</p>
+                <div class="where-to-find">Where to find it: FDD Item 17 (Termination section) — list every termination trigger</div>
+            </div>
+
+            <div class="flag-item">
+                <div class="flag-number caution">Red Flag #20</div>
+                <h3>Pending litigation against the franchisor</h3>
+                <p>Item 3 discloses lawsuits. Multiple franchisee lawsuits — especially alleging fraud, misrepresentation, or failure to provide support — are a serious warning. One lawsuit could be a disgruntled owner. Five or more suggests a pattern.</p>
+                <div class="where-to-find">Where to find it: FDD Item 3 (Litigation) — read every case summary</div>
+            </div>
+
+            <div class="flag-item">
+                <div class="flag-number caution">Red Flag #21</div>
+                <h3>Franchisor's management team is inexperienced or has high turnover</h3>
+                <p>If the leadership team has changed significantly in the last 2-3 years, or if key executives lack industry experience, the "system" you're buying into may still be figuring itself out. You're paying franchise fees to follow a proven playbook — make sure one actually exists.</p>
+                <div class="where-to-find">Where to find it: FDD Item 2 (Business Experience of the Franchisor's Officers and Directors)</div>
+            </div>
+        </div>
+
+        <!-- INLINE CTA -->
+        <div class="cta-section">
+            <h2>Want these flags checked <em>automatically?</em></h2>
+            <p>Our AI FDD Analyzer scans all 23 items of any FDD against 50+ risk patterns and gives you a color-coded report with specific questions to ask — in under 15 minutes.</p>
+            <a href="/fdd-analyzer" class="cta-btn">Try the AI FDD Analyzer -- $97</a>
+            <div style="margin-top:12px;"><a href="/sample-report" style="color:var(--mint);font-size:0.85rem;">See a sample analysis report first --&gt;</a></div>
+        </div>
+
+        <p style="font-size:0.85rem;color:var(--gray);margin-top:32px;text-align:center;">This checklist is for educational purposes. It does not constitute legal or financial advice. Always consult a qualified franchise attorney before signing any franchise agreement.</p>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Franchise-Grade Systems. <a href="/privacy">Privacy</a> &middot; <a href="/terms">Terms</a> &middot; <a href="/data-security">Data Security</a></p>
+    </footer>
+
+    <script>
+    function captureLeadEmail() {
+        const email = document.getElementById('leadEmail').value;
+        if (!email) return;
+
+        // Replace YOUR_FORM_ID with your Kit (ConvertKit) form ID
+        // This sends the email to Kit via their API
+        // For now, store locally and show confirmation
+        const btn = document.querySelector('.capture-box button');
+        const originalText = btn.textContent;
+        btn.textContent = 'Sending...';
+        btn.disabled = true;
+
+        // Kit form submission - replace with your actual Kit form URL
+        fetch('https://app.kit.com/forms/YOUR_FORM_ID/subscriptions', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                email_address: email,
+                tags: ['red-flags-checklist', 'lead-magnet']
+            })
+        }).then(() => {
+            btn.textContent = 'Sent! Check your email.';
+            btn.style.background = '#10B981';
+        }).catch(() => {
+            // Fallback - show the content anyway since it's on the page
+            btn.textContent = 'Checklist is below!';
+            btn.style.background = '#10B981';
+        });
+    }
+    </script>
+</body>
+</html>

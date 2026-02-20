@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Security | Franchise-Grade Systems</title>
+    <meta name="description" content="How we protect your franchise data. Stripe PCI-DSS payments, zero FDD storage, Anthropic commercial API with no model training. Your confidential documents stay confidential.">
+    <link rel="canonical" href="https://www.franchisegradesystems.com/data-security">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --forest: #1B4332;
+            --forest-mid: #2D6A4F;
+            --forest-light: #40916C;
+            --sage: #52B788;
+            --mint: #95D5B2;
+            --pale: #D8F3DC;
+            --cream: #F7FBF9;
+            --white: #FFFFFF;
+            --charcoal: #1A1A2E;
+            --slate: #4A4A5A;
+            --gray: #6B7280;
+            --light-gray: #E5E7EB;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'DM Sans', sans-serif; color: var(--charcoal); background: var(--cream); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+        h1, h2, h3 { font-family: 'Instrument Serif', serif; font-weight: 400; }
+
+        .nav { background: var(--forest); padding: 16px 24px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 12px rgba(0,0,0,0.15); }
+        .nav-logo { font-family: 'Instrument Serif', serif; color: var(--white); font-size: 1.25rem; text-decoration: none; }
+        .nav-logo span { color: var(--sage); }
+        .nav-links { display: flex; gap: 24px; align-items: center; }
+        .nav-links a { color: var(--mint); text-decoration: none; font-size: 0.9rem; font-weight: 500; }
+        .nav-cta { background: var(--sage); color: var(--forest) !important; padding: 8px 20px; border-radius: 8px; font-weight: 700 !important; }
+
+        .hero { background: var(--forest); padding: 60px 24px 50px; text-align: center; }
+        .hero h1 { color: var(--white); font-size: 2.2rem; max-width: 600px; margin: 0 auto 16px; line-height: 1.2; }
+        .hero p { color: var(--mint); font-size: 1rem; max-width: 550px; margin: 0 auto; }
+
+        .content { max-width: 720px; margin: 0 auto; padding: 48px 24px 60px; }
+
+        .security-block { background: var(--white); border-radius: 12px; padding: 32px; margin-bottom: 24px; box-shadow: 0 2px 12px rgba(0,0,0,0.04); }
+        .security-block h2 { font-size: 1.4rem; margin-bottom: 6px; color: var(--charcoal); }
+        .security-block .block-subtitle { font-size: 0.85rem; color: var(--sage); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 16px; }
+        .security-block p { font-size: 0.95rem; color: var(--slate); margin-bottom: 12px; }
+        .security-block p:last-child { margin-bottom: 0; }
+        .security-block a { color: var(--forest-mid); font-weight: 600; }
+
+        .highlight-box { background: var(--pale); border-radius: 8px; padding: 16px 20px; margin: 16px 0; font-size: 0.9rem; color: var(--forest); }
+        .highlight-box strong { color: var(--forest); }
+
+        .summary-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin: 32px 0; }
+        .summary-card { background: var(--white); border-radius: 10px; padding: 20px; text-align: center; box-shadow: 0 2px 12px rgba(0,0,0,0.04); }
+        .summary-card .card-label { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--sage); margin-bottom: 8px; }
+        .summary-card .card-value { font-family: 'Instrument Serif', serif; font-size: 1.2rem; color: var(--charcoal); }
+
+        footer { background: var(--forest); padding: 40px 24px; text-align: center; }
+        footer p { color: var(--mint); font-size: 0.85rem; }
+        footer a { color: var(--sage); text-decoration: underline; }
+
+        .mobile-menu-btn { display: none; background: none; border: none; color: var(--mint); font-size: 1.5rem; cursor: pointer; }
+        @media (max-width: 768px) {
+            .nav-links { display: none; flex-direction: column; position: absolute; top: 60px; right: 0; background: var(--forest); padding: 20px; border-radius: 0 0 0 12px; box-shadow: -4px 4px 12px rgba(0,0,0,0.2); }
+            .nav-links.open { display: flex; }
+            .mobile-menu-btn { display: block; }
+            .hero h1 { font-size: 1.7rem; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav">
+        <a href="/" class="nav-logo"><em>Franchise</em>-<span>Grade</span> Systems</a>
+        <button class="mobile-menu-btn" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Menu">&#9776;</button>
+        <div class="nav-links">
+            <a href="/tools">Free Tools</a>
+            <a href="/#how-it-works">How It Works</a>
+            <a href="/#our-story">Our Story</a>
+            <a href="/tools" class="nav-cta">Get Started Free</a>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <h1>How we protect <em>your data.</em></h1>
+        <p>You're trusting us with confidential franchise documents. Here's exactly what happens to your data at every step.</p>
+    </section>
+
+    <div class="content">
+
+        <div class="summary-grid">
+            <div class="summary-card">
+                <div class="card-label">Payment Security</div>
+                <div class="card-value">Stripe PCI-DSS Level 1</div>
+            </div>
+            <div class="summary-card">
+                <div class="card-label">FDD Text Storage</div>
+                <div class="card-value">Never Stored</div>
+            </div>
+            <div class="summary-card">
+                <div class="card-label">AI Model Training</div>
+                <div class="card-value">None. Ever.</div>
+            </div>
+            <div class="summary-card">
+                <div class="card-label">Data Encryption</div>
+                <div class="card-value">TLS/HTTPS in Transit</div>
+            </div>
+        </div>
+
+        <div class="security-block">
+            <div class="block-subtitle">Payment Processing</div>
+            <h2>Stripe handles every transaction.</h2>
+            <p>We never see, store, or process your credit card information. All payments are handled by <a href="https://stripe.com/docs/security" target="_blank" rel="noopener">Stripe</a>, which is certified PCI-DSS Level 1 — the highest level of payment security certification available. Your card details go directly from your browser to Stripe's servers.</p>
+        </div>
+
+        <div class="security-block">
+            <div class="block-subtitle">FDD Text Processing</div>
+            <h2>Your FDD text is processed and discarded.</h2>
+            <p>When you paste your FDD text into our analyzer, here's exactly what happens:</p>
+            <div class="highlight-box">
+                <strong>1.</strong> Your FDD text is sent via encrypted HTTPS to our analysis API.<br>
+                <strong>2.</strong> The API sends the text to Anthropic's Claude API for analysis.<br>
+                <strong>3.</strong> Claude returns the analysis results.<br>
+                <strong>4.</strong> Your report is generated and delivered to you.<br>
+                <strong>5.</strong> Your FDD text is not saved to any database, file system, or cache on our servers.
+            </div>
+            <p>We do not store your FDD text after analysis. Period. There is no "account" where your documents live, no file storage, and no way for us to retrieve your FDD text after your session ends.</p>
+        </div>
+
+        <div class="security-block">
+            <div class="block-subtitle">AI Processing</div>
+            <h2>Anthropic's commercial API terms protect your data.</h2>
+            <p>We use Anthropic's Claude API under their <a href="https://www.anthropic.com/policies/commercial-terms" target="_blank" rel="noopener">commercial terms of service</a>. Under these terms:</p>
+            <p><strong>No model training:</strong> Anthropic does not use data submitted through their commercial API to train their AI models. Your FDD text will never be used to teach an AI system.</p>
+            <p><strong>Limited retention:</strong> Anthropic may retain API inputs for up to 30 days solely for trust and safety monitoring (detecting abuse and policy violations). After that window, inputs are deleted. This retention is governed by Anthropic's <a href="https://www.anthropic.com/policies/privacy" target="_blank" rel="noopener">privacy policy</a>.</p>
+            <p><strong>No human review of content:</strong> Under normal circumstances, Anthropic does not review the content of API requests. Content is only reviewed if their automated systems flag a potential trust and safety violation.</p>
+            <div class="highlight-box">
+                <strong>Bottom line:</strong> Your FDD text is processed through an encrypted connection, analyzed by AI that won't train on it, and is not stored on our servers. The only retention is Anthropic's standard 30-day trust and safety window, after which it's deleted.
+            </div>
+        </div>
+
+        <div class="security-block">
+            <div class="block-subtitle">Website & Hosting</div>
+            <h2>Hosted on Vercel with HTTPS everywhere.</h2>
+            <p>The Franchise-Grade Systems website is hosted on <a href="https://vercel.com/security" target="_blank" rel="noopener">Vercel</a>, which provides automatic HTTPS/TLS encryption for all pages and API routes. All data transmitted between your browser and our servers is encrypted in transit.</p>
+            <p>We use no tracking cookies, no third-party analytics services, and no advertising pixels. Your browsing behavior on our site is not shared with or sold to anyone.</p>
+        </div>
+
+        <div class="security-block">
+            <div class="block-subtitle">Email</div>
+            <h2>Email communications via Kit (ConvertKit).</h2>
+            <p>If you subscribe to our email list, your email address is stored by <a href="https://kit.com/privacy" target="_blank" rel="noopener">Kit (formerly ConvertKit)</a> under their privacy policy. You can unsubscribe at any time using the link in any email. We do not share your email address with any other service or third party.</p>
+        </div>
+
+        <div class="security-block">
+            <div class="block-subtitle">Expert Review Sessions</div>
+            <h2>1-on-1 sessions are confidential.</h2>
+            <p>Information shared during Expert Review sessions is treated as confidential. We do not record sessions without your explicit consent. Notes taken during the session are used solely to prepare your written action plan and are not shared with any third party.</p>
+            <p>Scheduling is handled by <a href="https://calendly.com/privacy" target="_blank" rel="noopener">Calendly</a> under their privacy policy.</p>
+        </div>
+
+        <div class="security-block" style="background: var(--pale); border: 2px solid var(--mint);">
+            <div class="block-subtitle">Questions?</div>
+            <h2>We take this seriously.</h2>
+            <p>If you have specific questions about how your data is handled, or if you need additional assurance before submitting your FDD for analysis, email us at <a href="mailto:hello@franchisegradesystems.com">hello@franchisegradesystems.com</a>. We're happy to walk through our security practices in detail.</p>
+            <p>For our complete legal policies, see our <a href="/privacy">Privacy Policy</a> and <a href="/terms">Terms of Service</a>.</p>
+        </div>
+
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Franchise-Grade Systems. <a href="/privacy">Privacy</a> &middot; <a href="/terms">Terms</a> &middot; <a href="/data-security">Data Security</a></p>
+    </footer>
+</body>
+</html>
