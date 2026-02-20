@@ -169,7 +169,7 @@
 
 <section class="hero">
     <h1>Your <em>Franchise-Grade</em> Business Scorecard</h1>
-    <p>Score your business — or any franchise you're evaluating — across 8 operational areas. Takes about 3 minutes.</p>
+    <p>Score your business - or any franchise you're evaluating - across 8 operational areas. Takes about 3 minutes.</p>
     <p class="hero-sub">100% free. No account. No email required. Instant results.</p>
 </section>
 
@@ -193,7 +193,7 @@
                     <div class="score-label">out of 100</div>
                 </div>
             </div>
-            <div class="grade-badge" id="gradeBadge">—</div>
+            <div class="grade-badge" id="gradeBadge">-</div>
             <h2 id="gradeTitle" style="margin-bottom:8px;"></h2>
             <p class="overall-verdict" id="gradeVerdict"></p>
         </div>
@@ -216,7 +216,7 @@
         </div>
         <div class="cta-section" id="emailCapture" style="border-color:var(--light-gray);margin-top:16px;">
             <h3>Get the Free FDD Red Flags Guide</h3>
-            <p>12 warning signs that cost franchise buyers thousands — whether you're buying a franchise or running your own business.</p>
+            <p>12 warning signs that cost franchise buyers thousands - whether you're buying a franchise or running your own business.</p>
             <form onsubmit="captureEmail(event)" style="display:flex;gap:8px;max-width:440px;margin:0 auto">
                 <input type="email" id="captureEmail" placeholder="Your email" required style="flex:1;padding:10px 14px;border:2px solid var(--light-gray);border-radius:8px;font-family:'DM Sans',sans-serif;font-size:.9rem">
                 <button type="submit" style="padding:10px 20px;background:var(--forest-mid);color:var(--white);border:none;border-radius:8px;font-weight:700;font-family:'DM Sans',sans-serif;cursor:pointer;white-space:nowrap">Get Free Guide</button>
@@ -224,6 +224,11 @@
         </div>
     </div>
 </div>
+
+    <div style="max-width:720px;margin:0 auto 40px;padding:24px 28px;background:#F0FDF4;border-radius:12px;border:1px solid #D1FAE5;text-align:center;">
+      <p style="font-size:0.95rem;color:#1B4332;margin:0 0 12px;font-weight:600;">More tools for your due diligence</p>
+      <p style="font-size:0.88rem;color:#4A4A5A;margin:0 0 16px;line-height:1.6;"><a href="/red-flag-quiz" style="color:#2D6A4F;font-weight:600;">Take the Red Flag Quiz</a> - 10 quick questions, instant risk score for your deal. Decided franchising is not right for you? The <a href="/franchise-alternative-blueprint" style="color:#2D6A4F;font-weight:600;">Franchise Alternative Blueprint ($497)</a> shows you how to build a systemized business independently - no royalties, no fees.</p>
+    </div>
 
 <footer class="footer">
     <div class="footer-logo">Franchise<span>-Grade</span> Systems</div>
@@ -261,7 +266,7 @@ const CATEGORIES = [
                 { label: 'Rolling 90-day forecast with scenarios', score: 4 }
             ]}
         ],
-        strengths: { high: 'Strong financial visibility — you can make confident decisions from real data.', mid: 'Basic financial tracking in place, but gaps in forecasting could leave you exposed.', low: 'Flying blind financially. This is the #1 reason businesses fail.' },
+        strengths: { high: 'Strong financial visibility - you can make confident decisions from real data.', mid: 'Basic financial tracking in place, but gaps in forecasting could leave you exposed.', low: 'Flying blind financially. This is the #1 reason businesses fail.' },
         gaps: { high: 'Consider automating financial reporting for even faster insights.', mid: 'Add regular financial review cadence and basic cash flow forecasting.', low: 'Priority: Get accounting software set up and start tracking every dollar immediately.' },
         actions: { high: 'Add scenario modeling to your financial forecasts.', mid: 'Set up weekly 15-minute financial check-ins and a 90-day cash flow forecast.', low: 'URGENT: Set up accounting software today. Start tracking revenue vs. expenses weekly.' }
     },
@@ -280,7 +285,7 @@ const CATEGORIES = [
                 { label: 'Absolutely not', score: 1 },
                 { label: 'Maybe, but things would suffer', score: 2 },
                 { label: 'Yes, with some guidance', score: 3 },
-                { label: 'Yes, seamlessly — systems handle it', score: 4 }
+                { label: 'Yes, seamlessly - systems handle it', score: 4 }
             ]},
             { text: 'How do you handle quality control?', options: [
                 { label: 'No formal process', score: 1 },
@@ -289,8 +294,8 @@ const CATEGORIES = [
                 { label: 'Systematic QC with metrics and feedback loops', score: 4 }
             ]}
         ],
-        strengths: { high: 'Operationally tight — your business can scale without breaking.', mid: 'Some processes documented, but too much still lives in your head.', low: 'Owner-dependent operations — this limits growth and kills resale value.' },
-        gaps: { high: 'Refine and automate your existing processes for even more efficiency.', mid: 'Document your top 5 most critical processes as SOPs this month.', low: 'You ARE the business. Start documenting immediately — begin with your daily workflow.' },
+        strengths: { high: 'Operationally tight - your business can scale without breaking.', mid: 'Some processes documented, but too much still lives in your head.', low: 'Owner-dependent operations - this limits growth and kills resale value.' },
+        gaps: { high: 'Refine and automate your existing processes for even more efficiency.', mid: 'Document your top 5 most critical processes as SOPs this month.', low: 'You ARE the business. Start documenting immediately - begin with your daily workflow.' },
         actions: { high: 'Audit processes for automation opportunities using AI tools.', mid: 'Block 2 hours this week to document your 3 most repeated tasks as step-by-step SOPs.', low: 'URGENT: Record yourself doing your core tasks this week (video or written). That\'s your first SOP.' }
     },
     {
@@ -299,7 +304,7 @@ const CATEGORIES = [
         desc: 'Do you have a predictable, repeatable sales process? Or is revenue unpredictable and dependent on hope?',
         questions: [
             { text: 'Do you have a defined sales process?', options: [
-                { label: 'No — sales happen ad hoc', score: 1 },
+                { label: 'No - sales happen ad hoc', score: 1 },
                 { label: 'Informal process I follow', score: 2 },
                 { label: 'Documented pipeline with stages', score: 3 },
                 { label: 'Full CRM with pipeline, follow-ups, and conversion tracking', score: 4 }
@@ -317,8 +322,8 @@ const CATEGORIES = [
                 { label: 'Track it monthly with LTV:CAC ratio', score: 4 }
             ]}
         ],
-        strengths: { high: 'Predictable revenue engine — you know what to expect and how to grow it.', mid: 'Revenue coming in but without clear visibility into what drives it.', low: 'Revenue is unpredictable. No sales system means you\'re always hustling, never scaling.' },
-        gaps: { high: 'Optimize your funnel — small conversion improvements compound fast.', mid: 'Formalize your sales pipeline and start tracking conversion rates.', low: 'You need a defined sales process before anything else. Start tracking every lead source.' },
+        strengths: { high: 'Predictable revenue engine - you know what to expect and how to grow it.', mid: 'Revenue coming in but without clear visibility into what drives it.', low: 'Revenue is unpredictable. No sales system means you\'re always hustling, never scaling.' },
+        gaps: { high: 'Optimize your funnel - small conversion improvements compound fast.', mid: 'Formalize your sales pipeline and start tracking conversion rates.', low: 'You need a defined sales process before anything else. Start tracking every lead source.' },
         actions: { high: 'A/B test your highest-volume conversion point for 10%+ improvement.', mid: 'Set up a simple CRM (even a spreadsheet) and track leads → proposals → closes this month.', low: 'URGENT: Map your current customer journey from first contact to sale. That\'s your sales process v1.' }
     },
     {
@@ -340,14 +345,14 @@ const CATEGORIES = [
             ]},
             { text: 'How consistent is your content/marketing output?', options: [
                 { label: 'No marketing activity', score: 1 },
-                { label: 'Sporadic — when I have time', score: 2 },
+                { label: 'Sporadic - when I have time', score: 2 },
                 { label: 'Regular schedule (weekly+)', score: 3 },
                 { label: 'Content calendar with multi-format distribution', score: 4 }
             ]}
         ],
-        strengths: { high: 'Marketing machine — leads flow in consistently without you chasing.', mid: 'Some lead generation happening but not systematized or tracked.', low: 'Relying entirely on word of mouth. That\'s not a strategy — it\'s a prayer.' },
+        strengths: { high: 'Marketing machine - leads flow in consistently without you chasing.', mid: 'Some lead generation happening but not systematized or tracked.', low: 'Relying entirely on word of mouth. That\'s not a strategy - it\'s a prayer.' },
         gaps: { high: 'Test new channels to diversify and reduce single-source dependency.', mid: 'Pick ONE channel and commit to consistent output for 90 days.', low: 'Start with the simplest lead gen: build an email list and send value weekly.' },
-        actions: { high: 'Audit your channel performance — double down on your top performer.', mid: 'Set up an email list this week and commit to one piece of content per week.', low: 'URGENT: Choose one platform (social, email, or local). Post/send something valuable 3x this week.' }
+        actions: { high: 'Audit your channel performance - double down on your top performer.', mid: 'Set up an email list this week and commit to one piece of content per week.', low: 'URGENT: Choose one platform (social, email, or local). Post/send something valuable 3x this week.' }
     },
     {
         id: 'customer',
@@ -356,7 +361,7 @@ const CATEGORIES = [
         questions: [
             { text: 'Do you have a formal onboarding process for new customers?', options: [
                 { label: 'No', score: 1 },
-                { label: 'Informal — varies each time', score: 2 },
+                { label: 'Informal - varies each time', score: 2 },
                 { label: 'Standard welcome process', score: 3 },
                 { label: 'Automated onboarding with touchpoints and follow-ups', score: 4 }
             ]},
@@ -369,11 +374,11 @@ const CATEGORIES = [
             { text: 'What\'s your customer retention like?', options: [
                 { label: 'Most customers are one-time', score: 1 },
                 { label: 'Some repeat, but I don\'t track it', score: 2 },
-                { label: 'Good retention — most come back', score: 3 },
+                { label: 'Good retention - most come back', score: 3 },
                 { label: 'High retention with referral program and lifetime value tracking', score: 4 }
             ]}
         ],
-        strengths: { high: 'Customers love you AND you\'ve systematized that love into retention and referrals.', mid: 'Decent customer relationships but no system to maximize retention or referrals.', low: 'Leaky bucket — you\'re spending to acquire customers who don\'t come back.' },
+        strengths: { high: 'Customers love you AND you\'ve systematized that love into retention and referrals.', mid: 'Decent customer relationships but no system to maximize retention or referrals.', low: 'Leaky bucket - you\'re spending to acquire customers who don\'t come back.' },
         gaps: { high: 'Launch a formal referral program to turn happy customers into growth engine.', mid: 'Add a post-service follow-up and review request to your process.', low: 'Focus on customer experience basics before spending on more marketing.' },
         actions: { high: 'Implement a referral incentive program this month.', mid: 'Set up automated post-service emails (thank you + feedback request + review ask).', low: 'URGENT: Call your last 5 customers. Ask what went well and what didn\'t. Build from there.' }
     },
@@ -383,7 +388,7 @@ const CATEGORIES = [
         desc: 'Can you attract, train, and retain good people? Or is staffing a constant headache?',
         questions: [
             { text: 'Do you have documented job descriptions and hiring criteria?', options: [
-                { label: 'No — I hire based on gut', score: 1 },
+                { label: 'No - I hire based on gut', score: 1 },
                 { label: 'Basic job posts but no formal criteria', score: 2 },
                 { label: 'Clear roles with skills requirements', score: 3 },
                 { label: 'Full hiring playbook with scorecards and structured interviews', score: 4 }
@@ -395,14 +400,14 @@ const CATEGORIES = [
                 { label: 'Structured onboarding program with milestones', score: 4 }
             ]},
             { text: 'How would you rate employee retention?', options: [
-                { label: 'High turnover — constant problem', score: 1 },
+                { label: 'High turnover - constant problem', score: 1 },
                 { label: 'Some turnover, normal for industry', score: 2 },
-                { label: 'Good — most stay 1+ years', score: 3 },
-                { label: 'Excellent — team is stable with growth paths', score: 4 }
+                { label: 'Good - most stay 1+ years', score: 3 },
+                { label: 'Excellent - team is stable with growth paths', score: 4 }
             ]}
         ],
-        strengths: { high: 'Strong team systems — you can hire well, train fast, and keep people.', mid: 'Team is functional but hiring and training need more structure.', low: 'Team is your weakest link. High turnover signals culture or systems problems.' },
-        gaps: { high: 'Develop leadership pipeline and cross-training to reduce single points of failure.', mid: 'Create a simple training checklist for each role — even bullet points help.', low: 'The staffing problem IS the business problem. Fix hiring and training first.' },
+        strengths: { high: 'Strong team systems - you can hire well, train fast, and keep people.', mid: 'Team is functional but hiring and training need more structure.', low: 'Team is your weakest link. High turnover signals culture or systems problems.' },
+        gaps: { high: 'Develop leadership pipeline and cross-training to reduce single points of failure.', mid: 'Create a simple training checklist for each role - even bullet points help.', low: 'The staffing problem IS the business problem. Fix hiring and training first.' },
         actions: { high: 'Implement quarterly growth conversations with each team member.', mid: 'Write a 1-page training guide for your most critical role this week.', low: 'URGENT: Document what a great first 30 days looks like for your most important role.' }
     },
     {
@@ -411,7 +416,7 @@ const CATEGORIES = [
         desc: 'Are you leveraging technology to save time and reduce errors, or doing everything manually?',
         questions: [
             { text: 'How much of your workflow is automated?', options: [
-                { label: 'Nothing — all manual', score: 1 },
+                { label: 'Nothing - all manual', score: 1 },
                 { label: 'A few things (email, scheduling)', score: 2 },
                 { label: 'Key workflows automated (invoicing, follow-ups, etc.)', score: 3 },
                 { label: 'Integrated tech stack with automations across operations', score: 4 }
@@ -426,10 +431,10 @@ const CATEGORIES = [
                 { label: 'What systems?', score: 1 },
                 { label: 'Separate tools, manual data transfer', score: 2 },
                 { label: 'Some integrations between tools', score: 3 },
-                { label: 'Connected ecosystem — data flows automatically', score: 4 }
+                { label: 'Connected ecosystem - data flows automatically', score: 4 }
             ]}
         ],
-        strengths: { high: 'Tech-forward operation — you\'re saving hours weekly through automation.', mid: 'Using some tools but not maximizing their potential.', low: 'Manual everything. You\'re trading time for money at the worst exchange rate.' },
+        strengths: { high: 'Tech-forward operation - you\'re saving hours weekly through automation.', mid: 'Using some tools but not maximizing their potential.', low: 'Manual everything. You\'re trading time for money at the worst exchange rate.' },
         gaps: { high: 'Explore AI agents for your most time-consuming remaining manual tasks.', mid: 'Connect your existing tools with simple no-code automations.', low: 'Start with the basics: scheduling, invoicing, and email templates.' },
         actions: { high: 'Identify your top 3 remaining manual tasks and build automations this month.', mid: 'Set up ONE automation this week (e.g., auto-send invoice after service).', low: 'URGENT: Get scheduling software, invoicing software, and email templates running this week.' }
     },
@@ -448,7 +453,7 @@ const CATEGORIES = [
                 { label: 'Absolutely not', score: 1 },
                 { label: 'It would be extremely hard', score: 2 },
                 { label: 'Possible with significant effort', score: 3 },
-                { label: 'Yes — systems are built for it', score: 4 }
+                { label: 'Yes - systems are built for it', score: 4 }
             ]},
             { text: 'Do you track KPIs and leading indicators?', options: [
                 { label: 'No', score: 1 },
@@ -457,8 +462,8 @@ const CATEGORIES = [
                 { label: '5+ KPIs tracked weekly with trend analysis', score: 4 }
             ]}
         ],
-        strengths: { high: 'Growth-ready business — you have the systems and visibility to scale.', mid: 'Growth potential exists but infrastructure gaps will bottleneck you.', low: 'Stuck at a ceiling. The business can\'t grow because it depends entirely on you.' },
-        gaps: { high: 'Stress-test your systems by modeling 2x volume — find the breaking points.', mid: 'Define your top 5 KPIs and start tracking them weekly.', low: 'Before thinking about growth, fix the operational foundations in categories 1-7.' },
+        strengths: { high: 'Growth-ready business - you have the systems and visibility to scale.', mid: 'Growth potential exists but infrastructure gaps will bottleneck you.', low: 'Stuck at a ceiling. The business can\'t grow because it depends entirely on you.' },
+        gaps: { high: 'Stress-test your systems by modeling 2x volume - find the breaking points.', mid: 'Define your top 5 KPIs and start tracking them weekly.', low: 'Before thinking about growth, fix the operational foundations in categories 1-7.' },
         actions: { high: 'Model your 12-month growth scenario and identify the 3 systems that would break first.', mid: 'Write down 3 specific growth goals with deadlines and the KPIs that measure progress.', low: 'URGENT: Your growth plan is to fix operations first. Score above 50 overall, then revisit this.' }
     }
 ];
@@ -648,7 +653,7 @@ function showResults() {
         `;
     });
 
-    // Action plan — sorted by lowest score first
+    // Action plan - sorted by lowest score first
     const actionContainer = document.getElementById('actionPlan');
     actionContainer.innerHTML = '';
     catScores.sort((a, b) => a.pct - b.pct);
@@ -658,7 +663,7 @@ function showResults() {
         const priorityLabel = item.pct < 45 ? 'Fix Now' : item.pct < 75 ? 'Improve' : 'Optimize';
         actionContainer.innerHTML += `
             <div class="action-item">
-                <div class="action-priority priority-${priority}">${priorityLabel} — ${item.cat.title} (${item.pct}%)</div>
+                <div class="action-priority priority-${priority}">${priorityLabel} - ${item.cat.title} (${item.pct}%)</div>
                 <div class="action-text">${item.cat.actions[tier]}</div>
             </div>
         `;
@@ -692,8 +697,8 @@ async function captureEmail(e) {
         if (res.ok) {
             window.open('/fdd-red-flags-guide.pdf', '_blank');
             document.getElementById('emailCapture').innerHTML = '<h3 style="color:var(--forest)">Sent! Check your downloads.</h3><p>Next step: <a href="/fdd-analyzer" style="color:var(--forest-mid);font-weight:700">Analyze your actual FDD →</a></p>';
-        } else { btn.textContent = 'Error — try again'; btn.disabled = false; }
-    } catch (err) { btn.textContent = 'Error — try again'; btn.disabled = false; }
+        } else { btn.textContent = 'Error - try again'; btn.disabled = false; }
+    } catch (err) { btn.textContent = 'Error - try again'; btn.disabled = false; }
 }
 </script>
 

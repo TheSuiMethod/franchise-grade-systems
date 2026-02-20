@@ -109,7 +109,7 @@
 
         <div id="emailCaptureComparison" style="background:#D8F3DC;border-radius:12px;padding:24px 28px;margin:24px 0;text-align:center;">
             <h4 style="font-family:'Instrument Serif',serif;font-size:1.1rem;margin-bottom:6px;color:#1B4332;">Get the Free FDD Red Flags Guide</h4>
-            <p style="color:#4A4A5A;font-size:.88rem;margin-bottom:12px;">Before you pick a winner — know the 12 warning signs hidden in every FDD.</p>
+            <p style="color:#4A4A5A;font-size:.88rem;margin-bottom:12px;">Before you pick a winner - know the 12 warning signs hidden in every FDD.</p>
             <form onsubmit="captureEmail(event)" style="display:flex;gap:8px;max-width:420px;margin:0 auto">
                 <input type="email" id="captureEmail" placeholder="Your email" required style="flex:1;padding:10px 14px;border:2px solid #E5E7EB;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:.9rem;background:#fff">
                 <button type="submit" style="padding:10px 20px;background:#2D6A4F;color:#fff;border:none;border-radius:8px;font-weight:700;font-family:'DM Sans',sans-serif;cursor:pointer;white-space:nowrap">Get Free Guide</button>
@@ -118,12 +118,17 @@
 
         <div class="cta-bar">
             <h3>Ready for the Full Picture?</h3>
-            <p>The Decision Engine unlocks 5-way comparisons plus FDD analysis, negotiation practice, and validation scripts — everything you need for a confident decision.</p>
+            <p>The Decision Engine unlocks 5-way comparisons plus FDD analysis, negotiation practice, and validation scripts - everything you need for a confident decision.</p>
             <a href="/decision-engine" class="cta-btn">Get the Full Decision Engine →</a><br>
             <button class="reset-btn" onclick="resetAll()">↻ Start New Comparison</button>
         </div>
     </div>
 </div>
+    <div style="max-width:720px;margin:0 auto 40px;padding:24px 28px;background:#F0FDF4;border-radius:12px;border:1px solid #D1FAE5;text-align:center;">
+      <p style="font-size:0.95rem;color:#1B4332;margin:0 0 12px;font-weight:600;">More tools for your due diligence</p>
+      <p style="font-size:0.88rem;color:#4A4A5A;margin:0 0 16px;line-height:1.6;"><a href="/red-flag-quiz" style="color:#2D6A4F;font-weight:600;">Take the Red Flag Quiz</a> - 10 quick questions, instant risk score for your deal. Decided franchising is not right for you? The <a href="/franchise-alternative-blueprint" style="color:#2D6A4F;font-weight:600;">Franchise Alternative Blueprint ($497)</a> shows you how to build a systemized business independently - no royalties, no fees.</p>
+    </div>
+
 <footer class="footer">
     <div class="footer-logo">Franchise<span>-Grade</span> Systems</div>
     <p>&copy; 2026 Franchise-Grade Systems. All rights reserved. Not legal or financial advice.</p>
@@ -187,8 +192,8 @@ function showCompareUpgrade() {
         banner.style.cssText = 'background:linear-gradient(135deg,#1A3C34 0%,#2D5A4A 100%);border-radius:14px;padding:24px 28px;text-align:center;margin:20px 0;';
         banner.innerHTML = `
             <h4 style="color:#fff;font-size:1.1rem;margin-bottom:6px;">Compare Up to 5 Franchises with the Decision Engine</h4>
-            <p style="color:#B8D4CC;font-size:0.88rem;margin-bottom:14px;line-height:1.6;">You've compared 2 deals — but most serious buyers evaluate 3-5 before deciding. The AI Franchise Decision Engine unlocks full 5-way comparisons plus negotiation practice, validation scripts, and more.</p>
-            <a href="/decision-engine" style="display:inline-block;background:#B8D4CC;color:#1A3C34;padding:10px 24px;border-radius:8px;font-weight:700;text-decoration:none;font-size:0.9rem;">Get the Full Decision Engine — $297 →</a>
+            <p style="color:#B8D4CC;font-size:0.88rem;margin-bottom:14px;line-height:1.6;">You've compared 2 deals - but most serious buyers evaluate 3-5 before deciding. The AI Franchise Decision Engine unlocks full 5-way comparisons plus negotiation practice, validation scripts, and more.</p>
+            <a href="/decision-engine" style="display:inline-block;background:#B8D4CC;color:#1A3C34;padding:10px 24px;border-radius:8px;font-weight:700;text-decoration:none;font-size:0.9rem;">Get the Full Decision Engine - $297 →</a>
         `;
         document.getElementById('tabs').parentNode.insertBefore(banner, document.getElementById('tabs').nextSibling);
     }
@@ -265,7 +270,7 @@ function pct(n) { return n.toFixed(1) + '%'; }
 function compare() {
     saveCurrentForm();
 
-    // Validate minimum data — require at least Total Investment and Revenue for each franchise
+    // Validate minimum data - require at least Total Investment and Revenue for each franchise
     const incomplete = [];
     franchises.forEach(f => {
         const d = f.data;
@@ -303,7 +308,7 @@ function compare() {
         const filledCount = allFields.filter(key => pn(d[key]) > 0).length;
         const dataCoverage = Math.round(filledCount / allFields.length * 100);
 
-        // Composite score (higher = better) — only meaningful with real data
+        // Composite score (higher = better) - only meaningful with real data
         let score = 50;
         if (rev > 0) {
             score += Math.min(margin, 20);
@@ -399,7 +404,7 @@ function compare() {
             <div class="verdict-winner">Best Overall: ${winner.name}</div>
             <h3>Score: ${winner.score}/100</h3>
             <p>${winner.name} leads with ${winner.score > runnerUp.score + 15 ? 'a significant advantage' : 'a narrow edge'} over ${runnerUp.name} (${runnerUp.score}/100).
-            ${winner.margin > 15 ? ' Strong profit margins give this deal financial breathing room.' : winner.margin > 0 ? ' Margins are tight — watch the fee structure closely.' : ' Warning: This deal shows negative margins. Proceed with extreme caution.'}
+            ${winner.margin > 15 ? ' Strong profit margins give this deal financial breathing room.' : winner.margin > 0 ? ' Margins are tight - watch the fee structure closely.' : ' Warning: This deal shows negative margins. Proceed with extreme caution.'}
             ${winner.paybackYears < 3 ? ' Payback under 3 years is solid.' : winner.paybackYears < 5 ? ' Payback of ' + winner.paybackYears.toFixed(1) + ' years is reasonable but not exceptional.' : ' Long payback period is a concern.'}
             Remember: this comparison is based on YOUR estimates. Always verify with the actual FDD and validate with current franchisees.${coverageNote}</p>
         </div>`;
@@ -446,8 +451,8 @@ async function captureEmail(e) {
         if (res.ok) {
             window.open('/fdd-red-flags-guide.pdf', '_blank');
             document.getElementById('emailCaptureComparison').innerHTML = '<p style="color:#1B4332;font-weight:600;padding:16px 0;">Sent! Check your downloads. <a href="/fdd-analyzer" style="color:#2D6A4F;text-decoration:underline;">Next: Analyze your top pick\'s FDD →</a></p>';
-        } else { btn.textContent = 'Error — try again'; btn.disabled = false; }
-    } catch (err) { btn.textContent = 'Error — try again'; btn.disabled = false; }
+        } else { btn.textContent = 'Error - try again'; btn.disabled = false; }
+    } catch (err) { btn.textContent = 'Error - try again'; btn.disabled = false; }
 }
 </script>
 </body>

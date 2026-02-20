@@ -37,7 +37,7 @@
 </head>
 <body>
 <nav class="nav"><a href="/" class="nav-logo">Franchise<span>-Grade</span> Systems</a><button class="mobile-menu-btn" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Menu">☰</button><div class="nav-links"><a href="/#products">How It Works</a><a href="/#story">Our Story</a><a href="/tools" class="nav-cta">Get Started Free</a></div></nav>
-<section class="hero"><h1>Franchise Profit Margin Calculator — <em>The Real Numbers</em></h1><p>Most franchise calculators miss half the costs. This one was built by someone who lost six figures because nobody showed them the full picture. Every cost category below came from a real P&L.</p></section>
+<section class="hero"><h1>Franchise Profit Margin Calculator - <em>The Real Numbers</em></h1><p>Most franchise calculators miss half the costs. This one was built by someone who lost six figures because nobody showed them the full picture. Every cost category below came from a real P&L.</p></section>
 <div class="calc-container">
 
 <!-- REVENUE -->
@@ -45,10 +45,10 @@
 <div class="input-grid"><div class="input-group"><label>Annual Gross Revenue <span class="hint">(Item 19 of FDD, or your estimate)</span></label><div class="input-wrap"><span class="prefix">$</span><input type="text" id="revenue" class="has-prefix" placeholder="e.g. 250,000" oninput="fmtC(this)"></div></div></div></div>
 
 <!-- FRANCHISE FEES -->
-<div class="calc-section"><div class="section-header"><div><h2>Franchise Fees</h2><p>These are in your FDD — Items 5, 6, and 7. Don't skip any.</p></div></div>
+<div class="calc-section"><div class="section-header"><div><h2>Franchise Fees</h2><p>These are in your FDD - Items 5, 6, and 7. Don't skip any.</p></div></div>
 <div class="input-grid">
-<div class="input-group"><label>Royalty Fee <span class="hint">(% of revenue — typically 4-12%. Check FDD Item 6 for minimum weekly floors.)</span></label><div class="input-wrap"><input type="text" id="royalty" class="has-suffix" placeholder="6" value="6"><span class="suffix">%</span></div></div>
-<div class="input-group"><label>Marketing/Ad Fund Fee <span class="hint">(% of revenue — typically 1-4%)</span></label><div class="input-wrap"><input type="text" id="adFund" class="has-suffix" placeholder="2" value="2"><span class="suffix">%</span></div></div>
+<div class="input-group"><label>Royalty Fee <span class="hint">(% of revenue - typically 4-12%. Check FDD Item 6 for minimum weekly floors.)</span></label><div class="input-wrap"><input type="text" id="royalty" class="has-suffix" placeholder="6" value="6"><span class="suffix">%</span></div></div>
+<div class="input-group"><label>Marketing/Ad Fund Fee <span class="hint">(% of revenue - typically 1-4%)</span></label><div class="input-wrap"><input type="text" id="adFund" class="has-suffix" placeholder="2" value="2"><span class="suffix">%</span></div></div>
 <div class="input-group"><label>Required Technology/Software <span class="info-tip">?<span class="tip-text">Many franchisors mandate POS, CRM, or management software at $200-$500/month. WATCH OUT: many FDDs say "no cap on increases." Check FDD Items 6 and 7.</span></span> <span class="hint">(monthly)</span></label><div class="input-wrap"><span class="prefix">$</span><input type="text" id="techFees" class="has-prefix" placeholder="350" oninput="fmtC(this)"></div></div>
 <div class="input-group"><label>Required Bookkeeping/Accounting <span class="info-tip">?
 <span class="tip-text">Many franchisors REQUIRE you to use their designated bookkeeping service at $400-$600/month. This is separate from your own CPA. Check FDD Item 6 and Item 8.</span>
@@ -60,7 +60,7 @@
 <div class="calc-section"><div class="section-header"><div><h2>Occupancy Costs</h2><p>If rent eats more than 15% of revenue, that's a red flag.</p></div></div>
 <div class="input-grid">
 <div class="input-group"><label>Rent / Lease <span class="hint">(monthly)</span></label><div class="input-wrap"><span class="prefix">$</span><input type="text" id="rent" class="has-prefix" placeholder="3,300" oninput="fmtC(this)"></div></div>
-<div class="input-group"><label>Utilities <span class="hint">(electric, water, gas — monthly)</span></label><div class="input-wrap"><span class="prefix">$</span><input type="text" id="utilities" class="has-prefix" placeholder="350" oninput="fmtC(this)"></div></div>
+<div class="input-group"><label>Utilities <span class="hint">(electric, water, gas - monthly)</span></label><div class="input-wrap"><span class="prefix">$</span><input type="text" id="utilities" class="has-prefix" placeholder="350" oninput="fmtC(this)"></div></div>
 <div class="input-group"><label>Repairs & Maintenance <span class="hint">(monthly avg)</span></label><div class="input-wrap"><span class="prefix">$</span><input type="text" id="repairs" class="has-prefix" placeholder="500" oninput="fmtC(this)"></div></div>
 <div class="input-group"><label>Phone / Internet <span class="hint">(monthly)</span></label><div class="input-wrap"><span class="prefix">$</span><input type="text" id="phone" class="has-prefix" placeholder="150" oninput="fmtC(this)"></div></div>
 </div></div>
@@ -68,9 +68,9 @@
 <!-- LABOR -->
 <div class="calc-section"><div class="section-header"><div><h2>Labor Costs</h2><p>Wages are only part of it. Payroll taxes, processing, and training add 15-25% more.</p></div></div>
 <div class="input-grid">
-<div class="input-group"><label>Total Wages / Salaries <span class="hint">(monthly — all employees)</span></label><div class="input-wrap"><span class="prefix">$</span><input type="text" id="wages" class="has-prefix" placeholder="6,600" oninput="fmtC(this)"></div></div>
+<div class="input-group"><label>Total Wages / Salaries <span class="hint">(monthly - all employees)</span></label><div class="input-wrap"><span class="prefix">$</span><input type="text" id="wages" class="has-prefix" placeholder="6,600" oninput="fmtC(this)"></div></div>
 <div class="input-group"><label>Payroll Tax Rate <span class="info-tip">?<span class="tip-text">Employer FICA (7.65%) + state unemployment (1-5%). Most employers pay 10-14% on top of wages.</span></span> <span class="hint">(% of wages)</span></label><div class="input-wrap"><input type="text" id="payrollTax" class="has-suffix" placeholder="12" value="12"><span class="suffix">%</span></div></div>
-<div class="input-group"><label>Payroll Processing <span class="info-tip">?<span class="tip-text">ADP, Gusto, Paychex — typically $40-$100 base + $4-$12 per employee per pay period.</span></span> <span class="hint">(monthly)</span></label><div class="input-wrap"><span class="prefix">$</span><input type="text" id="payrollProc" class="has-prefix" placeholder="275" oninput="fmtC(this)"></div></div>
+<div class="input-group"><label>Payroll Processing <span class="info-tip">?<span class="tip-text">ADP, Gusto, Paychex - typically $40-$100 base + $4-$12 per employee per pay period.</span></span> <span class="hint">(monthly)</span></label><div class="input-wrap"><span class="prefix">$</span><input type="text" id="payrollProc" class="has-prefix" placeholder="275" oninput="fmtC(this)"></div></div>
 <div class="input-group"><label>Workers Comp & Benefits <span class="hint">(monthly)</span></label><div class="input-wrap"><span class="prefix">$</span><input type="text" id="workersBen" class="has-prefix" placeholder="200" oninput="fmtC(this)"></div></div>
 <div class="input-group"><label>Employee Training <span class="hint">(annual)</span></label><div class="input-wrap"><span class="prefix">$</span><input type="text" id="training" class="has-prefix" placeholder="3,000" oninput="fmtC(this)"></div></div>
 <div class="input-group"><label>Uniforms <span class="hint">(annual)</span></label><div class="input-wrap"><span class="prefix">$</span><input type="text" id="uniforms" class="has-prefix" placeholder="600" oninput="fmtC(this)"></div></div>
@@ -86,7 +86,7 @@
 </div></div>
 
 <!-- FINANCIAL - SILENT KILLERS -->
-<div class="calc-section" style="border-color:#FDE68A;background:#FFFDF5"><div class="section-header"><div><h2>Financial Costs — The Silent Killers</h2><p>Invisible until they drain your bank account. Most franchise buyers forget ALL of them.</p></div></div>
+<div class="calc-section" style="border-color:#FDE68A;background:#FFFDF5"><div class="section-header"><div><h2>Financial Costs - The Silent Killers</h2><p>Invisible until they drain your bank account. Most franchise buyers forget ALL of them.</p></div></div>
 <div class="input-grid">
 <div class="input-group"><label>Loan Payment <span class="info-tip">?<span class="tip-text">SBA, commercial loans, or equipment financing. If borrowing to buy this franchise, enter monthly payment.</span></span> <span class="hint">(monthly, if financing)</span></label><div class="input-wrap"><span class="prefix">$</span><input type="text" id="loanPmt" class="has-prefix" placeholder="2,800" oninput="fmtC(this)"></div></div>
 <div class="input-group"><label>Payment Processing Fees <span class="info-tip">?<span class="tip-text">Credit card and payment processing fees. Typically 2.5-3.5% of ALL revenue. On $250K revenue = $6,250-$8,750/yr most buyers never account for.</span></span> <span class="hint">(% of revenue)</span></label><div class="input-wrap"><input type="text" id="merchantFees" class="has-suffix" placeholder="3" value="3"><span class="suffix">%</span></div></div>
@@ -95,7 +95,7 @@
 </div></div>
 
 <!-- YOUR PERSONAL COSTS -->
-<div class="calc-section"><div class="section-header"><div><h2>What You Need to Live</h2><p>A franchise that can't pay you isn't a business — it's an expensive job that charges you for showing up.</p></div></div>
+<div class="calc-section"><div class="section-header"><div><h2>What You Need to Live</h2><p>A franchise that can't pay you isn't a business - it's an expensive job that charges you for showing up.</p></div></div>
 <div class="input-grid">
 <div class="input-group"><label>Your Desired Monthly Income <span class="hint">(what you need to take home)</span></label><div class="input-wrap"><span class="prefix">$</span><input type="text" id="ownerPay" class="has-prefix" placeholder="6,000" oninput="fmtC(this)"></div></div>
 <div class="input-group"><label>Your Health Insurance <span class="hint">(monthly)</span></label><div class="input-wrap"><span class="prefix">$</span><input type="text" id="healthIns" class="has-prefix" placeholder="800" oninput="fmtC(this)"></div></div>
@@ -115,6 +115,11 @@
 </div>
 
 </div>
+    <div style="max-width:720px;margin:0 auto 40px;padding:24px 28px;background:#F0FDF4;border-radius:12px;border:1px solid #D1FAE5;text-align:center;">
+      <p style="font-size:0.95rem;color:#1B4332;margin:0 0 12px;font-weight:600;">More tools for your due diligence</p>
+      <p style="font-size:0.88rem;color:#4A4A5A;margin:0 0 16px;line-height:1.6;"><a href="/red-flag-quiz" style="color:#2D6A4F;font-weight:600;">Take the Red Flag Quiz</a> - 10 quick questions, instant risk score for your deal. Decided franchising is not right for you? The <a href="/franchise-alternative-blueprint" style="color:#2D6A4F;font-weight:600;">Franchise Alternative Blueprint ($497)</a> shows you how to build a systemized business independently - no royalties, no fees.</p>
+    </div>
+
 <footer class="footer"><div class="footer-logo">Franchise<span>-Grade</span> Systems</div><p>AI-powered tools for smarter franchise decisions.</p><p>&copy; 2026 Franchise-Grade Systems. All rights reserved. Not legal or financial advice.</p><div class="footer-links"><a href="/">Home</a><a href="/tools">Free Tools</a><a href="/#products">How It Works</a><a href="/#story">Our Story</a><a href="/privacy">Privacy</a><a href="/terms">Terms</a></div></footer>
 
 <script>
@@ -211,16 +216,16 @@ document.getElementById('bg').innerHTML=`
 <div class="be-card"><div class="v ${beRev>rev?'bad':''}">${f(beRev)}</div><div class="lb">Revenue Needed to Break Even (before owner pay)</div></div>
 <div class="be-card"><div class="v ${gap<0?'bad':''}">${f(gap)}</div><div class="lb">${gap>=0?'Revenue Surplus Above Break-Even':'Revenue Gap Below Break-Even'}</div></div>
 <div class="be-card"><div class="v">${rev>0?((beRev/rev)*100).toFixed(0)+'%':'N/A'}</div><div class="lb">Break-Even as % of Projected Revenue</div></div>
-<div class="be-card"><div class="v ${moCash>6?'bad':''}">${th<0&&opA>0?moCash.toFixed(1)+' mo':(th>=0?'N/A':'∞')}</div><div class="lb">${th<0?'Months of Personal Cash Burn at This Rate':'No Cash Burn — Profitable'}</div></div>`;
+<div class="be-card"><div class="v ${moCash>6?'bad':''}">${th<0&&opA>0?moCash.toFixed(1)+' mo':(th>=0?'N/A':'∞')}</div><div class="lb">${th<0?'Months of Personal Cash Burn at This Rate':'No Cash Burn - Profitable'}</div></div>`;
 
 // ASSESSMENT
 const redC=rats.filter(r=>r.v>r.y&&!(r.v===0&&r.n==='Debt Service Ratio')).length;
 const yelC=rats.filter(r=>r.v>r.g&&r.v<=r.y).length;
 let vc,vt,vb;
-if(th<0){vc='danger';vt='🚨 This franchise loses money at these numbers.';vb=`At ${f(rev)} in annual revenue, your total costs of ${f(tAll)} exceed income by ${f(Math.abs(th))} per year. You would need to inject personal cash every month just to keep the doors open — exactly what happened to our founder, who lost six figures. You have ${redC} critical ratio warning(s). Before proceeding, pressure-test whether this revenue projection is realistic and whether these costs can be reduced.`}
-else if(mg<5){vc='caution';vt='⚠️ Razor-thin margin. One bad month wipes you out.';vb=`A ${mg.toFixed(1)}% net margin means you're taking home ${f(th)} on ${f(rev)} in revenue. Any unexpected expense — equipment failure, employee turnover, slow season — could push you into the red. Most financial advisors consider margins below 10% high-risk for franchise operations.`}
-else if(mg<15){vc='caution';vt='⚠️ Workable, but watch the ratios closely.';vb=`A ${mg.toFixed(1)}% margin is within the franchise average (5-20%), but you have ${yelC+redC} ratio warning(s) that need attention. Make sure you're confident in the revenue projection — most franchisors give best-case numbers, not averages.`}
-else{vc='good';vt='✅ Strong margin — if the revenue number is real.';vb=`A ${mg.toFixed(1)}% net margin is above average. Your take-home of ${f(th)} looks healthy. Critical question: is the ${f(rev)} figure from Item 19 of the FDD, or a salesperson's projection? Validate by calling existing franchisees directly (contact info is in FDD Item 20).`}
+if(th<0){vc='danger';vt='🚨 This franchise loses money at these numbers.';vb=`At ${f(rev)} in annual revenue, your total costs of ${f(tAll)} exceed income by ${f(Math.abs(th))} per year. You would need to inject personal cash every month just to keep the doors open - exactly what happened to our founder, who lost six figures. You have ${redC} critical ratio warning(s). Before proceeding, pressure-test whether this revenue projection is realistic and whether these costs can be reduced.`}
+else if(mg<5){vc='caution';vt='⚠️ Razor-thin margin. One bad month wipes you out.';vb=`A ${mg.toFixed(1)}% net margin means you're taking home ${f(th)} on ${f(rev)} in revenue. Any unexpected expense - equipment failure, employee turnover, slow season - could push you into the red. Most financial advisors consider margins below 10% high-risk for franchise operations.`}
+else if(mg<15){vc='caution';vt='⚠️ Workable, but watch the ratios closely.';vb=`A ${mg.toFixed(1)}% margin is within the franchise average (5-20%), but you have ${yelC+redC} ratio warning(s) that need attention. Make sure you're confident in the revenue projection - most franchisors give best-case numbers, not averages.`}
+else{vc='good';vt='✅ Strong margin - if the revenue number is real.';vb=`A ${mg.toFixed(1)}% net margin is above average. Your take-home of ${f(th)} looks healthy. Critical question: is the ${f(rev)} figure from Item 19 of the FDD, or a salesperson's projection? Validate by calling existing franchisees directly (contact info is in FDD Item 20).`}
 document.getElementById('av').innerHTML=`<div class="av ${vc}"><strong>${vt}</strong>${vb}</div>`;
 
 let qs=[];
@@ -230,10 +235,10 @@ if((adA+ladA)/rev>.08)qs.push(`Total marketing is ${((adA+ladA)/rev*100).toFixed
 if(merA/rev>.035)qs.push(`Payment processing at ${(merA/rev*100).toFixed(1)}% is high. Ask: "Am I required to use a specific processor? Can I negotiate rates?"`);
 if(lnA>0&&lnA/rev>.15)qs.push(`Debt service is ${(lnA/rev*100).toFixed(1)}% of revenue. Ask: "What % of franchisees use SBA financing? Average time to profitability after debt service? Has any franchisee defaulted?"`);
 if(th<0)qs.push(`At these numbers, you'd lose ${f(Math.abs(th))}/year. Ask: "What is the average net income after ALL expenses for franchisees in year 1? Year 2? Year 3? How many are currently operating at a loss?"`);
-qs.push('Ask EVERY franchisor: "Can I have contact info for franchisees who LEFT the system in the last 3 years?" (FDD Item 20 — they must provide it.)');
+qs.push('Ask EVERY franchisor: "Can I have contact info for franchisees who LEFT the system in the last 3 years?" (FDD Item 20 - they must provide it.)');
 qs.push('Ask: "How many franchise locations have closed in the last 3 years?" (FDD Item 20 must disclose this.)');
 qs.push('Ask: "Are there caps on fee increases for technology fees, brand fund contributions, or bookkeeping charges? What is the maximum these can increase to?"');
-qs.push('Ask: "What are the total costs to EXIT this franchise — transfer fees, de-identification costs, lease obligations, and non-compete restrictions?"');document.getElementById('aq').innerHTML=qs.map(q=>`<li>${q}</li>`).join('');
+qs.push('Ask: "What are the total costs to EXIT this franchise - transfer fees, de-identification costs, lease obligations, and non-compete restrictions?"');document.getElementById('aq').innerHTML=qs.map(q=>`<li>${q}</li>`).join('');
 }
 
 async function captureEmail(e) {
@@ -251,8 +256,8 @@ async function captureEmail(e) {
         if (res.ok) {
             window.open('/fdd-red-flags-guide.pdf', '_blank');
             document.getElementById('emailCapture').innerHTML = '<h3 style="color:var(--forest)">Sent! Check your downloads.</h3><p>We also emailed you a copy. Next step: <a href="/fdd-analyzer" style="color:var(--forest-mid);font-weight:700">Analyze your actual FDD →</a></p>';
-        } else { btn.textContent = 'Error — try again'; btn.disabled = false; }
-    } catch (err) { btn.textContent = 'Error — try again'; btn.disabled = false; }
+        } else { btn.textContent = 'Error - try again'; btn.disabled = false; }
+    } catch (err) { btn.textContent = 'Error - try again'; btn.disabled = false; }
 }
 </script>
 </body>

@@ -173,7 +173,7 @@
 <section class="hero">
     <div class="hero-badge">Part of the $297 Decision Engine</div>
     <h1>AI Franchise <em>Negotiation Simulator</em></h1>
-    <p>Practice tough franchise negotiations before the real thing. Our AI plays the franchisor — push back, negotiate terms, and build confidence.</p>
+    <p>Practice tough franchise negotiations before the real thing. Our AI plays the franchisor - push back, negotiate terms, and build confidence.</p>
 </section>
 
 <div class="main">
@@ -187,7 +187,7 @@
             <div class="scenario-card" onclick="selectScenario('item19', this); startSimulation();">
                 <div class="scenario-number">1</div>
                 <h4>Financial Performance (Item 19)</h4>
-                <p>The "average" revenue looks good — until you dig into the footnotes. Challenge the numbers.</p>
+                <p>The "average" revenue looks good - until you dig into the footnotes. Challenge the numbers.</p>
                 <span class="scenario-tag easy">Good First Try</span>
                 <span class="free-badge">Start Free Scenario →</span>
             </div>
@@ -223,8 +223,8 @@
 
         <div class="upgrade-banner" id="upgradeBanner" style="display:none;">
             <h4>4 More Scenarios in the Decision Engine</h4>
-            <p>You've practiced one conversation. But franchise buyers face at least 5 critical negotiations — territory, fees, exit terms, and renewal. The AI Franchise Decision Engine unlocks all 5 scenarios plus comparison tools, validation scripts, and more.</p>
-            <a href="/decision-engine">Get the Full Decision Engine — $297 →</a>
+            <p>You've practiced one conversation. But franchise buyers face at least 5 critical negotiations - territory, fees, exit terms, and renewal. The AI Franchise Decision Engine unlocks all 5 scenarios plus comparison tools, validation scripts, and more.</p>
+            <a href="/decision-engine">Get the Full Decision Engine - $297 →</a>
         </div>
 
         <button class="start-btn" id="startBtn" onclick="startSimulation()" disabled style="display:none;">Start Free Scenario →</button>
@@ -237,9 +237,9 @@
         <div class="chat-tips">
             <h4>Negotiation Tips</h4>
             <ul>
-                <li>Reference specific FDD items and data points — vague objections get vague answers</li>
+                <li>Reference specific FDD items and data points - vague objections get vague answers</li>
                 <li>Ask for specifics: "What has the fee been for each of the last 3 years?"</li>
-                <li>Use silence as a tactic — don't rush to fill every gap</li>
+                <li>Use silence as a tactic - don't rush to fill every gap</li>
                 <li>When they deflect, redirect: "I appreciate that, but my specific concern is..."</li>
             </ul>
         </div>
@@ -255,20 +255,20 @@
             <textarea class="chat-input" id="chatInput" placeholder="Type your negotiation response..." rows="1" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendMessage();}"></textarea>
             <button class="send-btn" id="sendBtn" onclick="sendMessage()">Send</button>
         </div>
-        <div class="turn-counter">Turn <span id="turnCount">0</span> of 8 — <button class="end-btn" style="display:inline;padding:4px 12px;margin:0;font-size:0.82rem;border-width:1px;" onclick="endSimulation()">End & Get Coaching</button></div>
+        <div class="turn-counter">Turn <span id="turnCount">0</span> of 8 - <button class="end-btn" style="display:inline;padding:4px 12px;margin:0;font-size:0.82rem;border-width:1px;" onclick="endSimulation()">End & Get Coaching</button></div>
     </div>
 
     <!-- COACHING FEEDBACK -->
     <div class="coaching" id="coachingView">
         <div class="coaching-header">
             <h2>Negotiation Coaching Report</h2>
-            <p>Here's how you did — and what to work on before the real conversation.</p>
+            <p>Here's how you did - and what to work on before the real conversation.</p>
         </div>
         <div id="coachingContent"></div>
 
         <div id="emailCaptureCoaching" class="email-capture-inline" style="background:var(--pale);border-radius:12px;padding:24px 28px;margin:24px 0;text-align:center;">
             <h4 style="font-family:'Instrument Serif',serif;font-size:1.1rem;margin-bottom:6px;">Get the Free FDD Red Flags Guide</h4>
-            <p style="color:var(--slate);font-size:.88rem;margin-bottom:12px;">12 warning signs that cost franchise buyers thousands — so you know what to negotiate on.</p>
+            <p style="color:var(--slate);font-size:.88rem;margin-bottom:12px;">12 warning signs that cost franchise buyers thousands - so you know what to negotiate on.</p>
             <form onsubmit="captureEmail(event)" style="display:flex;gap:8px;max-width:420px;margin:0 auto">
                 <input type="email" id="captureEmail" placeholder="Your email" required style="flex:1;padding:10px 14px;border:2px solid var(--light-gray);border-radius:8px;font-family:'DM Sans',sans-serif;font-size:.9rem;background:var(--white)">
                 <button type="submit" style="padding:10px 20px;background:var(--forest-mid);color:var(--white);border:none;border-radius:8px;font-weight:700;font-family:'DM Sans',sans-serif;cursor:pointer;white-space:nowrap">Get Free Guide</button>
@@ -278,12 +278,17 @@
         <div class="coaching-cta">
             <h3>Ready to Negotiate for Real?</h3>
             <p>You've practiced 1 of 5 critical franchise negotiations. The full AI Franchise Decision Engine unlocks all 5 scenarios plus side-by-side comparison tools, validation call scripts, and more.</p>
-            <a href="/decision-engine" class="cta-btn">Get the Full Decision Engine — $297 →</a>
+            <a href="/decision-engine" class="cta-btn">Get the Full Decision Engine - $297 →</a>
             <a href="javascript:void(0)" class="cta-btn cta-secondary" onclick="resetSimulation()">↻ Replay This Scenario</a>
         </div>
     </div>
 
 </div>
+
+    <div style="max-width:720px;margin:0 auto 40px;padding:24px 28px;background:#F0FDF4;border-radius:12px;border:1px solid #D1FAE5;text-align:center;">
+      <p style="font-size:0.95rem;color:#1B4332;margin:0 0 12px;font-weight:600;">More tools for your due diligence</p>
+      <p style="font-size:0.88rem;color:#4A4A5A;margin:0 0 16px;line-height:1.6;"><a href="/red-flag-quiz" style="color:#2D6A4F;font-weight:600;">Take the Red Flag Quiz</a> - 10 quick questions, instant risk score for your deal. Decided franchising is not right for you? The <a href="/franchise-alternative-blueprint" style="color:#2D6A4F;font-weight:600;">Franchise Alternative Blueprint ($497)</a> shows you how to build a systemized business independently - no royalties, no fees.</p>
+    </div>
 
 <footer class="footer">
     <div class="footer-logo">Franchise<span>-Grade</span> Systems</div>
@@ -307,7 +312,7 @@ const SCENARIOS = {
         title: 'Fee Structure Negotiation',
         role: 'Director of Franchise Operations',
         context: 'The FDD shows: 6% royalty with $125/week minimum, uncapped technology fee ($250/month currently), mandatory bookkeeping vendor ($400-600/month), and Brand Fund contribution of 2%. Total ongoing fees are 18-22% of gross revenue. You want fee caps and vendor flexibility.',
-        opener: "I appreciate you bringing this up. Our fee structure reflects the value of the system — our franchisees benefit from national marketing, proprietary technology, and operational support that would cost far more to build independently. What aspects of the fee structure would you like to walk through?"
+        opener: "I appreciate you bringing this up. Our fee structure reflects the value of the system - our franchisees benefit from national marketing, proprietary technology, and operational support that would cost far more to build independently. What aspects of the fee structure would you like to walk through?"
     },
     exit: {
         title: 'Exit & Transfer Terms Negotiation',
@@ -429,7 +434,7 @@ async function sendMessage() {
         }
     } catch (err) {
         document.getElementById('typingIndicator').classList.remove('visible');
-        addMessage('ai', '<span style="color:var(--danger);font-weight:600;">⚠ Connection error.</span> The AI negotiation partner couldn\'t respond. This may be a temporary issue — try sending your message again. If the problem persists, the service may be temporarily unavailable.');
+        addMessage('ai', '<span style="color:var(--danger);font-weight:600;">⚠ Connection error.</span> The AI negotiation partner couldn\'t respond. This may be a temporary issue - try sending your message again. If the problem persists, the service may be temporarily unavailable.');
     }
 
     // Re-enable input
@@ -536,7 +541,7 @@ function generateCoaching() {
     let grade, gradeColor, verdict;
     if (pct >= 80) { grade = 'Strong Negotiator'; gradeColor = '#10B981'; verdict = 'You covered the key issues, asked pointed questions, and maintained composure. You\'re well-prepared for the real conversation.'; }
     else if (pct >= 60) { grade = 'Good Foundation'; gradeColor = '#52B788'; verdict = 'You hit several important points but missed some critical angles. Review the items below and practice one more round.'; }
-    else if (pct >= 40) { grade = 'Needs Work'; gradeColor = '#F59E0B'; verdict = 'You engaged with the scenario but missed key negotiation opportunities. Study the missed items below — these are the questions that protect your investment.'; }
+    else if (pct >= 40) { grade = 'Needs Work'; gradeColor = '#F59E0B'; verdict = 'You engaged with the scenario but missed key negotiation opportunities. Study the missed items below - these are the questions that protect your investment.'; }
     else { grade = 'Not Ready Yet'; gradeColor = '#EF4444'; verdict = 'You need more preparation before this conversation. Review the FDD items relevant to this scenario and try again with more specific, data-backed arguments.'; }
 
     const container = document.getElementById('coachingContent');
@@ -641,8 +646,8 @@ async function captureEmail(e) {
         if (res.ok) {
             window.open('/fdd-red-flags-guide.pdf', '_blank');
             document.getElementById('emailCaptureCoaching').innerHTML = '<p style="color:var(--forest);font-weight:600;padding:16px 0;">Sent! Check your downloads. <a href="/fdd-analyzer" style="color:var(--forest-mid);text-decoration:underline;">Next: Analyze your actual FDD →</a></p>';
-        } else { btn.textContent = 'Error — try again'; btn.disabled = false; }
-    } catch (err) { btn.textContent = 'Error — try again'; btn.disabled = false; }
+        } else { btn.textContent = 'Error - try again'; btn.disabled = false; }
+    } catch (err) { btn.textContent = 'Error - try again'; btn.disabled = false; }
 }
 </script>
 
