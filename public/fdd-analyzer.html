@@ -37,20 +37,6 @@
         }
         h1, h2, h3 { font-family: 'Instrument Serif', serif; font-weight: 400; line-height: 1.2; }
 
-        /* NAV */
-        nav {
-            background: var(--forest);
-            padding: 16px 40px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .logo { color: var(--white); font-family: 'Instrument Serif', serif; font-size: 22px; text-decoration: none; }
-        .logo span { color: var(--sage); }
-        .nav-links { display: flex; gap: 28px; align-items: center; }
-        .nav-links a { color: var(--mint); text-decoration: none; font-size: 14px; font-weight: 500; }
-        .nav-links a:hover { color: var(--white); }
-
         /* HERO */
         .hero {
             background: var(--forest);
@@ -342,7 +328,6 @@
         .footer-links a:hover { opacity: 1; }
 
         @media (max-width: 768px) {
-            nav { padding: 14px 20px; }
             .hero { padding: 60px 20px 80px; }
             .problem { padding: 60px 20px; }
             .problem-grid { grid-template-columns: 1fr; }
@@ -354,16 +339,35 @@
             .faq { padding: 60px 20px; }
             .final-cta { padding: 60px 20px; }
         }
+    
+/* NAV */
+        nav.nav, .nav { background: var(--forest); padding: 16px 40px; display: flex; justify-content: space-between; align-items: center; }
+        .nav-logo { color: var(--white); font-family: 'Instrument Serif', serif; font-size: 22px; text-decoration: none; }
+        .nav-logo span { color: var(--sage); }
+        .nav-logo em { font-style: normal; }
+        .nav-links { display: flex; gap: 28px; align-items: center; }
+        .nav-links a { color: var(--mint); text-decoration: none; font-size: 14px; font-weight: 500; }
+        .nav-links a:hover { color: var(--white); }
+        .nav-cta { background: var(--sage); color: var(--forest) !important; padding: 8px 20px; border-radius: 6px; font-weight: 700 !important; }
+        .nav-cta:hover { background: var(--mint) !important; }
+        .mobile-menu-btn { display: none; background: none; border: none; color: var(--white); font-size: 24px; cursor: pointer; }
+        @media (max-width: 768px) {
+            .mobile-menu-btn { display: block; }
+            .nav-links { display: none; position: absolute; top: 56px; left: 0; right: 0; background: var(--forest); flex-direction: column; padding: 20px; gap: 16px; z-index: 100; }
+            .nav-links.open { display: flex; }
+            nav.nav, .nav { position: relative; padding: 14px 20px; }
+        }
     </style>
 </head>
 <body>
-    <nav>
-        <a href="/" class="logo">Franchise<span>-Grade</span> Systems</a>
-        <div class="nav-links">
-            <a href="/#products">How It Works</a>
-            <a href="/#story">Our Story</a>
-        </div>
-    </nav>
+    <nav class="nav">
+    <a href="/" class="nav-logo">Franchise<span>-Grade</span> Systems</a>
+    <button class="mobile-menu-btn" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Menu">&#9776;</button>
+    <div class="nav-links">
+        <a href="/#products">How It Works</a>
+        <a href="/#story">Our Story</a>
+    </div>
+</nav>
 
     <!-- HERO -->
     <section class="hero">
@@ -423,7 +427,7 @@
     <section class="features">
         <div class="features-inner">
             <h2>What the AI FDD Analyzer does</h2>
-            <p class="subtitle">Paste your FDD text. Get expert-level analysis in minutes.</p>
+            <p class="subtitle">Upload your FDD as a PDF or paste the text. Get expert-level analysis in minutes.</p>
             <div class="feature-list">
                 <div class="feature-item">
                     <div class="feature-num">1</div>
@@ -562,7 +566,7 @@
         <h2>Common questions</h2>
         <div class="faq-item">
             <div class="faq-q">How does it work?</div>
-            <div class="faq-a">After purchase, you're taken directly to the analyzer. You paste the text from your FDD into guided sections (one for each of the 23 FDD items). Our AI analyzes the text against 50+ risk patterns and gives you a color-coded report with plain-English findings and specific questions to ask your franchisor.</div>
+            <div class="faq-a">After purchase, you're taken directly to the analyzer. You can upload your FDD as a PDF and we'll automatically extract and sort the text into each of the 23 FDD items - or you can paste text into guided sections manually. Our AI analyzes the content against 50+ risk patterns and gives you a color-coded report with plain-English findings, specific questions to ask, and a franchise vs. independent viability comparison.</div>
         </div>
         <div class="faq-item">
             <div class="faq-q">Do I need to paste the entire FDD?</div>
@@ -578,7 +582,7 @@
         </div>
         <div class="faq-item">
             <div class="faq-q">Is my FDD data kept private?</div>
-            <div class="faq-a">Yes. Your FDD text is processed in real-time and not stored after your analysis is complete. We do not retain, share, or use your FDD content for any purpose other than generating your analysis.</div>
+            <div class="faq-a">Yes. If you upload a PDF, the text extraction happens entirely in your browser - your file is never uploaded to our servers. The extracted text is then processed in real-time by our AI analysis engine and is not stored after your analysis is complete. We do not retain, share, or use your FDD content for any purpose other than generating your analysis.</div>
         </div>
         <div class="faq-item">
             <div class="faq-q">How long can I access my results?</div>

@@ -9,6 +9,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script>pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';</script>
     <style>
         :root {
             --forest: #1B4332; --forest-mid: #2D6A4F; --forest-light: #40916C;
@@ -34,10 +36,6 @@
         .gate-error h2 { font-size: 28px; margin-bottom: 12px; color: var(--danger); }
         .gate-error p { color: var(--slate); font-size: 15px; margin-bottom: 20px; }
         .gate-error a { color: var(--forest-mid); font-weight: 600; }
-
-        /* NAV */
-        nav { background: var(--forest); padding: 16px 40px; display: flex; justify-content: space-between; align-items: center; }
-        .logo { color: var(--white); font-family: 'Instrument Serif', serif; font-size: 22px; text-decoration: none; }
 
         /* HEADER */
         .tool-header { background: var(--forest); padding: 40px 40px 60px; text-align: center; position: relative; }
@@ -78,6 +76,48 @@
 
         /* ANALYZE BUTTON */
         .analyze-section { text-align: center; margin: 40px 0; }
+
+        /* FILE UPLOAD */
+        .upload-zone {
+            background: var(--white); border: 2px dashed var(--sage); border-radius: 16px;
+            padding: 36px 28px; text-align: center; margin-bottom: 28px; cursor: pointer;
+            transition: all 0.3s; position: relative;
+        }
+        .upload-zone:hover, .upload-zone.dragover { background: var(--pale); border-color: var(--forest-mid); }
+        .upload-zone h3 { font-size: 20px; margin-bottom: 8px; color: var(--forest); }
+        .upload-zone p { color: var(--slate); font-size: 14px; line-height: 1.6; }
+        .upload-zone .upload-icon { font-size: 36px; margin-bottom: 12px; color: var(--sage); }
+        .upload-zone input[type="file"] { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+        .upload-btn { display: inline-block; background: var(--sage); color: var(--forest); padding: 10px 24px; border-radius: 8px; font-weight: 700; font-size: 14px; margin-top: 12px; pointer-events: none; }
+        .upload-status { margin-top: 16px; padding: 14px 20px; border-radius: 10px; font-size: 14px; display: none; }
+        .upload-status.success { display: block; background: #D1FAE5; color: #065F46; }
+        .upload-status.error { display: block; background: #FEE2E2; color: #991B1B; }
+        .upload-status.loading { display: block; background: var(--pale); color: var(--forest); }
+        .upload-or { text-align: center; color: var(--gray); font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 20px; }
+
+        /* VIABILITY SCORE */
+        .viability-card {
+            background: var(--white); border: 2px solid var(--sage); border-radius: 16px;
+            padding: 36px; margin: 32px 0; overflow: hidden;
+        }
+        .viability-card h2 { font-size: 26px; margin-bottom: 8px; }
+        .viability-card .subtitle { color: var(--slate); font-size: 15px; margin-bottom: 28px; }
+        .viability-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 24px; }
+        .viability-col { padding: 20px; border-radius: 12px; }
+        .viability-col.franchise { background: #FEF2F2; border: 1px solid #FECACA; }
+        .viability-col.independent { background: #D1FAE5; border: 1px solid #6EE7B7; }
+        .viability-col h4 { font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 12px; }
+        .viability-col.franchise h4 { color: #991B1B; }
+        .viability-col.independent h4 { color: #065F46; }
+        .viability-row { display: flex; justify-content: space-between; padding: 6px 0; font-size: 14px; color: var(--slate); border-bottom: 1px solid rgba(0,0,0,0.06); }
+        .viability-row:last-child { border-bottom: none; }
+        .viability-row .val { font-weight: 600; color: var(--charcoal); }
+        .viability-verdict { background: var(--forest); color: var(--white); padding: 20px 24px; border-radius: 10px; margin-top: 20px; }
+        .viability-verdict h4 { color: var(--sage); font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+        .viability-verdict p { color: var(--mint); font-size: 14px; line-height: 1.7; }
+        .viability-cta { display: inline-block; background: var(--sage); color: var(--forest); padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 15px; text-decoration: none; margin-top: 16px; transition: all 0.2s; }
+        .viability-cta:hover { background: var(--mint); }
+        @media (max-width: 768px) { .viability-grid { grid-template-columns: 1fr; } }
         .analyze-btn {
             background: var(--forest); color: var(--white); border: none; padding: 18px 48px;
             border-radius: 10px; font-size: 17px; font-weight: 700; cursor: pointer;
@@ -162,14 +202,36 @@
 
         footer { background: var(--forest); color: var(--mint); padding: 30px 40px; text-align: center; font-size: 13px; margin-top: 60px; }
         footer a { color: var(--sage); text-decoration: none; }
+        .footer-logo { font-family: 'Instrument Serif', serif; font-size: 1.3rem; color: var(--white); margin-bottom: 12px; }
+        .footer-logo span { color: var(--sage); }
+        .footer-links { margin-top: 16px; display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+        .footer-links a { color: var(--mint); font-size: 0.8rem; text-decoration: none; opacity: 0.8; }
+        .footer-links a:hover { opacity: 1; }
 
         @media (max-width: 768px) {
-            nav { padding: 14px 20px; }
             .tool-header { padding: 30px 20px 50px; }
             .main { padding: 30px 16px 60px; }
             .score-summary { grid-template-columns: 1fr; }
             .item-header { padding: 14px 16px; }
             .item-body { padding: 0 16px 16px; }
+        }
+    
+/* NAV */
+        nav.nav, .nav { background: var(--forest); padding: 16px 40px; display: flex; justify-content: space-between; align-items: center; }
+        .nav-logo { color: var(--white); font-family: 'Instrument Serif', serif; font-size: 22px; text-decoration: none; }
+        .nav-logo span { color: var(--sage); }
+        .nav-logo em { font-style: normal; }
+        .nav-links { display: flex; gap: 28px; align-items: center; }
+        .nav-links a { color: var(--mint); text-decoration: none; font-size: 14px; font-weight: 500; }
+        .nav-links a:hover { color: var(--white); }
+        .nav-cta { background: var(--sage); color: var(--forest) !important; padding: 8px 20px; border-radius: 6px; font-weight: 700 !important; }
+        .nav-cta:hover { background: var(--mint) !important; }
+        .mobile-menu-btn { display: none; background: none; border: none; color: var(--white); font-size: 24px; cursor: pointer; }
+        @media (max-width: 768px) {
+            .mobile-menu-btn { display: block; }
+            .nav-links { display: none; position: absolute; top: 56px; left: 0; right: 0; background: var(--forest); flex-direction: column; padding: 20px; gap: 16px; z-index: 100; }
+            .nav-links.open { display: flex; }
+            nav.nav, .nav { position: relative; padding: 14px 20px; }
         }
     </style>
 </head>
@@ -180,16 +242,27 @@
         <div class="gate-msg">Verifying your purchase...</div>
     </div>
 
-    <nav>
-        <a href="/" class="logo">Franchise-Grade Systems</a>
-    </nav>
+    <nav class="nav">
+    <a href="/" class="nav-logo">Franchise<span>-Grade</span> Systems</a>
+</nav>
     <div class="tool-header">
         <h1>AI FDD Analyzer</h1>
-        <p>Paste your FDD text below. The more items you provide, the more thorough the analysis.</p>
+        <p>Upload your FDD as a PDF or paste text below. The more items you provide, the more thorough the analysis.</p>
     </div>
 
     <!-- INPUT PHASE -->
     <div class="main" id="inputPhase">
+        <!-- FILE UPLOAD -->
+        <div class="upload-zone" id="uploadZone">
+            <input type="file" id="pdfInput" accept=".pdf,.txt" onchange="handleFileUpload(this.files[0])">
+            <div class="upload-icon">PDF</div>
+            <h3>Upload your FDD as a PDF</h3>
+            <p>Drag and drop your FDD file here, or click to browse. We'll extract the text and auto-fill each item below.<br>Supports PDF files. Your file is processed in your browser and never uploaded to our servers.</p>
+            <span class="upload-btn">Choose File</span>
+            <div class="upload-status" id="uploadStatus"></div>
+        </div>
+        <div class="upload-or">- or paste text manually into each item below -</div>
+
         <div class="progress-bar">
             <div class="progress-top">
                 <span class="progress-label">Items with content</span>
@@ -217,6 +290,10 @@
     <!-- RESULTS PHASE -->
     <div class="main results-section" id="resultsPhase">
         <div class="score-card" id="scoreCard"></div>
+
+        <!-- VIABILITY SCORE -->
+        <div class="viability-card" id="viabilityCard" style="display:none;"></div>
+
         <h2 style="margin-bottom: 20px;">Detailed Findings by Item</h2>
         <div id="resultsContainer"></div>
         <div class="download-section">
@@ -230,8 +307,14 @@
     </div>
 
     <footer>
-        <p>&copy; 2026 Franchise-Grade Systems. For educational purposes only. Not legal or financial advice.</p>
-        <p style="margin-top:8px;"><a href="/">Home</a> &middot; <a href="/tools">Free Tools</a> &middot; <a href="/privacy">Privacy</a> &middot; <a href="/terms">Terms</a></p>
+        <div class="footer-logo">Franchise<span>-Grade</span> Systems</div>
+        <p>&copy; 2026 Franchise-Grade Systems. All rights reserved. Not legal or financial advice.</p>
+        <div class="footer-links">
+            <a href="/">Home</a>
+            <a href="/tools">Free Tools</a>
+            <a href="/privacy">Privacy</a>
+            <a href="/terms">Terms</a>
+        </div>
     </footer>
 
 <script>
@@ -687,6 +770,9 @@ function showResults() {
         }
         container.appendChild(div);
     });
+
+    // Show viability comparison
+    showViabilityScore();
 }
 
 // ========== PDF GENERATION ==========
@@ -797,6 +883,54 @@ function downloadPDF() {
         doc.text(sl, M, y); y += sl.length * 5 + 2;
     });
 
+    // Viability comparison in PDF
+    y += 10;
+    checkPage(50);
+    doc.setFillColor(27, 67, 50);
+    doc.rect(M, y - 2, CW, 10, 'F');
+    doc.setTextColor(255, 255, 255);
+    doc.setFontSize(11);
+    doc.text('Franchise vs. Independent Viability Comparison', M + 2, y + 5); y += 16;
+
+    let pdfFeeFlags = 0, pdfRestrictionFlags = 0, pdfExitFlags = 0;
+    FDD_ITEMS.forEach(item => {
+        const r = analysisResults[item.num];
+        if (!r || r.status !== 'analyzed' || !r.findings) return;
+        if ([5,6,7].includes(item.num)) pdfFeeFlags += r.findings.filter(f => f.severity === 'red').length;
+        if ([8,12,16].includes(item.num)) pdfRestrictionFlags += r.findings.filter(f => f.severity !== 'green').length;
+        if ([17].includes(item.num)) pdfExitFlags += r.findings.filter(f => f.severity === 'red').length;
+    });
+
+    const pdfFeeRisk = pdfFeeFlags >= 3 ? 'HIGH' : pdfFeeFlags >= 1 ? 'MODERATE' : 'LOW';
+    const pdfRestrRisk = pdfRestrictionFlags >= 3 ? 'HIGH' : pdfRestrictionFlags >= 1 ? 'MODERATE' : 'LOW';
+    const pdfExitRisk = pdfExitFlags >= 2 ? 'HIGH' : pdfExitFlags >= 1 ? 'MODERATE' : 'LOW';
+    const pdfEstFees = pdfFeeFlags >= 3 ? '$250K-$400K+' : pdfFeeFlags >= 1 ? '$150K-$250K' : '$80K-$150K';
+
+    doc.setTextColor(60, 60, 60); doc.setFontSize(9);
+    const viabilityRows = [
+        ['Category', 'This Franchise', 'Independent Build'],
+        ['Fee burden risk', pdfFeeRisk, 'NONE'],
+        ['Est. 10-year fees', pdfEstFees, '$0 ongoing'],
+        ['Operational restrictions', pdfRestrRisk, 'You decide'],
+        ['Exit difficulty', pdfExitRisk, 'Your terms'],
+        ['Revenue control', 'Shared (royalties)', '100% yours'],
+        ['Vendor choice', pdfRestrictionFlags >= 2 ? 'Restricted' : 'Partial', 'Unrestricted']
+    ];
+    viabilityRows.forEach((row, idx) => {
+        checkPage(8);
+        if (idx === 0) { doc.setFontSize(8); doc.setTextColor(100,100,100); }
+        else { doc.setFontSize(9); doc.setTextColor(60,60,60); }
+        doc.text(row[0], M, y);
+        doc.text(row[1], M + 55, y);
+        doc.text(row[2], M + 110, y);
+        y += 6;
+    });
+
+    y += 6;
+    doc.setFontSize(9); doc.setTextColor(27, 67, 50);
+    const viabilityNote = doc.splitTextToSize('If this analysis reveals high or moderate risk, consider whether building the same business independently would deliver a better 10-year financial outcome. Visit franchisegradesystems.com/franchise-alternative-blueprint for details.', CW);
+    doc.text(viabilityNote, M, y); y += viabilityNote.length * 4 + 6;
+
     y += 10;
     checkPage(30);
     doc.setFontSize(11);
@@ -816,6 +950,201 @@ function downloadPDF() {
     doc.text('Report generated by Franchise-Grade Systems | franchisegradesystems.com', M, y);
 
     doc.save('FDD-Analysis-Report.pdf');
+}
+
+// ========== FILE UPLOAD ==========
+const uploadZone = document.getElementById('uploadZone');
+const uploadStatus = document.getElementById('uploadStatus');
+
+['dragenter','dragover'].forEach(e => uploadZone.addEventListener(e, ev => { ev.preventDefault(); uploadZone.classList.add('dragover'); }));
+['dragleave','drop'].forEach(e => uploadZone.addEventListener(e, ev => { ev.preventDefault(); uploadZone.classList.remove('dragover'); }));
+uploadZone.addEventListener('drop', ev => { if (ev.dataTransfer.files.length) handleFileUpload(ev.dataTransfer.files[0]); });
+
+async function handleFileUpload(file) {
+    if (!file) return;
+    const ext = file.name.split('.').pop().toLowerCase();
+    if (ext !== 'pdf' && ext !== 'txt') {
+        showUploadStatus('Please upload a PDF or TXT file.', 'error');
+        return;
+    }
+    showUploadStatus('Processing your file... This may take a moment for large PDFs.', 'loading');
+
+    try {
+        let fullText = '';
+        if (ext === 'txt') {
+            fullText = await file.text();
+        } else {
+            const arrayBuffer = await file.arrayBuffer();
+            const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+            const pages = [];
+            for (let i = 1; i <= pdf.numPages; i++) {
+                const page = await pdf.getPage(i);
+                const content = await page.getTextContent();
+                pages.push(content.items.map(item => item.str).join(' '));
+            }
+            fullText = pages.join('\n\n');
+        }
+
+        if (fullText.trim().length < 100) {
+            showUploadStatus('The file appears to be empty or could not be read. This can happen with scanned/image PDFs. Try copying and pasting the text manually instead.', 'error');
+            return;
+        }
+
+        const filledCount = splitAndFillItems(fullText);
+        if (filledCount > 0) {
+            showUploadStatus('Auto-filled ' + filledCount + ' of 23 FDD items from your file. Review the items below and add any missing sections manually.', 'success');
+        } else {
+            showUploadStatus('Text extracted (' + Math.round(fullText.length/1000) + 'K characters) but couldn\'t identify individual FDD items. The full text has been placed in Item 1. You can manually cut and paste sections into the correct items below.', 'success');
+            document.getElementById('text-1').value = fullText.substring(0, 50000);
+            updateProgress();
+        }
+    } catch (err) {
+        console.error('File processing error:', err);
+        showUploadStatus('Error processing file: ' + (err.message || 'Unknown error') + '. Try copying and pasting the text manually instead.', 'error');
+    }
+}
+
+function showUploadStatus(msg, type) {
+    uploadStatus.textContent = msg;
+    uploadStatus.className = 'upload-status ' + type;
+}
+
+function splitAndFillItems(text) {
+    // Patterns to match FDD item headers
+    const patterns = [
+        /(?:^|\n)\s*(?:ITEM|Item)\s+(\d{1,2})\s*[:\.\-—–]\s*/gi,
+        /(?:^|\n)\s*(?:ITEM|Item)\s+(\d{1,2})\s*\n/gi,
+        /(?:^|\n)\s*(\d{1,2})\.\s+(?:THE FRANCHISOR|BUSINESS EXPERIENCE|LITIGATION|BANKRUPTCY|INITIAL FEES|OTHER FEES|ESTIMATED INITIAL|RESTRICTIONS ON SOURCES|FRANCHISEE.S OBLIGATIONS|FINANCING|FRANCHISOR.S ASSISTANCE|TERRITORY|TRADEMARKS|PATENTS|OBLIGATION TO PARTICIPATE|RESTRICTIONS ON WHAT|RENEWAL|PUBLIC FIGURES|FINANCIAL PERFORMANCE|OUTLETS AND FRANCHISEE|FINANCIAL STATEMENTS|CONTRACTS|RECEIPTS)/gi
+    ];
+
+    let itemBounds = [];
+    for (const pattern of patterns) {
+        let match;
+        while ((match = pattern.exec(text)) !== null) {
+            const itemNum = parseInt(match[1]);
+            if (itemNum >= 1 && itemNum <= 23) {
+                const existing = itemBounds.find(b => b.num === itemNum);
+                if (!existing) {
+                    itemBounds.push({ num: itemNum, start: match.index + match[0].length });
+                }
+            }
+        }
+        if (itemBounds.length >= 5) break; // Good enough pattern found
+    }
+
+    if (itemBounds.length === 0) return 0;
+
+    // Sort by position in text
+    itemBounds.sort((a, b) => a.start - b.start);
+
+    // Extract text for each item
+    let filledCount = 0;
+    for (let i = 0; i < itemBounds.length; i++) {
+        const start = itemBounds[i].start;
+        const end = i < itemBounds.length - 1 ? itemBounds[i + 1].start : Math.min(start + 30000, text.length);
+        const itemText = text.substring(start, end).trim();
+
+        const textarea = document.getElementById('text-' + itemBounds[i].num);
+        if (textarea && itemText.length > 20) {
+            textarea.value = itemText.substring(0, 30000);
+            filledCount++;
+        }
+    }
+
+    updateProgress();
+    return filledCount;
+}
+
+// ========== VIABILITY SCORE ==========
+function showViabilityScore() {
+    const card = document.getElementById('viabilityCard');
+    
+    // Extract data from findings
+    let totalRed = 0, totalYellow = 0, totalGreen = 0;
+    let feeFlags = 0, restrictionFlags = 0, exitFlags = 0;
+    let hasItem6 = false, hasItem7 = false, hasItem17 = false, hasItem19 = false;
+
+    FDD_ITEMS.forEach(item => {
+        const r = analysisResults[item.num];
+        if (!r || r.status !== 'analyzed' || !r.findings) return;
+        
+        r.findings.forEach(f => {
+            if (f.severity === 'red') totalRed++;
+            else if (f.severity === 'yellow') totalYellow++;
+            else totalGreen++;
+        });
+
+        if ([5, 6, 7].includes(item.num)) {
+            feeFlags += (r.findings || []).filter(f => f.severity === 'red').length;
+            if (item.num === 6) hasItem6 = true;
+            if (item.num === 7) hasItem7 = true;
+        }
+        if ([8, 12, 16].includes(item.num)) {
+            restrictionFlags += (r.findings || []).filter(f => f.severity !== 'green').length;
+        }
+        if ([17].includes(item.num)) {
+            exitFlags += (r.findings || []).filter(f => f.severity === 'red').length;
+            hasItem17 = true;
+        }
+        if (item.num === 19) hasItem19 = true;
+    });
+
+    const totalFindings = totalRed + totalYellow + totalGreen;
+    if (totalFindings < 3) { card.style.display = 'none'; return; }
+
+    // Calculate viability indicators
+    const feeRisk = feeFlags >= 3 ? 'High' : feeFlags >= 1 ? 'Moderate' : 'Low';
+    const restrictionRisk = restrictionFlags >= 3 ? 'High' : restrictionFlags >= 1 ? 'Moderate' : 'Low';
+    const exitRisk = exitFlags >= 2 ? 'High' : exitFlags >= 1 ? 'Moderate' : 'Low';
+    const overallScore = Math.max(0, Math.min(100, Math.round(100 - (totalRed * 12) - (totalYellow * 4) + (totalGreen * 1))));
+
+    // Franchise 10-year cost estimate
+    const estFees10yr = feeFlags >= 3 ? '$250K-$400K+' : feeFlags >= 1 ? '$150K-$250K' : '$80K-$150K';
+    const estIndependent = '$0 ongoing fees';
+
+    // Generate verdict
+    let verdictText, verdictAdvice;
+    if (overallScore < 40) {
+        verdictText = 'Based on the red flags found in your FDD, this franchise deal carries significant financial and operational risk. The combination of fee structures, restrictions, and risk indicators suggests that building independently may deliver a substantially better financial outcome over 10 years.';
+        verdictAdvice = 'Recommendation: Seriously consider building independently. The Franchise Alternative Blueprint provides the same operational structure without the ongoing financial burden this FDD reveals.';
+    } else if (overallScore < 70) {
+        verdictText = 'Your FDD shows a mix of standard terms and concerning areas. The financial outcome depends heavily on whether the flagged issues can be negotiated. Compare the 10-year cost of this franchise against what it would take to build independently in the same industry.';
+        verdictAdvice = 'Recommendation: Before signing, get clarity on every flagged item. If key concerns cannot be resolved through negotiation, the independent path may offer better long-term economics.';
+    } else {
+        verdictText = 'This FDD shows relatively standard terms with fewer risk indicators than average. The franchise model may provide value through brand recognition and operational support. Still, compare the ongoing costs against the independent alternative.';
+        verdictAdvice = 'Recommendation: This deal appears reasonable, but run the full cost comparison. Even lower-risk franchises involve significant ongoing fees that compound over a 10-year term.';
+    }
+
+    card.style.display = 'block';
+    card.innerHTML = `
+        <h2>Franchise vs. Independent Viability</h2>
+        <p class="subtitle">Based on the risk patterns detected in your FDD, here's how franchising compares to building independently.</p>
+        <div class="viability-grid">
+            <div class="viability-col franchise">
+                <h4>This Franchise (10-Year Projection)</h4>
+                <div class="viability-row"><span>Ongoing fee burden</span><span class="val">${feeRisk} Risk</span></div>
+                <div class="viability-row"><span>Est. total fees over 10 years</span><span class="val">${estFees10yr}</span></div>
+                <div class="viability-row"><span>Operational restrictions</span><span class="val">${restrictionRisk}</span></div>
+                <div class="viability-row"><span>Exit difficulty</span><span class="val">${exitRisk} Risk</span></div>
+                <div class="viability-row"><span>Revenue control</span><span class="val">Shared (royalties)</span></div>
+                <div class="viability-row"><span>Vendor choice</span><span class="val">${restrictionFlags >= 2 ? 'Restricted' : 'Partially restricted'}</span></div>
+            </div>
+            <div class="viability-col independent">
+                <h4>Independent Build (Same Industry)</h4>
+                <div class="viability-row"><span>Ongoing fee burden</span><span class="val">None</span></div>
+                <div class="viability-row"><span>Est. total fees over 10 years</span><span class="val">${estIndependent}</span></div>
+                <div class="viability-row"><span>Operational restrictions</span><span class="val">You decide</span></div>
+                <div class="viability-row"><span>Exit difficulty</span><span class="val">Your terms</span></div>
+                <div class="viability-row"><span>Revenue control</span><span class="val">100% yours</span></div>
+                <div class="viability-row"><span>Vendor choice</span><span class="val">Unrestricted</span></div>
+            </div>
+        </div>
+        <div class="viability-verdict">
+            <h4>Assessment</h4>
+            <p>${verdictText}</p>
+            <p style="margin-top:10px;font-weight:600;color:var(--white);">${verdictAdvice}</p>
+            ${overallScore < 70 ? '<a href="/franchise-alternative-blueprint" class="viability-cta">See the Franchise Alternative Blueprint - $497</a>' : '<a href="/franchise-alternative-blueprint" class="viability-cta" style="background:rgba(255,255,255,0.15);color:var(--mint);">Compare: Franchise Alternative Blueprint</a>'}
+        </div>`;
 }
 </script>
 </body>
