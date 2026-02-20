@@ -19,6 +19,11 @@
         .content p{margin-bottom:16px;font-size:15px;color:var(--slate)}
         footer{background:var(--forest);color:var(--mint);padding:30px 40px;text-align:center;font-size:13px}
         footer a{color:var(--sage);text-decoration:none}
+        .footer-logo { font-family: 'Instrument Serif', serif; font-size: 1.3rem; color: var(--white); margin-bottom: 12px; }
+        .footer-logo span { color: var(--sage); }
+        .footer-links { margin-top: 16px; display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+        .footer-links a { color: var(--mint); font-size: 0.8rem; text-decoration: none; opacity: 0.8; }
+        .footer-links a:hover { opacity: 1; }
     
 /* NAV */
         nav.nav, .nav { background: var(--forest); padding: 16px 40px; display: flex; justify-content: space-between; align-items: center; }
@@ -96,8 +101,16 @@
         <p>For privacy-related questions, contact us through our website at franchisegradesystems.com.</p>
     </div>
     <footer>
-        <p>&copy; 2026 Franchise-Grade Systems. All rights reserved.</p>
-        <p style="margin-top:8px"><a href="/">Home</a> &middot; <a href="/tools">Tools</a> &middot; <a href="/privacy">Privacy</a> &middot; <a href="/terms">Terms</a></p>
+        <div class="footer-logo">Franchise<span>-Grade</span> Systems</div>
+        <p>&copy; 2026 Franchise-Grade Systems. All rights reserved. Not legal or financial advice.</p>
+        <div class="footer-links">
+            <a href="/">Home</a>
+            <a href="/tools">Free Tools</a>
+            <a href="/#products">How It Works</a>
+            <a href="/#story">Our Story</a>
+            <a href="/privacy">Privacy</a>
+            <a href="/terms">Terms</a>
+        </div>
     </footer>
 </body>
 </html>
