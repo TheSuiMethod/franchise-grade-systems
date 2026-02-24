@@ -532,14 +532,36 @@ document.addEventListener('DOMContentLoaded', () => {
 async function verifyAccess() {
     const params = new URLSearchParams(window.location.search);
     const sessionId = params.get('session_id');
-    if (!sessionId) { showGateError(); return; }
+
+    // Check localStorage for existing access
+    const storedToken = localStorage.getItem('fgs_analyzer_token');
+
+    const tokenToVerify = sessionId || storedToken;
+
+    if (!tokenToVerify) { showGateError(); return; }
+
     try {
-        const res = await fetch(`/api/verify-session?session_id=${sessionId}`);
+        const res = await fetch(`/api/verify-session?session_id=${tokenToVerify}`);
         const data = await res.json();
         if (data.valid) {
             sessionToken = data.token;
+
+            // Store access token for future visits
+            localStorage.setItem('fgs_analyzer_token', tokenToVerify);
+            localStorage.setItem('fgs_analyzer_verified', Date.now().toString());
+
+            // Clean URL (remove session_id from address bar)
+            if (sessionId) {
+                window.history.replaceState({}, '', '/fdd-analyzer-tool');
+            }
+
             document.getElementById('gate').classList.add('hidden');
         } else {
+            // If stored token failed, clear it
+            if (storedToken && !sessionId) {
+                localStorage.removeItem('fgs_analyzer_token');
+                localStorage.removeItem('fgs_analyzer_verified');
+            }
             showGateError(data.reason);
         }
     } catch (e) {
@@ -550,10 +572,11 @@ async function verifyAccess() {
 function showGateError(reason) {
     const gate = document.getElementById('gate');
     let msg = 'This analysis session is no longer available.';
-    if (reason === 'used') msg = 'This analysis has already been completed. Check your email for your PDF report.';
+    let recovery = '<p style="margin-top:12px;font-size:14px;color:#4A4A5A;">Already purchased? Try opening this page in the same browser you used to check out. If you still cannot access it, email <a href="mailto:franchisegradesystems@gmail.com?subject=FDD Analyzer Access Help" style="color:#2D6A4F;font-weight:600;">franchisegradesystems@gmail.com</a> and we will send you a fresh access link within 24 hours.</p>';
+    if (reason === 'used') { msg = 'This analysis has already been completed. Check your email for your PDF report.'; recovery = ''; }
     if (reason === 'expired') msg = 'This session has expired. Please purchase a new analysis.';
-    if (reason === 'connection') msg = 'Unable to verify your purchase. Please check your connection and try again.';
-    gate.innerHTML = `<div class="gate-error"><h2>Access Required</h2><p>${msg}</p><p><a href="/fdd-analyzer">Purchase an FDD Analysis →</a></p></div>`;
+    if (reason === 'connection') { msg = 'Unable to verify your purchase. Please check your connection and try again.'; recovery = '<p style="margin-top:12px;font-size:14px;color:#4A4A5A;">If this keeps happening, try refreshing the page. Your access is saved in this browser.</p>'; }
+    gate.innerHTML = `<div class="gate-error"><h2>Access Required</h2><p>${msg}</p>${recovery}<p style="margin-top:16px;"><a href="/fdd-analyzer">Purchase an FDD Analysis &rarr;</a></p></div>`;
 }
 
 // ========== BUILD ITEM SECTIONS ==========
