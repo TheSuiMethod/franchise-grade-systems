@@ -78,7 +78,7 @@
   <p>Everything you need to make a confident go/no-go franchise decision. AI-powered negotiation practice, side-by-side comparisons, validation scripts, and the full FDD Analyzer - in one package.</p>
   <div class="hero-price">$297</div>
   <div class="hero-price-note">one-time purchase · includes the $97 FDD Analyzer</div>
-  <a href="#" onclick="startEngineCheckout(event)" class="hero-cta" id="buyBtn">Get the Decision Engine - $297 →</a>
+  <a href="https://buy.stripe.com/5kQbJ0dIIbZC0Lja0V63K0c" class="hero-cta">Get the Decision Engine - $297</a>
   <div class="hero-sub">Instant access after purchase.</div>
   <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:16px;margin-top:20px;font-size:0.8rem;color:var(--mint);opacity:0.85;">
     <span>Stripe Secure Checkout</span>
@@ -150,7 +150,7 @@
   <div class="cta-section" id="notify">
     <h3>Ready to Make a Confident Decision?</h3>
     <p>The Decision Engine gives you every tool you need for thorough franchise due diligence - including the full FDD Analyzer. One purchase, full access.</p>
-    <a href="#" id="buyBtn2" onclick="startEngineCheckout(event)" class="cta-btn" style="font-size:1.05rem;padding:14px 36px;">Get the Decision Engine - $297</a>
+    <a href="https://buy.stripe.com/5kQbJ0dIIbZC0Lja0V63K0c" class="cta-btn" style="display:inline-block;text-decoration:none;text-align:center;font-size:1.05rem;padding:14px 36px;">Get the Decision Engine - $297</a>
     <div class="cta-sub">One-time purchase. Instant access to all tools.</div>
     <div style="background:rgba(255,255,255,0.08);border:1px solid rgba(82,183,136,0.3);border-radius:10px;padding:16px 24px;margin:20px auto 0;max-width:480px;text-align:center;">
       <div style="font-size:0.75rem;font-weight:700;color:var(--sage);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;">Save $97</div>
@@ -212,27 +212,9 @@
 </footer>
 
 <script>
-async function startEngineCheckout(e) {
-  e.preventDefault();
-  const btn = e.currentTarget;
-  const originalText = btn.textContent;
-  btn.textContent = 'Redirecting to checkout...';
-  btn.style.pointerEvents = 'none';
-  try {
-    const res = await fetch('/api/create-checkout-engine', { method: 'POST' });
-    const data = await res.json();
-    if (data.url) {
-      window.location.href = data.url;
-    } else {
-      alert('Unable to start checkout. Please try again.');
-      btn.textContent = originalText;
-      btn.style.pointerEvents = 'auto';
-    }
-  } catch (err) {
-    alert('Connection error. Please try again.');
-    btn.textContent = originalText;
-    btn.style.pointerEvents = 'auto';
-  }
+function startEngineCheckout(e) {
+  if (e) e.preventDefault();
+  window.location.href = 'https://buy.stripe.com/5kQbJ0dIIbZC0Lja0V63K0c';
 }
 
 async function captureEmailDE(e) {

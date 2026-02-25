@@ -387,13 +387,8 @@
                 <span class="price-note">one-time purchase</span>
             </div>
             <br>
-            <button class="cta-btn" id="buyBtn" onclick="startCheckout()">Analyze My FDD</button>
+            <a href="https://buy.stripe.com/3cI00idIIe7KeC93Cx63K0b" class="cta-btn" style="display:inline-block;text-decoration:none;text-align:center;">Analyze My FDD</a>
             <span class="cta-sub">One FDD per purchase. Results in minutes, not weeks.</span>
-            <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-top:20px;font-size:0.82rem;">
-                <a href="https://buy.stripe.com/9B64gy5ccgfS1Pn6OJ63K09" style="color:var(--mint);text-decoration:underline;opacity:0.9;">3-Pack: $249 (save $42)</a>
-                <span style="color:var(--mint);opacity:0.5;">|</span>
-                <a href="https://buy.stripe.com/7sY3cu7kk5BefGdgpj63K0a" style="color:var(--mint);text-decoration:underline;opacity:0.9;">Unlimited: $39/mo</a>
-            </div>
             <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:16px;margin-top:20px;font-size:0.8rem;color:var(--mint);opacity:0.85;">
                 <span>Stripe Secure Checkout</span>
                 <span>FDD Text Never Stored</span>
@@ -605,7 +600,7 @@
     <section class="final-cta">
         <h2>Don't sign until you <em>actually know.</em></h2>
         <p>You're about to invest $150K-$500K+ into a franchise. Spending $97 to understand what's actually in that FDD isn't caution - it's common sense.</p>
-        <button class="cta-btn" onclick="startCheckout()">Analyze My FDD - $97</button>
+        <a href="https://buy.stripe.com/3cI00idIIe7KeC93Cx63K0b" class="cta-btn" style="display:inline-block;text-decoration:none;text-align:center;">Analyze My FDD - $97</a>
         <div class="guarantee">One FDD per purchase. Instant access after payment.</div>
         <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:16px;margin-top:16px;font-size:0.8rem;color:var(--mint);opacity:0.8;">
             <span>Stripe PCI-DSS Level 1</span>
@@ -669,25 +664,8 @@ async function handleLeadCapture(e,form){e.preventDefault();var email=form.query
     </footer>
 
     <script>
-    async function startCheckout() {
-        const btn = document.getElementById('buyBtn');
-        btn.textContent = 'Redirecting to checkout...';
-        btn.disabled = true;
-        try {
-            const res = await fetch('/api/create-checkout', { method: 'POST' });
-            const data = await res.json();
-            if (data.url) {
-                window.location.href = data.url;
-            } else {
-                alert('Unable to start checkout. Please try again.');
-                btn.textContent = 'Analyze My FDD';
-                btn.disabled = false;
-            }
-        } catch (e) {
-            alert('Unable to connect. Please try again.');
-            btn.textContent = 'Analyze My FDD';
-            btn.disabled = false;
-        }
+    function startCheckout() {
+        window.location.href = 'https://buy.stripe.com/3cI00idIIe7KeC93Cx63K0b';
     }
     </script>
 </body>
