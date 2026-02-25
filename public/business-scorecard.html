@@ -228,7 +228,7 @@
         <div class="cta-section" id="emailCapture" style="border-color:var(--light-gray);margin-top:16px;">
             <h3>Get the Free FDD Red Flags Guide</h3>
             <p>12 warning signs that cost franchise buyers thousands - whether you're buying a franchise or running your own business.</p>
-            <form onsubmit="captureEmail(event)" style="display:flex;gap:8px;max-width:440px;margin:0 auto">
+            <form onsubmit="handleEmailCapture(event)" style="display:flex;gap:8px;max-width:440px;margin:0 auto">
                 <input type="email" id="captureEmail" placeholder="Your email" required style="flex:1;padding:10px 14px;border:2px solid var(--light-gray);border-radius:8px;font-family:'DM Sans',sans-serif;font-size:.9rem">
                 <button type="submit" style="padding:10px 20px;background:var(--forest-mid);color:var(--white);border:none;border-radius:8px;font-weight:700;font-family:'DM Sans',sans-serif;cursor:pointer;white-space:nowrap">Get Free Guide</button>
             </form>
@@ -698,7 +698,7 @@ function restartAssessment() {
 
 init();
 
-async function captureEmail(e) {
+async function handleEmailCapture(e) {
     e.preventDefault();
     const email = document.getElementById('captureEmail').value;
     const btn = e.target.querySelector('button');

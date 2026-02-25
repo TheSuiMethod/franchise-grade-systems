@@ -373,7 +373,7 @@ function generateScripts() {
     emailDiv.innerHTML = `
         <h4 style="font-family:'Instrument Serif',serif;font-size:1.1rem;margin-bottom:6px;color:#1B4332;">Get the Free FDD Red Flags Guide</h4>
         <p style="color:#4A4A5A;font-size:.88rem;margin-bottom:12px;">12 warning signs to watch for during your validation calls - beyond what these scripts cover.</p>
-        <form onsubmit="captureEmail(event)" style="display:flex;gap:8px;max-width:420px;margin:0 auto">
+        <form onsubmit="handleEmailCapture(event)" style="display:flex;gap:8px;max-width:420px;margin:0 auto">
             <input type="email" id="captureEmail" placeholder="Your email" required style="flex:1;padding:10px 14px;border:2px solid #E5E7EB;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:.9rem;background:#fff">
             <button type="submit" style="padding:10px 20px;background:#2D6A4F;color:#fff;border:none;border-radius:8px;font-weight:700;font-family:'DM Sans',sans-serif;cursor:pointer;white-space:nowrap">Get Free Guide</button>
         </form>
@@ -414,7 +414,7 @@ function resetScripts() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-async function captureEmail(e) {
+async function handleEmailCapture(e) {
     e.preventDefault();
     const email = document.getElementById('captureEmail').value;
     const btn = e.target.querySelector('button');
