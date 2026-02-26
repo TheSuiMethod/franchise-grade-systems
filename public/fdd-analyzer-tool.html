@@ -809,180 +809,209 @@ function showResults() {
 }
 
 // ========== PDF GENERATION ==========
+// Sanitize text for jsPDF (default fonts only support Windows-1252/Latin-1 characters)
+function pdfSafe(str) {
+    if (!str || typeof str !== 'string') return '';
+    return str
+        .replace(/[\u2018\u2019\u201A\uFFFD]/g, "'")
+        .replace(/[\u201C\u201D\u201E]/g, '"')
+        .replace(/[\u2013\u2014\u2015]/g, '-')
+        .replace(/\u2026/g, '...')
+        .replace(/\u2022/g, '*')
+        .replace(/\u00A0/g, ' ')
+        .replace(/\u2122/g, '(TM)')
+        .replace(/\u00AE/g, '(R)')
+        .replace(/\u00A9/g, '(c)')
+        .replace(/[\u2010\u2011\u2012]/g, '-')
+        .replace(/\u00B7/g, '*')
+        .replace(/[\u200B\u200C\u200D\uFEFF]/g, '')
+        .replace(/[^\x00-\xFF]/g, '');
+}
+
 function downloadPDF() {
-    const { jsPDF } = window.jspdf;
-    const doc = new jsPDF({ unit: 'mm', format: 'a4' });
-    const W = 210, M = 20, CW = W - 2 * M;
-    let y = 20;
+    try {
+        if (!window.jspdf) {
+            alert('PDF library is still loading. Please wait a moment and try again.');
+            return;
+        }
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF({ unit: 'mm', format: 'a4' });
+        const W = 210, M = 20, CW = W - 2 * M;
+        let y = 20;
 
-    function addPage() { doc.addPage(); y = 20; }
-    function checkPage(need) { if (y + need > 275) addPage(); }
+        function addPage() { doc.addPage(); y = 20; }
+        function checkPage(need) { if (y + need > 275) addPage(); }
 
-    // Title page
-    doc.setFillColor(27, 67, 50);
-    doc.rect(0, 0, W, 80, 'F');
-    doc.setTextColor(255, 255, 255);
-    doc.setFontSize(28);
-    doc.text('FDD Analysis Report', M, 35);
-    doc.setFontSize(12);
-    doc.text('Franchise-Grade Systems', M, 48);
-    doc.setFontSize(10);
-    doc.text(`Generated: ${new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}`, M, 60);
-    y = 95;
+        // Title page
+        doc.setFillColor(27, 67, 50);
+        doc.rect(0, 0, W, 80, 'F');
+        doc.setTextColor(255, 255, 255);
+        doc.setFontSize(28);
+        doc.text('FDD Analysis Report', M, 35);
+        doc.setFontSize(12);
+        doc.text('Franchise-Grade Systems', M, 48);
+        doc.setFontSize(10);
+        doc.text('Generated: ' + new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }), M, 60);
+        y = 95;
 
-    // Score summary
-    doc.setTextColor(27, 67, 50);
-    doc.setFontSize(14);
-    doc.text('Overall Assessment', M, y); y += 10;
+        // Score summary
+        doc.setTextColor(27, 67, 50);
+        doc.setFontSize(14);
+        doc.text('Overall Assessment', M, y); y += 10;
 
-    let totalRed = 0, totalYellow = 0, totalGreen = 0;
-    FDD_ITEMS.forEach(item => {
-        const r = analysisResults[item.num];
-        if (r && r.findings) r.findings.forEach(f => {
-            if (f.severity === 'red') totalRed++;
-            else if (f.severity === 'yellow') totalYellow++;
-            else totalGreen++;
+        let totalRed = 0, totalYellow = 0, totalGreen = 0;
+        FDD_ITEMS.forEach(item => {
+            const r = analysisResults[item.num];
+            if (r && r.findings) r.findings.forEach(f => {
+                if (f.severity === 'red') totalRed++;
+                else if (f.severity === 'yellow') totalYellow++;
+                else totalGreen++;
+            });
         });
-    });
-    const totalF = totalRed + totalYellow + totalGreen;
-    const score = totalF > 0 ? Math.max(0, Math.min(100, Math.round(100 - (totalRed * 12) - (totalYellow * 4) + (totalGreen * 1)))) : 100;
+        const totalF = totalRed + totalYellow + totalGreen;
+        const score = totalF > 0 ? Math.max(0, Math.min(100, Math.round(100 - (totalRed * 12) - (totalYellow * 4) + (totalGreen * 1)))) : 100;
 
-    doc.setFontSize(11);
-    doc.setTextColor(60, 60, 60);
-    doc.text(`Deal Score: ${score}/100`, M, y); y += 7;
-    doc.text(`Red Flags: ${totalRed}  |  Caution Items: ${totalYellow}  |  Standard: ${totalGreen}`, M, y); y += 15;
+        doc.setFontSize(11);
+        doc.setTextColor(60, 60, 60);
+        doc.text('Deal Score: ' + score + '/100', M, y); y += 7;
+        doc.text('Red Flags: ' + totalRed + '  |  Caution Items: ' + totalYellow + '  |  Standard: ' + totalGreen, M, y); y += 15;
 
-    // Disclaimer
-    doc.setFontSize(8);
-    doc.setTextColor(120, 120, 120);
-    const disc = doc.splitTextToSize('This report is for educational purposes only and does not constitute legal or financial advice. Consult a qualified franchise attorney and financial advisor before making any investment decision.', CW);
-    doc.text(disc, M, y); y += disc.length * 4 + 10;
+        // Disclaimer
+        doc.setFontSize(8);
+        doc.setTextColor(120, 120, 120);
+        const disc = doc.splitTextToSize('This report is for educational purposes only and does not constitute legal or financial advice. Consult a qualified franchise attorney and financial advisor before making any investment decision.', CW);
+        doc.text(disc, M, y); y += disc.length * 4 + 10;
 
-    // Item findings
-    FDD_ITEMS.forEach(item => {
-        const r = analysisResults[item.num];
-        if (!r || r.status !== 'analyzed' || !r.findings || r.findings.length === 0) return;
+        // Item findings
+        FDD_ITEMS.forEach(item => {
+            const r = analysisResults[item.num];
+            if (!r || r.status !== 'analyzed' || !r.findings || r.findings.length === 0) return;
 
-        checkPage(30);
-        doc.setFillColor(240, 245, 242);
+            checkPage(30);
+            doc.setFillColor(240, 245, 242);
+            doc.rect(M, y - 2, CW, 10, 'F');
+            doc.setFontSize(11);
+            doc.setTextColor(27, 67, 50);
+            doc.text(pdfSafe('Item ' + item.num + ': ' + item.name), M + 2, y + 5); y += 14;
+
+            r.findings.forEach(f => {
+                checkPage(25);
+                doc.setFontSize(9);
+                const sevColor = f.severity === 'red' ? [153, 27, 27] : f.severity === 'yellow' ? [146, 64, 14] : [6, 95, 70];
+                doc.setTextColor(sevColor[0], sevColor[1], sevColor[2]);
+                doc.text(f.severity === 'red' ? 'RED FLAG' : f.severity === 'yellow' ? 'CAUTION' : 'STANDARD', M, y); y += 5;
+
+                doc.setTextColor(60, 60, 60);
+                doc.setFontSize(9);
+                const findingText = pdfSafe(f.finding || 'No details available.');
+                const lines = doc.splitTextToSize(findingText, CW);
+                checkPage(lines.length * 4 + 10);
+                doc.text(lines, M, y); y += lines.length * 4 + 3;
+
+                if (f.question) {
+                    doc.setTextColor(27, 67, 50);
+                    doc.setFontSize(8);
+                    const qlines = doc.splitTextToSize(pdfSafe('Ask: ' + f.question), CW - 4);
+                    checkPage(qlines.length * 3.5 + 6);
+                    doc.text(qlines, M + 2, y); y += qlines.length * 3.5 + 3;
+                }
+                y += 4;
+            });
+            y += 6;
+        });
+
+        // Final page
+        addPage();
+        doc.setFontSize(14);
+        doc.setTextColor(27, 67, 50);
+        doc.text('Next Steps', M, y); y += 10;
+        doc.setFontSize(10);
+        doc.setTextColor(60, 60, 60);
+        const steps = [
+            '1. Contact current franchisees listed in Item 20 - ask about their actual experience.',
+            '2. Contact former franchisees - they have no reason to sugarcoat their answers.',
+            '3. Review all red flag items with a qualified franchise attorney.',
+            '4. Request clarification from the franchisor on every question listed in this report.',
+            '5. Do not sign anything or pay any money until all concerns are addressed.',
+            '6. Remember: no legitimate franchisor will pressure you to rush this process.'
+        ];
+        steps.forEach(s => {
+            const sl = doc.splitTextToSize(s, CW);
+            checkPage(sl.length * 5 + 4);
+            doc.text(sl, M, y); y += sl.length * 5 + 2;
+        });
+
+        // Viability comparison in PDF
+        y += 10;
+        checkPage(50);
+        doc.setFillColor(27, 67, 50);
         doc.rect(M, y - 2, CW, 10, 'F');
+        doc.setTextColor(255, 255, 255);
+        doc.setFontSize(11);
+        doc.text('Franchise vs. Independent Viability Comparison', M + 2, y + 5); y += 16;
+
+        let pdfFeeFlags = 0, pdfRestrictionFlags = 0, pdfExitFlags = 0;
+        FDD_ITEMS.forEach(item => {
+            const r = analysisResults[item.num];
+            if (!r || r.status !== 'analyzed' || !r.findings) return;
+            if ([5,6,7].includes(item.num)) pdfFeeFlags += r.findings.filter(f => f.severity === 'red').length;
+            if ([8,12,16].includes(item.num)) pdfRestrictionFlags += r.findings.filter(f => f.severity !== 'green').length;
+            if ([17].includes(item.num)) pdfExitFlags += r.findings.filter(f => f.severity === 'red').length;
+        });
+
+        const pdfFeeRisk = pdfFeeFlags >= 3 ? 'HIGH' : pdfFeeFlags >= 1 ? 'MODERATE' : 'LOW';
+        const pdfRestrRisk = pdfRestrictionFlags >= 3 ? 'HIGH' : pdfRestrictionFlags >= 1 ? 'MODERATE' : 'LOW';
+        const pdfExitRisk = pdfExitFlags >= 2 ? 'HIGH' : pdfExitFlags >= 1 ? 'MODERATE' : 'LOW';
+        const pdfEstFees = pdfFeeFlags >= 3 ? '$250K-$400K+' : pdfFeeFlags >= 1 ? '$150K-$250K' : '$80K-$150K';
+
+        doc.setTextColor(60, 60, 60); doc.setFontSize(9);
+        const viabilityRows = [
+            ['Category', 'This Franchise', 'Independent Build'],
+            ['Fee burden risk', pdfFeeRisk, 'NONE'],
+            ['Est. 10-year fees', pdfEstFees, '$0 ongoing'],
+            ['Operational restrictions', pdfRestrRisk, 'You decide'],
+            ['Exit difficulty', pdfExitRisk, 'Your terms'],
+            ['Revenue control', 'Shared (royalties)', '100% yours'],
+            ['Vendor choice', pdfRestrictionFlags >= 2 ? 'Restricted' : 'Partial', 'Unrestricted']
+        ];
+        viabilityRows.forEach((row, idx) => {
+            checkPage(8);
+            if (idx === 0) { doc.setFontSize(8); doc.setTextColor(100,100,100); }
+            else { doc.setFontSize(9); doc.setTextColor(60,60,60); }
+            doc.text(row[0], M, y);
+            doc.text(row[1], M + 55, y);
+            doc.text(row[2], M + 110, y);
+            y += 6;
+        });
+
+        y += 6;
+        doc.setFontSize(9); doc.setTextColor(27, 67, 50);
+        const viabilityNote = doc.splitTextToSize('If this analysis reveals high or moderate risk, consider whether building the same business independently would deliver a better 10-year financial outcome. Visit franchisegradesystems.com/franchise-alternative-blueprint for details.', CW);
+        doc.text(viabilityNote, M, y); y += viabilityNote.length * 4 + 6;
+
+        y += 10;
+        checkPage(30);
         doc.setFontSize(11);
         doc.setTextColor(27, 67, 50);
-        doc.text(`Item ${item.num}: ${item.name}`, M + 2, y + 5); y += 14;
+        doc.text('Go Deeper: Your Next Step', M, y); y += 7;
+        doc.setFontSize(9.5);
+        doc.setTextColor(60, 60, 60);
+        const upsellLines = doc.splitTextToSize(
+            'This report identified the key risks in your FDD. To compare multiple franchise opportunities side-by-side, practice negotiation calls with AI, and get a custom action plan, visit franchisegradesystems.com to see the full due diligence path.',
+            CW
+        );
+        doc.text(upsellLines, M, y); y += upsellLines.length * 5 + 6;
 
-        r.findings.forEach(f => {
-            checkPage(25);
-            doc.setFontSize(9);
-            const sevColor = f.severity === 'red' ? [153, 27, 27] : f.severity === 'yellow' ? [146, 64, 14] : [6, 95, 70];
-            doc.setTextColor(...sevColor);
-            doc.text(f.severity === 'red' ? 'RED FLAG' : f.severity === 'yellow' ? 'CAUTION' : 'STANDARD', M, y); y += 5;
+        y += 10;
+        doc.setFontSize(9);
+        doc.setTextColor(120, 120, 120);
+        doc.text('Report generated by Franchise-Grade Systems | franchisegradesystems.com', M, y);
 
-            doc.setTextColor(60, 60, 60);
-            doc.setFontSize(9);
-            const lines = doc.splitTextToSize(f.finding, CW);
-            checkPage(lines.length * 4 + 10);
-            doc.text(lines, M, y); y += lines.length * 4 + 3;
-
-            if (f.question) {
-                doc.setTextColor(27, 67, 50);
-                doc.setFontSize(8);
-                const qlines = doc.splitTextToSize('Ask: ' + f.question, CW - 4);
-                checkPage(qlines.length * 3.5 + 6);
-                doc.text(qlines, M + 2, y); y += qlines.length * 3.5 + 3;
-            }
-            y += 4;
-        });
-        y += 6;
-    });
-
-    // Final page
-    addPage();
-    doc.setFontSize(14);
-    doc.setTextColor(27, 67, 50);
-    doc.text('Next Steps', M, y); y += 10;
-    doc.setFontSize(10);
-    doc.setTextColor(60, 60, 60);
-    const steps = [
-        '1. Contact current franchisees listed in Item 20 — ask about their actual experience.',
-        '2. Contact former franchisees — they have no reason to sugarcoat their answers.',
-        '3. Review all red flag items with a qualified franchise attorney.',
-        '4. Request clarification from the franchisor on every question listed in this report.',
-        '5. Do not sign anything or pay any money until all concerns are addressed.',
-        '6. Remember: no legitimate franchisor will pressure you to rush this process.'
-    ];
-    steps.forEach(s => {
-        const sl = doc.splitTextToSize(s, CW);
-        checkPage(sl.length * 5 + 4);
-        doc.text(sl, M, y); y += sl.length * 5 + 2;
-    });
-
-    // Viability comparison in PDF
-    y += 10;
-    checkPage(50);
-    doc.setFillColor(27, 67, 50);
-    doc.rect(M, y - 2, CW, 10, 'F');
-    doc.setTextColor(255, 255, 255);
-    doc.setFontSize(11);
-    doc.text('Franchise vs. Independent Viability Comparison', M + 2, y + 5); y += 16;
-
-    let pdfFeeFlags = 0, pdfRestrictionFlags = 0, pdfExitFlags = 0;
-    FDD_ITEMS.forEach(item => {
-        const r = analysisResults[item.num];
-        if (!r || r.status !== 'analyzed' || !r.findings) return;
-        if ([5,6,7].includes(item.num)) pdfFeeFlags += r.findings.filter(f => f.severity === 'red').length;
-        if ([8,12,16].includes(item.num)) pdfRestrictionFlags += r.findings.filter(f => f.severity !== 'green').length;
-        if ([17].includes(item.num)) pdfExitFlags += r.findings.filter(f => f.severity === 'red').length;
-    });
-
-    const pdfFeeRisk = pdfFeeFlags >= 3 ? 'HIGH' : pdfFeeFlags >= 1 ? 'MODERATE' : 'LOW';
-    const pdfRestrRisk = pdfRestrictionFlags >= 3 ? 'HIGH' : pdfRestrictionFlags >= 1 ? 'MODERATE' : 'LOW';
-    const pdfExitRisk = pdfExitFlags >= 2 ? 'HIGH' : pdfExitFlags >= 1 ? 'MODERATE' : 'LOW';
-    const pdfEstFees = pdfFeeFlags >= 3 ? '$250K-$400K+' : pdfFeeFlags >= 1 ? '$150K-$250K' : '$80K-$150K';
-
-    doc.setTextColor(60, 60, 60); doc.setFontSize(9);
-    const viabilityRows = [
-        ['Category', 'This Franchise', 'Independent Build'],
-        ['Fee burden risk', pdfFeeRisk, 'NONE'],
-        ['Est. 10-year fees', pdfEstFees, '$0 ongoing'],
-        ['Operational restrictions', pdfRestrRisk, 'You decide'],
-        ['Exit difficulty', pdfExitRisk, 'Your terms'],
-        ['Revenue control', 'Shared (royalties)', '100% yours'],
-        ['Vendor choice', pdfRestrictionFlags >= 2 ? 'Restricted' : 'Partial', 'Unrestricted']
-    ];
-    viabilityRows.forEach((row, idx) => {
-        checkPage(8);
-        if (idx === 0) { doc.setFontSize(8); doc.setTextColor(100,100,100); }
-        else { doc.setFontSize(9); doc.setTextColor(60,60,60); }
-        doc.text(row[0], M, y);
-        doc.text(row[1], M + 55, y);
-        doc.text(row[2], M + 110, y);
-        y += 6;
-    });
-
-    y += 6;
-    doc.setFontSize(9); doc.setTextColor(27, 67, 50);
-    const viabilityNote = doc.splitTextToSize('If this analysis reveals high or moderate risk, consider whether building the same business independently would deliver a better 10-year financial outcome. Visit franchisegradesystems.com/franchise-alternative-blueprint for details.', CW);
-    doc.text(viabilityNote, M, y); y += viabilityNote.length * 4 + 6;
-
-    y += 10;
-    checkPage(30);
-    doc.setFontSize(11);
-    doc.setTextColor(27, 67, 50);
-    doc.text('Go Deeper: Your Next Step', M, y); y += 7;
-    doc.setFontSize(9.5);
-    doc.setTextColor(60, 60, 60);
-    const upsellLines = doc.splitTextToSize(
-        'This report identified the key risks in your FDD. To compare multiple franchise opportunities side-by-side, practice negotiation calls with AI, and get a custom action plan, visit franchisegradesystems.com to see the full due diligence path.',
-        CW
-    );
-    doc.text(upsellLines, M, y); y += upsellLines.length * 5 + 6;
-
-    y += 10;
-    doc.setFontSize(9);
-    doc.setTextColor(120, 120, 120);
-    doc.text('Report generated by Franchise-Grade Systems | franchisegradesystems.com', M, y);
-
-    doc.save('FDD-Analysis-Report.pdf');
+        doc.save('FDD-Analysis-Report.pdf');
+    } catch (err) {
+        console.error('PDF generation error:', err);
+        alert('PDF generation failed: ' + err.message + '. Please try again or contact support.');
+    }
 }
 
 // ========== FILE UPLOAD ==========
