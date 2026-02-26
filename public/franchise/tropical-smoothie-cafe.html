@@ -1,6 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-B4CYFE2CG6"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-B4CYFE2CG6');
+</script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tropical Smoothie Cafe Franchise Cost, FDD & Due Diligence Analysis | Franchise-Grade Systems</title>
@@ -8,6 +16,7 @@
   <meta name="keywords" content="Tropical Smoothie Cafe franchise cost, Tropical Smoothie Cafe FDD, Tropical Smoothie Cafe franchise review, Tropical Smoothie Cafe franchise investment, is Tropical Smoothie Cafe franchise worth it">
   <link rel="canonical" href="https://www.franchisegradesystems.com/franchise/tropical-smoothie-cafe">
   <meta property="og:title" content="Tropical Smoothie Cafe Franchise Cost, FDD & Due Diligence Analysis | Franchise-Grade Systems">
+    <meta property="og:image" content="https://www.franchisegradesystems.com/og-image.jpg">
   <meta property="og:description" content="Tropical Smoothie Cafe franchise investment: $299,000 to $634,000. Free due diligence tools, red flag analysis, profit margin calculators, and FDD download links. Built by a franchise survivor.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://www.franchisegradesystems.com/franchise/tropical-smoothie-cafe">
@@ -197,7 +206,7 @@
     <div class="cta-block">
       <h3>Already have this FDD? Analyze it in 3 minutes.</h3>
       <p>Our AI FDD Analyzer identifies red flags, hidden fees, and risks your attorney might miss -- because it was built by someone whose attorney missed them.</p>
-      <a href="/fdd-analyzer" class="btn">Analyze Your FDD -- $97</a>
+      <a href="/fdd-analyzer" class="btn">Analyze Your FDD</a>
       <a href="/franchise-profit-margin-calculator" class="btn btn-outline">Free Profit Calculator</a>
     </div>
 
@@ -231,12 +240,10 @@
     </div>
 
     <div class="cta-block">
-      <h3>Ready for the full picture?</h3>
-      <p>Our product ladder: start free, go deeper if you need to.</p>
-      <a href="/tools" class="btn btn-outline">Free Tools</a>
-      <a href="/fdd-analyzer" class="btn btn-outline">AI FDD Analyzer -- $97</a>
-      <a href="/decision-engine" class="btn btn-outline">Decision Engine -- $297</a>
-      <a href="/expert-review" class="btn">Expert Review -- $697</a>
+      <h3>Want to dig deeper into this franchise?</h3>
+      <p>Our AI FDD Analyzer scans all 23 items and flags the risks your attorney might miss. Get a detailed report in under 15 minutes.</p>
+      <a href="/fdd-analyzer" class="btn">Analyze Your FDD</a>
+      <a href="/tools" class="btn btn-outline">Explore Free Tools</a>
     </div>
 
     
@@ -285,7 +292,25 @@
   </div>
 
 
-  <footer>
+  
+  <!-- Email Capture -->
+  <div style="max-width:720px;margin:48px auto;padding:36px;background:#fff;border:2px solid #E5E5E5;border-radius:16px;display:flex;gap:28px;align-items:center;flex-wrap:wrap;">
+    <div style="flex:1;min-width:240px;">
+      <span style="display:inline-block;padding:4px 12px;background:#DCFCE7;color:#166534;border-radius:20px;font-size:0.75rem;font-weight:700;margin-bottom:8px;">Free Download</span>
+      <h3 style="font-size:1.3rem;margin:0 0 8px;color:#1A1A1A;font-family:DM Sans,sans-serif;">FDD Red Flags Guide</h3>
+      <p style="color:#5A5A5A;font-size:0.9rem;line-height:1.7;margin:0 0 16px;font-family:DM Sans,sans-serif;">The 21 warning signs I missed before losing six figures on a franchise. Get the checklist that could save your investment.</p>
+      <form style="display:flex;gap:10px;flex-wrap:wrap;" onsubmit="handleLeadCapture(event,this)">
+        <input type="email" placeholder="Enter your email" required style="flex:1;min-width:180px;padding:12px 16px;border:2px solid #E5E5E5;border-radius:8px;font-family:DM Sans,sans-serif;font-size:0.9rem;" autocomplete="email">
+        <button type="submit" style="padding:12px 24px;background:#2D5A3D;color:#fff;border:none;border-radius:8px;font-weight:600;font-family:DM Sans,sans-serif;cursor:pointer;">Get Free Guide</button>
+      </form>
+      <p style="color:#9CA3AF;font-size:0.75rem;margin:8px 0 0;">Free. No spam. Unsubscribe anytime.</p>
+    </div>
+  </div>
+  <script>
+  async function handleLeadCapture(e,form){e.preventDefault();var email=form.querySelector("input[type=email]").value;var btn=form.querySelector("button");btn.textContent="Sending...";btn.disabled=true;try{var res=await fetch("/api/subscribe",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({email:email,source:"red-flags-guide"})});if(res.ok){window.open("/fdd-red-flags-guide.pdf","_blank");btn.textContent="Sent! Check your downloads";btn.style.background="#DCFCE7";btn.style.color="#166534";form.querySelector("input").style.display="none";}else{btn.textContent="Error - try again";btn.disabled=false;}}catch(err){btn.textContent="Error - try again";btn.disabled=false;}}
+  </script>
+
+<footer>
     <div class="footer-logo">Franchise<span>-Grade</span> Systems</div>
     <p>&copy; 2026 Franchise-Grade Systems. All rights reserved. Not legal or financial advice.</p>
     <div class="footer-links">
