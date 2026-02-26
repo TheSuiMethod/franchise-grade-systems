@@ -1081,6 +1081,18 @@ function showUploadStatus(msg, type) {
 }
 
 function splitAndFillItems(text) {
+    // Preprocess: insert newlines before "ITEM X TITLE" patterns in continuous text blobs
+    // PDF.js often extracts text as one long string without line breaks between sections
+    const titleKW = '(?:THE FRANCHISOR|BUSINESS EXPERIENCE|LITIGATION|BANKRUPTCY|INITIAL FEES|OTHER FEES|ESTIMATED INITIAL|RESTRICTIONS ON|FRANCHISEE.S OBLIGATIONS|FINANCING|FRANCHISOR.S (?:ASSISTANCE|OBLIGATIONS)|TERRITORY|TRADEMARKS|PATENTS|OBLIGATION TO|RENEWAL|PUBLIC FIGURES|FINANCIAL (?:PERFORMANCE|STATEMENTS)|OUTLETS AND|CONTRACTS|RECEIPTS)';
+    try {
+        const splitRe = new RegExp('(?<=\\S)\\s+(?=ITEM\\s+\\d{1,2}\\s+' + titleKW + ')', 'gi');
+        text = text.replace(splitRe, '\n');
+    } catch(e) {
+        // Lookbehind not supported in older browsers - use simpler fallback
+        const splitRe2 = new RegExp('(\\S)\\s+(ITEM\\s+\\d{1,2}\\s+(?:' + titleKW + '))', 'gi');
+        text = text.replace(splitRe2, '$1\n$2');
+    }
+
     // Patterns to match FDD item headers - ordered from most specific to broadest
     const patterns = [
         // "ITEM X:" or "ITEM X." or "ITEM X -" with separator
