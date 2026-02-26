@@ -16,9 +16,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-    <script>pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';</script>
+    <script src="/lib/jspdf.umd.min.js"></script>
+    <script src="/lib/pdf.min.js"></script>
+    <script>pdfjsLib.GlobalWorkerOptions.workerSrc='/lib/pdf.worker.min.js';</script>
     <style>
         :root {
             --forest: #1B4332; --forest-mid: #2D6A4F; --forest-light: #40916C;
@@ -836,7 +836,7 @@ function pdfSafe(str) {
 function downloadPDF() {
     try {
         if (!window.jspdf) {
-            alert('PDF library is still loading. Please wait a moment and try again.');
+            alert('PDF download library failed to load. This can happen with ad blockers or privacy extensions. Try disabling them and refreshing the page, then click Download again.');
             return;
         }
         const { jsPDF } = window.jspdf;
@@ -1042,6 +1042,10 @@ async function handleFileUpload(file) {
             fullText = await file.text();
         } else {
             const arrayBuffer = await file.arrayBuffer();
+            if (typeof pdfjsLib === 'undefined') {
+                showUploadStatus('PDF processing library failed to load. This can happen with ad blockers or privacy extensions. Try disabling them and refreshing, or copy and paste the text manually instead.', 'error');
+                return;
+            }
             const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
             const pages = [];
             for (let i = 1; i <= pdf.numPages; i++) {
