@@ -1,12 +1,13 @@
 // Kit (ConvertKit) Email Subscription API
 // Handles form submissions from all site pages
-// Tags subscribers based on source for segmentation
+// Tags subscribers based on source for correct sequence triggering
 
 export default async function handler(req, res) {
     // CORS headers
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
     if (req.method === 'OPTIONS') return res.status(200).end();
     if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
@@ -17,17 +18,39 @@ export default async function handler(req, res) {
     }
 
     // Kit (ConvertKit) configuration
-    // REPLACE with your actual values or set as Vercel environment variables
-    const FORM_ID = process.env.KIT_FORM_ID || 'YOUR_FORM_ID';
+    const FORM_ID = process.env.KIT_FORM_ID || '';
     const API_SECRET = process.env.KIT_API_SECRET || '';
 
-    if (FORM_ID === 'YOUR_FORM_ID') {
-        console.error('Kit Form ID not configured');
+    if (!FORM_ID) {
+        console.error('Kit Form ID not configured. Set KIT_FORM_ID in Vercel environment variables.');
         return res.status(503).json({ error: 'Email service not configured' });
     }
 
+    // Tag ID mapping: source parameter -> Vercel environment variable -> Kit tag ID
+    //
+    // Each environment variable should contain the NUMERIC Kit tag ID.
+    // To find tag IDs: Kit dashboard > Grow > Tags > click tag > ID is in the URL
+    //
+    // Required environment variables:
+    //   KIT_TAG_SCORECARD       -> triggers Scorecard Nurture (3 emails, 7 days)
+    //   KIT_TAG_CALCULATOR      -> triggers Calculator Nurture (3 emails, 7 days)
+    //   KIT_TAG_QUIZ            -> triggers Quiz Nurture (3 emails, 7 days)
+    //   KIT_TAG_LEAD_MAGNET     -> triggers Red Flags Guide sequence (5 emails, 14 days)
+    //
+    const TAG_MAP = {
+        'scorecard':        process.env.KIT_TAG_SCORECARD || '',
+        'calculator':       process.env.KIT_TAG_CALCULATOR || '',
+        'comparison':       process.env.KIT_TAG_CALCULATOR || '',
+        'negotiation':      process.env.KIT_TAG_CALCULATOR || '',
+        'validation':       process.env.KIT_TAG_CALCULATOR || '',
+        'red-flags-guide':  process.env.KIT_TAG_LEAD_MAGNET || '',
+        'red-flags-checklist': process.env.KIT_TAG_LEAD_MAGNET || '',
+        'red-flag-quiz':    process.env.KIT_TAG_QUIZ || '',
+        'decision-engine':  process.env.KIT_TAG_LEAD_MAGNET || '',
+    };
+
     try {
-        // Step 1: Subscribe to form (this is the core action)
+        // Step 1: Subscribe to form
         const formPayload = {
             email,
             api_secret: API_SECRET || undefined,
@@ -52,22 +75,13 @@ export default async function handler(req, res) {
         const formData = await formRes.json();
         const subscriberId = formData?.subscription?.subscriber?.id;
 
-        // Step 2: Tag the subscriber based on source (if API secret is available)
+        // Step 2: Apply source-specific tag
         if (API_SECRET && subscriberId && source) {
-            const tagMap = {
-                'red-flags-guide': process.env.KIT_TAG_LEAD_MAGNET || '',
-                'calculator': process.env.KIT_TAG_CALCULATOR || '',
-                'decision-engine': process.env.KIT_TAG_DECISION_ENGINE || '',
-                'scorecard': process.env.KIT_TAG_CALCULATOR || '',
-                'comparison': process.env.KIT_TAG_DECISION_ENGINE || '',
-                'negotiation': process.env.KIT_TAG_DECISION_ENGINE || '',
-                'validation': process.env.KIT_TAG_DECISION_ENGINE || '',
-            };
-            const tagId = tagMap[source];
+            const tagId = TAG_MAP[source];
 
             if (tagId) {
                 try {
-                    await fetch(
+                    const tagRes = await fetch(
                         `https://api.convertkit.com/v3/tags/${tagId}/subscribe`,
                         {
                             method: 'POST',
@@ -75,10 +89,14 @@ export default async function handler(req, res) {
                             body: JSON.stringify({ email, api_secret: API_SECRET }),
                         }
                     );
+                    if (!tagRes.ok) {
+                        console.error('Tag apply failed:', tagRes.status, await tagRes.text());
+                    }
                 } catch (tagErr) {
-                    // Non-critical — subscriber is already added, tag just failed
                     console.error('Tagging failed (non-critical):', tagErr.message);
                 }
+            } else {
+                console.warn(`No tag configured for source: "${source}". Check Vercel env vars.`);
             }
         }
 
