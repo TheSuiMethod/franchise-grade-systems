@@ -92,8 +92,24 @@
     </div>
 
     <div class="note">
-        <strong>Bookmark this page.</strong> You can return here anytime to access both your Decision Engine portal and your session booking link. Questions? Email <a href="mailto:franchisegradesystems@gmail.com" style="color:var(--forest-mid);font-weight:600;">franchisegradesystems@gmail.com</a>.
+        <strong>Save your access links.</strong> Your Decision Engine access is stored in this browser. If you lose this page, you may lose access to your tools. Use the buttons below to save your links now.
+        <div style="margin-top:16px;display:flex;gap:12px;flex-wrap:wrap;">
+            <button onclick="copyLinks()" id="copyBtn" style="padding:10px 20px;background:var(--forest-mid);color:#fff;border:none;border-radius:8px;font-weight:600;font-size:0.88rem;cursor:pointer;">Copy My Access Links</button>
+            <a href="mailto:?subject=My%20Franchise-Grade%20Systems%20Access%20Links&body=Decision%20Engine%20Portal%3A%0Ahttps%3A%2F%2Fwww.franchisegradesystems.com%2Fdecision-engine-portal%0A%0ABook%20Expert%20Review%20Session%3A%0Ahttps%3A%2F%2Fcalendly.com%2Ffranchisegradesystems%2Fexpert-fdd-business-review%0A%0ABundle%20Confirmation%20Page%3A%0Ahttps%3A%2F%2Fwww.franchisegradesystems.com%2Fbundle-confirmed%0A%0ASave%20this%20email%20for%20your%20records." style="padding:10px 20px;background:#fff;color:var(--forest-mid);border:2px solid var(--sage);border-radius:8px;font-weight:600;font-size:0.88rem;text-decoration:none;display:inline-block;">Email Links to Myself</a>
+        </div>
+        <p style="margin-top:12px;font-size:0.82rem;color:var(--slate);">Questions? Email <a href="mailto:franchisegradesystems@gmail.com" style="color:var(--forest-mid);font-weight:600;">franchisegradesystems@gmail.com</a></p>
     </div>
+<script>
+function copyLinks(){
+    const text = "Decision Engine Portal:\nhttps://www.franchisegradesystems.com/decision-engine-portal\n\nBook Expert Review Session:\nhttps://calendly.com/franchisegradesystems/expert-fdd-business-review\n\nBundle Confirmation Page:\nhttps://www.franchisegradesystems.com/bundle-confirmed";
+    navigator.clipboard.writeText(text).then(()=>{
+        const btn = document.getElementById('copyBtn');
+        btn.textContent = 'Copied!';
+        btn.style.background = '#166534';
+        setTimeout(()=>{ btn.textContent = 'Copy My Access Links'; btn.style.background = ''; }, 2500);
+    });
+}
+</script>
 </div>
 
 <footer>

@@ -103,8 +103,24 @@
     </div>
 
     <div class="note">
-        <strong>Important:</strong> Complete the intake form above as soon as possible. I cannot start building your Blueprint until I have your business details. Most clients receive their complete package within 1-2 business days of submitting the form. If you have questions, email <a href="mailto:franchisegradesystems@gmail.com" style="color:var(--forest-mid);font-weight:600;">franchisegradesystems@gmail.com</a>.
+        <strong>Important:</strong> Complete the intake form above as soon as possible. I cannot start building your Blueprint until I have your business details. Most clients receive their complete package within 1-2 business days of submitting the form.
+        <div style="margin-top:16px;display:flex;gap:12px;flex-wrap:wrap;">
+            <button onclick="copyLinks()" id="copyBtn" style="padding:10px 20px;background:var(--forest-mid);color:#fff;border:none;border-radius:8px;font-weight:600;font-size:0.88rem;cursor:pointer;">Copy Intake Form Link</button>
+            <a href="mailto:?subject=My%20Blueprint%20Intake%20Form%20Link&body=Complete%20your%20Blueprint%20intake%20form%3A%0Ahttps%3A%2F%2Fforms.gle%2FQ4dhhFnT1WaDqBNP6%0A%0AYour%20Blueprint%20will%20be%20delivered%20within%201-2%20business%20days%20of%20submitting%20this%20form.%0A%0AQuestions%3F%20Email%20franchisegradesystems%40gmail.com" style="padding:10px 20px;background:#fff;color:var(--forest-mid);border:2px solid var(--sage);border-radius:8px;font-weight:600;font-size:0.88rem;text-decoration:none;display:inline-block;">Email Link to Myself</a>
+        </div>
+        <p style="margin-top:12px;font-size:0.82rem;color:var(--slate);">Questions? Email <a href="mailto:franchisegradesystems@gmail.com" style="color:var(--forest-mid);font-weight:600;">franchisegradesystems@gmail.com</a></p>
     </div>
+<script>
+function copyLinks(){
+    const text = "Blueprint Intake Form:\nhttps://forms.gle/Q4dhhFnT1WaDqBNP6\n\nYour Blueprint will be delivered within 1-2 business days of submitting this form.\n\nQuestions? Email franchisegradesystems@gmail.com";
+    navigator.clipboard.writeText(text).then(()=>{
+        const btn = document.getElementById('copyBtn');
+        btn.textContent = 'Copied!';
+        btn.style.background = '#166534';
+        setTimeout(()=>{ btn.textContent = 'Copy Intake Form Link'; btn.style.background = ''; }, 2500);
+    });
+}
+</script>
 </div>
 
 <footer>
