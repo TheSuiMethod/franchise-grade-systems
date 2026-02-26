@@ -1081,11 +1081,24 @@ function showUploadStatus(msg, type) {
 }
 
 function splitAndFillItems(text) {
-    // Patterns to match FDD item headers
+    // Patterns to match FDD item headers - ordered from most specific to broadest
     const patterns = [
-        /(?:^|\n)\s*(?:ITEM|Item)\s+(\d{1,2})\s*[:\.\-—–]\s*/gi,
+        // "ITEM X:" or "ITEM X." or "ITEM X -" with separator
+        /(?:^|\n)\s*(?:ITEM|Item)\s+(\d{1,2})\s*[:\.\-\u2014\u2013]\s*/gi,
+        // "ITEM X THE FRANCHISOR..." (no separator, title keyword follows)
+        /(?:^|\n)\s*(?:ITEM|Item)\s+(\d{1,2})\s+(?=(?:THE|BUSINESS|LITIGATION|BANKRUPTCY|INITIAL|OTHER|ESTIMATED|RESTRICTIONS|FRANCHISEE|FINANCING|FRANCHISOR|TERRITORY|TRADEMARKS|PATENTS|OBLIGATION|RENEWAL|PUBLIC|FINANCIAL|OUTLETS|CONTRACTS|RECEIPTS))/gi,
+        // "ITEM X" alone at end of line
+        /(?:^|\n)\s*(?:ITEM|Item)\s+(\d{1,2})\s*$/gim,
+        // "ITEM X" followed by newline then content
         /(?:^|\n)\s*(?:ITEM|Item)\s+(\d{1,2})\s*\n/gi,
-        /(?:^|\n)\s*(\d{1,2})\.\s+(?:THE FRANCHISOR|BUSINESS EXPERIENCE|LITIGATION|BANKRUPTCY|INITIAL FEES|OTHER FEES|ESTIMATED INITIAL|RESTRICTIONS ON SOURCES|FRANCHISEE.S OBLIGATIONS|FINANCING|FRANCHISOR.S ASSISTANCE|TERRITORY|TRADEMARKS|PATENTS|OBLIGATION TO PARTICIPATE|RESTRICTIONS ON WHAT|RENEWAL|PUBLIC FIGURES|FINANCIAL PERFORMANCE|OUTLETS AND FRANCHISEE|FINANCIAL STATEMENTS|CONTRACTS|RECEIPTS)/gi
+        // Extra whitespace: "ITEM  X" or "ITEM   X"
+        /(?:^|\n)\s*(?:ITEM|Item)\s{2,}(\d{1,2})\s*[:\.\-\u2014\u2013]?\s*/gi,
+        // No space: "Item1:" or "ITEM1."
+        /(?:^|\n)\s*(?:ITEM|Item)(\d{1,2})\s*[:\.\-]\s*/gi,
+        // Number + period + known FDD title (no ITEM prefix)
+        /(?:^|\n)\s*(\d{1,2})\.\s+(?:THE FRANCHISOR|BUSINESS EXPERIENCE|LITIGATION|BANKRUPTCY|INITIAL FEES|OTHER FEES|ESTIMATED INITIAL|RESTRICTIONS ON SOURCES|FRANCHISEE.S OBLIGATIONS|FINANCING|FRANCHISOR.S ASSISTANCE|TERRITORY|TRADEMARKS|PATENTS|OBLIGATION TO PARTICIPATE|RESTRICTIONS ON WHAT|RENEWAL|PUBLIC FIGURES|FINANCIAL PERFORMANCE|OUTLETS AND FRANCHISEE|FINANCIAL STATEMENTS|CONTRACTS|RECEIPTS)/gi,
+        // Spaced out from PDF extraction: "I T E M  1"
+        /(?:^|\n)\s*I\s*T\s*E\s*M\s+(\d{1,2})/gi
     ];
 
     let itemBounds = [];
@@ -1100,7 +1113,7 @@ function splitAndFillItems(text) {
                 }
             }
         }
-        if (itemBounds.length >= 5) break; // Good enough pattern found
+        if (itemBounds.length >= 15) break; // Strong match found, stop trying weaker patterns
     }
 
     if (itemBounds.length === 0) return 0;
