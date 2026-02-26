@@ -7,6 +7,14 @@
       "maxDuration": 60
     }
   },
+  "redirects": [
+    { "source": "/franchise-fees-real-cost", "destination": "/blog/franchise-fees-real-cost", "permanent": true },
+    { "source": "/franchise-hidden-fees", "destination": "/blog/franchise-hidden-fees", "permanent": true },
+    { "source": "/franchise-red-flags-fdd", "destination": "/blog/franchise-red-flags-fdd", "permanent": true },
+    { "source": "/how-to-read-franchise-fdd", "destination": "/blog/how-to-read-franchise-fdd", "permanent": true },
+    { "source": "/is-buying-a-franchise-worth-it", "destination": "/blog/is-buying-a-franchise-worth-it", "permanent": true },
+    { "source": "/questions-to-ask-franchisees", "destination": "/blog/questions-to-ask-franchisees", "permanent": true }
+  ],
   "rewrites": [
     { "source": "/tools", "destination": "/tools.html" },
     { "source": "/fdd-analyzer", "destination": "/fdd-analyzer.html" },
@@ -20,7 +28,18 @@
       "source": "/(.*)",
       "headers": [
         { "key": "X-Content-Type-Options", "value": "nosniff" },
-        { "key": "X-Frame-Options", "value": "DENY" }
+        { "key": "X-Frame-Options", "value": "DENY" },
+        { "key": "X-XSS-Protection", "value": "1; mode=block" },
+        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
+        { "key": "Permissions-Policy", "value": "camera=(), microphone=(), geolocation=()" },
+        {
+          "key": "Content-Security-Policy",
+          "value": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com https://js.stripe.com https://api.convertkit.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://www.google-analytics.com https://*.stripe.com; connect-src 'self' https://www.google-analytics.com https://api.convertkit.com https://js.stripe.com https://*.stripe.com; frame-src https://js.stripe.com https://calendly.com;"
+        },
+        {
+          "key": "Strict-Transport-Security",
+          "value": "max-age=63072000; includeSubDomains; preload"
+        }
       ]
     },
     {
@@ -28,6 +47,24 @@
       "headers": [
         { "key": "X-Robots-Tag", "value": "noindex, nofollow" },
         { "key": "Cache-Control", "value": "no-store, no-cache, must-revalidate" }
+      ]
+    },
+    {
+      "source": "/(.+\\.png)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+      ]
+    },
+    {
+      "source": "/(.+\\.jpg)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+      ]
+    },
+    {
+      "source": "/(.+\\.ico)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
       ]
     }
   ]
