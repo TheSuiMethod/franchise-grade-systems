@@ -11,27 +11,12 @@ module.exports = async function handler(req, res) {
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       line_items: [{
-        price_data: {
-          currency: 'usd',
-          product_data: {
-            name: 'AI Franchise Decision Engine',
-            description: 'Full access: 5 negotiation scenarios, 5-way franchise comparison, 8 validation call script topics, plus the AI FDD Analyzer ($97 value included).',
-          },
-          unit_amount: 29700, // $297.00
-        },
+        price: 'price_1T4XuECtSsWNQjR9dvj2lksh', // AI Franchise Decision Engine ($297)
         quantity: 1,
       }],
       mode: 'payment',
       success_url: `${process.env.SITE_URL || 'https://www.franchisegradesystems.com'}/decision-engine-portal?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${process.env.SITE_URL || 'https://www.franchisegradesystems.com'}/decision-engine`,
-      metadata: {
-        product: 'decision_engine',
-      },
-      payment_intent_data: {
-        metadata: {
-          product: 'decision_engine',
-        }
-      }
     });
 
     return res.status(200).json({ url: session.url });

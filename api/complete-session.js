@@ -23,11 +23,10 @@ module.exports = async function handler(req, res) {
       return res.status(403).json({ error: 'Invalid session' });
     }
 
-    // Mark the payment intent as analyzed (prevents reuse)
+    // Mark the payment intent as analyzed (prevents reuse of single-analysis purchases)
     if (session.payment_intent?.id) {
       await stripe.paymentIntents.update(session.payment_intent.id, {
         metadata: {
-          product: 'fdd_analyzer',
           analyzed: 'true',
           analyzed_at: new Date().toISOString()
         }

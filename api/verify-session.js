@@ -13,10 +13,18 @@ module.exports = async function handler(req, res) {
 
   const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
+  // Price IDs that grant FDD Analyzer access
+  // Single ($97), Decision Engine ($297 — includes Analyzer), Bundle ($897 — includes Engine)
+  const FDD_ACCESS_PRICE_IDS = [
+    'price_1T4Xu3CtSsWNQjR9NJmOQIxS', // FDD Analyzer - Single Analysis ($97)
+    'price_1T4XuECtSsWNQjR9dvj2lksh', // AI Franchise Decision Engine ($297)
+    'price_1T2incCtSsWNQjR95AMv1AeX',  // Decision Engine + Expert Review Bundle ($897)
+  ];
+
   try {
-    // Retrieve the Stripe checkout session
+    // Retrieve the Stripe checkout session with line items and payment intent
     const session = await stripe.checkout.sessions.retrieve(session_id, {
-      expand: ['payment_intent']
+      expand: ['payment_intent', 'line_items']
     });
 
     // Verify payment was successful
@@ -24,8 +32,13 @@ module.exports = async function handler(req, res) {
       return res.status(200).json({ valid: false, reason: 'unpaid' });
     }
 
-    // Verify this is an FDD analyzer purchase
-    if (session.metadata?.product !== 'fdd_analyzer') {
+    // Verify purchase includes FDD Analyzer access by checking price IDs
+    const lineItems = session.line_items?.data || [];
+    const hasAccess = lineItems.some(item =>
+      FDD_ACCESS_PRICE_IDS.includes(item.price?.id)
+    );
+
+    if (!hasAccess) {
       return res.status(200).json({ valid: false, reason: 'invalid' });
     }
 
@@ -43,7 +56,6 @@ module.exports = async function handler(req, res) {
     });
 
   } catch (error) {
-    // Invalid session ID format or Stripe error
     if (error.type === 'StripeInvalidRequestError') {
       return res.status(200).json({ valid: false, reason: 'invalid' });
     }

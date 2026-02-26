@@ -22,16 +22,35 @@ module.exports = async function handler(req, res) {
 
   const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
+  // Price IDs that grant FDD Analyzer access
+  // Single ($97), Decision Engine ($297 — includes Analyzer), Bundle ($897 — includes Engine)
+  const FDD_ACCESS_PRICE_IDS = [
+    'price_1T4Xu3CtSsWNQjR9NJmOQIxS', // FDD Analyzer - Single Analysis ($97)
+    'price_1T4XuECtSsWNQjR9dvj2lksh', // AI Franchise Decision Engine ($297)
+    'price_1T2incCtSsWNQjR95AMv1AeX',  // Decision Engine + Expert Review Bundle ($897)
+  ];
+
   try {
     // Verify the session is still valid
     const session = await stripe.checkout.sessions.retrieve(token, {
-      expand: ['payment_intent']
+      expand: ['payment_intent', 'line_items']
     });
 
     if (session.payment_status !== 'paid') {
       return res.status(403).json({ error: 'Payment not verified' });
     }
 
+    // Verify purchase includes FDD Analyzer access by checking price IDs
+    const lineItems = session.line_items?.data || [];
+    const hasAccess = lineItems.some(item =>
+      FDD_ACCESS_PRICE_IDS.includes(item.price?.id)
+    );
+
+    if (!hasAccess) {
+      return res.status(403).json({ error: 'Product does not include FDD Analyzer access' });
+    }
+
+    // Check if analysis was already completed
     if (session.payment_intent?.metadata?.analyzed === 'true') {
       return res.status(403).json({ error: 'Analysis already completed' });
     }
@@ -78,7 +97,7 @@ Respond with ONLY a valid JSON array of findings. No other text.`;
       max_tokens: 2000,
       messages: [{ role: 'user', content: userMessage }],
       system: systemPrompt,
-      temperature: 0.3 // Low temperature for consistency
+      temperature: 0.3
     });
 
     // Parse the response
@@ -106,7 +125,6 @@ Respond with ONLY a valid JSON array of findings. No other text.`;
       }
     } catch (parseError) {
       console.error('Parse error:', parseError, 'Raw:', response.content[0].text);
-      // Fallback: return a generic analysis note
       findings = [{
         severity: 'yellow',
         finding: 'The AI analysis could not fully parse this section. The text may contain formatting that requires manual review. We recommend having a franchise attorney review this item directly.',
