@@ -1038,6 +1038,7 @@ async function handleFileUpload(file) {
 
     try {
         let fullText = '';
+        let pageTexts = null;
         if (ext === 'txt') {
             fullText = await file.text();
         } else {
@@ -1054,6 +1055,7 @@ async function handleFileUpload(file) {
                 pages.push(content.items.map(item => item.str).join(' '));
             }
             fullText = pages.join('\n\n');
+            pageTexts = pages; // keep per-page array for TOC fallback
         }
 
         if (fullText.trim().length < 100) {
@@ -1061,9 +1063,9 @@ async function handleFileUpload(file) {
             return;
         }
 
-        const filledCount = splitAndFillItems(fullText);
+        const filledCount = splitAndFillItems(fullText, pageTexts);
         if (filledCount > 0) {
-            showUploadStatus('Auto-filled ' + filledCount + ' of 23 FDD items from your file. Review the items below and add any missing sections manually.', 'success');
+            showUploadStatus('Auto-filled ' + filledCount + ' of 23 FDD items from your file. Review the items below and adjust any sections that need trimming.', 'success');
         } else {
             showUploadStatus('Text extracted (' + Math.round(fullText.length/1000) + 'K characters) but couldn\'t identify individual FDD items. The full text has been placed in Item 1. You can manually cut and paste sections into the correct items below.', 'success');
             document.getElementById('text-1').value = fullText.substring(0, 50000);
@@ -1080,71 +1082,149 @@ function showUploadStatus(msg, type) {
     uploadStatus.className = 'upload-status ' + type;
 }
 
-function splitAndFillItems(text) {
+function splitAndFillItems(text, pageTexts) {
+    // === STRATEGY 1: Pattern-based splitting (works when "ITEM X" headers are in extractable text) ===
+
     // Preprocess: insert newlines before "ITEM X TITLE" patterns in continuous text blobs
-    // PDF.js often extracts text as one long string without line breaks between sections
-    const titleKW = '(?:THE FRANCHISOR|BUSINESS EXPERIENCE|LITIGATION|BANKRUPTCY|INITIAL FEES|OTHER FEES|ESTIMATED INITIAL|RESTRICTIONS ON|FRANCHISEE.S OBLIGATIONS|FINANCING|FRANCHISOR.S (?:ASSISTANCE|OBLIGATIONS)|TERRITORY|TRADEMARKS|PATENTS|OBLIGATION TO|RENEWAL|PUBLIC FIGURES|FINANCIAL (?:PERFORMANCE|STATEMENTS)|OUTLETS AND|CONTRACTS|RECEIPTS)';
+    var processedText = text;
+    var titleKW = '(?:THE FRANCHISOR|BUSINESS EXPERIENCE|LITIGATION|BANKRUPTCY|INITIAL FEES|OTHER FEES|ESTIMATED INITIAL|RESTRICTIONS ON|FRANCHISEE.S OBLIGATIONS|FINANCING|FRANCHISOR.S (?:ASSISTANCE|OBLIGATIONS)|TERRITORY|TRADEMARKS|PATENTS|OBLIGATION TO|RENEWAL|PUBLIC FIGURES|FINANCIAL (?:PERFORMANCE|STATEMENTS)|OUTLETS AND|CONTRACTS|RECEIPTS)';
     try {
-        const splitRe = new RegExp('(?<=\\S)\\s+(?=ITEM\\s+\\d{1,2}\\s+' + titleKW + ')', 'gi');
-        text = text.replace(splitRe, '\n');
+        var splitRe = new RegExp('(?<=\\S)\\s+(?=ITEM\\s+\\d{1,2}\\s+' + titleKW + ')', 'gi');
+        processedText = processedText.replace(splitRe, '\n');
     } catch(e) {
-        // Lookbehind not supported in older browsers - use simpler fallback
-        const splitRe2 = new RegExp('(\\S)\\s+(ITEM\\s+\\d{1,2}\\s+(?:' + titleKW + '))', 'gi');
-        text = text.replace(splitRe2, '$1\n$2');
+        var splitRe2 = new RegExp('(\\S)\\s+(ITEM\\s+\\d{1,2}\\s+(?:' + titleKW + '))', 'gi');
+        processedText = processedText.replace(splitRe2, '$1\n$2');
     }
 
-    // Patterns to match FDD item headers - ordered from most specific to broadest
-    const patterns = [
-        // "ITEM X:" or "ITEM X." or "ITEM X -" with separator
+    var patterns = [
         /(?:^|\n)\s*(?:ITEM|Item)\s+(\d{1,2})\s*[:\.\-\u2014\u2013]\s*/gi,
-        // "ITEM X THE FRANCHISOR..." (no separator, title keyword follows)
         /(?:^|\n)\s*(?:ITEM|Item)\s+(\d{1,2})\s+(?=(?:THE|BUSINESS|LITIGATION|BANKRUPTCY|INITIAL|OTHER|ESTIMATED|RESTRICTIONS|FRANCHISEE|FINANCING|FRANCHISOR|TERRITORY|TRADEMARKS|PATENTS|OBLIGATION|RENEWAL|PUBLIC|FINANCIAL|OUTLETS|CONTRACTS|RECEIPTS))/gi,
-        // "ITEM X" alone at end of line
         /(?:^|\n)\s*(?:ITEM|Item)\s+(\d{1,2})\s*$/gim,
-        // "ITEM X" followed by newline then content
         /(?:^|\n)\s*(?:ITEM|Item)\s+(\d{1,2})\s*\n/gi,
-        // Extra whitespace: "ITEM  X" or "ITEM   X"
         /(?:^|\n)\s*(?:ITEM|Item)\s{2,}(\d{1,2})\s*[:\.\-\u2014\u2013]?\s*/gi,
-        // No space: "Item1:" or "ITEM1."
         /(?:^|\n)\s*(?:ITEM|Item)(\d{1,2})\s*[:\.\-]\s*/gi,
-        // Number + period + known FDD title (no ITEM prefix)
         /(?:^|\n)\s*(\d{1,2})\.\s+(?:THE FRANCHISOR|BUSINESS EXPERIENCE|LITIGATION|BANKRUPTCY|INITIAL FEES|OTHER FEES|ESTIMATED INITIAL|RESTRICTIONS ON SOURCES|FRANCHISEE.S OBLIGATIONS|FINANCING|FRANCHISOR.S ASSISTANCE|TERRITORY|TRADEMARKS|PATENTS|OBLIGATION TO PARTICIPATE|RESTRICTIONS ON WHAT|RENEWAL|PUBLIC FIGURES|FINANCIAL PERFORMANCE|OUTLETS AND FRANCHISEE|FINANCIAL STATEMENTS|CONTRACTS|RECEIPTS)/gi,
-        // Spaced out from PDF extraction: "I T E M  1"
         /(?:^|\n)\s*I\s*T\s*E\s*M\s+(\d{1,2})/gi
     ];
 
-    let itemBounds = [];
-    for (const pattern of patterns) {
-        let match;
-        while ((match = pattern.exec(text)) !== null) {
-            const itemNum = parseInt(match[1]);
+    var itemBounds = [];
+    for (var p = 0; p < patterns.length; p++) {
+        var pattern = patterns[p];
+        var match;
+        while ((match = pattern.exec(processedText)) !== null) {
+            var itemNum = parseInt(match[1]);
             if (itemNum >= 1 && itemNum <= 23) {
-                const existing = itemBounds.find(b => b.num === itemNum);
-                if (!existing) {
+                if (!itemBounds.find(function(b) { return b.num === itemNum; })) {
                     itemBounds.push({ num: itemNum, start: match.index + match[0].length });
                 }
             }
         }
-        if (itemBounds.length >= 15) break; // Strong match found, stop trying weaker patterns
+        if (itemBounds.length >= 15) break;
     }
 
-    if (itemBounds.length === 0) return 0;
+    // If pattern-based splitting found items, use position-based extraction
+    if (itemBounds.length >= 3) {
+        itemBounds.sort(function(a, b) { return a.start - b.start; });
+        var filledCount = 0;
+        for (var i = 0; i < itemBounds.length; i++) {
+            var start = itemBounds[i].start;
+            var end = i < itemBounds.length - 1 ? itemBounds[i + 1].start : Math.min(start + 30000, processedText.length);
+            var itemText = processedText.substring(start, end).trim();
+            var textarea = document.getElementById('text-' + itemBounds[i].num);
+            if (textarea && itemText.length > 20) {
+                textarea.value = itemText.substring(0, 30000);
+                filledCount++;
+            }
+        }
+        updateProgress();
+        return filledCount;
+    }
 
-    // Sort by position in text
-    itemBounds.sort((a, b) => a.start - b.start);
+    // === STRATEGY 2: TOC page-mapping (works when headers are images but TOC text is extractable) ===
+    if (!pageTexts || pageTexts.length < 3) return 0;
 
-    // Extract text for each item
-    let filledCount = 0;
-    for (let i = 0; i < itemBounds.length; i++) {
-        const start = itemBounds[i].start;
-        const end = i < itemBounds.length - 1 ? itemBounds[i + 1].start : Math.min(start + 30000, text.length);
-        const itemText = text.substring(start, end).trim();
+    console.log('[FDD Split] Pattern matching found ' + itemBounds.length + ' items. Trying TOC page-mapping fallback...');
 
-        const textarea = document.getElementById('text-' + itemBounds[i].num);
+    // Search first 20K chars for Table of Contents entries
+    // FDD TOCs typically list: "ItemNum. Title ... PageNum"
+    // PDF extraction often renders this as: "ItemNum.  Title  PageNum"
+    var tocRegion = text.substring(0, Math.min(20000, text.length));
+
+    // Each entry: [itemNumber, regex matching title ending + captured page number]
+    // We match the ENDING of each FDD title followed by whitespace then a 1-3 digit page number
+    var tocPatterns = [
+        [1,  /AND\s+AFFILIATES?\s+(\d{1,3})/i],
+        [2,  /BUSINESS\s+EXPERIENCE\s+(\d{1,3})/i],
+        [3,  /\bLITIGATION\s+(\d{1,3})/i],
+        [4,  /\bBANKRUPTCY\s+(\d{1,3})/i],
+        [5,  /INITIAL\s+FEES\s+(\d{1,3})/i],
+        [6,  /OTHER\s+FEES\s+(\d{1,3})/i],
+        [7,  /INITIAL\s+INVESTMENT\s+(\d{1,3})/i],
+        [8,  /(?:ON\s+SOURCES|PRODUCTS\s+AND\s+SERVICES)\s+(\d{1,3})/i],
+        [9,  /FRANCHISEE.?S?\s+OBLIGATIONS?\s+(\d{1,3})/i],
+        [10, /\bFINANCING\s+(\d{1,3})/i],
+        [11, /(?:FRANCHISOR.?S?\s+(?:ASSISTANCE|OBLIGATIONS?)|COMPUTER\s+SYSTEMS|AND\s+TRAINING)\s+(\d{1,3})/i],
+        [12, /\bTERRITORY\s+(\d{1,3})/i],
+        [13, /\bTRADEMARKS?\s+(\d{1,3})/i],
+        [14, /(?:PATENTS?|PROPRIETARY\s+INFORMATION?|COPYRIGHTS?)\s+(\d{1,3})/i],
+        [15, /(?:OBLIGATION\s+TO\s+PARTICIPATE|ACTUAL\s+OPERATION|FRANCHISE\s+BUSINESS)\s+(\d{1,3})/i],
+        [16, /(?:RESTRICTIONS?\s+ON\s+WHAT|MAY\s+SELL)\s+(\d{1,3})/i],
+        [17, /(?:RENEWAL|TERMINATION|DISPUTE\s+RESOLUTION)\s+(\d{1,3})/i],
+        [18, /PUBLIC\s+FIGURES?\s+(\d{1,3})/i],
+        [19, /FINANCIAL\s+PERFORMANCE(?:\s+\w+)?\s+(\d{1,3})/i],
+        [20, /(?:OUTLETS?\s+AND\s+FRANCHISEE|FRANCHISEE\s+INFORMATION)\s+(\d{1,3})/i],
+        [21, /FINANCIAL\s+STATEMENTS?\s+(\d{1,3})/i],
+        [22, /\bCONTRACTS?\s+(\d{1,3})/i],
+        [23, /\bRECEIPTS?\s+(\d{1,3})/i]
+    ];
+
+    var itemPageMap = [];
+    for (var t = 0; t < tocPatterns.length; t++) {
+        var num = tocPatterns[t][0];
+        var re = tocPatterns[t][1];
+        var m = tocRegion.match(re);
+        if (m) {
+            var pg = parseInt(m[1]);
+            if (pg >= 1 && pg <= pageTexts.length) {
+                itemPageMap.push({ num: num, page: pg });
+            }
+        }
+    }
+
+    console.log('[FDD Split] TOC parsing found ' + itemPageMap.length + ' items with page numbers');
+
+    if (itemPageMap.length < 5) return 0;
+
+    // Sort by page number, then item number
+    itemPageMap.sort(function(a, b) { return a.page - b.page || a.num - b.num; });
+
+    // Assign page ranges and fill textareas
+    var filledCount = 0;
+    for (var i = 0; i < itemPageMap.length; i++) {
+        var startIdx = itemPageMap[i].page - 1; // convert to 0-indexed
+        var endIdx;
+        if (i < itemPageMap.length - 1) {
+            endIdx = itemPageMap[i + 1].page - 1;
+            if (endIdx <= startIdx) endIdx = startIdx + 1; // at least include the start page
+        } else {
+            endIdx = pageTexts.length; // last item gets rest of document
+        }
+
+        var itemText = '';
+        for (var pg = startIdx; pg < endIdx && pg < pageTexts.length; pg++) {
+            itemText += pageTexts[pg] + '\n\n';
+        }
+        itemText = itemText.trim();
+
+        var textarea = document.getElementById('text-' + itemPageMap[i].num);
         if (textarea && itemText.length > 20) {
             textarea.value = itemText.substring(0, 30000);
             filledCount++;
         }
+    }
+
+    if (filledCount > 0) {
+        console.log('[FDD Split] TOC page-mapping filled ' + filledCount + ' items');
     }
 
     updateProgress();
