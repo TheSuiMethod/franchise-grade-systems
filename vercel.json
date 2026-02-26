@@ -21,7 +21,15 @@
     { "source": "/fdd-analyzer-tool", "destination": "/fdd-analyzer-tool.html" },
     { "source": "/privacy", "destination": "/privacy.html" },
     { "source": "/terms", "destination": "/terms.html" },
-    { "source": "/expert-review", "destination": "/expert-review.html" }
+    { "source": "/expert-review", "destination": "/expert-review.html" },
+    { "source": "/blog/franchise-fees-real-cost", "destination": "/franchise-fees-real-cost.html" },
+    { "source": "/blog/franchise-hidden-fees", "destination": "/franchise-hidden-fees.html" },
+    { "source": "/blog/franchise-red-flags-fdd", "destination": "/franchise-red-flags-fdd.html" },
+    { "source": "/blog/how-to-read-franchise-fdd", "destination": "/how-to-read-franchise-fdd.html" },
+    { "source": "/blog/is-buying-a-franchise-worth-it", "destination": "/is-buying-a-franchise-worth-it.html" },
+    { "source": "/blog/questions-to-ask-franchisees", "destination": "/questions-to-ask-franchisees.html" },
+    { "source": "/franchise/mcdonalds", "destination": "/mcdonalds.html" },
+    { "source": "/franchise/:slug", "destination": "/franchise-directory.html" }
   ],
   "headers": [
     {
