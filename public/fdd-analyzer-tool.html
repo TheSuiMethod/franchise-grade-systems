@@ -307,7 +307,12 @@
         <h2 style="margin-bottom: 20px;">Detailed Findings by Item</h2>
         <div id="resultsContainer"></div>
         <div class="download-section">
-            <button class="download-btn" onclick="downloadPDF()">Download PDF Report</button>
+            <div style="background:#FFF3CD;border:2px solid #856404;border-radius:10px;padding:16px 24px;margin-bottom:20px;max-width:600px;display:inline-block;text-align:left;">
+                <strong style="color:#856404;font-size:15px;">Important: Download your report now.</strong>
+                <p style="color:#856404;font-size:13px;margin:6px 0 0 0;">Your analysis results are not saved after you leave this page. Click the button below to save your PDF report before closing this tab.</p>
+            </div>
+            <br>
+            <button class="download-btn" onclick="downloadPDF()" style="font-size:18px;padding:18px 48px;">Download PDF Report</button>
         </div>
         <div class="upsell">
             <h3>Your Next Step: Get the Full Picture</h3>
@@ -582,7 +587,7 @@ function showGateError(reason) {
     const gate = document.getElementById('gate');
     let msg = 'This analysis session is no longer available.';
     let recovery = '<p style="margin-top:12px;font-size:14px;color:#4A4A5A;">Already purchased? Try opening this page in the same browser you used to check out. If you still cannot access it, email <a href="mailto:franchisegradesystems@gmail.com?subject=FDD Analyzer Access Help" style="color:#2D6A4F;font-weight:600;">franchisegradesystems@gmail.com</a> and we will send you a fresh access link within 24 hours.</p>';
-    if (reason === 'used') { msg = 'This analysis has already been completed. Check your email for your PDF report.'; recovery = ''; }
+    if (reason === 'used') { msg = 'This analysis session has already been completed. If you did not download your PDF report, email us and we will reset your access within 24 hours.'; recovery = '<p style="margin-top:12px;font-size:14px;color:#4A4A5A;"><a href="mailto:franchisegradesystems@gmail.com?subject=FDD Analyzer - Please Reset My Access&body=Hi, I completed my FDD analysis but was unable to download the PDF report. Please reset my session so I can re-run the analysis and download the report. Thank you." style="color:#2D6A4F;font-weight:600;">Request Access Reset</a></p>'; }
     if (reason === 'expired') msg = 'This session has expired. Please purchase a new analysis.';
     if (reason === 'connection') { msg = 'Unable to verify your purchase. Please check your connection and try again.'; recovery = '<p style="margin-top:12px;font-size:14px;color:#4A4A5A;">If this keeps happening, try refreshing the page. Your access is saved in this browser.</p>'; }
     gate.innerHTML = `<div class="gate-error"><h2>Access Required</h2><p>${msg}</p>${recovery}<p style="margin-top:16px;"><a href="/fdd-analyzer">Purchase an FDD Analysis &rarr;</a></p></div>`;
