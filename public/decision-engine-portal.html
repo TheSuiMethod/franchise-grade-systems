@@ -190,7 +190,7 @@
     const res = await fetch(`/api/verify-engine?session_id=${tokenToVerify}`);
     const data = await res.json();
 
-    if (data.valid && (data.product === 'decision_engine' || data.product === 'fdd_analyzer')) {
+    if (data.valid && (data.product === 'decision_engine' || data.product === 'fdd_analyzer' || data.product === 'bundle')) {
       // Store access token for future visits
       localStorage.setItem('fgs_engine_token', tokenToVerify);
       localStorage.setItem('fgs_engine_product', data.product);
@@ -200,6 +200,11 @@
       if (data.product === 'fdd_analyzer') {
         // Still give them portal access but note the upgrade option
         document.querySelector('.hero-badge').textContent = 'FDD Analyzer Access';
+      }
+
+      // If they bought the Bundle, show full access badge
+      if (data.product === 'bundle') {
+        document.querySelector('.hero-badge').textContent = 'Bundle: Full Access';
       }
 
       // Update FDD Analyzer link with session token

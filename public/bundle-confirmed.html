@@ -45,6 +45,9 @@
         .step-list li { display: flex; gap: 12px; align-items: flex-start; margin-bottom: 14px; font-size: 0.92rem; color: var(--slate); line-height: 1.5; }
         .step-num { min-width: 28px; height: 28px; background: var(--forest-mid); color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.8rem; flex-shrink: 0; }
         .note { background: #F0FDF4; border: 1px solid #BBF7D0; border-radius: 12px; padding: 20px; margin: 32px 0; font-size: 0.9rem; color: var(--charcoal); line-height: 1.6; }
+        .access-status { padding: 12px 20px; border-radius: 10px; font-size: 0.85rem; font-weight: 600; margin-bottom: 20px; }
+        .access-verified { background: #DCFCE7; color: #166534; border: 1px solid #BBF7D0; }
+        .access-error { background: #FEF2F2; color: #991B1B; border: 1px solid #FECACA; }
         footer { text-align: center; padding: 32px 24px; background: var(--forest); color: var(--mint); margin-top: 60px; }
         .footer-logo { font-family: 'Instrument Serif', serif; font-size: 1.1rem; margin-bottom: 8px; }
         .footer-logo span { color: var(--sage); }
@@ -66,6 +69,8 @@
     <h1>You've got the full toolkit. Here's how to use it.</h1>
     <p class="intro">Your purchase includes the Decision Engine (all AI-powered due diligence tools) plus a 90-minute Expert Review session. Here's how to access both.</p>
 
+    <div id="accessStatus"></div>
+
     <!-- PRODUCT 1: DECISION ENGINE -->
     <div class="product-card">
         <h2>Part 1: Decision Engine - Available Now</h2>
@@ -75,7 +80,7 @@
             <li><span class="step-num">2</span> Start with the AI FDD Analyzer - upload your FDD for an instant risk analysis</li>
             <li><span class="step-num">3</span> Use the other tools to prepare your negotiation strategy and validation questions</li>
         </ul>
-        <a href="/decision-engine-portal" class="action-btn">Access Decision Engine</a>
+        <a href="/decision-engine-portal" class="action-btn" id="engineLink">Access Decision Engine</a>
     </div>
 
     <!-- PRODUCT 2: EXPERT REVIEW -->
@@ -92,21 +97,76 @@
     </div>
 
     <div class="note">
-        <strong>Save your access links.</strong> Your Decision Engine access is stored in this browser. If you lose this page, you may lose access to your tools. Use the buttons below to save your links now.
+        <strong>Save your access links.</strong> Your Decision Engine access is stored in this browser. If you switch browsers or clear your data, use the "Email Links to Myself" button to keep a backup.
         <div style="margin-top:16px;display:flex;gap:12px;flex-wrap:wrap;">
             <button onclick="copyLinks()" id="copyBtn" style="padding:10px 20px;background:var(--forest-mid);color:#fff;border:none;border-radius:8px;font-weight:600;font-size:0.88rem;cursor:pointer;">Copy My Access Links</button>
-            <a href="mailto:?subject=My%20Franchise-Grade%20Systems%20Access%20Links&body=Decision%20Engine%20Portal%3A%0Ahttps%3A%2F%2Fwww.franchisegradesystems.com%2Fdecision-engine-portal%0A%0ABook%20Expert%20Review%20Session%3A%0Ahttps%3A%2F%2Fcalendly.com%2Ffranchisegradesystems%2Fexpert-fdd-business-review%0A%0ABundle%20Confirmation%20Page%3A%0Ahttps%3A%2F%2Fwww.franchisegradesystems.com%2Fbundle-confirmed%0A%0ASave%20this%20email%20for%20your%20records." style="padding:10px 20px;background:#fff;color:var(--forest-mid);border:2px solid var(--sage);border-radius:8px;font-weight:600;font-size:0.88rem;text-decoration:none;display:inline-block;">Email Links to Myself</a>
+            <a id="emailLinksBtn" href="#" style="padding:10px 20px;background:#fff;color:var(--forest-mid);border:2px solid var(--sage);border-radius:8px;font-weight:600;font-size:0.88rem;text-decoration:none;display:inline-block;">Email Links to Myself</a>
         </div>
         <p style="margin-top:12px;font-size:0.82rem;color:var(--slate);">Questions? Email <a href="mailto:franchisegradesystems@gmail.com" style="color:var(--forest-mid);font-weight:600;">franchisegradesystems@gmail.com</a></p>
     </div>
+
 <script>
+// Capture session_id from Stripe redirect and verify purchase
+(async function() {
+    const params = new URLSearchParams(window.location.search);
+    const sessionId = params.get('session_id');
+    const storedToken = localStorage.getItem('fgs_engine_token');
+    const statusEl = document.getElementById('accessStatus');
+    const engineLink = document.getElementById('engineLink');
+    const emailLinksBtn = document.getElementById('emailLinksBtn');
+
+    const tokenToVerify = sessionId || storedToken;
+
+    if (tokenToVerify) {
+        try {
+            const res = await fetch('/api/verify-engine?session_id=' + tokenToVerify);
+            const data = await res.json();
+
+            if (data.valid) {
+                // Store access token so portal works on future visits and from email links
+                localStorage.setItem('fgs_engine_token', tokenToVerify);
+                localStorage.setItem('fgs_engine_product', data.product);
+                localStorage.setItem('fgs_engine_verified', Date.now().toString());
+
+                // Update portal link to include session_id for immediate access
+                engineLink.href = '/decision-engine-portal?session_id=' + tokenToVerify;
+
+                // Show verified status
+                statusEl.innerHTML = '<div class="access-status access-verified">Your Decision Engine access has been verified and activated.</div>';
+
+                // Clean URL (remove session_id from address bar)
+                if (sessionId) {
+                    window.history.replaceState({}, '', '/bundle-confirmed');
+                }
+            } else {
+                statusEl.innerHTML = '<div class="access-status access-error">Could not verify your purchase. If you just completed payment, try refreshing this page. If the issue persists, email franchisegradesystems@gmail.com with your order confirmation.</div>';
+            }
+        } catch (err) {
+            statusEl.innerHTML = '<div class="access-status access-error">Connection error while verifying your purchase. Please refresh the page to try again.</div>';
+        }
+    }
+
+    // Build email links with session_id if available
+    const portalUrl = engineLink.href;
+    const emailBody = encodeURIComponent(
+        "Decision Engine Portal:\n" + portalUrl +
+        "\n\nBook Expert Review Session:\nhttps://calendly.com/franchisegradesystems/expert-fdd-business-review" +
+        "\n\nBundle Confirmation Page:\nhttps://www.franchisegradesystems.com/bundle-confirmed" +
+        "\n\nSave this email for your records."
+    );
+    emailLinksBtn.href = "mailto:?subject=My%20Franchise-Grade%20Systems%20Access%20Links&body=" + emailBody;
+})();
+
 function copyLinks(){
-    const text = "Decision Engine Portal:\nhttps://www.franchisegradesystems.com/decision-engine-portal\n\nBook Expert Review Session:\nhttps://calendly.com/franchisegradesystems/expert-fdd-business-review\n\nBundle Confirmation Page:\nhttps://www.franchisegradesystems.com/bundle-confirmed";
-    navigator.clipboard.writeText(text).then(()=>{
-        const btn = document.getElementById('copyBtn');
+    const engineLink = document.getElementById('engineLink').href;
+    const text = "Decision Engine Portal:\n" + engineLink +
+        "\n\nBook Expert Review Session:\nhttps://calendly.com/franchisegradesystems/expert-fdd-business-review" +
+        "\n\nBundle Confirmation Page:\nhttps://www.franchisegradesystems.com/bundle-confirmed";
+    navigator.clipboard.writeText(text).then(function(){
+        var btn = document.getElementById('copyBtn');
         btn.textContent = 'Copied!';
         btn.style.background = '#166534';
-        setTimeout(()=>{ btn.textContent = 'Copy My Access Links'; btn.style.background = ''; }, 2500);
+        setTimeout(function(){ btn.textContent = 'Copy My Access Links'; btn.style.background = ''; }, 2500);
     });
 }
 </script>
@@ -123,4 +183,3 @@ function copyLinks(){
 
 </body>
 </html>
-
