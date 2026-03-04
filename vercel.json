@@ -13,7 +13,8 @@
     { "source": "/franchise-red-flags-fdd", "destination": "/blog/franchise-red-flags-fdd", "permanent": true },
     { "source": "/how-to-read-franchise-fdd", "destination": "/blog/how-to-read-franchise-fdd", "permanent": true },
     { "source": "/is-buying-a-franchise-worth-it", "destination": "/blog/is-buying-a-franchise-worth-it", "permanent": true },
-    { "source": "/questions-to-ask-franchisees", "destination": "/blog/questions-to-ask-franchisees", "permanent": true }
+    { "source": "/questions-to-ask-franchisees", "destination": "/blog/questions-to-ask-franchisees", "permanent": true },
+    { "source": "/franchise-alternative-blueprint", "destination": "/independent-systems", "permanent": true }
   ],
   "rewrites": [
     { "source": "/tools", "destination": "/tools.html" },
@@ -29,7 +30,16 @@
     { "source": "/blog/is-buying-a-franchise-worth-it", "destination": "/is-buying-a-franchise-worth-it.html" },
     { "source": "/blog/questions-to-ask-franchisees", "destination": "/questions-to-ask-franchisees.html" },
     { "source": "/franchise/mcdonalds", "destination": "/mcdonalds.html" },
-    { "source": "/franchise/:slug", "destination": "/franchise-directory.html" }
+    { "source": "/franchise/:slug", "destination": "/franchise-directory.html" },
+    { "source": "/independent-systems", "destination": "/independent-systems.html" },
+    { "source": "/operations-gap-analyzer", "destination": "/operations-gap-analyzer.html" },
+    { "source": "/gap-analyzer-tool", "destination": "/gap-analyzer-tool.html" },
+    { "source": "/systems-playbook", "destination": "/systems-playbook.html" },
+    { "source": "/playbook-portal", "destination": "/playbook-portal.html" },
+    { "source": "/implementation-sprint", "destination": "/implementation-sprint.html" },
+    { "source": "/gap-analyzer-confirmed", "destination": "/gap-analyzer-confirmed.html" },
+    { "source": "/playbook-confirmed", "destination": "/playbook-confirmed.html" },
+    { "source": "/sprint-confirmed", "destination": "/sprint-confirmed.html" }
   ],
   "headers": [
     {
@@ -52,6 +62,27 @@
     },
     {
       "source": "/fdd-analyzer-tool(.*)",
+      "headers": [
+        { "key": "X-Robots-Tag", "value": "noindex, nofollow" },
+        { "key": "Cache-Control", "value": "no-store, no-cache, must-revalidate" }
+      ]
+    },
+    {
+      "source": "/gap-analyzer-tool(.*)",
+      "headers": [
+        { "key": "X-Robots-Tag", "value": "noindex, nofollow" },
+        { "key": "Cache-Control", "value": "no-store, no-cache, must-revalidate" }
+      ]
+    },
+    {
+      "source": "/playbook-portal(.*)",
+      "headers": [
+        { "key": "X-Robots-Tag", "value": "noindex, nofollow" },
+        { "key": "Cache-Control", "value": "no-store, no-cache, must-revalidate" }
+      ]
+    },
+    {
+      "source": "/(gap-analyzer|playbook|sprint|blueprint)-confirmed(.*)",
       "headers": [
         { "key": "X-Robots-Tag", "value": "noindex, nofollow" },
         { "key": "Cache-Control", "value": "no-store, no-cache, must-revalidate" }
