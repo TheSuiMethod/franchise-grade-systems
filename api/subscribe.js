@@ -31,22 +31,40 @@ export default async function handler(req, res) {
     // Each environment variable should contain the NUMERIC Kit tag ID.
     // To find tag IDs: Kit dashboard > Grow > Tags > click tag > ID is in the URL
     //
-    // Required environment variables:
+    // === SEGMENT 1: Franchise Buyers ===
     //   KIT_TAG_SCORECARD       -> triggers Scorecard Nurture (3 emails, 7 days)
     //   KIT_TAG_CALCULATOR      -> triggers Calculator Nurture (3 emails, 7 days)
     //   KIT_TAG_QUIZ            -> triggers Quiz Nurture (3 emails, 7 days)
     //   KIT_TAG_LEAD_MAGNET     -> triggers Red Flags Guide sequence (5 emails, 14 days)
     //
+    // === SEGMENT 2/3: Independent Business Owners ===
+    //   KIT_TAG_SEG23_SCORECARD -> triggers Seg 2/3 Welcome + Nurture (8 emails)
+    //   KIT_TAG_SEG23_TIER1     -> triggers Seg 2/3 Tier 1 Post-Purchase (5 emails)
+    //   KIT_TAG_SEG23_TIER2     -> triggers Seg 2/3 Tier 2 Post-Purchase (7 emails)
+    //   KIT_TAG_SEG23_TIER3     -> triggers Seg 2/3 Tier 3 Post-Purchase (5 emails)
+    //   KIT_TAG_SEG1_REJECT     -> triggers Cross-Sell Branch (5 emails)
+    //   KIT_TAG_SEG23_CROSSSELL -> triggers Seg 2/3 cross-sell nurture
+    //   KIT_TAG_SEG23_NURTURE   -> general Seg 2/3 nurture tag
+    //
     const TAG_MAP = {
-        'scorecard':        process.env.KIT_TAG_SCORECARD || '',
-        'calculator':       process.env.KIT_TAG_CALCULATOR || '',
-        'comparison':       process.env.KIT_TAG_CALCULATOR || '',
-        'negotiation':      process.env.KIT_TAG_CALCULATOR || '',
-        'validation':       process.env.KIT_TAG_CALCULATOR || '',
-        'red-flags-guide':  process.env.KIT_TAG_LEAD_MAGNET || '',
-        'red-flags-checklist': process.env.KIT_TAG_LEAD_MAGNET || '',
-        'red-flag-quiz':    process.env.KIT_TAG_QUIZ || '',
-        'decision-engine':  process.env.KIT_TAG_LEAD_MAGNET || '',
+        // --- Segment 1: Franchise Buyers ---
+        'scorecard':            process.env.KIT_TAG_SCORECARD || '',
+        'calculator':           process.env.KIT_TAG_CALCULATOR || '',
+        'comparison':           process.env.KIT_TAG_CALCULATOR || '',
+        'negotiation':          process.env.KIT_TAG_CALCULATOR || '',
+        'validation':           process.env.KIT_TAG_CALCULATOR || '',
+        'red-flags-guide':      process.env.KIT_TAG_LEAD_MAGNET || '',
+        'red-flags-checklist':  process.env.KIT_TAG_LEAD_MAGNET || '',
+        'red-flag-quiz':        process.env.KIT_TAG_QUIZ || '',
+        'decision-engine':      process.env.KIT_TAG_LEAD_MAGNET || '',
+
+        // --- Segment 2/3: Independent Business Owners ---
+        'scorecard-independent':    process.env.KIT_TAG_SEG23_SCORECARD || '',
+        'gap-analyzer':             process.env.KIT_TAG_SEG23_TIER1 || '',
+        'systems-playbook':         process.env.KIT_TAG_SEG23_TIER2 || '',
+        'implementation-sprint':    process.env.KIT_TAG_SEG23_TIER3 || '',
+        'seg1-reject':              process.env.KIT_TAG_SEG1_REJECT || '',
+        'independent-systems':      process.env.KIT_TAG_SEG23_SCORECARD || '',
     };
 
     try {
