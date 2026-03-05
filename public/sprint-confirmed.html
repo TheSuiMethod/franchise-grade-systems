@@ -33,7 +33,9 @@
         .prep-item { padding: 8px 0; border-bottom: 1px solid rgba(0,0,0,0.08); font-size: 0.9rem; color: var(--slate); line-height: 1.5; display: flex; gap: 10px; align-items: flex-start; }
         .prep-item:last-child { border-bottom: none; }
         .prep-check { color: var(--sage); font-weight: 700; flex-shrink: 0; margin-top: 1px; }
-        .note { background: #FEF3C7; border: 1px solid #FDE68A; border-radius: 12px; padding: 20px; margin: 32px 0; font-size: 0.9rem; color: #78350F; line-height: 1.6; }
+        .book-btn { display: inline-block; background: var(--sage); color: var(--forest); padding: 14px 36px; border-radius: 8px; font-weight: 700; font-size: 1rem; text-decoration: none; margin-top: 12px; transition: background 0.2s; }
+        .book-btn:hover { background: var(--mint); }
+        .step-highlight { border: 2px solid var(--sage); }
         footer { text-align: center; padding: 32px 24px; background: var(--forest); color: var(--mint); }
         .footer-logo { font-family: 'Instrument Serif', serif; font-size: 1.1rem; margin-bottom: 8px; }
         .footer-logo span { color: var(--sage); }
@@ -52,44 +54,45 @@
 <div class="container">
     <span class="success-badge">Payment Confirmed</span>
     <h1>Your Implementation Sprint is confirmed.</h1>
-    <p class="intro">You'll receive a booking link within 24 hours to schedule your 90-minute session. In the meantime, here's how to prepare so we can make the most of our time together.</p>
+    <p class="intro">Book your 90-minute session now using the link below. Sessions are typically available within 5-7 business days.</p>
 
-    <div class="step-card">
+    <div class="step-card step-highlight">
         <div class="step-num">1</div>
         <div>
-            <strong>Watch for your booking link</strong>
-            <p>You'll receive an email within 24 hours with a scheduling link. Use it to select a date and time that works for you. Sessions are typically held within 5-7 business days of booking.</p>
+            <strong>Book your session</strong>
+            <p>Select a date and time that works for you. You will answer three short intake questions during booking -- complete them honestly. The more specific you are, the more we can accomplish in the session.</p>
+            <a href="https://calendly.com/franchisegradesystems/implementation-sprint-operational-systems-session" target="_blank" class="book-btn">Book My Session Now</a>
         </div>
     </div>
 
     <div class="step-card">
         <div class="step-num">2</div>
         <div>
-            <strong>Complete the pre-session intake</strong>
-            <p>The booking link will include a short intake form. This covers your business type, your top operational challenges, and any specific areas you want to focus on. Completing it before the session means we skip the background and get straight to work.</p>
+            <strong>Run the Operations Gap Analyzer (recommended)</strong>
+            <p>If you have not already, take the Operations Scorecard and run the Gap Analyzer before the session. Having your results in hand means the first 10 minutes go toward your systems, not gathering background.</p>
+            <p style="margin-top:10px;"><a href="/business-scorecard" style="color:var(--forest-mid);font-weight:600;">Take the Free Scorecard</a></p>
         </div>
     </div>
 
     <div class="step-card">
         <div class="step-num">3</div>
         <div>
-            <strong>Run the Operations Gap Analyzer (recommended)</strong>
-            <p>If you haven't already, take the Operations Scorecard and run the Gap Analyzer before the session. Having your results in hand means I can review them before we meet and arrive with a focused agenda instead of spending the first 20 minutes gathering information.</p>
-            <p style="margin-top:10px;"><a href="/business-scorecard" style="color:var(--forest-mid);font-weight:600;">Take the Free Scorecard</a></p>
+            <strong>Prepare for the session</strong>
+            <p>You will receive a calendar invite and reminder emails automatically after booking. Before the session, review the prep items below.</p>
         </div>
     </div>
 
     <div class="prep-box">
         <h3>How to prepare for the session</h3>
         <div class="prep-item"><span class="prep-check">+</span><span>Write down your 3 biggest operational frustrations right now. Specific problems, not general categories.</span></div>
-        <div class="prep-item"><span class="prep-check">+</span><span>Identify one process that breaks or becomes inconsistent when you're not personally managing it.</span></div>
-        <div class="prep-item"><span class="prep-check">+</span><span>Know your current team size and which roles, if any, you're planning to add in the next 6 months.</span></div>
+        <div class="prep-item"><span class="prep-check">+</span><span>Identify one process that breaks or becomes inconsistent when you are not personally managing it.</span></div>
+        <div class="prep-item"><span class="prep-check">+</span><span>Know your current team size and which roles, if any, you are planning to add in the next 6 months.</span></div>
         <div class="prep-item"><span class="prep-check">+</span><span>Have a number in mind: how many hours per week are you currently losing to things that should be systematized?</span></div>
-        <div class="prep-item"><span class="prep-check">+</span><span>Join the session from a place where you can take notes and aren't likely to be interrupted.</span></div>
+        <div class="prep-item"><span class="prep-check">+</span><span>Join the session from a place where you can take notes and are not likely to be interrupted.</span></div>
     </div>
 
     <div class="note">
-        <strong>Cancellation and rescheduling:</strong> Free reschedule with 24+ hours notice. Cancellations more than 24 hours before your session receive a full refund. Cancellations within 24 hours receive a 50% credit toward a future session, valid for 90 days. No-shows are non-refundable. To reschedule or cancel, reply to your confirmation email or contact franchisegradesystems@gmail.com with your order number.
+        <strong>Cancellation and rescheduling:</strong> Free reschedule with 24+ hours notice. Cancellations more than 24 hours before your session receive a full refund. Cancellations within 24 hours receive a 50% credit toward a future session, valid for 90 days. No-shows are non-refundable. To reschedule or cancel, use the link in your Calendly confirmation email or contact franchisegradesystems@gmail.com with your order number.
     </div>
 </div>
 
