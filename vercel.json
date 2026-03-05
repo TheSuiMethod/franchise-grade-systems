@@ -8,153 +8,141 @@
     }
   },
   "redirects": [
-    {
-      "source": "/franchise-fees-real-cost",
-      "destination": "/blog/franchise-fees-real-cost",
-      "permanent": true
-    },
-    {
-      "source": "/franchise-hidden-fees",
-      "destination": "/blog/franchise-hidden-fees",
-      "permanent": true
-    },
-    {
-      "source": "/franchise-red-flags-fdd",
-      "destination": "/blog/franchise-red-flags-fdd",
-      "permanent": true
-    },
-    {
-      "source": "/how-to-read-franchise-fdd",
-      "destination": "/blog/how-to-read-franchise-fdd",
-      "permanent": true
-    },
-    {
-      "source": "/is-buying-a-franchise-worth-it",
-      "destination": "/blog/is-buying-a-franchise-worth-it",
-      "permanent": true
-    },
-    {
-      "source": "/questions-to-ask-franchisees",
-      "destination": "/blog/questions-to-ask-franchisees",
-      "permanent": true
-    },
-    {
-      "source": "/franchise-alternative-blueprint",
-      "destination": "/independent-systems",
-      "permanent": true
-    }
+    { "source": "/franchise-fees-real-cost", "destination": "/blog/franchise-fees-real-cost", "permanent": true },
+    { "source": "/franchise-hidden-fees", "destination": "/blog/franchise-hidden-fees", "permanent": true },
+    { "source": "/franchise-red-flags-fdd", "destination": "/blog/franchise-red-flags-fdd", "permanent": true },
+    { "source": "/how-to-read-franchise-fdd", "destination": "/blog/how-to-read-franchise-fdd", "permanent": true },
+    { "source": "/is-buying-a-franchise-worth-it", "destination": "/blog/is-buying-a-franchise-worth-it", "permanent": true },
+    { "source": "/questions-to-ask-franchisees", "destination": "/blog/questions-to-ask-franchisees", "permanent": true },
+    { "source": "/franchise-alternative-blueprint", "destination": "/independent-systems", "permanent": true }
   ],
   "rewrites": [
-    {
-      "source": "/tools",
-      "destination": "/tools.html"
-    },
-    {
-      "source": "/fdd-analyzer",
-      "destination": "/fdd-analyzer.html"
-    },
-    {
-      "source": "/fdd-analyzer-tool",
-      "destination": "/fdd-analyzer-tool.html"
-    },
-    {
-      "source": "/privacy",
-      "destination": "/privacy.html"
-    },
-    {
-      "source": "/terms",
-      "destination": "/terms.html"
-    },
-    {
-      "source": "/expert-review",
-      "destination": "/expert-review.html"
-    },
-    {
-      "source": "/blog/franchise-fees-real-cost",
-      "destination": "/franchise-fees-real-cost.html"
-    },
-    {
-      "source": "/blog/franchise-hidden-fees",
-      "destination": "/franchise-hidden-fees.html"
-    },
-    {
-      "source": "/blog/franchise-red-flags-fdd",
-      "destination": "/franchise-red-flags-fdd.html"
-    },
-    {
-      "source": "/blog/how-to-read-franchise-fdd",
-      "destination": "/how-to-read-franchise-fdd.html"
-    },
-    {
-      "source": "/blog/is-buying-a-franchise-worth-it",
-      "destination": "/is-buying-a-franchise-worth-it.html"
-    },
-    {
-      "source": "/blog/questions-to-ask-franchisees",
-      "destination": "/questions-to-ask-franchisees.html"
-    },
-    {
-      "source": "/franchise/mcdonalds",
-      "destination": "/mcdonalds.html"
-    },
-    {
-      "source": "/franchise/:slug",
-      "destination": "/franchise-directory.html"
-    },
-    {
-      "source": "/independent-systems",
-      "destination": "/independent-systems.html"
-    },
-    {
-      "source": "/operations-gap-analyzer",
-      "destination": "/operations-gap-analyzer.html"
-    },
-    {
-      "source": "/gap-analyzer-tool",
-      "destination": "/gap-analyzer-tool.html"
-    },
-    {
-      "source": "/systems-playbook",
-      "destination": "/systems-playbook.html"
-    },
-    {
-      "source": "/playbook-portal",
-      "destination": "/playbook-portal.html"
-    },
-    {
-      "source": "/implementation-sprint",
-      "destination": "/implementation-sprint.html"
-    },
-    {
-      "source": "/gap-analyzer-confirmed",
-      "destination": "/gap-analyzer-confirmed.html"
-    },
-    {
-      "source": "/playbook-confirmed",
-      "destination": "/playbook-confirmed.html"
-    },
-    {
-      "source": "/sprint-confirmed",
-      "destination": "/sprint-confirmed.html"
-    }
+    { "source": "/tools", "destination": "/tools.html" },
+    { "source": "/fdd-analyzer", "destination": "/fdd-analyzer.html" },
+    { "source": "/fdd-analyzer-tool", "destination": "/fdd-analyzer-tool.html" },
+    { "source": "/privacy", "destination": "/privacy.html" },
+    { "source": "/terms", "destination": "/terms.html" },
+    { "source": "/expert-review", "destination": "/expert-review.html" },
+    { "source": "/blog/franchise-fees-real-cost", "destination": "/franchise-fees-real-cost.html" },
+    { "source": "/blog/franchise-hidden-fees", "destination": "/franchise-hidden-fees.html" },
+    { "source": "/blog/franchise-red-flags-fdd", "destination": "/franchise-red-flags-fdd.html" },
+    { "source": "/blog/how-to-read-franchise-fdd", "destination": "/how-to-read-franchise-fdd.html" },
+    { "source": "/blog/is-buying-a-franchise-worth-it", "destination": "/is-buying-a-franchise-worth-it.html" },
+    { "source": "/blog/questions-to-ask-franchisees", "destination": "/questions-to-ask-franchisees.html" },
+    { "source": "/franchise/mcdonalds", "destination": "/mcdonalds.html" },
+    { "source": "/franchise/:slug", "destination": "/franchise-directory.html" },
+    { "source": "/independent-systems", "destination": "/independent-systems.html" },
+    { "source": "/operations-gap-analyzer", "destination": "/operations-gap-analyzer.html" },
+    { "source": "/gap-analyzer-tool", "destination": "/gap-analyzer-tool.html" },
+    { "source": "/systems-playbook", "destination": "/systems-playbook.html" },
+    { "source": "/playbook-portal", "destination": "/playbook-portal.html" },
+    { "source": "/implementation-sprint", "destination": "/implementation-sprint.html" },
+    { "source": "/gap-analyzer-confirmed", "destination": "/gap-analyzer-confirmed.html" },
+    { "source": "/playbook-confirmed", "destination": "/playbook-confirmed.html" },
+    { "source": "/sprint-confirmed", "destination": "/sprint-confirmed.html" },
+    { "source": "/bundle-confirmed", "destination": "/bundle-confirmed.html" },
+    { "source": "/fdd-analyzer-confirmed", "destination": "/fdd-analyzer-tool.html" },
+    { "source": "/decision-engine", "destination": "/decision-engine.html" },
+    { "source": "/decision-engine-portal", "destination": "/decision-engine-portal.html" },
+    { "source": "/expert-review-booked", "destination": "/expert-review-booked.html" },
+    { "source": "/recover-access", "destination": "/recover-access.html" },
+    { "source": "/blog", "destination": "/blog.html" },
+    { "source": "/red-flag-quiz", "destination": "/red-flag-quiz.html" },
+    { "source": "/red-flags-checklist", "destination": "/red-flags-checklist.html" },
+    { "source": "/franchise-roi-calculator", "destination": "/franchise-roi-calculator.html" },
+    { "source": "/franchise-profit-margin-calculator", "destination": "/franchise-profit-margin-calculator.html" },
+    { "source": "/franchise-comparison", "destination": "/franchise-comparison.html" },
+    { "source": "/negotiation-simulator", "destination": "/negotiation-simulator.html" },
+    { "source": "/business-scorecard", "destination": "/business-scorecard.html" },
+    { "source": "/free-fdd-downloads", "destination": "/free-fdd-downloads.html" },
+    { "source": "/sample-report", "destination": "/sample-report.html" },
+    { "source": "/data-security", "destination": "/data-security.html" },
+    { "source": "/validation-scripts", "destination": "/validation-scripts.html" }
   ],
   "headers": [
     {
-      "source": "/((?!_next|lib|api).*)\\.(html|htm)$",
+      "source": "/(.*)",
       "headers": [
+        { "key": "X-Content-Type-Options", "value": "nosniff" },
+        { "key": "X-Frame-Options", "value": "DENY" },
+        { "key": "X-XSS-Protection", "value": "1; mode=block" },
+        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
+        { "key": "Permissions-Policy", "value": "camera=(), microphone=(), geolocation=()" },
         {
-          "key": "Cache-Control",
-          "value": "public, max-age=0, must-revalidate"
+          "key": "Content-Security-Policy",
+          "value": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com https://js.stripe.com https://api.convertkit.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://www.google-analytics.com https://*.stripe.com; connect-src 'self' https://www.google-analytics.com https://api.convertkit.com https://js.stripe.com https://*.stripe.com; frame-src https://js.stripe.com https://calendly.com;"
+        },
+        {
+          "key": "Strict-Transport-Security",
+          "value": "max-age=63072000; includeSubDomains; preload"
         }
       ]
     },
     {
-      "source": "/((?!_next).*)\\.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2)$",
+      "source": "/fdd-analyzer-tool(.*)",
       "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=31536000, immutable"
-        }
+        { "key": "X-Robots-Tag", "value": "noindex, nofollow" },
+        { "key": "Cache-Control", "value": "no-store, no-cache, must-revalidate" }
+      ]
+    },
+    {
+      "source": "/gap-analyzer-tool(.*)",
+      "headers": [
+        { "key": "X-Robots-Tag", "value": "noindex, nofollow" },
+        { "key": "Cache-Control", "value": "no-store, no-cache, must-revalidate" }
+      ]
+    },
+    {
+      "source": "/playbook-portal(.*)",
+      "headers": [
+        { "key": "X-Robots-Tag", "value": "noindex, nofollow" },
+        { "key": "Cache-Control", "value": "no-store, no-cache, must-revalidate" }
+      ]
+    },
+    {
+      "source": "/(gap-analyzer|playbook|sprint|blueprint|bundle|fdd-analyzer)-confirmed(.*)",
+      "headers": [
+        { "key": "X-Robots-Tag", "value": "noindex, nofollow" },
+        { "key": "Cache-Control", "value": "no-store, no-cache, must-revalidate" }
+      ]
+    },
+    {
+      "source": "/decision-engine-portal(.*)",
+      "headers": [
+        { "key": "X-Robots-Tag", "value": "noindex, nofollow" },
+        { "key": "Cache-Control", "value": "no-store, no-cache, must-revalidate" }
+      ]
+    },
+    {
+      "source": "/expert-review-booked(.*)",
+      "headers": [
+        { "key": "X-Robots-Tag", "value": "noindex, nofollow" },
+        { "key": "Cache-Control", "value": "no-store, no-cache, must-revalidate" }
+      ]
+    },
+    {
+      "source": "/recover-access(.*)",
+      "headers": [
+        { "key": "X-Robots-Tag", "value": "noindex, nofollow" },
+        { "key": "Cache-Control", "value": "no-store, no-cache, must-revalidate" }
+      ]
+    },
+    {
+      "source": "/(.+\\.png)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+      ]
+    },
+    {
+      "source": "/(.+\\.jpg)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+      ]
+    },
+    {
+      "source": "/(.+\\.ico)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
       ]
     }
   ]
