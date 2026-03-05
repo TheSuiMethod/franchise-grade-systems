@@ -320,10 +320,10 @@
             <br>
             <button class="download-btn" onclick="downloadPDF()" style="font-size:18px;padding:18px 48px;">Download PDF Report</button>
         </div>
-        <div class="upsell">
-            <h3>Your Next Step: Get the Full Picture</h3>
-            <p>You've analyzed the red flags. The $297 AI Franchise Decision Engine (Step 3) lets you compare up to 5 franchises side-by-side, practice negotiation calls with our AI Simulator, and walk away with a complete action plan.</p>
-            <a href="/#products">See the full due diligence path →</a>
+        <div class="upsell" id="upsellBlock">
+            <h3 id="upsellHeading">Your Next Step</h3>
+            <p id="upsellBody"></p>
+            <a id="upsellLink" href="/expert-review" style="color:var(--sage);font-weight:600;text-decoration:none;font-size:15px;"></a>
         </div>
     </div>
 
@@ -757,6 +757,33 @@ function showResults() {
             <div class="summary-stat green"><div class="num">${totalGreen}</div><div class="lbl">Standard Items</div></div>
         </div>
         <p style="margin-top:20px; font-size:13px; color:var(--gray);">Based on ${analyzedCount} of 23 items analyzed. Score reflects findings severity. Analyze more items for a more complete assessment.</p>`;
+
+    // Contextual upsell based on actual findings
+    const upsellHeading = document.getElementById('upsellHeading');
+    const upsellBody = document.getElementById('upsellBody');
+    const upsellLink = document.getElementById('upsellLink');
+
+    if (totalRed >= 5) {
+        upsellHeading.textContent = 'This deal has serious red flags. Here is what to do next.';
+        upsellBody.textContent = 'Your analysis identified ' + totalRed + ' red flags. Before you go any further, an Expert Review session walks through every one of them with you live -- explaining what each means financially, which are negotiable, and which are walk-away conditions. A $697 session could save you from a six-figure mistake.';
+        upsellLink.textContent = 'Book an Expert Review Session \u2192';
+        upsellLink.href = '/expert-review';
+    } else if (totalRed >= 2) {
+        upsellHeading.textContent = 'You have flags worth investigating before you decide.';
+        upsellBody.textContent = 'Your analysis found ' + totalRed + ' red flag' + (totalRed > 1 ? 's' : '') + ' and ' + totalYellow + ' caution item' + (totalYellow !== 1 ? 's' : '') + '. The Decision Engine lets you score this franchise against alternatives, model the financials, and build your negotiation strategy -- so you know whether to proceed, negotiate, or walk.';
+        upsellLink.textContent = 'See the Decision Engine \u2192';
+        upsellLink.href = '/decision-engine';
+    } else if (totalYellow >= 3) {
+        upsellHeading.textContent = 'Lower risk does not mean no risk. Here is your next layer of due diligence.';
+        upsellBody.textContent = 'Your FDD looks cleaner than most. But ' + totalYellow + ' caution items still need investigation, and the financials behind this deal deserve a closer look. The Decision Engine gives you the comparison framework, the negotiation simulator, and the validation call questions to complete your due diligence.';
+        upsellLink.textContent = 'See the Decision Engine \u2192';
+        upsellLink.href = '/decision-engine';
+    } else {
+        upsellHeading.textContent = 'Your analysis is a starting point, not a finish line.';
+        upsellBody.textContent = 'Every FDD analysis is limited by what was submitted. To complete your due diligence, you need to validate findings with current and former franchisees, stress-test the financials, and understand what you can negotiate. The Decision Engine gives you the tools to do all three.';
+        upsellLink.textContent = 'See the Decision Engine \u2192';
+        upsellLink.href = '/decision-engine';
+    }
 
     // Build result items
     const container = document.getElementById('resultsContainer');
