@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-B4CYFE2CG6"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-B4CYFE2CG6');</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Implementation Sprint - 1-on-1 Operational Systems Session</title>
+    <meta name="description" content="60-minute 1-on-1 session to build and deploy your core operational systems. Review your gap analysis, build an implementation plan, and walk away with a written action plan. $697.">
+    <meta property="og:title" content="Implementation Sprint - 60-Minute Operational Systems Session">
+    <meta property="og:description" content="Work directly with Fabiola to deploy your core systems. Not coaching. Implementation.">
+    <meta property="og:image" content="https://www.franchisegradesystems.com/og-image.jpg">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.franchisegradesystems.com/implementation-sprint">
+    <link rel="canonical" href="https://www.franchisegradesystems.com/implementation-sprint">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/appletouchicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --forest: #1B4332; --forest-mid: #2D6A4F; --forest-light: #40916C;
+            --sage: #52B788; --mint: #95D5B2; --pale: #D8F3DC;
+            --cream: #F7FBF9; --white: #FFFFFF; --charcoal: #1A1A2E;
+            --slate: #4A4A5A; --gray: #6B7280; --light-gray: #E5E7EB;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'DM Sans', sans-serif; color: var(--charcoal); background: var(--cream); -webkit-font-smoothing: antialiased; line-height: 1.6; }
+        h1, h2, h3 { font-family: 'Instrument Serif', serif; font-weight: 400; line-height: 1.2; }
+
+        .nav { display: flex; align-items: center; justify-content: space-between; padding: 16px 32px; background: var(--forest); }
+        .nav-logo { font-family: 'Instrument Serif', serif; font-size: 1.25rem; color: var(--white); text-decoration: none; }
+        .nav-logo span { color: var(--sage); }
+        .nav-links { display: flex; gap: 24px; align-items: center; }
+        .nav-links a { color: var(--mint); text-decoration: none; font-size: 14px; opacity: 0.85; transition: opacity 0.2s; }
+        .nav-links a:hover { opacity: 1; }
+        .nav-links .nav-cta { background: var(--sage); color: var(--forest); padding: 8px 18px; border-radius: 6px; font-weight: 600; opacity: 1; }
+        .mobile-menu-btn { display: none; background: none; border: none; color: var(--white); font-size: 22px; cursor: pointer; }
+        @media(max-width:680px) {
+            .mobile-menu-btn { display: block; }
+            .nav-links { display: none; flex-direction: column; position: absolute; top: 56px; left: 0; right: 0; background: var(--forest); padding: 16px 32px; gap: 16px; z-index: 100; }
+            .nav-links.open { display: flex; }
+            .nav { position: relative; padding: 14px 20px; }
+        }
+
+        .hero { background: var(--forest); padding: 80px 40px 100px; text-align: center; position: relative; overflow: hidden; }
+        .hero::after { content: ''; position: absolute; bottom: -2px; left: 0; right: 0; height: 80px; background: var(--cream); clip-path: ellipse(55% 100% at 50% 100%); }
+        .hero-inner { max-width: 720px; margin: 0 auto; position: relative; z-index: 1; }
+        .hero-badge { display: inline-block; background: rgba(82,183,136,0.15); color: var(--mint); padding: 6px 16px; border-radius: 20px; font-size: 13px; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 24px; }
+        .hero h1 { color: var(--white); font-size: clamp(32px, 5vw, 52px); margin-bottom: 20px; }
+        .hero h1 em { color: var(--sage); font-style: italic; }
+        .hero p { color: var(--mint); font-size: 18px; max-width: 600px; margin: 0 auto 36px; opacity: 0.9; }
+        .hero-price { display: inline-flex; align-items: baseline; gap: 8px; margin-bottom: 28px; }
+        .price-amount { color: var(--white); font-family: 'Instrument Serif', serif; font-size: 52px; }
+        .price-note { color: var(--mint); font-size: 16px; opacity: 0.8; }
+        .cta-btn { display: inline-block; background: var(--sage); color: var(--forest); padding: 16px 40px; border-radius: 8px; font-size: 16px; font-weight: 700; text-decoration: none; transition: all 0.2s; }
+        .cta-btn:hover { background: var(--mint); transform: translateY(-1px); }
+        .cta-sub { color: var(--mint); font-size: 13px; margin-top: 12px; opacity: 0.7; display: block; }
+
+        .section { padding: 80px 40px; }
+        .section-inner { max-width: 860px; margin: 0 auto; }
+        .section-label { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--forest-light); margin-bottom: 12px; }
+        .section h2 { font-size: clamp(26px, 4vw, 38px); margin-bottom: 20px; }
+        .section p.lead { color: var(--slate); font-size: 17px; max-width: 680px; line-height: 1.7; margin-bottom: 40px; }
+
+        /* NOT COACHING */
+        .distinction { background: var(--white); }
+        .distinction-split { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-top: 40px; }
+        .distinction-card { border-radius: 12px; padding: 28px; }
+        .distinction-card.not { background: #FEF2F2; border: 1px solid #FECACA; }
+        .distinction-card.yes { background: #F0FDF4; border: 1px solid #BBF7D0; }
+        .distinction-card h3 { font-size: 17px; margin-bottom: 14px; }
+        .distinction-card.not h3 { color: #991B1B; }
+        .distinction-card.yes h3 { color: var(--forest); }
+        .distinction-list { list-style: none; }
+        .distinction-list li { padding: 7px 0; font-size: 15px; color: var(--slate); border-bottom: 1px solid rgba(0,0,0,0.06); }
+        .distinction-list li:last-child { border-bottom: none; }
+        @media(max-width:640px) { .distinction-split { grid-template-columns: 1fr; } }
+
+        /* WHAT HAPPENS */
+        .agenda { background: var(--cream); }
+        .agenda-blocks { display: grid; gap: 16px; margin-top: 40px; }
+        .agenda-block { background: var(--white); border: 1px solid var(--light-gray); border-radius: 12px; padding: 24px 28px; display: flex; gap: 20px; align-items: flex-start; }
+        .agenda-time { min-width: 80px; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--forest-light); padding-top: 3px; }
+        .agenda-block h3 { font-size: 17px; margin-bottom: 6px; }
+        .agenda-block p { font-size: 14px; color: var(--slate); line-height: 1.6; }
+
+        /* WHAT YOU RECEIVE */
+        .receive { background: var(--white); }
+        .receive-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-top: 40px; }
+        .receive-card { background: var(--pale); border-radius: 12px; padding: 24px; }
+        .receive-card h3 { font-size: 16px; margin-bottom: 8px; color: var(--forest); }
+        .receive-card p { font-size: 14px; color: var(--slate); line-height: 1.5; }
+        @media(max-width:640px) { .receive-grid { grid-template-columns: 1fr; } }
+
+        /* RIGHT FOR */
+        .right-for { background: var(--cream); }
+        .right-for-list { display: grid; gap: 16px; margin-top: 40px; }
+        .right-for-item { background: var(--white); border-radius: 12px; padding: 20px 24px; font-size: 16px; color: var(--charcoal); line-height: 1.6; border-left: 4px solid var(--sage); }
+        .right-for-item strong { color: var(--forest); }
+
+        .bottom-cta { background: var(--forest); padding: 80px 40px; text-align: center; }
+        .bottom-cta h2 { color: var(--white); font-size: 36px; margin-bottom: 16px; }
+        .bottom-cta p { color: var(--mint); font-size: 17px; opacity: 0.9; margin-bottom: 32px; max-width: 520px; margin-left: auto; margin-right: auto; }
+
+        footer { text-align: center; padding: 48px 24px; background: var(--charcoal); color: var(--mint); }
+        .footer-logo { font-family: 'Instrument Serif', serif; font-size: 1.2rem; margin-bottom: 8px; color: var(--white); }
+        .footer-logo span { color: var(--sage); }
+        footer p { font-size: 0.8rem; opacity: 0.7; max-width: 500px; margin: 0 auto; }
+        .footer-links { margin: 16px 0; display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; }
+        .footer-links a { color: var(--mint); font-size: 0.8rem; text-decoration: none; opacity: 0.7; }
+        .footer-links a:hover { opacity: 1; }
+    </style>
+</head>
+<body>
+
+<nav class="nav">
+    <a href="/" class="nav-logo">Franchise<span>-Grade</span> Systems</a>
+    <button class="mobile-menu-btn" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Menu">&#9776;</button>
+    <div class="nav-links">
+        <a href="/tools">Free Tools</a>
+        <a href="/fdd-analyzer">FDD Analyzer</a>
+        <a href="/independent-systems" class="nav-cta">For Business Owners</a>
+    </div>
+</nav>
+
+<section class="hero">
+    <div class="hero-inner">
+        <div class="hero-badge">Implementation Sprint</div>
+        <h1>Not coaching.<br><em>Implementation.</em></h1>
+        <p>A 60-minute 1-on-1 session where we build and deploy your core operational systems together. You leave with a written action plan and the clarity to execute it.</p>
+        <div class="hero-price">
+            <span class="price-amount">$697</span>
+            <span class="price-note">one-time</span>
+        </div>
+        <a href="https://buy.stripe.com/8x28wO6gg3t665Dflf63K0i" class="cta-btn">Book My Implementation Sprint</a>
+        <span class="cta-sub">Payment confirms your slot. You'll receive booking instructions within 24 hours.</span>
+    </div>
+</section>
+
+<section class="section distinction">
+    <div class="section-inner">
+        <div class="section-label">What This Is and Is Not</div>
+        <h2>The difference matters</h2>
+        <div class="distinction-split">
+            <div class="distinction-card not">
+                <h3>This is not coaching</h3>
+                <ul class="distinction-list">
+                    <li>Not a 90-minute strategy conversation</li>
+                    <li>Not general business advice</li>
+                    <li>Not talking about what you should do</li>
+                    <li>Not an assessment with a follow-up proposal</li>
+                    <li>Not recurring sessions or a program</li>
+                </ul>
+            </div>
+            <div class="distinction-card yes">
+                <h3>This is implementation</h3>
+                <ul class="distinction-list">
+                    <li>We review your specific gap analysis results</li>
+                    <li>We identify the 3 highest-impact systems to build first</li>
+                    <li>We build the structure of those systems in the session</li>
+                    <li>You receive a written action plan within 48 hours</li>
+                    <li>2 weeks of follow-up to address execution questions</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section agenda">
+    <div class="section-inner">
+        <div class="section-label">Session Agenda</div>
+        <h2>60 minutes. Here's exactly how they're spent.</h2>
+        <div class="agenda-blocks">
+            <div class="agenda-block">
+                <div class="agenda-time">Min 0-10</div>
+                <div>
+                    <h3>Gap Analysis Review</h3>
+                    <p>We review your Operations Scorecard and Gap Analyzer results together. I ask clarifying questions. You get context on what the scores actually mean for your specific situation.</p>
+                </div>
+            </div>
+            <div class="agenda-block">
+                <div class="agenda-time">Min 10-20</div>
+                <div>
+                    <h3>Priority Selection</h3>
+                    <p>We identify the 3 operational systems that will have the most impact given your current stage, constraints, and goals. Not what's theoretically most important. What moves the needle for you, now.</p>
+                </div>
+            </div>
+            <div class="agenda-block">
+                <div class="agenda-time">Min 20-50</div>
+                <div>
+                    <h3>System Build</h3>
+                    <p>We build the structure of your 3 priority systems together. I draft the frameworks live during the session based on your inputs. You end up with working outlines, not concepts.</p>
+                </div>
+            </div>
+            <div class="agenda-block">
+                <div class="agenda-time">Min 50-60</div>
+                <div>
+                    <h3>Implementation Sequence</h3>
+                    <p>We build your week-by-week implementation sequence for the next 30 days. Specific tasks, in order, with time estimates. Something you can actually execute on Monday morning.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section receive">
+    <div class="section-inner">
+        <div class="section-label">What You Receive</div>
+        <h2>The session plus what follows it</h2>
+        <div class="receive-grid">
+            <div class="receive-card">
+                <h3>Written Action Plan</h3>
+                <p>Delivered within 48 hours of the session. Documents the 3 systems we built, your implementation sequence, and any frameworks drafted during the call.</p>
+            </div>
+            <div class="receive-card">
+                <h3>System Frameworks</h3>
+                <p>Working outlines for your 3 priority systems that you can fill in and finalize after the session. Not templates. Built on your inputs.</p>
+            </div>
+            <div class="receive-card">
+                <h3>2 Weeks of Follow-Up</h3>
+                <p>Email access to answer execution questions as they come up. The biggest barrier to implementation is getting stuck on small decisions. This removes that barrier.</p>
+            </div>
+            <div class="receive-card">
+                <h3>Session Recording</h3>
+                <p>With your permission, we record the session so you can reference it as you implement. Many clients find the recording as valuable as the action plan.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section right-for">
+    <div class="section-inner">
+        <div class="section-label">Who This Is For</div>
+        <h2>The Sprint is right for you if</h2>
+        <div class="right-for-list">
+            <div class="right-for-item">You've taken the <strong>Operations Scorecard</strong> and know your gaps but aren't sure where to start or how to sequence the work.</div>
+            <div class="right-for-item">You've tried to build operational systems before and <strong>got stuck or didn't finish</strong>. Having someone work through it with you changes that.</div>
+            <div class="right-for-item">You're <strong>already running a business</strong> and need improvements without shutting down to do it. You need a sequenced plan that fits around operations.</div>
+            <div class="right-for-item">You've looked at the <strong>Systems Playbook</strong> and want the customization and accountability that comes from working 1-on-1 rather than implementing alone.</div>
+            <div class="right-for-item">You have a <strong>specific bottleneck</strong> you've been trying to solve and want focused time with someone who's seen this problem across multiple business types.</div>
+        </div>
+    </div>
+</section>
+
+<section class="bottom-cta">
+    <div>
+        <h2>Build the systems. In one session.</h2>
+        <p>60 minutes of focused implementation work plus a written action plan. One good system can be worth 10x the investment in recovered time and revenue.</p>
+        <a href="https://buy.stripe.com/8x28wO6gg3t665Dflf63K0i" class="cta-btn" style="font-size:17px;padding:18px 44px;">Book My Implementation Sprint - $697</a>
+        <span class="cta-sub">Payment confirms your slot. Booking instructions within 24 hours.</span>
+    </div>
+</section>
+
+<!-- DISCLAIMER -->
+<div style="max-width:860px;margin:32px auto 24px;padding:16px 24px;background:#FFF7ED;border:1px solid #FED7AA;border-radius:10px;text-align:center;">
+    <p style="font-size:0.82rem;color:#9A3412;line-height:1.5;margin:0;"><strong>Important:</strong> This session provides operational guidance only. It is not legal or financial advice. Consult qualified advisors before making significant business decisions.</p>
+</div>
+
+<!-- DOWNGRADE PATH -->
+<div style="max-width:860px;margin:0 auto 48px;padding:28px 32px;background:var(--pale);border-radius:12px;text-align:center;">
+    <p style="font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--forest-mid);margin-bottom:8px;">Not Ready for 1-on-1?</p>
+    <h3 style="font-size:1.1rem;color:var(--charcoal);margin-bottom:6px;">Do the analysis yourself first.</h3>
+    <p style="font-size:.88rem;color:var(--slate);line-height:1.6;margin-bottom:16px;">Most Sprint customers find it most valuable after they've already run their gap analysis and reviewed their Playbook. Start with the free Operations Scorecard to understand where to focus.</p>
+    <a href="/business-scorecard" style="display:inline-block;padding:10px 24px;border:2px solid var(--sage);color:var(--forest);border-radius:10px;font-weight:600;font-size:.88rem;text-decoration:none;">Start with Free Scorecard</a>
+</div>
+
+<footer>
+    <div class="footer-logo">Franchise<span>-Grade</span> Systems</div>
+    <p>Built by someone who lost $150K+ on a franchise. Now I make sure it doesn't happen to you.</p>
+    <div class="footer-links">
+        <a href="/privacy">Privacy Policy</a>
+        <a href="/terms">Terms of Service</a>
+        <a href="/tools">Free Tools</a>
+        <a href="/independent-systems">For Business Owners</a>
+    </div>
+    <p style="margin-top:16px;font-size:0.7rem;opacity:0.5;">Results and experiences described are illustrative. Individual outcomes vary. Not financial or legal advice.</p>
+</footer>
+
+</body>
+</html>

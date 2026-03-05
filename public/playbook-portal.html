@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-B4CYFE2CG6"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-B4CYFE2CG6');</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Systems Playbook Portal - Franchise-Grade Systems</title>
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon32x32.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+    <style>
+        :root { --forest: #1B4332; --forest-mid: #2D6A4F; --sage: #52B788; --mint: #95D5B2; --pale: #D8F3DC; --cream: #F7FBF9; --white: #FFFFFF; --charcoal: #1A1A2E; --slate: #4A4A5A; --light-gray: #E5E7EB; --danger: #EF4444; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--charcoal); -webkit-font-smoothing: antialiased; }
+        h1, h2, h3 { font-family: 'Instrument Serif', serif; font-weight: 400; line-height: 1.2; }
+
+        /* ACCESS GATE */
+        .gate-overlay { position: fixed; inset: 0; background: var(--cream); z-index: 9999; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 16px; }
+        .gate-overlay.hidden { display: none; }
+        .gate-spinner { width: 40px; height: 40px; border: 4px solid var(--light-gray); border-top-color: var(--sage); border-radius: 50%; animation: spin 0.8s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .gate-msg { font-size: 16px; color: var(--slate); }
+        .gate-error { max-width: 500px; text-align: center; padding: 0 24px; }
+        .gate-error h2 { font-family: 'Instrument Serif', serif; font-size: 28px; margin-bottom: 12px; color: var(--danger); }
+        .gate-error p { color: var(--slate); font-size: 15px; margin-bottom: 16px; line-height: 1.6; }
+        .gate-error a { color: var(--forest-mid); font-weight: 600; }
+
+        /* NAV */
+        .nav { background: var(--forest); padding: 14px 28px; display: flex; align-items: center; justify-content: space-between; }
+        .nav-logo { font-family: 'Instrument Serif', serif; font-size: 1.2rem; color: var(--white); text-decoration: none; }
+        .nav-logo span { color: var(--sage); }
+        .nav-badge { background: rgba(82,183,136,0.15); color: var(--mint); padding: 5px 14px; border-radius: 16px; font-size: 12px; font-weight: 600; }
+
+        /* MAIN */
+        .main { max-width: 720px; margin: 0 auto; padding: 48px 24px 80px; }
+        .portal-header { margin-bottom: 40px; }
+        .portal-header h1 { font-size: 2rem; margin-bottom: 10px; }
+        .portal-header p { font-size: 1rem; color: var(--slate); line-height: 1.7; }
+        .status-badge { display: inline-block; padding: 6px 16px; border-radius: 20px; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 20px; }
+        .status-waiting { background: #FEF3C7; color: #92400E; }
+        .status-ready { background: #D1FAE5; color: #065F46; }
+
+        /* TIMELINE */
+        .timeline-card { background: var(--white); border: 1px solid var(--light-gray); border-radius: 16px; padding: 28px; margin-bottom: 28px; }
+        .timeline-card h2 { font-size: 1.3rem; margin-bottom: 20px; }
+        .timeline-step { display: flex; gap: 16px; align-items: flex-start; padding: 14px 0; border-bottom: 1px solid var(--light-gray); }
+        .timeline-step:last-child { border-bottom: none; padding-bottom: 0; }
+        .timeline-icon { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; flex-shrink: 0; }
+        .icon-done { background: #D1FAE5; color: #065F46; }
+        .icon-active { background: var(--forest); color: var(--white); }
+        .icon-pending { background: var(--light-gray); color: var(--gray); }
+        .timeline-content h3 { font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 600; margin-bottom: 4px; }
+        .timeline-content p { font-size: 13px; color: var(--slate); line-height: 1.5; }
+        .timeline-content a.action-link { display: inline-block; margin-top: 10px; padding: 10px 24px; background: var(--forest-mid); color: var(--white); border-radius: 8px; text-decoration: none; font-size: 14px; font-weight: 600; }
+
+        /* WHAT TO EXPECT */
+        .deliverables-card { background: var(--pale); border-radius: 16px; padding: 28px; margin-bottom: 28px; }
+        .deliverables-card h2 { font-size: 1.3rem; margin-bottom: 16px; }
+        .deliverable-item { display: flex; gap: 12px; align-items: flex-start; padding: 10px 0; border-bottom: 1px solid rgba(0,0,0,0.07); }
+        .deliverable-item:last-child { border-bottom: none; }
+        .del-num { min-width: 28px; height: 28px; background: var(--forest); color: var(--white); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; flex-shrink: 0; }
+        .del-text h4 { font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 600; margin-bottom: 2px; }
+        .del-text p { font-size: 12px; color: var(--slate); line-height: 1.5; }
+
+        /* UPSELL */
+        .upsell-card { background: var(--white); border: 1px solid var(--light-gray); border-radius: 16px; padding: 28px; margin-bottom: 28px; }
+        .upsell-card h2 { font-size: 1.3rem; margin-bottom: 10px; }
+        .upsell-card p { font-size: 14px; color: var(--slate); line-height: 1.6; margin-bottom: 16px; }
+        .upsell-card a { display: inline-block; background: var(--forest); color: var(--white); padding: 12px 28px; border-radius: 8px; font-size: 14px; font-weight: 600; text-decoration: none; }
+
+        footer { text-align: center; padding: 32px 24px; background: var(--forest); color: var(--mint); }
+        .footer-logo { font-family: 'Instrument Serif', serif; font-size: 1.1rem; margin-bottom: 8px; }
+        .footer-logo span { color: var(--sage); }
+        footer p { font-size: 0.75rem; opacity: 0.7; }
+    </style>
+</head>
+<body>
+
+<!-- ACCESS GATE -->
+<div class="gate-overlay" id="gate">
+    <div class="gate-spinner"></div>
+    <div class="gate-msg">Verifying your purchase...</div>
+</div>
+
+<nav class="nav">
+    <a href="/" class="nav-logo">Franchise<span>-Grade</span> Systems</a>
+    <span class="nav-badge">Systems Playbook</span>
+</nav>
+
+<div class="main">
+    <div class="portal-header">
+        <span class="status-badge status-waiting" id="statusBadge">Playbook In Progress</span>
+        <h1>Your Systems Playbook Portal</h1>
+        <p>This is your dedicated portal for tracking the status of your Playbook and accessing your deliverables once they're ready. Bookmark this page.</p>
+    </div>
+
+    <div class="timeline-card">
+        <h2>Where things stand</h2>
+
+        <div class="timeline-step">
+            <div class="timeline-icon icon-done">1</div>
+            <div class="timeline-content">
+                <h3>Payment confirmed</h3>
+                <p>Your order has been received and confirmed.</p>
+            </div>
+        </div>
+
+        <div class="timeline-step" id="intakeStep">
+            <div class="timeline-icon icon-active">2</div>
+            <div class="timeline-content">
+                <h3>Complete your intake form</h3>
+                <p>Your Playbook won't start until I receive your answers. The form takes about 10 minutes and covers your business type, priorities, and current situation.</p>
+                <a href="https://forms.gle/Q4dhhFnT1WaDqBNP6" target="_blank" rel="noopener" class="action-link">Complete Intake Form</a>
+            </div>
+        </div>
+
+        <div class="timeline-step">
+            <div class="timeline-icon icon-pending">3</div>
+            <div class="timeline-content">
+                <h3>Playbook is built</h3>
+                <p>Once your intake is received, your six deliverables are built and reviewed. This takes 1-2 business days.</p>
+            </div>
+        </div>
+
+        <div class="timeline-step">
+            <div class="timeline-icon icon-pending">4</div>
+            <div class="timeline-content">
+                <h3>Deliverables sent to your email</h3>
+                <p>All six documents are delivered via email. You'll also receive a notification to return to this portal to confirm receipt.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="deliverables-card">
+        <h2>Your six deliverables</h2>
+        <div class="deliverable-item"><div class="del-num">1</div><div class="del-text"><h4>Core Operations SOPs</h4><p>Six documented processes for your most critical operations</p></div></div>
+        <div class="deliverable-item"><div class="del-num">2</div><div class="del-text"><h4>Financial Model</h4><p>Built around your actual numbers with 12-month cash flow projection</p></div></div>
+        <div class="deliverable-item"><div class="del-num">3</div><div class="del-text"><h4>Hiring and Onboarding Framework</h4><p>Role identification, job description templates, and 30-day onboarding checklist</p></div></div>
+        <div class="deliverable-item"><div class="del-num">4</div><div class="del-text"><h4>Marketing Strategy and Execution Calendar</h4><p>Channel selection, content framework, and 90-day execution calendar for your budget</p></div></div>
+        <div class="deliverable-item"><div class="del-num">5</div><div class="del-text"><h4>Technology Stack Recommendations</h4><p>Tools matched to your business size, budget, and technical level</p></div></div>
+        <div class="deliverable-item"><div class="del-num">6</div><div class="del-text"><h4>90-Day Implementation Roadmap</h4><p>Week-by-week sequence for implementing all five other deliverables</p></div></div>
+    </div>
+
+    <div class="upsell-card">
+        <h2>Need hands-on help implementing?</h2>
+        <p>After you receive your Playbook, the Implementation Sprint pairs a 60-minute 1-on-1 session where we work through the highest-priority systems together. Most useful once you've reviewed your deliverables and have specific questions or blockers.</p>
+        <a href="/implementation-sprint">Learn About the Sprint</a>
+    </div>
+</div>
+
+<footer>
+    <div class="footer-logo">Franchise<span>-Grade</span> Systems</div>
+    <p>Questions? Email franchisegradesystems@gmail.com</p>
+</footer>
+
+<script>
+window.addEventListener('DOMContentLoaded', () => { verifyAccess(); });
+
+async function verifyAccess() {
+    const params = new URLSearchParams(window.location.search);
+    const sessionId = params.get('session_id');
+    const stored = sessionStorage.getItem('playbook_token');
+    const tokenToVerify = sessionId || stored;
+
+    if (!tokenToVerify) {
+        showGateError('no_session');
+        return;
+    }
+
+    try {
+        const res = await fetch(`/api/verify-playbook?session_id=${tokenToVerify}`);
+        const data = await res.json();
+        if (data.valid) {
+            sessionStorage.setItem('playbook_token', tokenToVerify);
+            if (sessionId) history.replaceState({}, '', '/playbook-portal');
+            document.getElementById('gate').classList.add('hidden');
+        } else {
+            showGateError(data.reason || 'invalid');
+        }
+    } catch (err) {
+        showGateError('error');
+    }
+}
+
+function showGateError(reason) {
+    const gate = document.getElementById('gate');
+    let msg = 'Access could not be verified.';
+    if (reason === 'no_session') msg = 'No purchase session found. Please access this page through the link in your confirmation email.';
+    gate.innerHTML = `<div class="gate-error"><h2>Access Required</h2><p>${msg}</p><p>Already purchased? <a href="/recover-access">Recover your access</a> or email <a href="mailto:franchisegradesystems@gmail.com">franchisegradesystems@gmail.com</a>.</p></div>`;
+}
+</script>
+
+</body>
+</html>
