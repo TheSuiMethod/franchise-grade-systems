@@ -162,8 +162,46 @@
             .main { padding: 32px 16px 60px; }
             .category { padding: 24px 20px; }
         }
-    </style>
+    
+    /* iOS zoom prevention - CRITICAL for mobile tool usability */
+    input, select, textarea, .input-field { font-size: 16px !important; }
+    /* Touch targets - 44px minimum per WCAG */
+    button, .btn, input[type="submit"], input[type="button"] {
+      min-height: 44px;
+      cursor: pointer;
+    }
+    /* Prevent horizontal scroll */
+    body { overflow-x: hidden; }
+    /* Table responsiveness */
+    .table-wrap, .results-table { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    /* Small phone breakpoint */
+    @media (max-width: 360px) {
+      h1 { font-size: 1.5rem !important; }
+      .tool-container, .main-container { padding: 12px !important; }
+    }
+  </style>
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="/favicon16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/appletouchicon.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Franchise-Grade Business Scorecard",
+  "description": "Score your business or franchise opportunity across 8 key operational areas to identify strengths and gaps.",
+  "url": "https://www.franchisegradesystems.com/business-scorecard",
+  "applicationCategory": "BusinessApplication",
+  "operatingSystem": "Web, iOS, Android",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "Franchise-Grade Systems",
+    "url": "https://www.franchisegradesystems.com"
+  }
+}
+</script>
 </head>
 <body>
 
