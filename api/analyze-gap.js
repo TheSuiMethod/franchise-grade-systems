@@ -1,4 +1,5 @@
 const Anthropic = require('@anthropic-ai/sdk');
+const Stripe = require('stripe');
 
 module.exports = async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -13,9 +14,52 @@ module.exports = async function handler(req, res) {
     return res.status(400).json({ error: 'Missing required fields' });
   }
 
-  // Basic token format check (not cryptographic -- access already verified at gate)
-  if (!token.startsWith('Z2Fw')) { // base64 of 'gap'
-    return res.status(403).json({ error: 'Invalid access token' });
+  // Decode and verify the access token issued by /api/verify-gap
+  // Token format: base64('gap:SESSION_ID:TIMESTAMP')
+  let sessionId;
+  try {
+    const decoded = Buffer.from(token, 'base64').toString('utf8');
+    const parts = decoded.split(':');
+    if (parts[0] !== 'gap' || !parts[1] || !parts[1].startsWith('cs_')) {
+      return res.status(403).json({ error: 'Invalid access token' });
+    }
+    sessionId = parts[1];
+
+    // Token must not be older than 4 hours
+    const tokenAge = Date.now() - parseInt(parts[2], 10);
+    if (isNaN(tokenAge) || tokenAge > 4 * 60 * 60 * 1000) {
+      return res.status(403).json({ error: 'Session expired. Please refresh and try again.' });
+    }
+  } catch {
+    return res.status(403).json({ error: 'Malformed access token' });
+  }
+
+  // Re-verify payment against Stripe before consuming API credits
+  const GAP_ACCESS_PRICE_IDS = [
+    'price_1T74ktCtSsWNQjR9I9W1Ga1f', // Operations Gap Analyzer $97
+  ];
+
+  try {
+    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+    const session = await stripe.checkout.sessions.retrieve(sessionId, {
+      expand: ['line_items']
+    });
+
+    if (session.payment_status !== 'paid') {
+      return res.status(403).json({ error: 'Payment not confirmed.' });
+    }
+
+    const lineItems = session.line_items?.data || [];
+    const hasAccess = lineItems.some(item =>
+      GAP_ACCESS_PRICE_IDS.includes(item.price?.id)
+    );
+
+    if (!hasAccess) {
+      return res.status(403).json({ error: 'Access not authorized for this product.' });
+    }
+  } catch (stripeErr) {
+    console.error('Stripe re-verify error:', stripeErr.message);
+    return res.status(403).json({ error: 'Could not verify purchase. Please contact support.' });
   }
 
   if (!process.env.ANTHROPIC_API_KEY) {
@@ -102,7 +146,6 @@ Respond with only valid JSON. No preamble, no explanation, no markdown code fenc
     try {
       analysis = JSON.parse(rawText);
     } catch (parseErr) {
-      // Attempt to extract JSON if wrapped in any extra content
       const match = rawText.match(/\{[\s\S]*\}/);
       if (match) {
         analysis = JSON.parse(match[0]);

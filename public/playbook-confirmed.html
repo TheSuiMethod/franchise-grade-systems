@@ -72,7 +72,7 @@
         <div class="step-num">2</div>
         <div>
             <strong>Your Playbook is built from your inputs</strong>
-            <p>Once your intake form is received, your six deliverables are generated from your specific business details and quality-reviewed. This takes 1-2 business days. You'll receive an email when they're ready.</p>
+            <p>Once I receive your intake form, I build your six deliverables using your specific business details. This takes 1-2 business days. You'll receive an email when they're ready.</p>
         </div>
     </div>
 
@@ -97,19 +97,25 @@
     </div>
 
     <div class="note">
-        <strong>Important:</strong> Your Playbook generation won't begin until your completed intake form is received. The sooner you fill it out, the sooner your documents arrive. If you have any questions before then, reply to your confirmation email.
+        
+        <div style="background:#D8F3DC;border-radius:12px;padding:24px;margin-bottom:32px;">
+            <h3 style="font-size:1.05rem;margin-bottom:8px;color:#1B4332;">Access your Playbook Portal</h3>
+            <p style="font-size:0.9rem;color:#4A4A5A;line-height:1.6;margin-bottom:16px;">Once your deliverables are ready, use this link to access your Playbook Portal. Bookmark it -- you will need it when your documents arrive.</p>
+            <a id="portalLink" href="/playbook-portal" style="display:inline-block;background:#2D6A4F;color:#fff;padding:10px 24px;border-radius:8px;font-size:0.9rem;font-weight:600;text-decoration:none;">Go to My Playbook Portal</a>
+        </div>
+        <strong>Important:</strong> Your Playbook won't be started until I receive your completed intake form. The sooner you fill it out, the sooner your documents arrive. If you have any questions before then, reply to your confirmation email.
     </div>
 
     <div class="upsell">
         <h3>Want to implement it with me?</h3>
-        <p>The Implementation Sprint adds a 90-minute 1-on-1 session where we work through your Playbook together, prioritize the implementation sequence, and handle any questions in real time. Most useful after you've reviewed your deliverables and have specific questions or blockers.</p>
+        <p>The Implementation Sprint adds a 60-minute 1-on-1 session where we work through your Playbook together, prioritize the implementation sequence, and handle any questions in real time. Most useful after you've reviewed your deliverables and have specific questions or blockers.</p>
         <a href="/implementation-sprint">Learn About the Sprint</a>
     </div>
 </div>
 
 <footer>
     <div class="footer-logo">Franchise<span>-Grade</span> Systems<sup style="font-size:0.55em;vertical-align:super;font-family:\'DM Sans\',sans-serif;">TM</sup></div>
-    <p>Questions? Reply to your confirmation email or contact <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="f89e8a99969b90918b9d9f8a999c9d8b818b8c9d958bb89f95999194d69b9795">[email&#160;protected]</a></p>
+    <p>Questions? Reply to your confirmation email or contact <a href="mailto:franchisegradesystems@gmail.com">franchisegradesystems@gmail.com</a></p>
     <div class="footer-links">
         <a href="/privacy">Privacy Policy</a>
         <a href="/terms">Terms of Service</a>
@@ -118,5 +124,16 @@
     <p style="margin-top:16px;font-size:0.7rem;opacity:0.5;">&copy; 2025-2026 Franchise-Grade Systems. All rights reserved. Not legal or financial advice.</p>
 </footer>
 
+
+<script>
+(function() {
+    var params = new URLSearchParams(window.location.search);
+    var sessionId = params.get('session_id');
+    var link = document.getElementById('portalLink');
+    if (link && sessionId) {
+        link.href = '/playbook-portal?session_id=' + encodeURIComponent(sessionId);
+    }
+})();
+</script>
 </body>
 </html>
