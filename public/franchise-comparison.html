@@ -88,7 +88,7 @@
 </head>
 <body>
 <nav class="nav">
-    <a href="/" class="nav-logo">Franchise<span>-Grade</span> Systems</a>
+    <a href="/" class="nav-logo">Franchise<span>-Grade</span> Systems<sup style="font-size:0.55em;vertical-align:super;font-family:\'DM Sans\',sans-serif;">TM</sup></a>
     <button class="mobile-menu-btn" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Menu">&#9776;</button>
     <div class="nav-links">
         <a href="/tools">Free Tools</a>
@@ -145,7 +145,7 @@
     </div>
 
 <footer class="footer">
-    <div class="footer-logo">Franchise<span>-Grade</span> Systems</div>
+    <div class="footer-logo">Franchise<span>-Grade</span> Systems<sup style="font-size:0.55em;vertical-align:super;font-family:\'DM Sans\',sans-serif;">TM</sup></div>
     <p>&copy; 2026 Franchise-Grade Systems. All rights reserved. Not legal or financial advice.</p>
     <div class="footer-links"><a href="/">Home</a><a href="/tools">Free Tools</a><a href="/franchise-directory">Browse Franchises</a><a href="/free-fdd-downloads">Free FDD Downloads</a><a href="/blog">Insights</a><a href="/privacy">Privacy</a><a href="/terms">Terms</a></div>
 </footer>
@@ -323,7 +323,11 @@ function compare() {
         const filledCount = allFields.filter(key => pn(d[key]) > 0).length;
         const dataCoverage = Math.round(filledCount / allFields.length * 100);
 
-        // Composite score (higher = better) - only meaningful with real data
+        // Franchise-Grade Systems Composite Scoring Algorithm
+        // Copyright 2025-2026 Franchise-Grade Systems. All rights reserved.
+        // This scoring methodology, weighting system, and risk-adjustment formula are proprietary
+        // intellectual property of Franchise-Grade Systems. Unauthorized reproduction, adaptation,
+        // or use in competing products is prohibited. See /terms for full IP policy.
         let score = 50;
         if (rev > 0) {
             score += Math.min(margin, 20);
