@@ -141,7 +141,21 @@
             .content { padding: 40px 20px; }
             .comparison { overflow-x: auto; }
         }
-    </style>
+    
+    /* iOS input zoom prevention + touch targets */
+    input, select, textarea { font-size: 16px !important; }
+    button { min-height: 44px; }
+    a.cta-btn, .btn, .cta-button { min-height: 44px; display: inline-flex; align-items: center; }
+    body { overflow-x: hidden; }
+    @media (max-width: 480px) {
+      .nav-links { display: none; }
+      .hero h1, .product-hero h1 { font-size: 1.8rem; }
+      .price-tag { font-size: 2rem; }
+    }
+    @media (max-width: 360px) {
+      .hero h1, .product-hero h1 { font-size: 1.5rem; }
+    }
+  </style>
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="/favicon16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/appletouchicon.png">
 <script type="application/ld+json">
 {
