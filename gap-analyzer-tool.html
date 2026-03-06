@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-B4CYFE2CG6"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-B4CYFE2CG6');</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Operations Gap Analyzer - Franchise-Grade Systems</title>
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon32x32.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --forest: #1B4332; --forest-mid: #2D6A4F; --forest-light: #40916C;
+            --sage: #52B788; --mint: #95D5B2; --pale: #D8F3DC;
+            --cream: #F7FBF9; --white: #FFFFFF; --charcoal: #1A1A2E;
+            --slate: #4A4A5A; --gray: #6B7280; --light-gray: #E5E7EB;
+            --danger: #EF4444; --warning: #F59E0B; --success: #10B981;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'DM Sans', sans-serif; color: var(--charcoal); background: var(--cream); -webkit-font-smoothing: antialiased; line-height: 1.6; }
+        h1, h2, h3 { font-family: 'Instrument Serif', serif; font-weight: 400; line-height: 1.2; }
+
+        /* ACCESS GATE */
+        .gate-overlay { position: fixed; inset: 0; background: var(--cream); z-index: 9999; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 16px; }
+        .gate-overlay.hidden { display: none; }
+        .gate-spinner { width: 40px; height: 40px; border: 4px solid var(--light-gray); border-top-color: var(--sage); border-radius: 50%; animation: spin 0.8s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .gate-msg { font-size: 16px; color: var(--slate); }
+        .gate-error { max-width: 500px; text-align: center; padding: 0 24px; }
+        .gate-error h2 { font-family: 'Instrument Serif', serif; font-size: 28px; margin-bottom: 12px; color: var(--danger); }
+        .gate-error p { color: var(--slate); font-size: 15px; margin-bottom: 16px; line-height: 1.6; }
+        .gate-error a { color: var(--forest-mid); font-weight: 600; }
+
+        /* HEADER */
+        .tool-header { background: var(--forest); padding: 32px 40px 52px; text-align: center; position: relative; }
+        .tool-header::after { content:''; position:absolute; bottom:-2px; left:0; right:0; height:40px; background:var(--cream); clip-path:ellipse(55% 100% at 50% 100%); }
+        .tool-header h1 { color: var(--white); font-size: 28px; margin-bottom: 6px; }
+        .tool-header p { color: var(--mint); font-size: 14px; opacity: 0.8; }
+
+        /* MAIN */
+        .main { max-width: 780px; margin: 0 auto; padding: 40px 20px 80px; }
+
+        /* PROGRESS */
+        .progress-bar { background: var(--white); border-radius: 12px; padding: 18px 24px; margin-bottom: 32px; border: 1px solid var(--light-gray); }
+        .progress-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+        .progress-label { font-weight: 600; font-size: 14px; color: var(--forest); }
+        .progress-count { font-size: 13px; color: var(--gray); }
+        .progress-track { height: 8px; background: var(--light-gray); border-radius: 4px; overflow: hidden; }
+        .progress-fill { height: 100%; background: var(--sage); border-radius: 4px; transition: width 0.4s ease; }
+
+        /* FORM SECTIONS */
+        .form-section { background: var(--white); border: 1px solid var(--light-gray); border-radius: 16px; padding: 32px; margin-bottom: 24px; }
+        .form-section h2 { font-size: 22px; margin-bottom: 6px; color: var(--forest); }
+        .form-section .section-desc { font-size: 14px; color: var(--slate); margin-bottom: 28px; }
+        .form-field { margin-bottom: 24px; }
+        .form-field:last-child { margin-bottom: 0; }
+        .form-field label { display: block; font-weight: 600; font-size: 14px; margin-bottom: 8px; color: var(--charcoal); }
+        .form-field .field-hint { font-size: 12px; color: var(--gray); margin-bottom: 8px; font-weight: 400; }
+        .form-field select, .form-field input[type=text], .form-field input[type=number], .form-field textarea {
+            width: 100%; padding: 12px 14px; border: 1px solid var(--light-gray); border-radius: 8px;
+            font-family: 'DM Sans', sans-serif; font-size: 14px; color: var(--charcoal);
+            background: var(--cream); transition: border-color 0.2s;
+        }
+        .form-field select:focus, .form-field input:focus, .form-field textarea:focus { outline: none; border-color: var(--sage); background: var(--white); }
+        .form-field textarea { min-height: 90px; resize: vertical; line-height: 1.6; }
+        .radio-group { display: grid; gap: 8px; }
+        .radio-option { display: flex; align-items: flex-start; gap: 10px; padding: 12px 14px; border: 1px solid var(--light-gray); border-radius: 8px; cursor: pointer; transition: all 0.2s; }
+        .radio-option:hover { border-color: var(--sage); background: var(--pale); }
+        .radio-option input { margin-top: 2px; accent-color: var(--sage); flex-shrink: 0; }
+        .radio-option .radio-label { font-size: 14px; color: var(--charcoal); line-height: 1.5; }
+        .radio-option .radio-label em { font-size: 12px; color: var(--gray); font-style: normal; display: block; margin-top: 2px; }
+        .radio-option.selected { border-color: var(--sage); background: var(--pale); }
+
+        /* SUBMIT */
+        .submit-section { text-align: center; margin-top: 32px; }
+        .analyze-btn { background: var(--forest); color: var(--white); border: none; padding: 18px 56px; border-radius: 10px; font-size: 17px; font-weight: 700; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all 0.2s; }
+        .analyze-btn:hover { background: var(--forest-mid); transform: translateY(-1px); }
+        .analyze-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+        .submit-note { font-size: 13px; color: var(--gray); margin-top: 12px; }
+
+        /* LOADING */
+        .loading-overlay { display: none; position: fixed; inset: 0; background: rgba(27,67,50,0.96); z-index: 1000; align-items: center; justify-content: center; flex-direction: column; gap: 20px; }
+        .loading-overlay.show { display: flex; }
+        .loading-text { color: var(--white); font-size: 18px; font-weight: 500; font-family: 'Instrument Serif', serif; }
+        .loading-sub { color: var(--mint); font-size: 14px; opacity: 0.8; }
+        .loading-dots span { animation: blink 1.4s infinite; } .loading-dots span:nth-child(2) { animation-delay: 0.2s; } .loading-dots span:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes blink { 0%,80%,100% { opacity: 0.2; } 40% { opacity: 1; } }
+
+        /* RESULTS */
+        .results { display: none; }
+        .results.show { display: block; }
+        .results-header { background: var(--forest); border-radius: 16px; padding: 36px; text-align: center; margin-bottom: 28px; color: var(--white); }
+        .results-header h2 { font-size: 28px; margin-bottom: 8px; }
+        .results-header p { color: var(--mint); font-size: 15px; opacity: 0.85; }
+
+        /* SCORE */
+        .score-card { background: var(--white); border-radius: 16px; padding: 36px; text-align: center; margin-bottom: 24px; border: 2px solid var(--light-gray); }
+        .score-number { font-family: 'Instrument Serif', serif; font-size: 72px; line-height: 1; margin-bottom: 4px; }
+        .score-label { font-size: 13px; color: var(--gray); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 16px; }
+        .score-rating { display: inline-block; padding: 8px 24px; border-radius: 24px; font-weight: 700; font-size: 15px; margin-bottom: 16px; }
+        .rating-critical { background: #FEE2E2; color: #991B1B; }
+        .rating-needs { background: #FEF3C7; color: #92400E; }
+        .rating-developing { background: #DBEAFE; color: #1E40AF; }
+        .rating-solid { background: var(--pale); color: var(--forest); }
+        .rating-franchise { background: #D1FAE5; color: #065F46; }
+        .score-summary { font-size: 15px; color: var(--slate); max-width: 540px; margin: 0 auto; line-height: 1.6; }
+
+        /* CATEGORY SCORES */
+        .categories-section { background: var(--white); border-radius: 16px; padding: 28px; margin-bottom: 24px; border: 1px solid var(--light-gray); }
+        .categories-section h3 { font-size: 20px; margin-bottom: 20px; }
+        .cat-row { display: grid; grid-template-columns: 160px 1fr 60px; gap: 16px; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--light-gray); }
+        .cat-row:last-child { border-bottom: none; }
+        .cat-name { font-size: 14px; font-weight: 600; color: var(--charcoal); }
+        .cat-bar-track { height: 10px; background: var(--light-gray); border-radius: 5px; overflow: hidden; }
+        .cat-bar-fill { height: 100%; border-radius: 5px; transition: width 0.6s ease; }
+        .fill-critical { background: #EF4444; }
+        .fill-needs { background: #F59E0B; }
+        .fill-developing { background: #3B82F6; }
+        .fill-solid { background: var(--sage); }
+        .fill-franchise { background: #10B981; }
+        .cat-score { font-size: 14px; font-weight: 700; text-align: right; }
+        @media(max-width:540px) { .cat-row { grid-template-columns: 1fr 60px; } .cat-bar-track { display: none; } }
+
+        /* PRIORITY ACTIONS */
+        .actions-section { background: var(--white); border-radius: 16px; padding: 28px; margin-bottom: 24px; border: 1px solid var(--light-gray); }
+        .actions-section h3 { font-size: 20px; margin-bottom: 20px; }
+        .action-card { background: var(--cream); border-radius: 12px; padding: 20px; margin-bottom: 14px; display: grid; grid-template-columns: 40px 1fr; gap: 16px; align-items: flex-start; }
+        .action-card:last-child { margin-bottom: 0; }
+        .action-num { width: 40px; height: 40px; background: var(--forest); color: var(--white); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px; flex-shrink: 0; }
+        .action-content h4 { font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 600; margin-bottom: 6px; color: var(--charcoal); }
+        .action-content p { font-size: 13px; color: var(--slate); line-height: 1.6; margin-bottom: 8px; }
+        .action-meta { display: flex; gap: 12px; flex-wrap: wrap; }
+        .action-tag { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; padding: 3px 10px; border-radius: 4px; }
+        .tag-time { background: var(--pale); color: var(--forest); }
+        .tag-high { background: #FEE2E2; color: #991B1B; }
+        .tag-medium { background: #FEF3C7; color: #92400E; }
+        .tag-low { background: var(--pale); color: var(--forest); }
+
+        /* ROADMAP */
+        .roadmap-section { background: var(--white); border-radius: 16px; padding: 28px; margin-bottom: 24px; border: 1px solid var(--light-gray); }
+        .roadmap-section h3 { font-size: 20px; margin-bottom: 20px; }
+        .roadmap-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+        .roadmap-month { background: var(--cream); border-radius: 12px; padding: 20px; }
+        .roadmap-month h4 { font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--forest-light); margin-bottom: 8px; }
+        .roadmap-month .month-focus { font-size: 15px; font-weight: 600; color: var(--forest); margin-bottom: 12px; }
+        .roadmap-month ul { list-style: none; }
+        .roadmap-month ul li { font-size: 13px; color: var(--slate); padding: 5px 0; border-bottom: 1px solid rgba(0,0,0,0.06); line-height: 1.5; padding-left: 14px; position: relative; }
+        .roadmap-month ul li::before { content: '+'; position: absolute; left: 0; color: var(--sage); font-weight: 700; }
+        .roadmap-month ul li:last-child { border-bottom: none; }
+        @media(max-width:640px) { .roadmap-grid { grid-template-columns: 1fr; } }
+
+        /* ANALYST NOTE */
+        .analyst-note { background: var(--pale); border-left: 4px solid var(--sage); border-radius: 0 12px 12px 0; padding: 24px 28px; margin-bottom: 24px; }
+        .analyst-note .note-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--forest-light); margin-bottom: 8px; }
+        .analyst-note p { font-size: 15px; color: var(--charcoal); line-height: 1.7; }
+
+        /* CTA */
+        .results-cta { background: var(--forest); border-radius: 16px; padding: 36px; text-align: center; margin-bottom: 40px; }
+        .results-cta h3 { color: var(--white); font-size: 24px; margin-bottom: 10px; }
+        .results-cta p { color: var(--mint); font-size: 15px; margin-bottom: 24px; opacity: 0.9; max-width: 480px; margin-left: auto; margin-right: auto; }
+        .results-cta-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+        .cta-primary { display: inline-block; background: var(--sage); color: var(--forest); padding: 14px 32px; border-radius: 8px; font-weight: 700; font-size: 15px; text-decoration: none; }
+        .cta-secondary { display: inline-block; background: transparent; color: var(--mint); border: 1px solid rgba(149,213,178,0.4); padding: 14px 32px; border-radius: 8px; font-weight: 600; font-size: 15px; text-decoration: none; }
+        .print-btn { display: inline-block; background: transparent; color: var(--mint); border: 1px solid rgba(149,213,178,0.4); padding: 10px 20px; border-radius: 8px; font-weight: 600; font-size: 14px; cursor: pointer; font-family: 'DM Sans', sans-serif; margin-top: 12px; }
+    </style>
+</head>
+<body>
+
+<!-- ACCESS GATE -->
+<div class="gate-overlay" id="gate">
+    <div class="gate-spinner"></div>
+    <div class="gate-msg">Verifying your access...</div>
+</div>
+
+<!-- LOADING -->
+<div class="loading-overlay" id="loading">
+    <div class="gate-spinner" style="width:52px;height:52px;border-width:5px;"></div>
+    <div class="loading-text">Running your gap analysis<span class="loading-dots"><span>.</span><span>.</span><span>.</span></span></div>
+    <div class="loading-sub">Analyzing 8 operational categories</div>
+</div>
+
+<div class="tool-header">
+    <h1>Operations Gap Analyzer</h1>
+    <p>Answer honestly. Generic inputs produce generic outputs.</p>
+</div>
+
+<div class="main">
+    <!-- PROGRESS -->
+    <div class="progress-bar" id="progressBar">
+        <div class="progress-top">
+            <span class="progress-label">Business Profile</span>
+            <span class="progress-count" id="progressCount">0 of 16 answered</span>
+        </div>
+        <div class="progress-track">
+            <div class="progress-fill" id="progressFill" style="width:0%"></div>
+        </div>
+    </div>
+
+    <!-- FORM -->
+    <form id="gapForm">
+
+        <!-- SECTION 1: BUSINESS BASICS -->
+        <div class="form-section">
+            <h2>Your Business</h2>
+            <p class="section-desc">Basic context so the analysis is relevant to your specific situation.</p>
+
+            <div class="form-field">
+                <label>What type of business do you run?</label>
+                <input type="text" name="business_type" placeholder="e.g. fitness studio, home services, retail, restaurant, consulting..." required>
+            </div>
+
+            <div class="form-field">
+                <label>How long have you been operating?</label>
+                <div class="radio-group">
+                    <label class="radio-option"><input type="radio" name="years_operating" value="pre-launch"><div class="radio-label">Pre-launch / planning stage</div></label>
+                    <label class="radio-option"><input type="radio" name="years_operating" value="under-1"><div class="radio-label">Under 1 year</div></label>
+                    <label class="radio-option"><input type="radio" name="years_operating" value="1-3"><div class="radio-label">1-3 years</div></label>
+                    <label class="radio-option"><input type="radio" name="years_operating" value="3-plus"><div class="radio-label">3+ years</div></label>
+                </div>
+            </div>
+
+            <div class="form-field">
+                <label>Current team size (including yourself)</label>
+                <div class="radio-group">
+                    <label class="radio-option"><input type="radio" name="team_size" value="solo"><div class="radio-label">Just me</div></label>
+                    <label class="radio-option"><input type="radio" name="team_size" value="2-5"><div class="radio-label">2-5 people</div></label>
+                    <label class="radio-option"><input type="radio" name="team_size" value="6-15"><div class="radio-label">6-15 people</div></label>
+                    <label class="radio-option"><input type="radio" name="team_size" value="15-plus"><div class="radio-label">15+ people</div></label>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION 2: CUSTOMER EXPERIENCE -->
+        <div class="form-section">
+            <h2>Customer Experience</h2>
+            <p class="section-desc">How consistent and documented is your customer journey?</p>
+
+            <div class="form-field">
+                <label>How would you describe your customer intake process?</label>
+                <div class="radio-group">
+                    <label class="radio-option"><input type="radio" name="cx_intake" value="1"><div class="radio-label">Informal - I handle each customer differently depending on how they come in <em>No documented process</em></div></label>
+                    <label class="radio-option"><input type="radio" name="cx_intake" value="2"><div class="radio-label">Partially documented - some steps written down, but not consistently followed <em>Exists in my head more than on paper</em></div></label>
+                    <label class="radio-option"><input type="radio" name="cx_intake" value="3"><div class="radio-label">Documented and mostly consistent - process exists and is usually followed <em>A new hire could learn it in a week</em></div></label>
+                    <label class="radio-option"><input type="radio" name="cx_intake" value="4"><div class="radio-label">Fully systematized - documented, followed, and measured <em>A new hire could follow it on day one</em></div></label>
+                </div>
+            </div>
+
+            <div class="form-field">
+                <label>If you were out sick for a week, what would happen to customer experience?</label>
+                <div class="radio-group">
+                    <label class="radio-option"><input type="radio" name="cx_absence" value="1"><div class="radio-label">It would break down significantly - most things depend on me personally</div></label>
+                    <label class="radio-option"><input type="radio" name="cx_absence" value="2"><div class="radio-label">It would degrade noticeably - some things would still work but not consistently</div></label>
+                    <label class="radio-option"><input type="radio" name="cx_absence" value="3"><div class="radio-label">It would be mostly fine - the team would handle most things, some gaps</div></label>
+                    <label class="radio-option"><input type="radio" name="cx_absence" value="4"><div class="radio-label">It would run normally - the systems don't depend on me being there</div></label>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION 3: FINANCIAL SYSTEMS -->
+        <div class="form-section">
+            <h2>Financial Systems</h2>
+            <p class="section-desc">Cash flow visibility, pricing models, and margin tracking.</p>
+
+            <div class="form-field">
+                <label>How would you describe your financial visibility?</label>
+                <div class="radio-group">
+                    <label class="radio-option"><input type="radio" name="finance_visibility" value="1"><div class="radio-label">I check my bank balance to know if we're doing okay <em>No formal P&L or cash flow tracking</em></div></label>
+                    <label class="radio-option"><input type="radio" name="finance_visibility" value="2"><div class="radio-label">I look at revenue monthly but not detailed cost breakdown <em>Basic tracking only</em></div></label>
+                    <label class="radio-option"><input type="radio" name="finance_visibility" value="3"><div class="radio-label">I track revenue, major expenses, and roughly know my margins <em>Could improve detail and frequency</em></div></label>
+                    <label class="radio-option"><input type="radio" name="finance_visibility" value="4"><div class="radio-label">Full P&L, cash flow projections, and margin by product/service line <em>Franchise-grade financial management</em></div></label>
+                </div>
+            </div>
+
+            <div class="form-field">
+                <label>How was your pricing set?</label>
+                <div class="radio-group">
+                    <label class="radio-option"><input type="radio" name="finance_pricing" value="1"><div class="radio-label">Based on what competitors charge or what felt reasonable</div></label>
+                    <label class="radio-option"><input type="radio" name="finance_pricing" value="2"><div class="radio-label">Roughly calculated from costs, but not formally modeled</div></label>
+                    <label class="radio-option"><input type="radio" name="finance_pricing" value="3"><div class="radio-label">Modeled from cost + margin targets, reviewed periodically</div></label>
+                    <label class="radio-option"><input type="radio" name="finance_pricing" value="4"><div class="radio-label">Full pricing model with cost, margin, volume scenarios, and regular review cycle</div></label>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION 4: TEAM & HIRING -->
+        <div class="form-section">
+            <h2>Team and Hiring</h2>
+            <p class="section-desc">How you recruit, train, and retain your team.</p>
+
+            <div class="form-field">
+                <label>How do you onboard new team members?</label>
+                <div class="radio-group">
+                    <label class="radio-option"><input type="radio" name="team_onboard" value="1"><div class="radio-label">I show them what to do and answer questions as they come up <em>No formal onboarding</em></div></label>
+                    <label class="radio-option"><input type="radio" name="team_onboard" value="2"><div class="radio-label">Some written instructions exist but it's mostly informal <em>Inconsistent by hire</em></div></label>
+                    <label class="radio-option"><input type="radio" name="team_onboard" value="3"><div class="radio-label">A documented process exists covering the first 2-4 weeks <em>Mostly followed</em></div></label>
+                    <label class="radio-option"><input type="radio" name="team_onboard" value="4"><div class="radio-label">Full onboarding curriculum with 30/60/90-day milestones and checkpoints <em>Franchise-grade</em></div></label>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION 5: OPERATIONS SOPs -->
+        <div class="form-section">
+            <h2>Operations and SOPs</h2>
+            <p class="section-desc">How much of your operation is documented vs. living in someone's head.</p>
+
+            <div class="form-field">
+                <label>What percentage of your core processes are documented as SOPs?</label>
+                <div class="radio-group">
+                    <label class="radio-option"><input type="radio" name="ops_sop_percent" value="1"><div class="radio-label">Less than 20% - most things are informal</div></label>
+                    <label class="radio-option"><input type="radio" name="ops_sop_percent" value="2"><div class="radio-label">20-50% - some documented, some not</div></label>
+                    <label class="radio-option"><input type="radio" name="ops_sop_percent" value="3"><div class="radio-label">50-80% - most core processes documented</div></label>
+                    <label class="radio-option"><input type="radio" name="ops_sop_percent" value="4"><div class="radio-label">80%+ - comprehensive documentation across all key processes</div></label>
+                </div>
+            </div>
+
+            <div class="form-field">
+                <label>Describe your single biggest operational bottleneck right now</label>
+                <div class="field-hint">Be specific. "I'm the bottleneck" is a symptom. What specifically breaks or slows down?</div>
+                <textarea name="ops_bottleneck" placeholder="e.g. Every time we get a new client, I personally have to set up their account because no one else knows how..."></textarea>
+            </div>
+        </div>
+
+        <!-- SECTION 6: MARKETING -->
+        <div class="form-section">
+            <h2>Marketing Systems</h2>
+            <p class="section-desc">How you generate, convert, and retain customers.</p>
+
+            <div class="form-field">
+                <label>How do most of your new customers find you?</label>
+                <div class="radio-group">
+                    <label class="radio-option"><input type="radio" name="mkt_source" value="referral"><div class="radio-label">Primarily referrals and word of mouth <em>Unpredictable volume</em></div></label>
+                    <label class="radio-option"><input type="radio" name="mkt_source" value="mixed-passive"><div class="radio-label">Mix of referrals and passive channels (SEO, Google Business) <em>Some predictability</em></div></label>
+                    <label class="radio-option"><input type="radio" name="mkt_source" value="active"><div class="radio-label">Active marketing channels I manage (social, email, paid) <em>More controllable</em></div></label>
+                    <label class="radio-option"><input type="radio" name="mkt_source" value="multi-systematic"><div class="radio-label">Multiple systematic channels with tracking and optimization <em>Franchise-grade</em></div></label>
+                </div>
+            </div>
+
+            <div class="form-field">
+                <label>Do you have a documented marketing calendar or content system?</label>
+                <div class="radio-group">
+                    <label class="radio-option"><input type="radio" name="mkt_calendar" value="1"><div class="radio-label">No - marketing happens when I have time or think of something</div></label>
+                    <label class="radio-option"><input type="radio" name="mkt_calendar" value="2"><div class="radio-label">Informal - I have a general sense of what to post but nothing documented</div></label>
+                    <label class="radio-option"><input type="radio" name="mkt_calendar" value="3"><div class="radio-label">Basic calendar exists and is roughly followed</div></label>
+                    <label class="radio-option"><input type="radio" name="mkt_calendar" value="4"><div class="radio-label">Full content calendar with templates, scheduling system, and performance tracking</div></label>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION 7: TECH & QUALITY -->
+        <div class="form-section">
+            <h2>Technology and Quality Control</h2>
+            <p class="section-desc">Your tools and how you maintain service consistency.</p>
+
+            <div class="form-field">
+                <label>How would you describe your current technology setup?</label>
+                <div class="radio-group">
+                    <label class="radio-option"><input type="radio" name="tech_setup" value="1"><div class="radio-label">Mostly manual - email, spreadsheets, paper <em>No integrated systems</em></div></label>
+                    <label class="radio-option"><input type="radio" name="tech_setup" value="2"><div class="radio-label">Some tools but they don't connect - data lives in multiple places</div></label>
+                    <label class="radio-option"><input type="radio" name="tech_setup" value="3"><div class="radio-label">Core tools in place and mostly integrated <em>Some gaps remain</em></div></label>
+                    <label class="radio-option"><input type="radio" name="tech_setup" value="4"><div class="radio-label">Integrated tech stack covering customer management, operations, finance, and marketing</div></label>
+                </div>
+            </div>
+
+            <div class="form-field">
+                <label>How consistent is the quality of your product or service delivery?</label>
+                <div class="radio-group">
+                    <label class="radio-option"><input type="radio" name="quality_consistency" value="1"><div class="radio-label">Varies significantly - depends heavily on who delivers and on which day</div></label>
+                    <label class="radio-option"><input type="radio" name="quality_consistency" value="2"><div class="radio-label">Mostly consistent but with noticeable variation - complaints happen periodically</div></label>
+                    <label class="radio-option"><input type="radio" name="quality_consistency" value="3"><div class="radio-label">Generally consistent with occasional gaps <em>Active quality monitoring</em></div></label>
+                    <label class="radio-option"><input type="radio" name="quality_consistency" value="4"><div class="radio-label">Highly consistent with documented quality standards, checkpoints, and measurement</div></label>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION 8: PRIORITIES -->
+        <div class="form-section">
+            <h2>Your Priorities</h2>
+            <p class="section-desc">This shapes how the recommendations are prioritized for your situation.</p>
+
+            <div class="form-field">
+                <label>What is your primary goal for the next 12 months?</label>
+                <div class="radio-group">
+                    <label class="radio-option"><input type="radio" name="goal_12mo" value="stabilize"><div class="radio-label">Stabilize - get operations under control and reduce chaos</div></label>
+                    <label class="radio-option"><input type="radio" name="goal_12mo" value="grow"><div class="radio-label">Grow - add customers and revenue</div></label>
+                    <label class="radio-option"><input type="radio" name="goal_12mo" value="scale"><div class="radio-label">Scale - expand to multiple locations or hire significantly</div></label>
+                    <label class="radio-option"><input type="radio" name="goal_12mo" value="sell"><div class="radio-label">Position for exit - make the business more sellable</div></label>
+                </div>
+            </div>
+
+            <div class="form-field">
+                <label>Anything else I should know about your specific situation?</label>
+                <div class="field-hint">Optional but useful. Any constraints, context, or specific problems you want addressed.</div>
+                <textarea name="additional_context" placeholder="e.g. I'm planning to hire my first employee in 3 months. My biggest fear is that I'm the bottleneck and can't take a vacation..."></textarea>
+            </div>
+        </div>
+
+        <div class="submit-section">
+            <button type="submit" class="analyze-btn" id="analyzeBtn">Run My Gap Analysis</button>
+            <p class="submit-note">Analysis takes 30-60 seconds. Save or print the results when complete.</p>
+        </div>
+
+    </form>
+
+    <!-- RESULTS -->
+    <div class="results" id="results">
+
+        <div class="results-header">
+            <h2 id="resultsBusinessType">Your Operations Gap Analysis</h2>
+            <p id="resultsBusinessSummary"></p>
+        </div>
+
+        <div class="score-card">
+            <div class="score-number" id="scoreNumber">--</div>
+            <div class="score-label">Overall Operations Score</div>
+            <div class="score-rating" id="scoreRating"></div>
+            <p class="score-summary" id="franchiseComparison"></p>
+        </div>
+
+        <div class="categories-section">
+            <h3>Score by Category</h3>
+            <div id="categoriesGrid"></div>
+        </div>
+
+        <div class="actions-section">
+            <h3>Priority Actions</h3>
+            <p style="font-size:14px;color:var(--slate);margin-bottom:20px;">Ranked by impact. Address in this order.</p>
+            <div id="actionsGrid"></div>
+        </div>
+
+        <div class="roadmap-section">
+            <h3>90-Day Implementation Roadmap</h3>
+            <div class="roadmap-grid" id="roadmapGrid"></div>
+        </div>
+
+        <div class="analyst-note" id="analystNote">
+            <div class="note-label">Analyst Note</div>
+            <p id="analystNoteText"></p>
+        </div>
+
+        <div class="results-cta">
+            <h3>Ready to close the gaps?</h3>
+            <p>The Systems Playbook builds six complete operational deliverables tailored to your specific analysis: SOPs, financial model, hiring framework, marketing strategy, tech stack, and 90-day implementation roadmap. Delivered within 2 business days.</p>
+            <div class="results-cta-btns">
+                <a href="/systems-playbook" class="cta-primary">See What's Included in the Playbook</a>
+            </div>
+            <p style="margin-top:16px;font-size:13px;color:var(--mint);opacity:0.8;">Need 1-on-1 help implementing? <a href="/implementation-sprint" style="color:var(--sage);font-weight:600;">Learn about the Implementation Sprint</a></p>
+            <button class="print-btn" onclick="window.print()">Print This Report</button>
+        </div>
+
+    </div>
+</div>
+
+<script>
+let accessToken = null;
+
+// Track progress
+function updateProgress() {
+    const form = document.getElementById('gapForm');
+    const total = 16;
+    let answered = 0;
+    // Text/textarea fields
+    form.querySelectorAll('input[type=text], textarea').forEach(el => { if (el.value.trim()) answered++; });
+    // Radio groups
+    const radioNames = new Set();
+    form.querySelectorAll('input[type=radio]').forEach(el => radioNames.add(el.name));
+    radioNames.forEach(name => { if (form.querySelector(`input[name="${name}"]:checked`)) answered++; });
+    const pct = Math.min(100, Math.round((answered / total) * 100));
+    document.getElementById('progressFill').style.width = pct + '%';
+    document.getElementById('progressCount').textContent = answered + ' of ' + total + ' answered';
+    // Highlight selected radios
+    form.querySelectorAll('.radio-option').forEach(opt => {
+        opt.classList.toggle('selected', opt.querySelector('input[type=radio]')?.checked || false);
+    });
+}
+document.getElementById('gapForm').addEventListener('change', updateProgress);
+document.getElementById('gapForm').addEventListener('input', updateProgress);
+
+// Access verification
+window.addEventListener('DOMContentLoaded', () => { verifyAccess(); });
+
+async function verifyAccess() {
+    const params = new URLSearchParams(window.location.search);
+    const sessionId = params.get('session_id');
+    const stored = sessionStorage.getItem('gap_token');
+    const tokenToVerify = sessionId || stored;
+
+    if (!tokenToVerify) {
+        showGateError('no_session');
+        return;
+    }
+
+    try {
+        const res = await fetch(`/api/verify-gap?session_id=${tokenToVerify}`);
+        const data = await res.json();
+        if (data.valid) {
+            accessToken = data.token;
+            sessionStorage.setItem('gap_token', tokenToVerify);
+            if (sessionId) history.replaceState({}, '', '/gap-analyzer-tool');
+            document.getElementById('gate').classList.add('hidden');
+        } else {
+            showGateError(data.reason || 'invalid');
+        }
+    } catch (err) {
+        showGateError('error');
+    }
+}
+
+function showGateError(reason) {
+    const gate = document.getElementById('gate');
+    let msg = 'Access could not be verified.';
+    if (reason === 'no_session') msg = 'No purchase session found. Please access this page through the link in your confirmation email.';
+    if (reason === 'unpaid') msg = 'Your payment has not been confirmed yet. Please wait a moment and refresh, or contact us if this persists.';
+    gate.innerHTML = `<div class="gate-error"><h2>Access Required</h2><p>${msg}</p><p>Already purchased? <a href="/recover-access">Recover your access</a> or email <a href="mailto:hello@franchisegradesystems.com">hello@franchisegradesystems.com</a>.</p></div>`;
+}
+
+// Form submission
+document.getElementById('gapForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const btn = document.getElementById('analyzeBtn');
+    btn.disabled = true;
+    btn.textContent = 'Analyzing...';
+    document.getElementById('loading').classList.add('show');
+
+    const form = e.target;
+    const answers = {};
+    new FormData(form).forEach((val, key) => { answers[key] = val; });
+    // Also get unchecked radios as empty
+    form.querySelectorAll('input[type=radio]:checked').forEach(el => { answers[el.name] = el.value; });
+
+    try {
+        const res = await fetch('/api/analyze-gap', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ answers, token: accessToken })
+        });
+        const data = await res.json();
+        if (data.success && data.analysis) {
+            document.getElementById('loading').classList.remove('show');
+            document.getElementById('gapForm').style.display = 'none';
+            document.getElementById('progressBar').style.display = 'none';
+            renderResults(data.analysis);
+        } else {
+            throw new Error(data.error || 'Analysis failed');
+        }
+    } catch (err) {
+        document.getElementById('loading').classList.remove('show');
+        btn.disabled = false;
+        btn.textContent = 'Run My Gap Analysis';
+        alert('Analysis failed: ' + err.message + '. Please try again.');
+    }
+});
+
+function getRatingClass(rating) {
+    if (!rating) return 'rating-developing';
+    const r = rating.toLowerCase();
+    if (r.includes('critical')) return 'rating-critical';
+    if (r.includes('needs')) return 'rating-needs';
+    if (r.includes('developing')) return 'rating-developing';
+    if (r.includes('solid')) return 'rating-solid';
+    if (r.includes('franchise')) return 'rating-franchise';
+    return 'rating-developing';
+}
+
+function getBarClass(rating) {
+    if (!rating) return 'fill-developing';
+    const r = rating.toLowerCase();
+    if (r.includes('critical')) return 'fill-critical';
+    if (r.includes('needs')) return 'fill-needs';
+    if (r.includes('developing')) return 'fill-developing';
+    if (r.includes('solid')) return 'fill-solid';
+    if (r.includes('franchise')) return 'fill-franchise';
+    return 'fill-developing';
+}
+
+function renderResults(a) {
+    document.getElementById('resultsBusinessType').textContent = (a.business_summary || '').split('.')[0] || 'Your Operations Gap Analysis';
+    document.getElementById('resultsBusinessSummary').textContent = a.business_summary || '';
+    document.getElementById('scoreNumber').textContent = a.overall_score || '--';
+    const ratingEl = document.getElementById('scoreRating');
+    ratingEl.textContent = a.overall_rating || '';
+    ratingEl.className = 'score-rating ' + getRatingClass(a.overall_rating);
+    document.getElementById('franchiseComparison').textContent = a.franchise_comparison || '';
+
+    // Categories
+    const catGrid = document.getElementById('categoriesGrid');
+    (a.categories || []).forEach(cat => {
+        const row = document.createElement('div');
+        row.className = 'cat-row';
+        row.innerHTML = `<div class="cat-name">${cat.name}</div><div class="cat-bar-track"><div class="cat-bar-fill ${getBarClass(cat.rating)}" style="width:${cat.score}%"></div></div><div class="cat-score">${cat.score}</div>`;
+        catGrid.appendChild(row);
+    });
+
+    // Actions
+    const actGrid = document.getElementById('actionsGrid');
+    (a.priority_actions || []).forEach(action => {
+        const card = document.createElement('div');
+        card.className = 'action-card';
+        card.innerHTML = `<div class="action-num">${action.rank}</div><div class="action-content"><h4>${action.action}</h4><p>${action.why}</p><div class="action-meta"><span class="action-tag tag-time">${action.time_estimate}</span><span class="action-tag tag-${action.impact || 'medium'}">${(action.impact || 'medium').toUpperCase()} IMPACT</span><span class="action-tag" style="background:var(--pale);color:var(--forest);">${action.category}</span></div></div>`;
+        actGrid.appendChild(card);
+    });
+
+    // Roadmap
+    const roadmap = a.ninety_day_roadmap || {};
+    const roadmapGrid = document.getElementById('roadmapGrid');
+    ['month_1', 'month_2', 'month_3'].forEach((key, idx) => {
+        const m = roadmap[key] || {};
+        const col = document.createElement('div');
+        col.className = 'roadmap-month';
+        const items = (m.actions || []).map(act => `<li>${act}</li>`).join('');
+        col.innerHTML = `<h4>Month ${idx + 1}</h4><div class="month-focus">${m.focus || ''}</div><ul>${items}</ul>`;
+        roadmapGrid.appendChild(col);
+    });
+
+    document.getElementById('analystNoteText').textContent = a.analyst_note || '';
+
+    const results = document.getElementById('results');
+    results.classList.add('show');
+    results.scrollIntoView({ behavior: 'smooth' });
+}
+</script>
+
+<footer style="background:#1B4332;color:#95D5B2;padding:30px 40px;text-align:center;font-size:13px;margin-top:40px;">
+    <div style="font-family:'Instrument Serif',serif;font-size:1.1rem;color:#fff;margin-bottom:8px;">Franchise<span style="color:#52B788;">-Grade</span> Systems<sup style="font-size:0.55em;vertical-align:super;font-family:\'DM Sans\',sans-serif;">TM</sup></div>
+    <p style="margin-bottom:8px;">&copy; 2025-2026 Franchise-Grade Systems. All rights reserved. Not legal or financial advice.</p>
+    <div style="margin-top:12px;display:flex;gap:16px;justify-content:center;flex-wrap:wrap;">
+        <a href="/privacy" style="color:#95D5B2;font-size:0.8rem;text-decoration:none;opacity:0.8;">Privacy Policy</a>
+        <a href="/terms" style="color:#95D5B2;font-size:0.8rem;text-decoration:none;opacity:0.8;">Terms of Service</a>
+        <a href="/tools" style="color:#95D5B2;font-size:0.8rem;text-decoration:none;opacity:0.8;">Free Tools</a>
+    </div>
+</footer>
+
+</body>
+</html>
