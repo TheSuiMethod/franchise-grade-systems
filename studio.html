@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>FGS Studio</title>
+<style>
+  :root {
+    --teal: #145A64;
+    --teal-light: #E8F4F6;
+    --teal-mid: #C2DDE1;
+    --gold: #C9982A;
+    --gold-light: #FDF6E7;
+    --gold-mid: #F0D9A0;
+    --white: #FFFFFF;
+    --bg: #F7F9FA;
+    --border: #DDE4E8;
+    --text: #1A2B31;
+    --muted: #6B828A;
+    --broker: #8B4513;
+    --prospect: #2E6DA4;
+    --marcus: #6B4C8A;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); }
+
+  /* PASSWORD GATE */
+  #gate { display:flex; align-items:center; justify-content:center; min-height:100vh; background:var(--bg); }
+  .gate-box { background:var(--white); border:1px solid var(--border); border-top:3px solid var(--teal); border-radius:8px; padding:40px; width:340px; text-align:center; }
+  .gate-logo { font-size:11px; font-weight:700; letter-spacing:0.1em; color:var(--teal); margin-bottom:6px; }
+  .gate-title { font-size:18px; font-weight:700; color:var(--text); margin-bottom:6px; }
+  .gate-sub { font-size:12px; color:var(--muted); margin-bottom:24px; }
+  .gate-input { width:100%; padding:10px 14px; border:1px solid var(--border); border-radius:6px; font-size:14px; color:var(--text); outline:none; margin-bottom:10px; }
+  .gate-input:focus { border-color:var(--teal); }
+  .gate-btn { width:100%; padding:10px; background:var(--teal); border:none; border-radius:6px; color:#fff; font-size:13px; font-weight:700; cursor:pointer; letter-spacing:0.04em; }
+  .gate-error { font-size:12px; color:#C0392B; margin-top:8px; display:none; }
+
+  /* APP */
+  #app { display:none; }
+  .header { background:var(--teal); padding:16px 24px 0; }
+  .header-top { display:flex; align-items:baseline; gap:12px; margin-bottom:4px; flex-wrap:wrap; }
+  .header-brand { font-size:13px; font-weight:700; color:#fff; letter-spacing:0.06em; }
+  .header-sub { font-size:11px; color:#A8CDD2; }
+  .tab-bar { display:flex; gap:2px; overflow-x:auto; }
+  .tab-btn { padding:8px 15px; background:transparent; border:none; border-radius:6px 6px 0 0; color:#A8CDD2; font-size:12px; font-weight:400; cursor:pointer; white-space:nowrap; }
+  .tab-btn.active { background:#fff; color:var(--teal); font-weight:700; }
+  .content { padding:24px; max-width:860px; }
+
+  /* COMPONENTS */
+  .card { background:var(--white); border:1px solid var(--border); border-radius:8px; padding:16px; margin-bottom:10px; }
+  .card.accent-teal { border-left:3px solid var(--teal); }
+  .card.accent-gold { border-left:3px solid var(--gold); }
+  .card.accent-marcus { border-left:3px solid var(--marcus); }
+  .card.accent-broker { border-left:3px solid var(--broker); }
+  .card.accent-prospect { border-left:3px solid var(--prospect); }
+  .section-label { font-size:11px; font-weight:700; color:var(--muted); letter-spacing:0.08em; text-transform:uppercase; margin-bottom:12px; margin-top:24px; padding-bottom:6px; border-bottom:1px solid var(--border); }
+  .badge { display:inline-block; padding:2px 10px; border-radius:20px; font-size:11px; font-weight:600; border:1px solid; margin-right:4px; }
+  .badge-teal { background:rgba(20,90,100,0.1); color:var(--teal); border-color:rgba(20,90,100,0.3); }
+  .badge-gold { background:rgba(201,152,42,0.1); color:var(--gold); border-color:rgba(201,152,42,0.3); }
+  .badge-muted { background:rgba(107,130,138,0.1); color:var(--muted); border-color:rgba(107,130,138,0.3); }
+  .badge-marcus { background:rgba(107,76,138,0.1); color:var(--marcus); border-color:rgba(107,76,138,0.3); }
+  .badge-broker { background:rgba(139,69,19,0.1); color:var(--broker); border-color:rgba(139,69,19,0.3); }
+  .badge-prospect { background:rgba(46,109,164,0.1); color:var(--prospect); border-color:rgba(46,109,164,0.3); }
+  .badge-green { background:rgba(20,100,60,0.1); color:#146040; border-color:rgba(20,100,60,0.3); }
+  .info-row { display:flex; gap:12px; margin-bottom:8px; align-items:flex-start; }
+  .info-label { font-size:11px; color:var(--muted); font-weight:600; min-width:90px; padding-top:1px; letter-spacing:0.02em; }
+  .info-val { font-size:12px; color:var(--text); line-height:1.55; flex:1; }
+  .prompt-box { background:#F0F7F9; border:1px solid var(--teal-mid); border-radius:6px; padding:12px 14px; font-size:11px; color:var(--teal); line-height:1.7; margin-top:8px; font-family:Georgia,serif; }
+  .copy-btn { padding:5px 14px; border:1px solid var(--border); border-radius:6px; background:#fff; color:var(--muted); font-size:11px; font-weight:600; cursor:pointer; letter-spacing:0.02em; }
+  .copy-btn.copied { background:var(--teal); border-color:var(--teal); color:#fff; }
+  .expand-btn { background:transparent; border:1px solid var(--border); border-radius:4px; color:var(--muted); font-size:11px; padding:3px 10px; cursor:pointer; }
+  .warning-gold { background:#FEF9EC; border:1px solid var(--gold-mid); border-left:3px solid var(--gold); border-radius:6px; padding:12px 14px; font-size:12px; color:#8B6510; line-height:1.6; margin-bottom:12px; }
+  .warning-teal { background:var(--teal-light); border:1px solid var(--teal-mid); border-radius:6px; padding:10px 14px; font-size:11px; color:#4A7A82; line-height:1.6; margin-bottom:8px; }
+  .stats-row { display:flex; gap:12px; margin-bottom:24px; flex-wrap:wrap; }
+  .stat-box { flex:1; min-width:100px; background:#fff; border:1px solid var(--border); border-radius:8px; padding:16px; text-align:center; }
+  .stat-num { font-size:28px; font-weight:700; color:var(--teal); }
+  .stat-label { font-size:11px; color:var(--muted); font-weight:600; letter-spacing:0.04em; margin-top:2px; }
+  .phase-row { display:flex; gap:12px; flex-wrap:wrap; }
+  .checkbox-wrap { width:18px; height:18px; min-width:18px; border:2px solid var(--border); border-radius:4px; background:#fff; cursor:pointer; display:flex; align-items:center; justify-content:center; margin-top:1px; }
+  .checkbox-wrap.done { background:var(--teal); border-color:var(--teal); }
+  .checkbox-wrap.done::after { content:'✓'; color:#fff; font-size:11px; font-weight:700; }
+  .ep-row { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; }
+  .ep-left { display:flex; align-items:center; gap:10px; }
+  .ep-right { display:flex; gap:6px; align-items:center; }
+  .ep-detail { margin-top:12px; padding-top:12px; border-top:1px solid var(--border); }
+  .char-tabs { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:20px; }
+  .char-tab { padding:8px 16px; border-radius:20px; font-size:12px; font-weight:600; cursor:pointer; border:1px solid var(--border); background:#fff; color:var(--text); }
+  .row { display:flex; gap:12px; flex-wrap:wrap; }
+  .col { flex:1; min-width:240px; }
+  a.deploy-btn { display:inline-block; padding:8px 18px; background:var(--teal); border-radius:6px; color:#fff; font-size:12px; font-weight:700; text-decoration:none; }
+  .step-row { background:#fff; border:1px solid var(--border); border-left:3px solid var(--border); border-radius:8px; padding:14px 16px; margin-bottom:8px; display:flex; gap:12px; }
+  .step-row.done { opacity:0.6; border-left-color:var(--teal); }
+  .step-content { flex:1; }
+  .step-title { font-weight:700; font-size:13px; margin-bottom:4px; }
+  .step-meta { display:flex; gap:6px; flex-wrap:wrap; margin-bottom:6px; }
+  .step-notes { font-size:12px; color:var(--muted); line-height:1.55; }
+  .cal-row { background:#fff; border:1px solid var(--border); border-radius:8px; padding:14px 16px; margin-bottom:8px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; }
+  .cal-left { display:flex; align-items:center; gap:14px; }
+  .week-num { font-size:11px; color:var(--muted); font-weight:700; min-width:52px; }
+  .ep-card { background:#fff; border:1px solid var(--border); border-radius:8px; padding:14px 16px; margin-bottom:8px; }
+  .ep-card.done { opacity:0.6; }
+  .hidden { display:none; }
+  @media(max-width:600px) { .content { padding:16px; } .stats-row { gap:8px; } .stat-box { min-width:80px; } }
+</style>
+</head>
+<body>
+
+<!-- PASSWORD GATE -->
+<div id="gate">
+  <div class="gate-box">
+    <div class="gate-logo">FRANCHISE-GRADE SYSTEMS</div>
+    <div class="gate-title">FGS Studio</div>
+    <div class="gate-sub">Internal production workspace</div>
+    <input type="password" class="gate-input" id="pw-input" placeholder="Enter password" onkeydown="if(event.key==='Enter')checkPw()">
+    <button class="gate-btn" onclick="checkPw()">Enter</button>
+    <div class="gate-error" id="pw-error">Incorrect password</div>
+  </div>
+</div>
+
+<!-- MAIN APP -->
+<div id="app">
+  <div class="header">
+    <div class="header-top">
+      <span class="header-brand">FRANCHISE-GRADE SYSTEMS</span>
+      <span class="header-sub">Franchesca Series -- Production Dashboard v2</span>
+    </div>
+    <div class="tab-bar">
+      <button class="tab-btn active" onclick="showTab('overview',this)">Overview</button>
+      <button class="tab-btn" onclick="showTab('setup',this)">Setup</button>
+      <button class="tab-btn" onclick="showTab('characters',this)">Characters</button>
+      <button class="tab-btn" onclick="showTab('prompts',this)">Scene Prompts</button>
+      <button class="tab-btn" onclick="showTab('episodes',this)">Episodes</button>
+      <button class="tab-btn" onclick="showTab('workflow',this)">Workflow</button>
+      <button class="tab-btn" onclick="showTab('calendar',this)">Calendar</button>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- OVERVIEW TAB -->
+    <div id="tab-overview">
+      <div class="stats-row">
+        <div class="stat-box"><div class="stat-num">4</div><div class="stat-label">CHARACTERS</div></div>
+        <div class="stat-box"><div class="stat-num">2</div><div class="stat-label">STORY ARCS</div></div>
+        <div class="stat-box"><div class="stat-num">11</div><div class="stat-label">EPISODES PLANNED</div></div>
+        <div class="stat-box"><div class="stat-num" id="done-stat" style="color:var(--gold)">0/11</div><div class="stat-label">PRODUCED</div></div>
+        <div class="stat-box"><div class="stat-num">$0</div><div class="stat-label">TO START</div></div>
+      </div>
+
+      <div class="section-label">Two-Phase Narrative Architecture</div>
+      <div class="phase-row">
+        <div class="card accent-teal col">
+          <div style="font-size:13px;font-weight:700;color:var(--teal);margin-bottom:6px">Phase 1 -- The Dream</div>
+          <div style="font-size:12px;color:var(--muted);margin-bottom:10px">Before signing. The buyer is evaluating.</div>
+          <span class="badge badge-broker">The Broker</span><span class="badge badge-prospect">The Prospect</span><span class="badge badge-teal">Franchesca</span>
+          <div style="font-size:11px;color:var(--muted);font-style:italic;margin-top:10px">The Broker pitches. The Prospect reacts. Franchesca deconstructs.</div>
+        </div>
+        <div class="card accent-marcus col">
+          <div style="font-size:13px;font-weight:700;color:var(--marcus);margin-bottom:6px">Phase 2 -- The Reality</div>
+          <div style="font-size:12px;color:var(--muted);margin-bottom:10px">After signing. The buyer is operating.</div>
+          <span class="badge badge-marcus">Marcus</span><span class="badge badge-prospect">The Prospect</span><span class="badge badge-teal">Franchesca</span>
+          <div style="font-size:11px;color:var(--muted);font-style:italic;margin-top:10px">Marcus scrambles. The Prospect discovers the gap. Franchesca saw it coming.</div>
+        </div>
+      </div>
+
+      <div class="section-label">Series Strategy</div>
+      <div class="card">
+        <div style="font-size:12px;color:var(--text);line-height:1.65">Episodes alternate between Arc 1 and Arc 2 so the audience experiences the full buyer journey over time. The Prospect and Franchesca are the only two characters who appear in both arcs -- this mirrors what actually happens in a franchise relationship. The contrast between who shows up before versus after the check clears is the central emotional engine of the series.</div>
+        <div style="margin-top:12px;padding:10px 14px;background:var(--gold-light);border:1px solid var(--gold-mid);border-radius:6px;font-size:12px;color:#8B6510;font-weight:600">Crossover Episode (after Ep 4 + Ep D): The Prospect from Phase 1 encounters Marcus post-signing while Franchesca watches. This is the emotional payoff of the entire series.</div>
+      </div>
+
+      <div class="section-label">Scripts Ready to Produce Now</div>
+      <div class="phase-row">
+        <div class="card accent-teal col"><span class="badge badge-teal">Script Ready</span><div style="font-weight:700;font-size:13px;margin-top:8px">Ep 1: The 90% Myth</div><div style="font-size:11px;color:var(--muted)">Arc 1 -- See Episodes tab for full script</div></div>
+        <div class="card accent-teal col"><span class="badge badge-teal">Script Ready</span><div style="font-weight:700;font-size:13px;margin-top:8px">Ep A: Ground Floor</div><div style="font-size:11px;color:var(--muted)">Arc 2 -- See Episodes tab for full script</div></div>
+      </div>
+    </div>
+
+    <!-- SETUP TAB -->
+    <div id="tab-setup" class="hidden">
+      <div class="warning-gold"><strong>Start here before anything else.</strong> Create the OpenArt account first, then set up the 4 Character Profiles. Everything else in the workflow depends on those being ready.</div>
+
+      <div class="section-label">Accounts to Create</div>
+      <div class="card accent-teal">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:10px">
+          <div>
+            <span class="badge badge-teal">OpenArt</span><span class="badge badge-gold">Free / $9.99/mo</span><span class="badge badge-teal">Do This First</span>
+            <div class="info-row" style="margin-top:10px"><div class="info-label">Used for</div><div class="info-val">Character image generation -- the entire production workflow</div></div>
+            <div style="font-size:11px;color:var(--muted)">Free tier: ~100 images/month. $9.99 for 500+. Start free.</div>
+          </div>
+          <a href="https://openart.ai" target="_blank" class="deploy-btn">Create Account</a>
+        </div>
+      </div>
+      <div class="card accent-teal">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:10px">
+          <div>
+            <span class="badge badge-teal">ElevenLabs</span><span class="badge badge-gold">Free / $5/mo</span><span class="badge badge-teal">Do This Second</span>
+            <div class="info-row" style="margin-top:10px"><div class="info-label">Used for</div><div class="info-val">AI voiceover for all episode dialogue</div></div>
+            <div style="font-size:11px;color:var(--muted)">Free tier covers 2-3 episodes/month. Voice clone at $5/month sounds like you. Select ElevenCreative when prompted.</div>
+          </div>
+          <a href="https://elevenlabs.io" target="_blank" class="deploy-btn">Create Account</a>
+        </div>
+      </div>
+      <div class="card">
+        <span class="badge badge-muted">CapCut</span><span class="badge badge-gold">Free</span>
+        <div class="info-row" style="margin-top:10px"><div class="info-label">Used for</div><div class="info-val">Video assembly, auto-captions, Ken Burns motion on images, 1080p export</div></div>
+        <div style="font-size:11px;color:var(--muted)">No watermark on desktop version. Download the desktop app.</div>
+      </div>
+      <div class="card">
+        <span class="badge badge-muted">Canva</span><span class="badge badge-gold">Free</span>
+        <div class="info-row" style="margin-top:10px"><div class="info-label">Used for</div><div class="info-val">Opening title card and closing CTA card per episode (2 cards per episode)</div></div>
+        <div style="font-size:11px;color:var(--muted)">Already in your stack. No new account needed.</div>
+      </div>
+
+      <div class="section-label">OpenArt Character Profile Setup</div>
+      <div class="warning-teal">Character Profiles lock visual consistency across every scene. This is the most important setup step. Without it, your characters will look different in every image. Set up all 4 profiles before generating any scene images.</div>
+      <div id="setup-chars"></div>
+
+      <div class="section-label">Total Monthly Cost</div>
+      <div class="card" style="text-align:center;padding:24px">
+        <div style="font-size:32px;font-weight:700;color:var(--teal)">$0 to $15/month</div>
+        <div style="font-size:12px;color:var(--muted);margin-top:6px">One FDD Analyzer sale covers 6+ months of full production costs.</div>
+      </div>
+    </div>
+
+    <!-- CHARACTERS TAB -->
+    <div id="tab-characters" class="hidden">
+      <div class="char-tabs" id="char-tabs"></div>
+      <div id="char-detail"></div>
+    </div>
+
+    <!-- SCENE PROMPTS TAB -->
+    <div id="tab-prompts" class="hidden">
+      <div class="section-label">Multi-Character Scene Prompts</div>
+      <div style="font-size:12px;color:var(--muted);margin-bottom:14px;line-height:1.6">Use these for scenes with two or more characters. Copy and paste directly into OpenArt. Character descriptions are built into each prompt -- no Character Profile needed for these.</div>
+      <div id="multi-prompts"></div>
+
+      <div class="section-label">Phase 2 Lighting Modifier</div>
+      <div class="warning-gold">Add this to EVERY Phase 2 (Arc 2) scene prompt. Creates a visual distinction between the aspirational pre-signing world and the post-signing reality. The audience will feel it before they consciously register it.</div>
+      <div class="prompt-box" id="lighting-text">warmer more subdued lighting, slightly lower contrast than Phase 1 scenes, office fluorescent quality rather than showroom quality -- the dream has met reality</div>
+      <button class="copy-btn" style="margin-top:8px" onclick="copyText('warmer more subdued lighting, slightly lower contrast than Phase 1 scenes, office fluorescent quality rather than showroom quality -- the dream has met reality',this,'Copy Modifier')">Copy Modifier</button>
+    </div>
+
+    <!-- EPISODES TAB -->
+    <div id="tab-episodes" class="hidden">
+      <div style="font-size:13px;font-weight:700;color:var(--teal);margin-bottom:4px">Arc 1 -- Before You Sign</div>
+      <div style="font-size:11px;color:var(--muted);margin-bottom:12px">Characters: The Broker + The Prospect + Franchesca</div>
+      <div id="arc1-eps"></div>
+
+      <div style="font-size:13px;font-weight:700;color:var(--marcus);margin-top:24px;margin-bottom:4px">Arc 2 -- After You Sign</div>
+      <div style="font-size:11px;color:var(--muted);margin-bottom:12px">Characters: Marcus + The Prospect + Franchesca</div>
+      <div id="arc2-eps"></div>
+
+      <div class="card accent-gold" style="margin-top:16px">
+        <div style="font-weight:700;font-size:12px;color:var(--gold);margin-bottom:6px">Crossover Episode -- Build Toward This</div>
+        <div style="font-size:12px;color:#8B6510;line-height:1.6">After at least 4 episodes in each arc: The Prospect from Phase 1 encounters Marcus post-signing while Franchesca watches. This is the emotional payoff of the entire series.</div>
+      </div>
+    </div>
+
+    <!-- WORKFLOW TAB -->
+    <div id="tab-workflow" class="hidden">
+      <div style="font-size:12px;color:var(--muted);margin-bottom:16px;line-height:1.6">Total time per episode: approximately 1.5 to 2 hours. Check off each step as you go. Reset by refreshing the page for the next episode.</div>
+      <div id="workflow-steps"></div>
+
+      <div class="section-label">Social Repurposing After Each Episode</div>
+      <div class="card">
+        <div class="info-row"><div class="info-label">YouTube</div><div class="info-val">Full episode (3-4 minutes). Add title, description, and franchise education tags.</div></div>
+        <div class="info-row"><div class="info-label">LinkedIn</div><div class="info-val">60-90 second clip from the sharpest Franchesca teaching moment. Caption it. Post within 24 hours of YouTube upload.</div></div>
+        <div class="info-row"><div class="info-label">CTA</div><div class="info-val">Every episode ends with: Free FDD Analyzer at franchisegradesystems.com/fdd-analyzer</div></div>
+      </div>
+    </div>
+
+    <!-- CALENDAR TAB -->
+    <div id="tab-calendar" class="hidden">
+      <div style="font-size:12px;color:var(--muted);margin-bottom:16px;line-height:1.6">Arc 1 and Arc 2 alternate every week. The audience experiences the full buyer journey simultaneously as the series builds.</div>
+      <div id="calendar-rows"></div>
+      <div class="card accent-gold">
+        <div style="font-weight:700;font-size:12px;color:var(--gold);margin-bottom:4px">Week 9+ -- Continue Alternating</div>
+        <div style="font-size:12px;color:var(--muted)">Arc 1: Ep 5, Ep 6. Arc 2: Ep C, Ep D, Ep E. Build toward the crossover episode at Week 9-10.</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+// ─── PASSWORD ───────────────────────────────────────────────────────────────
+const PASS = 'FGSstudio25';
+
+function checkPw() {
+  const v = document.getElementById('pw-input').value;
+  if (v === PASS) {
+    sessionStorage.setItem('fgs_auth', '1');
+    document.getElementById('gate').style.display = 'none';
+    document.getElementById('app').style.display = 'block';
+    buildAll();
+  } else {
+    document.getElementById('pw-error').style.display = 'block';
+  }
+}
+
+window.onload = () => {
+  if (sessionStorage.getItem('fgs_auth') === '1') {
+    document.getElementById('gate').style.display = 'none';
+    document.getElementById('app').style.display = 'block';
+    buildAll();
+  }
+};
+
+// ─── TAB SWITCHING ───────────────────────────────────────────────────────────
+function showTab(id, btn) {
+  document.querySelectorAll('[id^="tab-"]').forEach(t => t.classList.add('hidden'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.remove('hidden');
+  btn.classList.add('active');
+}
+
+// ─── COPY HELPER ─────────────────────────────────────────────────────────────
+function copyText(text, btn, label) {
+  navigator.clipboard.writeText(text).then(() => {
+    btn.textContent = 'Copied';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = label || 'Copy Prompt'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+
+// ─── DATA ────────────────────────────────────────────────────────────────────
+const CHARS = [
+  { id:'franchesca', name:'Franchesca', role:'The Guide', phases:'Both Phases', cls:'teal',
+    desc:'The experienced guide. Has been through both the dream and the collapse. Direct, warm, dry humor. Never tells the Prospect what to do -- gives them the information they were never given.',
+    visual:'African American woman, late 30s-40s. Natural hair. Teal blazer, gold earrings. Expressive face.',
+    master:'3D Pixar animation style, expressive cartoon character, African American woman in her late 30s to early 40s, natural hair in a polished twist-out or locs pulled back, warm expressive brown eyes, subtle gold hoop earrings, wearing a deep teal blazer over a simple cream blouse, confident and approachable posture, slight knowing smile, clean studio lighting, neutral background, full body shot visible from head to mid-thigh, high detail face, smooth skin, professional makeup, character design style consistent with Pixar Inside Out or Soul',
+    exprs:[
+      {n:'Teaching',p:'right hand gesturing outward, left hand holding a document, engaged eyes, explaining something clearly'},
+      {n:'Knowing / Amused',p:'arms crossed, slight smile, one eyebrow slightly raised, she called it'},
+      {n:'Concerned',p:'brow furrowed, arms crossed, head slightly tilted'},
+      {n:'Empathetic',p:'soft eyes, right hand on heart, gentle smile'},
+      {n:'Shocked',p:'wide eyes, mouth slightly open, both hands up'},
+    ],
+    phrases:['"That is not a red flag -- that is a red carpet leading to a trap."','"Hope is not a business strategy."','"The FDD is 300 pages. They are not making it long because they are chatty."','"They got the check. You got the lesson."'],
+    setup:'Upload your approved PNG as the reference image.'
+  },
+  { id:'broker', name:'The Broker', role:'Pre-Signing Antagonist', phases:'Phase 1 Only', cls:'broker',
+    desc:'Charming, incentivized, not dishonest -- just misaligned. He believes his pitch. That is the problem.',
+    visual:'Well-dressed man, mid-40s. Navy suit, gold pocket square. Too-white smile. Overdressed for every situation.',
+    master:'3D Pixar animation style, expressive cartoon character, white man in his mid-40s, slightly overweight but projecting confidence, hair slicked back with too much product, teeth too white and smile slightly too wide, wearing an expensive but overdone navy suit with gold pocket square and gold tie clip, power pose with shoulders back and hands spread open as if making a pitch, one eyebrow slightly raised in a trust-me expression, clean studio lighting, full body shot, character design evokes charming but slightly untrustworthy energy -- not cartoonishly villainous, just too polished, Pixar Incredibles character style',
+    exprs:[
+      {n:'The Pitch',p:'leaning slightly forward, both hands open and presenting, big grin, maximum salesmanship'},
+      {n:'The Deflect',p:'hand waving dismissively, confident smile, eyes slightly avoiding contact'},
+      {n:'Cornered',p:'smile faltering slightly, straightening tie, looking for exit'},
+      {n:'Closing the Deal',p:'extending handshake, full megawatt smile, leaning in'},
+    ],
+    phrases:['"The numbers speak for themselves."','"Our franchisees love what they do."','"I only recommend brands that are a great fit for my clients."','"This territory is going fast."'],
+    setup:'Upload your approved PNG as the reference image.'
+  },
+  { id:'prospect', name:'The Prospect', role:'Audience Avatar', phases:'Both Phases', cls:'prospect',
+    desc:'Asks the questions viewers are thinking. Her emotional arc -- excitement to confusion to alarm to realization -- is the viewer\'s arc.',
+    visual:'Professional woman, early 30s. Business casual. Wide eyes. Notebook and pen. Approachable and relatable.',
+    master:'3D Pixar animation style, expressive cartoon character, professional woman in her early 30s, ethnically ambiguous or South Asian, neat hair pulled back or in a simple style, wearing business casual -- blazer and simple blouse in neutral colors, carrying a manila folder or tablet, expression eager and optimistic but with slight anxiety visible around the eyes, good posture but slightly tense shoulders, clean studio lighting, full body shot, character design should read as the audience -- relatable, smart, but in unfamiliar territory, Pixar Turning Red or Soul character style',
+    exprs:[
+      {n:'Excited',p:'eyes bright, folder held to chest, leaning forward, hopeful'},
+      {n:'Confused',p:'brow furrowed, head tilted, looking at document with mouth slightly open'},
+      {n:'Realizing',p:'eyes widening, hand raised to mouth, the moment it clicks'},
+      {n:'Relieved',p:'shoulders dropping, exhale visible, small grateful smile'},
+      {n:'Overwhelmed',p:'slumped shoulders, staring at a thick document, eyes glazed'},
+      {n:'Frustrated',p:'arms crossed, tired eyes, set jaw, six months of this'},
+    ],
+    phrases:[],
+    setup:'Upload your approved PNG as the reference image.'
+  },
+  { id:'marcus', name:'Marcus', role:'Post-Signing Antagonist', phases:'Phase 2 Only', cls:'marcus',
+    desc:'Founder of an emerging franchise brand who sold a vision he had not yet built. Not a villain -- genuinely believes in his brand. Just 3 years ahead of where he told you he was.',
+    visual:'Man, early-to-mid 40s. Business casual but slightly disheveled. Startup energy. Whiteboard marker always in hand.',
+    master:'3D Pixar animation style, expressive cartoon character, enthusiastic entrepreneur man in his early-to-mid 40s, slightly disheveled business casual -- untucked button-down shirt, sleeves rolled up, holding a whiteboard marker in one hand, standing in front of a half-finished whiteboard covered in diagrams and arrows and crossed-out items, warm but slightly manic energy, genuine smile that does not quite reach his eyes because he is quietly worried, startup office background with motivational posters, high quality 3D render, Pixar movie quality',
+    exprs:[
+      {n:'The Pivot',p:'excited leaning forward with whiteboard marker pointing at a new diagram, previous diagram crossed out behind him, eyes bright with fresh conviction'},
+      {n:'The Reframe',p:'both hands open in a reassuring gesture, nodding slowly, expression of calm certainty that is slightly too performed, leaning slightly back'},
+      {n:'The Delay',p:'one finger raised as if about to say something important, slight wince hidden behind a smile, other hand rubbing the back of his neck'},
+      {n:'Overwhelmed',p:'slightly slumped posture, whiteboard marker hanging loosely, looking at the whiteboard with tired eyes, the optimism briefly gone'},
+      {n:'Selling the Vision',p:'arms wide open, big genuine smile, looking upward slightly as if picturing the future, whiteboard marker pointing at the ceiling, maximum enthusiasm'},
+    ],
+    phrases:['"We are evolving the system."','"You are getting in on the ground floor."','"Our early franchisees are our partners in building this."','"That is great feedback. We will get that into the next update."','"We are building something special here together."'],
+    setup:'Generate from the master prompt -- select the best result as your reference image.'
+  }
+];
+
+const MULTI = [
+  {n:'TWO-SHOT: Marcus + Prospect',ctx:'Post-signing discovery call',p:'3D Pixar animation style, two expressive cartoon characters, on the left an enthusiastic entrepreneur man in rolled-up sleeves holding a whiteboard marker with a reassuring smile, on the right a professional woman in a blazer with a concerned expression holding a notebook, standing in a startup office with a whiteboard covered in diagrams behind them, warm lighting, high quality 3D render, Pixar movie quality'},
+  {n:'TWO-SHOT: Franchesca + Prospect',ctx:'Phase 2 debrief',p:'3D Pixar animation style, two expressive cartoon characters, African American woman in a teal blazer with natural hair and gold earrings and a knowing but empathetic expression, professional woman in a blazer with a tired and frustrated expression holding a notebook, modern office setting, warmer more subdued lighting than Phase 1 scenes to reflect the post-signing reality, high quality 3D render, Pixar movie quality'},
+  {n:'TWO-SHOT: Broker + Prospect',ctx:'Pre-signing pitch',p:'3D Pixar animation style, two expressive cartoon characters, on the left an overdressed man in a navy suit with a too-white smile holding glossy brochures and gesturing confidently, on the right a professional woman in a blazer with an eager but slightly anxious expression holding a folder, bright showroom-quality lighting suggesting the aspirational pre-signing world, high quality 3D render, Pixar movie quality'},
+  {n:'THREE-SHOT: Marcus + Prospect + Franchesca',ctx:'Phase 2 confrontation',p:'3D Pixar animation style, three expressive cartoon characters, left: enthusiastic entrepreneur man in rolled-up sleeves with a whiteboard marker and a slightly defensive smile, center: professional woman in a blazer looking exhausted and holding a stack of papers, right: African American woman in a teal blazer with arms crossed and a knowing look, startup office background with whiteboards and sticky notes, high quality 3D render, Pixar movie quality'},
+  {n:'SCENE: Franchisee Group Call',ctx:'Multiple franchisees on video call with Marcus',p:'3D Pixar animation style, computer screen showing a video call grid with multiple small frustrated faces looking at a central square showing an enthusiastic man with a whiteboard behind him, the faces on the call show varying degrees of concern and tiredness, screen glow lighting, high quality 3D render, Pixar movie quality'},
+  {n:'CLOSE-UP: FDD Red Flag Screen',ctx:'FDD analysis scenes',p:'3D Pixar animation style, extreme close-up of an open legal document with dense text, one paragraph highlighted in red, a hand with a pencil circling a key clause, dramatic spotlight lighting on the highlighted section, cinematic document close-up, high quality 3D render, Pixar movie quality'},
+];
+
+const ARC1 = [
+  {id:'ep1',ep:'Ep 1',title:'The 90% Myth',lesson:'How the franchise industry defines success -- and why their definition does not protect you',pitch:'90% of franchises succeed after five years',ready:true},
+  {id:'ep2',ep:'Ep 2',title:'The Item 19 Trap',lesson:'Earnings claims are optional to disclose. When disclosed, they often show top-performer data, not median franchisee reality.',pitch:'Our franchisees are doing really well. Let me show you these results.',ready:false},
+  {id:'ep3',ep:'Ep 3',title:'The Real Cost of Royalties',lesson:'Ongoing fees compound over time. The math looks different when calculated on gross revenue rather than profit.',pitch:'The royalty rate is very competitive for what you get.',ready:false},
+  {id:'ep4',ep:'Ep 4',title:'Territory Is Not Protection',lesson:'How territory clauses are written -- and how they can be interpreted in ways that leave franchisees competing with each other.',pitch:'You will have an exclusive territory in your market.',ready:false},
+  {id:'ep5',ep:'Ep 5',title:'Who the Broker Actually Works For',lesson:'Franchise brokers are paid by franchisors, not buyers. That is not illegal. It is just not disclosed the way it should be.',pitch:'I represent hundreds of brands and only recommend ones that are a great fit.',ready:false},
+  {id:'ep6',ep:'Ep 6',title:'What Item 21 Is Really Telling You',lesson:'Financial statements reveal how the franchisor makes money. Most of it comes from initial fees, not franchisee success.',pitch:'This is a very well-capitalized brand with a lot of resources to support you.',ready:false},
+];
+
+const ARC2 = [
+  {id:'epA',ep:'Ep A',title:'Ground Floor',lesson:'What being an early franchisee of an emerging brand actually means. You are funding the development of their system while paying royalties for the privilege.',marcus:'The Pivot + The Reframe',ready:true},
+  {id:'epB',ep:'Ep B',title:'The Whiplash',lesson:'How to identify a franchisor who is still building while selling. Signals: frequent process changes, platform switches, rebranded materials with no explanation.',marcus:'The Pivot at scale -- three major changes in six months',ready:false},
+  {id:'epC',ep:'Ep C',title:'The Support That Was Not There',lesson:'What franchisor support actually means in an emerging system versus what it sounds like during the pitch.',marcus:'The Delay + The Enthusiasm Gap',ready:false},
+  {id:'epD',ep:'Ep D',title:'The Franchisee Call',lesson:'Why validation calls with existing franchisees are the single most important due diligence step -- and what questions to ask.',marcus:'The Group Call -- multiple franchisees voicing the same problems',ready:false},
+  {id:'epE',ep:'Ep E',title:'What the FDD Would Have Told You',lesson:'Looking back at the FDD with hindsight. Which items contained the signals that the system was emerging.',marcus:'The Overwhelmed expression -- a rare moment of honesty',ready:false},
+];
+
+const STEPS = [
+  {n:1,title:'Write / Review Script',tool:'This Playbook',time:'15-30 min',notes:'Ep 1 and Ep A scripts are complete. For remaining episodes use the episode summary and character catchphrases as your brief.'},
+  {n:2,title:'Generate Scene Images',tool:'OpenArt (free)',time:'30-45 min',notes:'Use Character Profile + expression variant. Generate 4 variations, pick the best. Phase 2 scenes: add the warmer subdued lighting modifier from Scene Prompts tab.'},
+  {n:3,title:'Generate Voiceover',tool:'ElevenLabs (free)',time:'10 min',notes:'Paste script dialogue. Free tier covers 2-3 episodes per month. Voice clone at $5/month sounds like you.'},
+  {n:4,title:'Assemble Video',tool:'CapCut (free)',time:'30-45 min',notes:'Import scene images + audio. Use Ken Burns motion on static images. Auto-captions. Export 1080p. No watermark on desktop.'},
+  {n:5,title:'Build Title + CTA Cards',tool:'Canva (free)',time:'10 min',notes:'2 branded cards per episode: opening title card and closing CTA card with franchisegradesystems.com/fdd-analyzer.'},
+  {n:6,title:'Export and Publish',tool:'YouTube + LinkedIn',time:'15 min',notes:'YouTube: full episode. LinkedIn: 60-90 second clip from the sharpest Franchesca teaching moment. Caption it. Post within 24 hours of YouTube upload.'},
+];
+
+const CAL = [
+  {wk:1,ep:'Ep 1: The 90% Myth',arc:'Arc 1',plt:'YouTube + LinkedIn clip',rdy:true},
+  {wk:2,ep:'Ep A: Ground Floor',arc:'Arc 2',plt:'YouTube + LinkedIn clip',rdy:true},
+  {wk:3,ep:'Ep 2: The Item 19 Trap',arc:'Arc 1',plt:'YouTube + LinkedIn clip',rdy:false},
+  {wk:4,ep:'Ep B: The Whiplash',arc:'Arc 2',plt:'YouTube + LinkedIn clip',rdy:false},
+  {wk:5,ep:'Ep 3: The Real Cost of Royalties',arc:'Arc 1',plt:'YouTube + LinkedIn clip',rdy:false},
+  {wk:6,ep:'Ep C: The Support That Was Not There',arc:'Arc 2',plt:'YouTube + LinkedIn clip',rdy:false},
+  {wk:7,ep:'Ep 4: Territory Is Not Protection',arc:'Arc 1',plt:'YouTube + LinkedIn clip',rdy:false},
+  {wk:8,ep:'Ep D: The Franchisee Call',arc:'Arc 2',plt:'YouTube + LinkedIn clip',rdy:false},
+];
+
+// ─── BUILD FUNCTIONS ─────────────────────────────────────────────────────────
+let activeChar = 0;
+const epDone = {};
+const stepDone = {};
+
+function buildAll() {
+  buildSetupChars();
+  buildCharTabs();
+  renderChar(0);
+  buildMultiPrompts();
+  buildEps();
+  buildWorkflow();
+  buildCalendar();
+}
+
+function buildSetupChars() {
+  const el = document.getElementById('setup-chars');
+  el.innerHTML = CHARS.map(c => `
+    <div class="card" style="border-left:3px solid var(--${c.cls === 'teal' ? 'teal' : c.cls === 'broker' ? 'broker' : c.cls === 'prospect' ? 'prospect' : 'marcus'})">
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:8px">
+        <span class="badge badge-${c.cls}">${c.name}</span>
+        <button class="copy-btn" onclick="copyText(${JSON.stringify(c.master)},this,'Copy Master Prompt')">Copy Master Prompt</button>
+      </div>
+      <div style="font-size:11px;color:var(--text);line-height:1.6">1. Go to OpenArt and open Character Profiles. ${c.setup} 2. Copy the master prompt above into the profile description. 3. Set consistency strength to maximum. 4. Save.</div>
+    </div>`).join('');
+}
+
+function buildCharTabs() {
+  const el = document.getElementById('char-tabs');
+  el.innerHTML = CHARS.map((c,i) => `<button class="char-tab ${i===0?'active':''}" onclick="renderChar(${i},this)">${c.name}</button>`).join('');
+}
+
+function renderChar(i, btn) {
+  activeChar = i;
+  if(btn) {
+    document.querySelectorAll('.char-tab').forEach(b => { b.style.background='#fff'; b.style.color=getComputedStyle(document.documentElement).getPropertyValue('--text'); b.style.borderColor='var(--border)'; });
+    const colors = {teal:'var(--teal)',broker:'var(--broker)',prospect:'var(--prospect)',marcus:'var(--marcus)'};
+    btn.style.background = colors[CHARS[i].cls] + '15';
+    btn.style.color = colors[CHARS[i].cls];
+    btn.style.borderColor = colors[CHARS[i].cls];
+  }
+  const c = CHARS[i];
+  const colCls = `badge-${c.cls}`;
+  document.getElementById('char-detail').innerHTML = `
+    <div class="card" style="border-left:3px solid var(--${c.cls === 'teal' ? 'teal' : c.cls})">
+      <span class="badge ${colCls}">${c.phases}</span>
+      <div style="font-size:18px;font-weight:700;margin-top:8px">${c.name}</div>
+      <div style="font-size:12px;font-weight:600;color:var(--${c.cls === 'teal' ? 'teal' : c.cls});margin-bottom:12px">${c.role}</div>
+      <div class="info-row"><div class="info-label">Description</div><div class="info-val">${c.desc}</div></div>
+      <div class="info-row"><div class="info-label">Visual</div><div class="info-val">${c.visual}</div></div>
+      ${c.phrases.length ? `<div class="info-row"><div class="info-label">Catchphrases</div><div class="info-val">${c.phrases.map(p=>`<div style="margin-bottom:4px;font-style:italic">${p}</div>`).join('')}</div></div>` : ''}
+    </div>
+    <div class="section-label">Master OpenArt Prompt</div>
+    <div class="warning-teal">Save this as a Character Profile in OpenArt. Use it as the base for every scene featuring ${c.name}. Append expression variants below -- never modify the core description.</div>
+    <div class="prompt-box">${c.master}</div>
+    <button class="copy-btn" style="margin-top:8px" onclick="copyText(${JSON.stringify(c.master)},this,'Copy Prompt')">Copy Prompt</button>
+    <div class="section-label">Expression Variants</div>
+    <div style="font-size:11px;color:var(--muted);margin-bottom:12px">Append the expression text to the end of the Master Prompt. Keep everything else identical.</div>
+    ${c.exprs.map((e,j) => `
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
+          <span style="font-weight:700;font-size:12px;color:var(--${c.cls === 'teal' ? 'teal' : c.cls})">${e.n}</span>
+          <button class="copy-btn" onclick="copyText(${JSON.stringify(c.master + ', ' + e.p)},this,'Copy Full Prompt')">Copy Full Prompt</button>
+        </div>
+        <div style="font-size:11px;color:var(--muted);margin-top:6px;font-style:italic">Append: "${e.p}"</div>
+      </div>`).join('')}`;
+}
+
+function buildMultiPrompts() {
+  document.getElementById('multi-prompts').innerHTML = MULTI.map((p,i) => `
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:8px;margin-bottom:6px">
+        <div><div style="font-weight:700;font-size:12px">${p.n}</div><div style="font-size:11px;color:var(--muted);margin-top:2px">Context: ${p.ctx}</div></div>
+        <button class="copy-btn" onclick="copyText(${JSON.stringify(p.p)},this,'Copy Prompt')">Copy Prompt</button>
+      </div>
+      <button class="expand-btn" onclick="togglePrompt('mp${i}',this)">Show Prompt</button>
+      <div id="mp${i}" class="prompt-box hidden">${p.p}</div>
+    </div>`).join('');
+}
+
+function togglePrompt(id, btn) {
+  const el = document.getElementById(id);
+  if(el.classList.contains('hidden')) { el.classList.remove('hidden'); btn.textContent='Hide'; }
+  else { el.classList.add('hidden'); btn.textContent='Show Prompt'; }
+}
+
+function buildEps() {
+  document.getElementById('arc1-eps').innerHTML = ARC1.map(ep => buildEpCard(ep,'teal',false)).join('');
+  document.getElementById('arc2-eps').innerHTML = ARC2.map(ep => buildEpCard(ep,'marcus',true)).join('');
+}
+
+function buildEpCard(ep, cls, isArc2) {
+  return `<div class="ep-card ${epDone[ep.id]?'done':''}" id="card-${ep.id}" style="border-left:3px solid ${epDone[ep.id]?'var(--'+cls+')':'var(--border)'}">
+    <div class="ep-row">
+      <div class="ep-left">
+        <div class="checkbox-wrap ${epDone[ep.id]?'done':''}" onclick="toggleEp('${ep.id}','${cls}')"></div>
+        <div><span class="badge badge-${cls}">${ep.ep}</span><span style="font-weight:700;font-size:13px;margin-left:8px">${ep.title}</span></div>
+      </div>
+      <div class="ep-right">
+        ${ep.ready?`<span class="badge badge-teal">Script Ready</span>`:''}
+        <button class="expand-btn" onclick="toggleEpDetail('detail-${ep.id}',this)">Details</button>
+      </div>
+    </div>
+    <div id="detail-${ep.id}" class="ep-detail hidden">
+      <div class="info-row"><div class="info-label">Core Lesson</div><div class="info-val">${ep.lesson}</div></div>
+      ${!isArc2 ? `<div class="info-row"><div class="info-label">Broker Pitch</div><div class="info-val" style="font-style:italic">"${ep.pitch}"</div></div>` : `<div class="info-row"><div class="info-label">Marcus</div><div class="info-val">${ep.marcus}</div></div>`}
+      ${!ep.ready ? `<div class="warning-gold" style="margin-top:8px;margin-bottom:0">Script not yet written. Use Core Lesson above as your episode brief. Franchesca uses the Teaching expression to deconstruct. The Prospect reacts with Confused then Realizing expressions.${isArc2?' Remember to add the Phase 2 lighting modifier to all OpenArt prompts.':''}</div>` : ''}
+    </div>
+  </div>`;
+}
+
+function toggleEp(id, cls) {
+  epDone[id] = !epDone[id];
+  const done = Object.values(epDone).filter(Boolean).length;
+  document.getElementById('done-stat').textContent = done + '/11';
+  document.getElementById('done-stat').style.color = done === 11 ? 'var(--teal)' : 'var(--gold)';
+  buildEps();
+}
+
+function toggleEpDetail(id, btn) {
+  const el = document.getElementById(id);
+  if(el.classList.contains('hidden')) { el.classList.remove('hidden'); btn.textContent='Collapse'; }
+  else { el.classList.add('hidden'); btn.textContent='Details'; }
+}
+
+function buildWorkflow() {
+  document.getElementById('workflow-steps').innerHTML = STEPS.map(s => `
+    <div class="step-row ${stepDone[s.n]?'done':''}" id="step-${s.n}">
+      <div class="checkbox-wrap ${stepDone[s.n]?'done':''}" onclick="toggleStep(${s.n})"></div>
+      <div class="step-content">
+        <div class="step-title"><span style="color:var(--muted);margin-right:6px">${s.n}.</span>${s.title}</div>
+        <div class="step-meta"><span class="badge badge-teal">${s.time}</span><span class="badge badge-muted">${s.tool}</span></div>
+        <div class="step-notes">${s.notes}</div>
+      </div>
+    </div>`).join('');
+}
+
+function toggleStep(n) {
+  stepDone[n] = !stepDone[n];
+  buildWorkflow();
+}
+
+function buildCalendar() {
+  document.getElementById('calendar-rows').innerHTML = CAL.map(w => `
+    <div class="cal-row" style="border-left:3px solid var(--${w.arc==='Arc 1'?'teal':'marcus'})">
+      <div class="cal-left">
+        <span class="week-num">WEEK ${w.wk}</span>
+        <div><div style="font-weight:700;font-size:13px">${w.ep}</div><div style="font-size:11px;color:var(--muted)">${w.plt}</div></div>
+      </div>
+      <div style="display:flex;gap:6px">
+        <span class="badge badge-${w.arc==='Arc 1'?'teal':'marcus'}">${w.arc}</span>
+        <span class="badge badge-${w.rdy?'teal':'gold'}">${w.rdy?'Script Ready':'Script Needed'}</span>
+      </div>
+    </div>`).join('');
+}
+</script>
+</body>
+</html>
