@@ -11,7 +11,7 @@
     --gold:#C9982A;--gold-light:#FDF6E7;--gold-mid:#F0D9A0;
     --white:#FFFFFF;--bg:#F7F9FA;--border:#DDE4E8;
     --text:#1A2B31;--muted:#6B828A;
-    --broker:#8B4513;--prospect:#2E6DA4;--marcus:#6B4C8A;
+    --broker:#8B4513;--prospect:#2E6DA4;--marcus:#6B4C8A;--sam:#2A7A5A;
   }
   *{box-sizing:border-box;margin:0;padding:0;}
   body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);}
@@ -51,6 +51,7 @@
   .badge-marcus{background:rgba(107,76,138,.1);color:var(--marcus);border-color:rgba(107,76,138,.3);}
   .badge-broker{background:rgba(139,69,19,.1);color:var(--broker);border-color:rgba(139,69,19,.3);}
   .badge-prospect{background:rgba(46,109,164,.1);color:var(--prospect);border-color:rgba(46,109,164,.3);}
+  .badge-sam{background:rgba(42,122,90,.1);color:var(--sam);border-color:rgba(42,122,90,.3);}
   .info-row{display:flex;gap:12px;margin-bottom:8px;align-items:flex-start;}
   .info-label{font-size:11px;color:var(--muted);font-weight:600;min-width:90px;padding-top:1px;letter-spacing:.02em;}
   .info-val{font-size:12px;color:var(--text);line-height:1.55;flex:1;}
@@ -125,7 +126,7 @@
   <div class="content">
     <div id="tab-overview">
       <div class="stats-row">
-        <div class="stat-box"><div class="stat-num">4</div><div class="stat-label">CHARACTERS</div></div>
+        <div class="stat-box"><div class="stat-num">5</div><div class="stat-label">CHARACTERS</div></div>
         <div class="stat-box"><div class="stat-num">2</div><div class="stat-label">STORY ARCS</div></div>
         <div class="stat-box"><div class="stat-num">11</div><div class="stat-label">EPISODES PLANNED</div></div>
         <div class="stat-box"><div class="stat-num" id="done-stat" style="color:var(--gold)">0/11</div><div class="stat-label">PRODUCED</div>
@@ -138,20 +139,20 @@
         <div class="card accent-teal col">
           <div style="font-size:13px;font-weight:700;color:var(--teal);margin-bottom:6px">Phase 1 -- The Dream</div>
           <div style="font-size:12px;color:var(--muted);margin-bottom:10px">Before signing. The buyer is evaluating.</div>
-          <span class="badge badge-broker">The Broker</span><span class="badge badge-prospect">The Prospect</span><span class="badge badge-teal">Franchesca</span>
-          <div style="font-size:11px;color:var(--muted);font-style:italic;margin-top:10px">The Broker pitches. The Prospect reacts. Franchesca deconstructs.</div>
+          <span class="badge badge-broker">Chad</span><span class="badge badge-prospect">Maya</span><span class="badge badge-teal">Franchesca</span>
+          <div style="font-size:11px;color:var(--muted);font-style:italic;margin-top:10px">Chad pitches. Maya reacts. Franchesca deconstructs.</div>
         </div>
         <div class="card accent-marcus col">
           <div style="font-size:13px;font-weight:700;color:var(--marcus);margin-bottom:6px">Phase 2 -- The Reality</div>
           <div style="font-size:12px;color:var(--muted);margin-bottom:10px">After signing. The buyer is operating.</div>
-          <span class="badge badge-marcus">Marcus</span><span class="badge badge-prospect">The Prospect</span><span class="badge badge-teal">Franchesca</span>
-          <div style="font-size:11px;color:var(--muted);font-style:italic;margin-top:10px">Marcus scrambles. The Prospect discovers the gap. Franchesca saw it coming.</div>
+          <span class="badge badge-marcus">Marcus</span><span class="badge badge-prospect">Maya</span><span class="badge badge-teal">Franchesca</span>
+          <div style="font-size:11px;color:var(--muted);font-style:italic;margin-top:10px">Marcus scrambles. Maya discovers the gap. Franchesca saw it coming.</div>
         </div>
       </div>
       <div class="section-label">Series Strategy</div>
       <div class="card">
-        <div style="font-size:12px;color:var(--text);line-height:1.65">Episodes alternate between Arc 1 and Arc 2 so the audience experiences the full buyer journey over time. The Prospect and Franchesca are the only two characters who appear in both arcs -- this mirrors what actually happens in a franchise relationship. The contrast between who shows up before versus after the check clears is the central emotional engine of the series.</div>
-        <div style="margin-top:12px;padding:10px 14px;background:var(--gold-light);border:1px solid var(--gold-mid);border-radius:6px;font-size:12px;color:#8B6510;font-weight:600">Crossover Episode (after Ep 4 + Ep D): The Prospect from Phase 1 encounters Marcus post-signing while Franchesca watches. This is the emotional payoff of the entire series.</div>
+        <div style="font-size:12px;color:var(--text);line-height:1.65">Episodes alternate between Arc 1 and Arc 2 so the audience experiences the full buyer journey over time. Maya and Franchesca are the only two characters who appear in both arcs -- this mirrors what actually happens in a franchise relationship. The contrast between who shows up before versus after the check clears is the central emotional engine of the series.</div>
+        <div style="margin-top:12px;padding:10px 14px;background:var(--gold-light);border:1px solid var(--gold-mid);border-radius:6px;font-size:12px;color:#8B6510;font-weight:600">Crossover Episode (after Ep 4 + Ep D): Maya from Phase 1 encounters Marcus post-signing while Franchesca watches. This is the emotional payoff of the entire series.</div>
       </div>
       <div class="section-label">Scripts Ready Now</div>
       <div class="phase-row">
@@ -161,14 +162,14 @@
     </div>
 
     <div id="tab-setup" class="hidden">
-      <div class="warning-gold"><strong>Start here.</strong> Create OpenArt first, then set up all 4 Character Profiles. Everything depends on those being ready.</div>
+      <div class="warning-gold"><strong>Start here.</strong> Create OpenArt first, then set up all 5 Character Profiles. Everything depends on those being ready.</div>
       <div class="section-label">Accounts to Create</div>
       <div class="card accent-teal"><div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:10px"><div><span class="badge badge-teal">OpenArt</span><span class="badge badge-gold">Free / $9.99/mo</span><span class="badge badge-teal">First</span><div class="info-row" style="margin-top:10px"><div class="info-label">Used for</div><div class="info-val">Character image generation -- the entire visual workflow</div></div><div style="font-size:11px;color:var(--muted)">Free tier: ~100 images/month. $9.99 for 500+. Start free.</div></div><a href="https://openart.ai" target="_blank" class="deploy-btn">Create Account</a></div></div>
       <div class="card accent-teal"><div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:10px"><div><span class="badge badge-teal">ElevenLabs</span><span class="badge badge-gold">Free / $5/mo</span><span class="badge badge-teal">Second</span><div class="info-row" style="margin-top:10px"><div class="info-label">Used for</div><div class="info-val">AI voiceover for all episode dialogue</div></div><div style="font-size:11px;color:var(--muted)">Free tier covers 2-3 episodes/month. Select ElevenCreative when prompted.</div></div><a href="https://elevenlabs.io" target="_blank" class="deploy-btn">Create Account</a></div></div>
       <div class="card"><span class="badge badge-muted">CapCut</span><span class="badge badge-gold">Free</span><div class="info-row" style="margin-top:10px"><div class="info-label">Used for</div><div class="info-val">Video assembly, auto-captions, Ken Burns motion, 1080p export</div></div></div>
       <div class="card"><span class="badge badge-muted">Canva</span><span class="badge badge-gold">Free</span><div class="info-row" style="margin-top:10px"><div class="info-label">Used for</div><div class="info-val">Opening title card and closing CTA card per episode</div></div><div style="font-size:11px;color:var(--muted)">Already in your stack.</div></div>
       <div class="section-label">OpenArt Character Profile Setup</div>
-      <div class="warning-teal">Character Profiles lock visual consistency across every scene. Set up all 4 before generating any images.</div>
+      <div class="warning-teal">Character Profiles lock visual consistency across every scene. Set up all 5 before generating any images.</div>
       <div id="setup-chars"></div>
       <div class="section-label">Monthly Cost</div>
       <div class="card" style="text-align:center;padding:24px"><div style="font-size:32px;font-weight:700;color:var(--teal)">$0 to $15/month</div><div style="font-size:12px;color:var(--muted);margin-top:6px">One FDD Analyzer sale covers 6+ months of full production costs.</div></div>
@@ -191,10 +192,10 @@
 
     <div id="tab-episodes" class="hidden">
       <div style="font-size:13px;font-weight:700;color:var(--teal);margin-bottom:4px">Arc 1 -- Before You Sign</div>
-      <div style="font-size:11px;color:var(--muted);margin-bottom:12px">Characters: The Broker + The Prospect + Franchesca</div>
+      <div style="font-size:11px;color:var(--muted);margin-bottom:12px">Characters: Chad + Maya + Franchesca</div>
       <div id="arc1-eps"></div>
       <div style="font-size:13px;font-weight:700;color:var(--marcus);margin-top:24px;margin-bottom:4px">Arc 2 -- After You Sign</div>
-      <div style="font-size:11px;color:var(--muted);margin-bottom:12px">Characters: Marcus + The Prospect + Franchesca</div>
+      <div style="font-size:11px;color:var(--muted);margin-bottom:12px">Characters: Marcus + Maya + Franchesca</div>
       <div id="arc2-eps"></div>
       <div class="card accent-gold" style="margin-top:16px"><div style="font-weight:700;font-size:12px;color:var(--gold);margin-bottom:6px">Crossover Episode -- Build Toward This</div><div style="font-size:12px;color:#8B6510;line-height:1.6">After at least 4 episodes in each arc: The Prospect from Phase 1 encounters Marcus post-signing while Franchesca watches.</div></div>
     </div>
@@ -329,14 +330,14 @@ const CHARS=[
    exprs:[{n:'Teaching',p:'right hand gesturing outward, left hand holding a document, engaged eyes'},{n:'Knowing / Amused',p:'arms crossed, slight smile, one eyebrow slightly raised'},{n:'Concerned',p:'brow furrowed, arms crossed, head slightly tilted'},{n:'Empathetic',p:'soft eyes, right hand on heart, gentle smile'},{n:'Shocked',p:'wide eyes, mouth slightly open, both hands up'}],
    phrases:['"That is not a red flag -- that is a red carpet leading to a trap."','"Hope is not a business strategy."','"The FDD is 300 pages. They are not making it long because they are chatty."','"They got the check. You got the lesson."'],
    setup:'Upload your approved PNG as the reference image.'},
-  {id:'broker',name:'The Broker',role:'Pre-Signing Antagonist',phases:'Phase 1 Only',cls:'broker',
+  {id:'broker',name:'Chad',role:'The Broker -- Pre-Signing Antagonist',phases:'Phase 1 Only',cls:'broker',
    desc:'Charming, incentivized, not dishonest -- just misaligned. He believes his pitch. That is the problem.',
    visual:'Well-dressed man, mid-40s. Navy suit, gold pocket square. Too-white smile.',
    master:'3D Pixar animation style, expressive cartoon character, white man in his mid-40s, slightly overweight but projecting confidence, hair slicked back with too much product, teeth too white and smile slightly too wide, wearing an expensive but overdone navy suit with gold pocket square and gold tie clip, power pose with shoulders back and hands spread open as if making a pitch, one eyebrow slightly raised in a trust-me expression, clean studio lighting, full body shot, character design evokes charming but slightly untrustworthy energy -- not cartoonishly villainous, just too polished, Pixar Incredibles character style',
    exprs:[{n:'The Pitch',p:'leaning slightly forward, both hands open and presenting, big grin'},{n:'The Deflect',p:'hand waving dismissively, confident smile, eyes slightly avoiding contact'},{n:'Cornered',p:'smile faltering slightly, straightening tie, looking for exit'},{n:'Closing the Deal',p:'extending handshake, full megawatt smile, leaning in'}],
    phrases:['"The numbers speak for themselves."','"Our franchisees love what they do."','"This territory is going fast."'],
    setup:'Upload your approved PNG as the reference image.'},
-  {id:'prospect',name:'The Prospect',role:'Audience Avatar',phases:'Both Phases',cls:'prospect',
+  {id:'prospect',name:'Maya',role:'The Prospect -- Audience Avatar',phases:'Both Phases',cls:'prospect',
    desc:'Her emotional arc -- excitement to confusion to alarm to realization -- is the viewer\'s arc.',
    visual:'Professional woman, early 30s. Business casual. Wide eyes. Notebook and pen.',
    master:'3D Pixar animation style, expressive cartoon character, professional woman in her early 30s, ethnically ambiguous or South Asian, neat hair pulled back or in a simple style, wearing business casual -- blazer and simple blouse in neutral colors, carrying a manila folder or tablet, expression eager and optimistic but with slight anxiety visible around the eyes, good posture but slightly tense shoulders, clean studio lighting, full body shot, character design should read as the audience -- relatable, smart, but in unfamiliar territory, Pixar Turning Red or Soul character style',
@@ -349,20 +350,55 @@ const CHARS=[
    master:'3D Pixar animation style, expressive cartoon character, enthusiastic entrepreneur man in his early-to-mid 40s, slightly disheveled business casual -- untucked button-down shirt, sleeves rolled up, holding a whiteboard marker in one hand, standing in front of a half-finished whiteboard covered in diagrams and arrows and crossed-out items, warm but slightly manic energy, genuine smile that does not quite reach his eyes because he is quietly worried, startup office background with motivational posters, high quality 3D render, Pixar movie quality',
    exprs:[{n:'The Pivot',p:'excited leaning forward with whiteboard marker pointing at new diagram, previous diagram crossed out'},{n:'The Reframe',p:'both hands open in reassuring gesture, nodding slowly, expression of calm certainty slightly too performed'},{n:'The Delay',p:'one finger raised, slight wince hidden behind smile, other hand rubbing back of neck'},{n:'Overwhelmed',p:'slightly slumped, whiteboard marker hanging loosely, tired eyes'},{n:'Selling the Vision',p:'arms wide open, big genuine smile, looking upward, maximum enthusiasm'}],
    phrases:['"We are evolving the system."','"You are getting in on the ground floor."','"Our early franchisees are our partners in building this."'],
-   setup:'Generate from the master prompt -- select the best result as your reference image.'}
+   setup:'Generate from the master prompt -- select the best result as your reference image.'},
+  {id:'sam',name:'Sam',role:'The Independent Builder -- Segment 2 Counterpoint',phases:'Segment 2 Content Only',cls:'sam',
+   desc:'The alternative path. Chose to build with franchise-grade systems instead of buying a franchise. Not anti-franchise -- just asking different questions and making a different bet.',
+   visual:'Gender-neutral, early 30s. Business casual. Home office or co-working space. Laptop and notebook. Slightly more relaxed than Maya.',
+   master:'3D Pixar animation style, expressive cartoon character, gender-neutral person in their early 30s, warm brown skin, natural hair kept short or pulled back simply, wearing a neat but casual button-down shirt in a muted color, sitting at a clean modern desk with a laptop and notebook, expression focused and quietly confident, slight smile of someone who has made a decision they feel good about, home office or co-working space background with plants and clean shelves, high quality 3D render, Pixar movie quality',
+   exprs:[{n:'Focused',p:'leaning toward laptop, one hand on keyboard, expression of quiet concentration'},{n:'Confident',p:'leaning back slightly, arms crossed loosely, small satisfied smile'},{n:'Comparing',p:'looking between two documents with a thoughtful expression, pen in hand'},{n:'Relieved',p:'exhale visible, shoulders dropping, small smile of someone who dodged a bullet'}],
+   phrases:['"I wanted the systems. Not the fees."','"I built what they were selling."'],
+   setup:'NOT YET BUILT. Generate from the master prompt when Segment 2 content begins. Do not build until Arc 1 + Arc 2 episodes are in production.'}
 ];
 
 const MULTI=[
-  {n:'TWO-SHOT: Marcus + Prospect',ctx:'Post-signing discovery call',p:'3D Pixar animation style, two expressive cartoon characters, on the left an enthusiastic entrepreneur man in rolled-up sleeves holding a whiteboard marker with a reassuring smile, on the right a professional woman in a blazer with a concerned expression holding a notebook, standing in a startup office with a whiteboard covered in diagrams behind them, warm lighting, high quality 3D render, Pixar movie quality'},
-  {n:'TWO-SHOT: Franchesca + Prospect',ctx:'Phase 2 debrief',p:'3D Pixar animation style, two expressive cartoon characters, African American woman in a teal blazer with natural hair and gold earrings and a knowing but empathetic expression, professional woman in a blazer with a tired and frustrated expression holding a notebook, modern office setting, warmer more subdued lighting, high quality 3D render, Pixar movie quality'},
-  {n:'TWO-SHOT: Broker + Prospect',ctx:'Pre-signing pitch',p:'3D Pixar animation style, two expressive cartoon characters, on the left an overdressed man in a navy suit with a too-white smile holding glossy brochures and gesturing confidently, on the right a professional woman in a blazer with an eager but slightly anxious expression holding a folder, bright showroom-quality lighting, high quality 3D render, Pixar movie quality'},
-  {n:'THREE-SHOT: Marcus + Prospect + Franchesca',ctx:'Phase 2 confrontation',p:'3D Pixar animation style, three expressive cartoon characters, left: enthusiastic entrepreneur man in rolled-up sleeves with whiteboard marker and slightly defensive smile, center: professional woman in blazer looking exhausted holding stack of papers, right: African American woman in teal blazer with arms crossed and knowing look, startup office background, high quality 3D render, Pixar movie quality'},
+  {n:'TWO-SHOT: Marcus + Maya',ctx:'Post-signing discovery call',p:'3D Pixar animation style, two expressive cartoon characters, on the left an enthusiastic entrepreneur man in rolled-up sleeves holding a whiteboard marker with a reassuring smile, on the right a professional woman in a blazer with a concerned expression holding a notebook, standing in a startup office with a whiteboard covered in diagrams behind them, warm lighting, high quality 3D render, Pixar movie quality'},
+  {n:'TWO-SHOT: Franchesca + Maya',ctx:'Phase 2 debrief',p:'3D Pixar animation style, two expressive cartoon characters, African American woman in a teal blazer with natural hair and gold earrings and a knowing but empathetic expression, professional woman in a blazer with a tired and frustrated expression holding a notebook, modern office setting, warmer more subdued lighting, high quality 3D render, Pixar movie quality'},
+  {n:'TWO-SHOT: Chad + Maya',ctx:'Pre-signing pitch',p:'3D Pixar animation style, two expressive cartoon characters, on the left an overdressed man in a navy suit with a too-white smile holding glossy brochures and gesturing confidently, on the right a professional woman in a blazer with an eager but slightly anxious expression holding a folder, bright showroom-quality lighting, high quality 3D render, Pixar movie quality'},
+  {n:'THREE-SHOT: Marcus + Maya + Franchesca',ctx:'Phase 2 confrontation',p:'3D Pixar animation style, three expressive cartoon characters, left: enthusiastic entrepreneur man in rolled-up sleeves with whiteboard marker and slightly defensive smile, center: professional woman in blazer looking exhausted holding stack of papers, right: African American woman in teal blazer with arms crossed and knowing look, startup office background, high quality 3D render, Pixar movie quality'},
   {n:'SCENE: Franchisee Group Call',ctx:'Multiple franchisees on video call with Marcus',p:'3D Pixar animation style, computer screen showing a video call grid with multiple small frustrated faces looking at a central square showing an enthusiastic man with a whiteboard behind him, screen glow lighting, high quality 3D render, Pixar movie quality'},
   {n:'CLOSE-UP: FDD Red Flag Screen',ctx:'FDD analysis scenes',p:'3D Pixar animation style, extreme close-up of an open legal document with dense text, one paragraph highlighted in red, a hand with a pencil circling a key clause, dramatic spotlight lighting on the highlighted section, high quality 3D render, Pixar movie quality'},
 ];
 
 const ARC1=[
-  {id:'ep1',ep:'Ep 1',title:'The 90% Myth',lesson:'How the franchise industry defines success -- and why their definition does not protect you.',pitch:'90% of franchises succeed after five years.',ready:true},
+  {id:'ep1',ep:'Ep 1',title:'The 90% Myth',lesson:'How the franchise industry defines success -- and why their definition does not protect you.',pitch:'90% of franchises succeed after five years.',ready:true,script:`SCENE 1 -- COLD OPEN
+[Maya: kitchen table, laptop open, folder of papers spread around. Expression: Excited but slightly Overwhelmed.]
+FRANCHESCA (V.O.): Every year, hundreds of thousands of people Google the same three words: buy a franchise. Most of them hear the same statistic within the first week.
+
+SCENE 2 -- CHAD'S PITCH
+[Chad: polished conference table, presenting a slide that reads "90% Success Rate." Expression: The Pitch.]
+CHAD: The data is clear. Ninety percent of franchises are still operating after five years. You cannot find numbers like that anywhere in independent business.
+
+SCENE 3 -- MAYA REACTS
+[Maya: writing "90%" in her notebook with a circle around it. Expression: Relieved.]
+FRANCHESCA (V.O.): That number is technically true. And it will not protect you at all.
+
+SCENE 4 -- FRANCHESCA DECONSTRUCTS
+[Franchesca: clean background, teal blazer, document in hand. Expression: Teaching.]
+FRANCHESCA: Here is what that statistic actually measures. A franchise is counted as succeeding as long as it is still open. Not profitable. Not paying the owner a salary. Not building equity. Just open. A franchisee who has lost $80,000 over three years and is still showing up every morning because they cannot afford to close -- that franchise counts as a success.
+
+SCENE 5 -- THE REFRAME
+[Maya: crossing out the circled "90%" in her notebook. Expression: Realizing.]
+FRANCHESCA (V.O.): The question is not whether the business will still be open in five years. The question is whether it will pay you what you need it to pay you. Those are two completely different questions. Only one of them is in the pitch.
+
+SCENE 6 -- THE RIGHT QUESTION
+[Maya: writing a new question in her notebook: "What is the median owner income?" Expression: Focused / Confident.]
+FRANCHESCA: The right question is Item 19 of the FDD -- earnings claims. If a franchisor has strong financials, they have every reason to show you. If they dodge it, now you know why.
+
+SCENE 7 -- CLOSE
+[Franchesca: looking directly at camera. Expression: Knowing / Amused.]
+FRANCHESCA: The 90% number is not a lie. It is a frame. And now you know how to step outside it.
+
+[TITLE CARD]: Free FDD Analyzer at franchisegradesystems.com/fdd-analyzer`},
   {id:'ep2',ep:'Ep 2',title:'The Item 19 Trap',lesson:'Earnings claims are optional to disclose. When disclosed, they often show top-performer data, not median franchisee reality.',pitch:'Our franchisees are doing really well. Let me show you these results.',ready:false},
   {id:'ep3',ep:'Ep 3',title:'The Real Cost of Royalties',lesson:'Ongoing fees compound over time. The math looks different when calculated on gross revenue rather than profit.',pitch:'The royalty rate is very competitive for what you get.',ready:false},
   {id:'ep4',ep:'Ep 4',title:'Territory Is Not Protection',lesson:'How territory clauses are written -- and how they can be interpreted in ways that leave franchisees competing with each other.',pitch:'You will have an exclusive territory in your market.',ready:false},
@@ -371,7 +407,35 @@ const ARC1=[
 ];
 
 const ARC2=[
-  {id:'epA',ep:'Ep A',title:'Ground Floor',lesson:'What being an early franchisee of an emerging brand actually means. You are funding development of their system while paying royalties for the privilege.',marcus:'The Pivot + The Reframe',ready:true},
+  {id:'epA',ep:'Ep A',title:'Ground Floor',lesson:'What being an early franchisee of an emerging brand actually means. You are funding development of their system while paying royalties for the privilege.',marcus:'The Pivot + The Reframe',ready:true,script:`SCENE 1 -- COLD OPEN
+[Maya: new franchise location, tired but proud. Papers and binders everywhere. Expression: Overwhelmed.]
+FRANCHESCA (V.O.): Maya signed. She did her research. She read the FDD. She even asked about Item 19. But there was one phrase in the pitch she did not fully interrogate.
+
+SCENE 2 -- FLASHBACK: MARCUS'S PITCH
+[Marcus: whiteboard, sleeves rolled up, enthusiastic. Expression: Selling the Vision.]
+MARCUS: You are getting in on the ground floor. Early franchisees are not just buyers -- they are partners in building this. When this brand is everywhere in five years, you will have been here from the beginning.
+
+SCENE 3 -- THE REALITY
+[Maya: at her desk, holding an email notification: "System Update: New Platform Migration Required." Expression: Confused.]
+FRANCHESCA (V.O.): What ground floor actually means is that the franchisor is still building the system you paid to access.
+
+SCENE 4 -- MARCUS PIVOTS
+[Marcus: video call, very animated, pointing at a new whiteboard diagram. The old diagram is crossed out. Expression: The Pivot.]
+MARCUS: We are actually evolving the system. This new platform is going to be so much better. Our early franchisees are the ones helping us shape it. That is not a burden -- that is a privilege.
+
+SCENE 5 -- FRANCHESCA DECONSTRUCTS
+[Franchesca: holding a copy of the franchise agreement. Expression: Concerned.]
+FRANCHESCA: Here is what is in the agreement Maya signed. She is required to adopt all system updates within 90 days at her own expense. The agreement does not limit how many updates Marcus can release or how expensive they can be. The FDD disclosed this. Item 8. But it is written in language dense enough that most first-time buyers skip it.
+
+SCENE 6 -- THE MATH
+[Maya: calculator and spreadsheet open on her laptop. Expression: Realizing.]
+FRANCHESCA (V.O.): Ground floor pricing sounded like a deal. What it actually was -- was tuition for a class that Marcus was writing in real time.
+
+SCENE 7 -- CLOSE
+[Franchesca: looking directly at camera. Expression: Empathetic.]
+FRANCHESCA: Emerging brands are not automatically bad investments. But ground floor is not a benefit. It is a description of what you are paying for. Before you sign with any emerging brand, ask them directly: how many system changes have you required of franchisees in the past 24 months, and what did each one cost to implement?
+
+[TITLE CARD]: Free FDD Analyzer at franchisegradesystems.com/fdd-analyzer`},
   {id:'epB',ep:'Ep B',title:'The Whiplash',lesson:'How to identify a franchisor who is still building while selling. Frequent process changes, platform switches, rebranded materials with no explanation.',marcus:'The Pivot at scale',ready:false},
   {id:'epC',ep:'Ep C',title:'The Support That Was Not There',lesson:'What franchisor support actually means in an emerging system versus what it sounds like during the pitch.',marcus:'The Delay + The Enthusiasm Gap',ready:false},
   {id:'epD',ep:'Ep D',title:'The Franchisee Call',lesson:'Why validation calls with existing franchisees are the single most important due diligence step -- and what questions to ask.',marcus:'The Group Call scene',ready:false},
@@ -495,7 +559,8 @@ function buildEpCard(ep,cls,isArc2){
     </div>
     <div id="det-${ep.id}" class="ep-detail hidden">
       <div class="info-row"><div class="info-label">Core Lesson</div><div class="info-val">${ep.lesson}</div></div>
-      ${!isArc2?`<div class="info-row"><div class="info-label">Broker Pitch</div><div class="info-val" style="font-style:italic">"${ep.pitch}"</div></div>`:`<div class="info-row"><div class="info-label">Marcus</div><div class="info-val">${ep.marcus}</div></div>`}
+      ${!isArc2?`<div class="info-row"><div class="info-label">Chad's Pitch</div><div class="info-val" style="font-style:italic">"${ep.pitch}"</div></div>`:`<div class="info-row"><div class="info-label">Marcus</div><div class="info-val">${ep.marcus}</div></div>`}
+      ${ep.script?`<div style="margin-top:12px"><div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);margin-bottom:6px">Full Script</div><div style="background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:12px 14px;font-size:11px;line-height:1.75;white-space:pre-wrap;max-height:400px;overflow-y:auto">${ep.script}</div><button class="copy-btn" style="margin-top:6px" onclick="copyText(${JSON.stringify(ep.script)},this,'Copy Script')">Copy Script</button></div>`:''}
       ${!ep.ready?`<div class="warning-gold" style="margin-top:8px;margin-bottom:0">Script not yet written. Use Core Lesson as your brief.${isArc2?' Add Phase 2 lighting modifier to all OpenArt prompts.':''}</div>`:''}
     </div>
   </div>`;
